@@ -24,10 +24,17 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="courses", type="text", nullable=true)
+     */
+    private $courses;
+
 
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+
     }
 }
