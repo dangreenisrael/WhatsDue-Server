@@ -1,0 +1,11 @@
+services:
+    sonata.admin.post:
+        class: Whatsdue\MainBundle\Admin\AssignmentAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Assignments", label: "Assignment" }
+        arguments:
+            - ~
+            - Whatsdue\MainBundle\Entity\Assignments
+            - ~
+        calls:
+            - [ setTranslationDomain, [AcmeDemoBundle]]

@@ -1,0 +1,7 @@
+/Server/app/bootstrap*
+/Server/app/cache/*
+/Server/app/logs/*
+/Server/app/config/parameters.yml
+/Server/vendor/*
+/.idea
+/.idea/*

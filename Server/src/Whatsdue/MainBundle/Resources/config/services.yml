@@ -1,0 +1,7 @@
+parameters:
+#    whats_due_main.example.class: Whatsdue\MainBundle\Example
+
+services:
+#    whats_due_main.example:
+#        class: %whats_due_main.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
