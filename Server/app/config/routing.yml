@@ -34,8 +34,6 @@ events:
     type:     rest
     resource: Whatsdue\MainBundle\Controller\RestController
 
-
-
 whats_due_main:
     resource: "@WhatsdueMainBundle/Resources/config/routing.yml"
     prefix:   /

@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Assignments;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+header("Access-Control-Allow-Origin: *");
 
 class RestController extends Controller{
 
