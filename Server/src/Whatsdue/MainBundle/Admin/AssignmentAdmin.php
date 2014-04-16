@@ -30,7 +30,7 @@ class AssignmentAdmin extends Admin
         $em = $this->getDoctrine();
         $allRows = $em->getRepository('WhatsdueMainBundle:Assignments')->findAll();
 
-
+        $course = array(""=>"");
         foreach ($allRows as $key => $value){
             $course[] = $value->getCourseID();
         }
