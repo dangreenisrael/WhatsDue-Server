@@ -1,10 +1,11 @@
 security:
-    providers:
-        fos_userbundle:
-            id: fos_user.user_manager
-
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
+
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
         main:
@@ -20,17 +21,5 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_USER }
-
-
     acl:
         connection: default
-
-    role_hierarchy:
-        ROLE_SONATA_ADMIN:       ROLE_USER
-        ROLE_USER:
-            - ROLE_SUPER_ADMIN
-        ROLE_ADMIN:
-            - ROLE_SONATA_ADMIN
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_SONATA_ADMIN, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-        SONATA:
-            - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are not using acl then this line must be uncommented

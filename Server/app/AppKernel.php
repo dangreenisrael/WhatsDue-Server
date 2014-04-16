@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new Whatsdue\MainBundle\WhatsdueMainBundle(),
 
             new FOS\UserBundle\FOSUserBundle(),
-            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 
             new Sonata\CoreBundle\SonataCoreBundle(),
