@@ -95,4 +95,16 @@ sonata_admin:
     templates:
             layout:   WhatsdueMainBundle:Admin:standard_layout.html.twig
 
+# FOS REST
+
+sensio_framework_extra:
+    view:   { annotations: false }
+    router: { annotations: true  }
+
+fos_rest:
+    format_listener: true
+    view:
+        view_response_listener: true
+
+
 
