@@ -49,7 +49,6 @@ class RestController extends Controller{
         foreach ($coursesList as $key => $value){
             var_dump($value);
         }
-        var_dump($coursesList); die;
 
         return $coursesList;
 
