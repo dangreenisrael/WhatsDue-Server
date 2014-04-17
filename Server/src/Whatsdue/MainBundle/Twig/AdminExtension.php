@@ -40,9 +40,9 @@ class AdminExtension extends \Twig_Extension
         foreach ($courses as $key => $value){
             $coursesList[] = array(
                "id"     =>$value->getCourseID(),
-                "name"  =>$value->getCourseDescription());
+               "name"  =>$value->getCourseDescription());
         }
-        $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
+        $coursesList = @array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
         return $coursesList;
 
     }

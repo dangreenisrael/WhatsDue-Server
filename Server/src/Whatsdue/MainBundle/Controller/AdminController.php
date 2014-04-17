@@ -58,7 +58,7 @@ class AdminController extends CRUDController {
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+            throw new NotFoundHttpException(sprintf('Uh oh :()  How did you get here?'));
         }
 
         if ($eventUsername != $user) {
@@ -127,11 +127,12 @@ class AdminController extends CRUDController {
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      * @return Response
      */
-    public function createAction($courseID = null)
+    public function createAction()
     {
 
         // the key used to lookup the template
         $templateKey = 'edit';
+
 
         if (false === $this->admin->isGranted('CREATE')) {
             throw new AccessDeniedException();
@@ -195,4 +196,6 @@ class AdminController extends CRUDController {
             'object' => $object,
         ));
     }
+
+
 }

@@ -43,9 +43,36 @@ class AssignmentAdmin extends Admin
         return array_unique($course);
     }
 
+    public function getDescription($courseID = null){
+        $em = $this->getDoctrine();
+        return $em->getRepository('WhatsdueMainBundle:Assignments')->findOneByCourseID($courseID)->getCourseDescription();
+    }
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+
+
+            if ( $courseID = @$_GET['course']){
+                $courseDescriptionType = "hidden";
+                $courseDescriptionAtts = array('attr'=>array(
+                    'value'=> $this->getDescription(@$_GET['course'])));
+
+                $courseIDType = "hidden";
+                $courseIDAtts = array('attr'=>array(
+                    'value'=> $this->getDescription($courseID)));
+            }
+            else{
+                $courseDescriptionType = "textarea";
+                $courseDescriptionAtts = array('attr'=>array(
+                    'placeholder'=> "description of the course"));
+
+                $courseIDType = "textarea";
+                $courseIDAtts = array('attr'=>array(
+                    'placeholder'=> "Course Name/Description"));
+            }
+
+
         $this->getCourses();
         $date   = new \DateTime();
         $date   = $date->format('Y-m-d');
@@ -56,8 +83,9 @@ class AssignmentAdmin extends Admin
                 'attr' => array(
                     'id'=>'combo-box'
                 )))
-            ->add('courseID')
-            ->add('courseDescription', 'textarea')
+            ->add('courseID', $courseIDType, $courseIDAtts)
+
+            ->add('courseDescription', $courseDescriptionType, $courseDescriptionAtts)
             ->add('description')
             ->add('dueDate', 'datetime', array('label' => 'Created At',
                 'input' => 'string',
