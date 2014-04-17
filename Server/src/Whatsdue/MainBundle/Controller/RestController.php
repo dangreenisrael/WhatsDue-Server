@@ -42,8 +42,10 @@ class RestController extends Controller{
             ->findAll();
         foreach ($courses as $key => $value){
             $coursesList[] = array(
-                "courseId"=>$value->getCourseID(),
-                "courseDescription"=>$value->getCourseDescription());
+                "courseId"          => $value->getCourseID(),
+                "courseDescription" => $value->getCourseDescription(),
+                "adminID"           => $value->getAdminID()
+            );
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
 
