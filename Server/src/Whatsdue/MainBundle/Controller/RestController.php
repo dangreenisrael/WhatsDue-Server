@@ -37,6 +37,23 @@ class RestController extends Controller{
      * @return array
      * @View()
      */
+    public function getAllCoursesAction(){
+        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+            ->findAll();
+        foreach ($courses as $key => $value){
+            $coursesList[] = array(
+                $value->getCourseID()=>$value->getCourseDescription());
+        }
+        $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
+
+        return $coursesList;
+
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
 
     public function getUserCoursesAction($adminID){
         $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
@@ -54,20 +71,26 @@ class RestController extends Controller{
     }
 
 
+
+
     /**
      * @return array
      * @View()
      */
 
-    public function getUserAssignmentsAction($adminID, $courseID){
-        $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+    public function getAssignmentsAction($adminID, $courseID){
+        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findBy(array(
                 'adminID'   => $adminID,
                 'courseID'  => $courseID
             ));
 
-
-        return $assignments;
+        foreach ($courses as $key => $value){
+            $coursesList[] = array(
+                $value->getCourseID()=>$value->getCourseDescription());
+        }
+        $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
+        return $coursesList;
 
     }
 

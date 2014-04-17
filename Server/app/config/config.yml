@@ -86,12 +86,14 @@ sonata_block:
 
 
 
+
 # Sonata Admin
 sonata_admin:
     title:      Whats Due
     title_logo: bundles/acmedemo/img/fancy_acme_logo.png
     templates:
             layout:   WhatsdueMainBundle:Admin:standard_layout.html.twig
+
 
 # FOS REST
 

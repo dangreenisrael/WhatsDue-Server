@@ -28,6 +28,10 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
 
+CustomAdmin:
+    resource: "@WhatsdueMainBundle/Resources/config/adminRouting.yml"
+    prefix:   /admin
+
 # REST
 
 events:
