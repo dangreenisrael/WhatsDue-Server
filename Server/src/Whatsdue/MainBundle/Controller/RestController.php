@@ -46,9 +46,11 @@ class RestController extends Controller{
                 "courseDescription"=>$value->getCourseDescription());
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
-        
 
-        return $coursesList;
+        foreach ($coursesList as $courses){
+            $sequentialList[] = $courses;
+        }
+        return $sequentialList;
 
     }
 
@@ -69,7 +71,11 @@ class RestController extends Controller{
                 "courseDescription"=>$value->getCourseDescription());
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
-        return $coursesList;
+
+        foreach ($coursesList as $courses){
+            $sequentialList[] = $courses;
+        }
+        return $sequentialList;
 
     }
 
