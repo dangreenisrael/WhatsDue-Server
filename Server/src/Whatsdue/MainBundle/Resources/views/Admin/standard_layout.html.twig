@@ -119,13 +119,13 @@ file that was distributed with this source code.
                     <li class="menu-list"><a href=""><i class="fa fa-book"></i> <span>{{ Link.name }}</span></a>
                         <ul class="sub-menu-list">
                             <li><a href="{{ base }}/whatsdue/main/assignments/list?course={{ Link.id }}">Assignment List</a></li>
-                            <li><a href="{{ base }}/whatsdue/main/assignments/create?course={{ Link.id }}">Add Assignment</a></li>
+                            <li><a href="{{ base }}/whatsdue/main/assignments/create?course={{ Link.id }}">New Assignment</a></li>
                         </ul>
                     </li>
                     {% endfor %}
                     <li><a href="{{ base }}/whatsdue/main/assignments/list?course=all"><i class="fa fa-book"></i><span>All Assignments</span></a></li>
                     <li><a href="{{ base }}/whatsdue/main/assignments/create"><i class="fa fa-pencil"></i> <span>New Course</span></a></li>
-                    <li><a href="{{ base }}/logout"><i class="fa fa-sign-out"></i> <span>Logout Page</span></a></li>
+                    <li><a href="{{ base }}/logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
                 </ul>
                 <!--sidebar nav end-->
 
@@ -144,8 +144,9 @@ file that was distributed with this source code.
                 <!--toggle button end-->
 
                 <span class="h1" style="margin-top: 35px">
-
+                {%  if app.user %}
                     &nbsp;{{ app.user.username }}'s courses
+                {% endif %}
                 </span>
 
 

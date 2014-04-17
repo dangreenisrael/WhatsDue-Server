@@ -74,20 +74,17 @@ class AssignmentAdmin extends Admin
             }
 
 
-        $this->getCourses();
-        $date   = new \DateTime();
-        $date   = $date->format('m-d-Y');
-        $formMapper
-            ->add('assignmentName', 'text', array('label' => 'Title'))
-            ->add('courseID', 'choice', array(
-                'choices'=>$this->getCourses(),
-                'attr' => array(
-                    'id'=>'combo-box'
-                )))
+            $this->getCourses();
+            $date   = new \DateTime();
+            $date   = $date->format('m-d-Y');
+            $formMapper
+
             ->add('courseID', $courseIDType, $courseIDAtts)
 
             ->add('courseDescription', $courseDescriptionType, $courseDescriptionAtts)
-            ->add('description')
+                ->add('assignmentName', 'text', array('label' => 'Title'))
+
+                ->add('description')
             ->add('dueDate', 'text', array('attr'=>array(
                 'class' =>"input-group date form_datetime-adv",
                 'value' => $date

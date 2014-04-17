@@ -1,7 +1,9 @@
 {% set base = app.request.getBaseURL() %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
@@ -20,52 +22,7 @@
 
 <div class="container">
 
-    <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-        <div class="form-signin-heading text-center">
-            <h1 class="sign-title">Sign In</h1>
-            <img src="{{ asset("admin/images/logo.png") }}" alt=""/>
-        </div>
-        <div class="login-wrap">
-            <div>
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                    <a href="{{ path('fos_user_security_logout') }}">
-                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                    </a>
-                {% else %}
-                    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-                {% endif %}
-            </div>
-
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for key, message in messages %}
-                    <div class="flash-{{ type }}">
-                        {{ message|trans({}, 'FOSUserBundle') }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-
-            <input class="form-control" type="text" placeholder="User ID" autofocus id="username" name="_username" value="" required="required" />
-
-            <input class="form-control" placeholder="Password" type="password" id="password" name="_password" required="required" />
-
-            <button class="btn btn-lg btn-login btn-block" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" >
-                <i class="fa fa-check"></i>
-            </button>
-
-            <div class="registration">
-                Not a member yet?
-                <a class="" href="{{ base }}/register">
-                    Signup
-                </a>
-            </div>
-        </div>
-
-    </form>
-
-
+   {% block fos_user_content %}{% endblock %}
 
 </div>
 

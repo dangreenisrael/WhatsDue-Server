@@ -1,0 +1,38 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+
+{% if app.user %}
+    <script type="text/javascript">
+        window.location.href = "{{ base }}/dashboard";
+    </script>
+{% endif %}
+
+<form class = "form-signin" action="{{ path("fos_user_security_check") }}" method="post">
+    <div class="form-signin-heading text-center">
+        <h1 class="sign-title">Log In</h1>
+    </div>
+    {% if error %}
+        <div style="text-align: center">{{ error|trans({}, 'FOSUserBundle') }}</div>
+    {% endif %}
+    <div class="login-wrap">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+    <input type="text" class="form-control" placeholder="User ID" autofocus="" id="username" name="_username" value="{{ last_username }}" required="required">
+    <input type="password" class="form-control" placeholder="Password" id="password" name="_password" required="required">
+
+    <button id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
+        <i class="fa fa-check"></i>
+    </button>
+
+        <div class="registration">
+            Not a member yet?
+            <a class="" href="register">
+                Signup
+            </a>
+        </div>
+    </div>
+
+</form>
+
+{% endblock fos_user_content %}
