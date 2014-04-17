@@ -120,6 +120,7 @@ file that was distributed with this source code.
                         </ul>
                     </li>
                     {% endfor %}
+                    <li><a href="{{ base }}/admin/whatsdue/main/assignments/list?course=all"><i class="fa fa-book"></i><span>All Assignments</span></a></li>
                     <li><a href="{{ base }}/admin/whatsdue/main/assignments/create"><i class="fa fa-pencil"></i> <span>New Course</span></a></li>
                     <li><a href="{{ base }}/logout"><i class="fa fa-sign-out"></i> <span>Logout Page</span></a></li>
                 </ul>
@@ -139,11 +140,10 @@ file that was distributed with this source code.
                 <a class="toggle-btn"><i class="fa fa-bars"></i></a>
                 <!--toggle button end-->
 
-                <!--search start-->
-                <form class="searchform" action="index.html" method="post">
-                    <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
-                </form>
-                <!--search end-->
+                <span class="h1" style="margin-top: 35px">
+
+                    &nbsp;{{ app.user.username }}'s courses
+                </span>
 
 
             </div>
@@ -173,16 +173,7 @@ file that was distributed with this source code.
                                                         {% endif %}
                                                     </div>
 
-                                                    {% if _actions is not empty %}
-                                                        <ul class="nav navbar-nav navbar-right">
-                                                            <li class="dropdown sonata-actions">
-                                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
-                                                                <ul class="dropdown-menu" role="menu">
-                                                                    {{ _actions|raw }}
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    {% endif %}
+
                                                 </div>
                                             </nav>
                                         {% endif %}
