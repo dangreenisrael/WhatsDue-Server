@@ -46,9 +46,7 @@ class RestController extends Controller{
                 "courseDescription"=>$value->getCourseDescription());
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
-        foreach ($coursesList as $key => $value){
-            var_dump($value);
-        }
+        
 
         return $coursesList;
 
