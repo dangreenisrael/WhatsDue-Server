@@ -45,7 +45,6 @@ class RestController extends Controller{
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
 
-        var_dump($coursesList); die;
 
         return $coursesList;
 
