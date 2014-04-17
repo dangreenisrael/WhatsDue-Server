@@ -21,6 +21,8 @@
 <div class="container">
 
     <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
         <div class="form-signin-heading text-center">
             <h1 class="sign-title">Sign In</h1>
             <img src="{{ asset("admin/images/logo.png") }}" alt=""/>
@@ -45,8 +47,6 @@
                 {% endfor %}
             {% endfor %}
 
-            <div>
-
             <input class="form-control" type="text" placeholder="User ID" autofocus id="username" name="_username" value="" required="required" />
 
             <input class="form-control" placeholder="Password" type="password" id="password" name="_password" required="required" />
@@ -62,7 +62,7 @@
                 </a>
             </div>
         </div>
-        <input type="hidden" name="_csrf_token" value="{{ fos_csrf_provider.generateCsrfToken('authenticate') }}" />
+
     </form>
 
 

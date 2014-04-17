@@ -79,9 +79,6 @@ class RestController extends Controller{
 
     }
 
-
-
-
     /**
      * @return array
      * @View()
@@ -95,6 +92,18 @@ class RestController extends Controller{
             ));
 
 
+        return $assignments;
+
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getAllAssignmentsAction(){
+        $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+            ->findAll();
         return $assignments;
 
     }

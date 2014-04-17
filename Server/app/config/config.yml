@@ -71,10 +71,9 @@ fos_user:
     user_class: Whatsdue\MainBundle\Entity\User
     group:
         group_class:   Whatsdue\MainBundle\Entity\User
-
-
-
-
+    registration:
+        form:
+            type: whatsdue_user_registration
 
 # Sonata Block
 sonata_block:
@@ -84,8 +83,6 @@ sonata_block:
             contexts:   [admin]
         sonata.block.service.text:
         sonata.block.service.rss:
-
-
 
 
 

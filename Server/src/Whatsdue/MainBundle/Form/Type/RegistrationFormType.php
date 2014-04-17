@@ -6,7 +6,7 @@
  * Time: 9:52 PM
  */
 
-namespace Whatsdue\MainBundle\Form;
+namespace Whatsdue\MainBundle\Form\Type;
 
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,12 +18,15 @@ class RegistrationFormType extends BaseType
     {
         parent::buildForm($builder, $options);
 
+
+        $csrf = $this->get('form.csrf_provider'); //Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider by default
+        $token = $csrf->generateCsrfToken(""); //Intention should be empty string, if you did not define it in parameters
+
         // add your custom field
-        $builder->add('name');
     }
 
     public function getName()
     {
-        return 'Whatsdue_user_registration';
+        return 'whatsdue_user_registration';
     }
 }

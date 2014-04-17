@@ -8,4 +8,4 @@ services:
         class: Whatsdue\MainBundle\Form\Type\RegistrationFormType
         arguments: [%fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: acme_user_registration }
+            - { name: form.type, alias: whatsdue_user_registration }
