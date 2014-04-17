@@ -51,6 +51,7 @@ class AssignmentAdmin extends Admin
                     'id'=>'combo-box'
                 )))
             ->add('courseID')
+            ->add('courseDescription', 'textarea')
             ->add('description')
             ->add('dueDate', 'datetime', array('label' => 'Created At',
                 'input' => 'string',
@@ -77,7 +78,7 @@ class AssignmentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('assignmentName')
+            ->addIdentifier('assignmentName')
             ->add('dueDate')
             ->add('courseID')
         ;

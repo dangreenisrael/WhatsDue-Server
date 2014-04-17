@@ -25,7 +25,32 @@ class RestController extends Controller{
         $users = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findAll();
 
-        return array( 'events' => $users );
+        foreach ($users as $key => $value){
+            $usersList[] = $value->getAdminID();
+        }
+        $usersList = array_unique($usersList);
+        return array_unique($usersList);
+
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getUserCoursesAction($adminID){
+        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+            ->findBy(array(
+                'adminID'=>$adminID
+            ));
+
+        foreach ($courses as $key => $value){
+            $coursesList[] = array(
+                $value->getCourseID()=>$value->getCourseDescription());
+        }
+        $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
+        return $coursesList;
+
     }
 
 
@@ -33,14 +58,17 @@ class RestController extends Controller{
      * @return array
      * @View()
      */
-    public function getUserAssignmentsAction($adminID){
-        $events = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+
+    public function getUserAssignmentsAction($adminID, $courseID){
+        $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findBy(array(
-                'adminID'=>$adminID
+                'adminID'   => $adminID,
+                'courseID'  => $courseID
             ));
 
-        return array( 'events' => $events );
-    }
 
+        return $assignments;
+
+    }
 
 }

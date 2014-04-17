@@ -31,6 +31,14 @@ class Assignments
     /**
      * @var string
      *
+     * @ORM\Column(name="courseDescription", type="string", length=500)
+     */
+    private $courseDescription;
+
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="adminID", type="string", length=255)
      */
     private $adminID;
@@ -180,5 +188,28 @@ class Assignments
     public function getDueDate()
     {
         return $this->dueDate;
+    }
+
+    /**
+     * Set courseDescription
+     *
+     * @param string $courseDescription
+     * @return Assignments
+     */
+    public function setCourseDescription($courseDescription)
+    {
+        $this->courseDescription = $courseDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get courseDescription
+     *
+     * @return string
+     */
+    public function getCourseDescription()
+    {
+        return $this->courseDescription;
     }
 }
