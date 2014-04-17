@@ -66,11 +66,14 @@ class AssignmentAdmin extends Admin
             else{
                 $courseDescriptionType = "textarea";
                 $courseDescriptionAtts = array('attr'=>array(
-                    'placeholder'=> "description of the course"));
+                    'placeholder'   => "Description/Name of the course"
+                ));
 
-                $courseIDType = "textarea";
+                $courseIDType = "text";
                 $courseIDAtts = array('attr'=>array(
-                    'placeholder'=> "Course Name/Description"));
+                    'label'   => "Course Code",
+                    'placeholder'         => "Course Code"
+                ));
             }
 
 
@@ -80,11 +83,15 @@ class AssignmentAdmin extends Admin
             $formMapper
 
             ->add('courseID', $courseIDType, $courseIDAtts)
-
             ->add('courseDescription', $courseDescriptionType, $courseDescriptionAtts)
-                ->add('assignmentName', 'text', array('label' => 'Title'))
+            ->add('assignmentName', 'text',array('attr'=>array(
+                    'placeholder'=> "Assignment Name",
+                    'label' => 'Assignment Name')))
 
-                ->add('description')
+            ->add('description', 'text', array('attr'=>array(
+                    'placeholder'=> "Assignment Description",
+                    'label' => 'Assignment Description'
+                )))
             ->add('dueDate', 'text', array('attr'=>array(
                 'class' =>"input-group date form_datetime-adv",
                 'value' => $date

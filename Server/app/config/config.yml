@@ -88,8 +88,9 @@ sonata_admin:
     title:      Whats Due
     title_logo: bundles/acmedemo/img/fancy_acme_logo.png
     templates:
-            layout:   WhatsdueMainBundle:Admin:standard_layout.html.twig
-            list:     WhatsdueMainBundle:Admin:base_list.html.twig
+            layout:       WhatsdueMainBundle:Admin:standard_layout.html.twig
+            list:         WhatsdueMainBundle:Admin:base_list.html.twig
+            dashboard:    WhatsdueMainBundle:Admin:Dashboard.html.twig
 
 # FOS REST
 
