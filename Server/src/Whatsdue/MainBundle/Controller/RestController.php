@@ -79,18 +79,14 @@ class RestController extends Controller{
      */
 
     public function getUserAssignmentsAction($adminID, $courseID){
-        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+        $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findBy(array(
                 'adminID'   => $adminID,
                 'courseID'  => $courseID
             ));
-        foreach ($courses as $key => $value){
-            $coursesList[] = array(
-                $value->getCourseID()=>$value->getCourseDescription());
-        }
 
-        $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
-        return $coursesList;
+
+        return $assignments;
 
     }
 
