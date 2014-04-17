@@ -3820,3 +3820,7 @@ ul.activity-list .activity-desk h5 a {
 .main-content .wrapper{
     min-height: 605px;
 }
+
+.datetimepicker {
+    margin-top: 7px!important;
+}

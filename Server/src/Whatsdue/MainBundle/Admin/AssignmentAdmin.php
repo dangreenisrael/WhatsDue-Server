@@ -76,7 +76,7 @@ class AssignmentAdmin extends Admin
 
         $this->getCourses();
         $date   = new \DateTime();
-        $date   = $date->format('Y-m-d');
+        $date   = $date->format('m-d-Y');
         $formMapper
             ->add('assignmentName', 'text', array('label' => 'Title'))
             ->add('courseID', 'choice', array(
@@ -88,12 +88,10 @@ class AssignmentAdmin extends Admin
 
             ->add('courseDescription', $courseDescriptionType, $courseDescriptionAtts)
             ->add('description')
-            ->add('dueDate', 'datetime', array('label' => 'Created At',
-                'input' => 'string',
-                'data' => $date." 12:00:00",
-                'date_widget' => 'choice',
-                'time_widget' => 'choice',
-                'date_format' => 'MMM d y'))
+            ->add('dueDate', 'text', array('attr'=>array(
+                'class' =>"input-group date form_datetime-adv",
+                'value' => $date
+            )))
 
             ->add('adminID', 'hidden',(array('attr'=>array(
                 'value'=> $this->getAdminID()
@@ -101,6 +99,14 @@ class AssignmentAdmin extends Admin
         ;
     }
 
+    /*
+    ->add('dueDate', 'datetime', array('label' => 'Created At',
+                'input' => 'string',
+                'data' => $date." 12:00:00",
+                'date_widget' => 'choice',
+                'time_widget' => 'choice',
+                'date_format' => 'MMM d y'))
+    */
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {

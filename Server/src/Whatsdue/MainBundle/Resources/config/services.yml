@@ -4,3 +4,8 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: twig.extension }
+    acme_user.registration.form.type:
+        class: Whatsdue\MainBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: acme_user_registration }

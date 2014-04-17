@@ -21,26 +21,22 @@ fos_user_change_password:
 # Sonata Admin
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-    prefix: /admin
+    prefix: /
 
 _sonata_admin:
     resource: .
     type: sonata_admin
-    prefix: /admin
+    prefix: /
 
 CustomAdmin:
     resource: "@WhatsdueMainBundle/Resources/config/adminRouting.yml"
-    prefix:   /admin
+    prefix:   /
 
 # REST
 
 events:
     type:     rest
     resource: Whatsdue\MainBundle\Controller\RestController
-
-whats_due_main:
-    resource: "@WhatsdueMainBundle/Resources/config/routing.yml"
-    prefix:   /
 
 
 
