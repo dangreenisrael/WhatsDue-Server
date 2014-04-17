@@ -53,14 +53,15 @@ class AssignmentAdmin extends Admin
     {
 
 
-            if ( $courseID = @$_GET['course']){
+
+        if ( $courseID = @$_GET['course']){
                 $courseDescriptionType = "hidden";
                 $courseDescriptionAtts = array('attr'=>array(
-                    'value'=> $this->getDescription(@$_GET['course'])));
+                    'value'=> $this->getDescription($_GET['course'])));
 
                 $courseIDType = "hidden";
                 $courseIDAtts = array('attr'=>array(
-                    'value'=> $this->getDescription($courseID)));
+                    'value'=> $_GET['course']));
             }
             else{
                 $courseDescriptionType = "textarea";

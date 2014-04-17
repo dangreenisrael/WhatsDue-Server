@@ -41,10 +41,11 @@ class RestController extends Controller{
         $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findAll();
         foreach ($courses as $key => $value){
-            $coursesList[] = array(
-                $value->getCourseID()=>$value->getCourseDescription());
+            $coursesList[$value->getCourseID()] = $value->getCourseDescription();
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
+
+        var_dump($coursesList); die;
 
         return $coursesList;
 
@@ -62,8 +63,7 @@ class RestController extends Controller{
             ));
 
         foreach ($courses as $key => $value){
-            $coursesList[] = array(
-                $value->getCourseID()=>$value->getCourseDescription());
+            $coursesList[$value->getCourseID()] = $value->getCourseDescription();
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
         return $coursesList;

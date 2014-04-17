@@ -26,7 +26,7 @@ class AdminExtension extends \Twig_Extension
         $this-> container    = $container;
         $this-> doctrine     = $container->get('doctrine.orm.entity_manager');
         if ($container->get('security.context')->getToken()){
-            $this-> user         = $container->get('security.context')->getToken()->getUser();
+            $this-> user     = $container->get('security.context')->getToken()->getUser();
         }
 
     }
@@ -42,14 +42,15 @@ class AdminExtension extends \Twig_Extension
                "id"     =>$value->getCourseID(),
                "name"  =>$value->getCourseDescription());
         }
+
         $coursesList = @array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
+
         return $coursesList;
 
     }
     public function getGlobals()
     {
 
-        $em = $this->doctrine;
 
         return array(
             "AdminLinks" =>$this->getCourses(),
