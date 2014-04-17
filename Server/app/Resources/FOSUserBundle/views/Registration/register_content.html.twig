@@ -4,6 +4,11 @@
         <h1 class="sign-title">Register</h1>
     </div>
     <div class="login-wrap">
+        {{ form_errors(form.plainPassword.first) }}
+        {{ form_errors(form.plainPassword.second) }}
+        {{ form_errors(form.username) }}
+        {{ form_errors(form.email) }}
+
         {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder' : 'User ID'}}) }}
         {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Password'}}) }}
         {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Re-Type'}}) }}
