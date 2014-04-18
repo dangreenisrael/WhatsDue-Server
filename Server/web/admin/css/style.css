@@ -3824,3 +3824,11 @@ ul.activity-list .activity-desk h5 a {
 .datetimepicker {
     margin-top: 7px!important;
 }
+
+img.sign-in-logo{
+    height:50px;
+}
+img.corner-logo{
+    height:35px;
+    padding-top: 5px;
+}

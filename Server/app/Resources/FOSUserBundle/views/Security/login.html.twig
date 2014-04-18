@@ -11,6 +11,7 @@
 <form class = "form-signin" action="{{ path("fos_user_security_check") }}" method="post">
     <div class="form-signin-heading text-center">
         <h1 class="sign-title">Log In</h1>
+        <img class="sign-in-logo" src="{{ asset("admin/images/Whatsduelogo-blue.png")}}" alt="">
     </div>
     {% if error %}
         <div style="text-align: center">{{ error|trans({}, 'FOSUserBundle') }}</div>
