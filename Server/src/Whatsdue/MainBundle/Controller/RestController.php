@@ -25,6 +25,7 @@ class RestController extends Controller{
         $users = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findAll();
 
+
         foreach ($users as $key => $value){
             $usersList[] = $value->getAdminID();
         }

@@ -93,7 +93,8 @@ class AssignmentAdmin extends Admin
                     'label' => 'Assignment Description'
                 )))
             ->add('dueDate', 'text', array('attr'=>array(
-                'class' =>"input-group date form_datetime-adv"
+                'class' =>"input-group form_datetime",
+                'readonly' => ""
             )))
 
             ->add('adminID', 'hidden',(array('attr'=>array(
