@@ -43,6 +43,7 @@ class RestController extends Controller{
             ->findAll();
         foreach ($courses as $key => $value){
             $coursesList[] = array(
+                "id"                => $value->getId(),
                 "courseId"          => $value->getCourseID(),
                 "courseDescription" => $value->getCourseDescription(),
                 "adminID"           => $value->getAdminID()
@@ -53,7 +54,8 @@ class RestController extends Controller{
         foreach ($coursesList as $courses){
             $sequentialList[] = $courses;
         }
-        return $sequentialList;
+
+        return array("course"=>$sequentialList);
 
     }
 
