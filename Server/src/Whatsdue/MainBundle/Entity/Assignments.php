@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\AssignmentsRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Assignments
 {
@@ -17,18 +16,32 @@ class Assignments
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
-     * @ORM\id
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="courseId", type="integer")
+     * @ORM\Column(name="courseID", type="string", length=255)
      */
-    private $courseId;
+    private $courseID;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="courseDescription", type="string", length=500)
+     */
+    private $courseDescription;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adminID", type="string", length=255)
+     */
+    private $adminID;
 
     /**
      * @var string
@@ -51,53 +64,6 @@ class Assignments
      */
     private $dueDate;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="createdAt", type="integer", length=255)
-     */
-    private $createdAt;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="lastUpdated", type="integer", length=255, nullable=true)
-     */
-    private $lastUpdated;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="lastModified", type="integer", length=255)
-     */
-    private $lastModified;
-
-
-    private function timestamp(){
-        $date = new \DateTime();
-        return $date->format('U');
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtValue()
-    {
-        $this->createdAt = $this->timestamp();
-        $this->lastModified = $this->timestamp();
-    }
-
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtValue()
-    {
-        $this->lastUpdated = $this->timestamp();
-        $this->lastModified = $this->timestamp();
-
-    }
-
 
     /**
      * Get id
@@ -110,29 +76,50 @@ class Assignments
     }
 
     /**
-     * Set courseId
+     * Set courseID
      *
-     * @param integer $courseId
+     * @param string $courseID
      * @return Assignments
      */
-    public function setcourseId($courseId)
+    public function setCourseID($courseID)
     {
-        $this->courseId = $courseId;
+        $this->courseID = $courseID;
 
         return $this;
     }
 
     /**
-     * Get courseId
+     * Get courseID
      *
-     * @return integer
+     * @return string 
      */
-    public function getcourseId()
+    public function getCourseID()
     {
-        return $this->courseId;
+        return $this->courseID;
     }
 
+    /**
+     * Set adminID
+     *
+     * @param string $adminID
+     * @return Assignments
+     */
+    public function setAdminID($adminID)
+    {
+        $this->adminID = $adminID;
 
+        return $this;
+    }
+
+    /**
+     * Get adminID
+     *
+     * @return string 
+     */
+    public function getAdminID()
+    {
+        return $this->adminID;
+    }
 
     /**
      * Set assignmentName
@@ -203,5 +190,26 @@ class Assignments
         return $this->dueDate;
     }
 
+    /**
+     * Set courseDescription
+     *
+     * @param string $courseDescription
+     * @return Assignments
+     */
+    public function setCourseDescription($courseDescription)
+    {
+        $this->courseDescription = $courseDescription;
 
+        return $this;
+    }
+
+    /**
+     * Get courseDescription
+     *
+     * @return string
+     */
+    public function getCourseDescription()
+    {
+        return $this->courseDescription;
+    }
 }
