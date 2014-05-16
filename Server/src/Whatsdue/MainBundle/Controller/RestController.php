@@ -13,9 +13,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Assignments;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-header("Access-Control-Allow-Origin: *");
+use Symfony\Component\HttpFoundation\Request;
+
 
 class RestController extends Controller{
+
+
+
+    public function getHeader($header){
+        $request = Request::createFromGlobals();
+        return $request->headers->get($header);
+    }
+
+    public function timestamp(){
+        $date = new \DateTime();
+        return $date->format('U');
+    }
 
     /**
      * @return array
@@ -24,7 +37,6 @@ class RestController extends Controller{
     public function getUsersAction(){
         $users = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findAll();
-
 
         foreach ($users as $key => $value){
             $usersList[] = $value->getAdminID();
@@ -39,14 +51,16 @@ class RestController extends Controller{
      * @View()
      */
     public function getAllCoursesAction(){
-        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses')
             ->findAll();
         foreach ($courses as $key => $value){
             $coursesList[] = array(
                 "id"                => $value->getId(),
-                "courseId"          => $value->getCourseID(),
+                "courseName"        => $value->getCourseID(),
                 "courseDescription" => $value->getCourseDescription(),
-                "adminID"           => $value->getAdminID()
+                "adminId"           => $value->getAdminID(),
+                "courseId"          => $value->getId(),
+                "enrolled"          => false
             );
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
@@ -74,7 +88,9 @@ class RestController extends Controller{
             $coursesList[] = array(
                 "courseId"          => $value->getCourseID(),
                 "courseDescription" => $value->getCourseDescription(),
-                "adminID"           => $adminID)
+                "adminID"           => $adminID,
+
+            )
             ;
         }
         $coursesList = array_map("unserialize", array_unique(array_map("serialize", $coursesList)));
@@ -97,8 +113,6 @@ class RestController extends Controller{
                 'adminID'   => $adminID,
                 'courseID'  => $courseID
             ));
-
-
         return $assignments;
 
     }
@@ -115,4 +129,26 @@ class RestController extends Controller{
 
     }
 
+    /******* Get Assignments by ID: json array of course IDs ********/
+
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getAssignmentsAction(){
+        $courses = json_decode($this->getHeader('courses'));
+        $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+            ->findBy( array(
+                'courseId' => $courses
+            ));
+        $data = array(
+            "assignment"=>$assignments,
+            "meta"=>array(
+                "timestamp"=> $this->timestamp()
+            )
+        );
+        return $data;
+    }
 }
