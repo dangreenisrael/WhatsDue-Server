@@ -5,13 +5,13 @@ namespace Whatsdue\MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Assignments
+ * Courses
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\AssignmentsRepository")
+ * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\CoursesRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Assignments
+class Courses
 {
     /**
      * @var integer
@@ -23,33 +23,26 @@ class Assignments
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="courseId", type="integer")
+     * @ORM\Column(name="courseId", type="string", length=255)
      */
     private $courseId;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="courseDescription", type="string", length=500)
+     */
+    private $courseDescription;
+
 
     /**
      * @var string
      *
-     * @ORM\Column(name="assignmentName", type="string", length=500)
+     * @ORM\Column(name="adminId", type="string", length=255)
      */
-    private $assignmentName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dueDate", type="string", length=255)
-     */
-    private $dueDate;
+    private $adminId;
 
     /**
      * @var integer
@@ -112,10 +105,10 @@ class Assignments
     /**
      * Set courseId
      *
-     * @param integer $courseId
-     * @return Assignments
+     * @param string $courseId
+     * @return Courses
      */
-    public function setcourseId($courseId)
+    public function setCourseId($courseId)
     {
         $this->courseId = $courseId;
 
@@ -125,20 +118,41 @@ class Assignments
     /**
      * Get courseId
      *
-     * @return integer
+     * @return string 
      */
-    public function getcourseId()
+    public function getCourseId()
     {
         return $this->courseId;
     }
 
+    /**
+     * Set adminId
+     *
+     * @param string $adminId
+     * @return Courses
+     */
+    public function setAdminId($adminId)
+    {
+        $this->adminId = $adminId;
 
+        return $this;
+    }
+
+    /**
+     * Get adminId
+     *
+     * @return string 
+     */
+    public function getAdminId()
+    {
+        return $this->adminId;
+    }
 
     /**
      * Set assignmentName
      *
      * @param string $assignmentName
-     * @return Assignments
+     * @return Courses
      */
     public function setAssignmentName($assignmentName)
     {
@@ -161,7 +175,7 @@ class Assignments
      * Set description
      *
      * @param string $description
-     * @return Assignments
+     * @return Courses
      */
     public function setDescription($description)
     {
@@ -184,7 +198,7 @@ class Assignments
      * Set dueDate
      *
      * @param string $dueDate
-     * @return Assignments
+     * @return Courses
      */
     public function setDueDate($dueDate)
     {
@@ -203,5 +217,26 @@ class Assignments
         return $this->dueDate;
     }
 
+    /**
+     * Set courseDescription
+     *
+     * @param string $courseDescription
+     * @return Courses
+     */
+    public function setCourseDescription($courseDescription)
+    {
+        $this->courseDescription = $courseDescription;
 
+        return $this;
+    }
+
+    /**
+     * Get courseDescription
+     *
+     * @return string
+     */
+    public function getCourseDescription()
+    {
+        return $this->courseDescription;
+    }
 }

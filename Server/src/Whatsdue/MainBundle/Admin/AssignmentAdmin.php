@@ -20,8 +20,6 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 class AssignmentAdmin extends Admin
 {
 
-
-
     public function getDoctrine(){
         return $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -51,8 +49,6 @@ class AssignmentAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
-
 
         if ( $courseID = @$_GET['course']){
                 $courseDescriptionType = "hidden";
