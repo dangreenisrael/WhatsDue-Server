@@ -33,14 +33,16 @@ class AdminExtension extends \Twig_Extension
 
     public function getCourses(){
 
-        $courses = $this->doctrine->getRepository('WhatsdueMainBundle:Assignments')
-            ->findBy(array(
-                'adminID'=>trim($this->user)
-            ));
+        $courses = $this->doctrine->getRepository('WhatsdueMainBundle:Courses')
+            ->findAll();
+
+
         foreach ($courses as $key => $value){
+            if ($value->getAdminId() == $this->user){
             $coursesList[] = array(
-               "id"     =>$value->getCourseID(),
-               "name"  =>$value->getCourseDescription());
+               "name"     =>$value->getCourseName(),
+               "description"  =>$value->getCourseDescription());
+            }
         }
 
         $coursesList = @array_map("unserialize", array_unique(array_map("serialize", $coursesList)));

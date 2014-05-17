@@ -9,4 +9,13 @@ services:
             - 'WhatsdueMainBundle:Admin'
         calls:
             - [ setTranslationDomain, [AcmeDemoBundle]]
-        
+    sonata.admin.courses:
+        class: Whatsdue\MainBundle\Admin\CoursesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Courses", label: "Courses" }
+        arguments:
+            - ~
+            - Whatsdue\MainBundle\Entity\Courses
+            - 'WhatsdueMainBundle:Admin'
+        calls:
+            - [ setTranslationDomain, [AcmeDemoBundle]]

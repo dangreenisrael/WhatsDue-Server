@@ -71,7 +71,7 @@ file that was distributed with this source code.
 
                         {% block table_body %}
                             <tbody>
-                                {% for object in admin.datagrid.results if course == object.courseID or course == "all" and app.user.username == object.adminID%}
+                                {% for object in admin.datagrid.results %}
                                     <tr>
                                         {% include admin.getTemplate('inner_list_row') %}
                                     </tr>

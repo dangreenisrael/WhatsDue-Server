@@ -35,6 +35,9 @@ class AdminController extends CRUDController {
     protected $admin;
 
 
+
+
+
     /**
      * return the Response object associated to the edit action
      *
@@ -46,6 +49,7 @@ class AdminController extends CRUDController {
      *
      * @return Response
      */
+
     public function editAction($id = null)
     {
         // the key used to lookup the template
@@ -214,6 +218,7 @@ class AdminController extends CRUDController {
         }else{
             $course = "all";
         }
+
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
@@ -228,4 +233,6 @@ class AdminController extends CRUDController {
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
         ));
     }
+
+
 }

@@ -24,24 +24,17 @@ class Assignments
     /**
      * @var string
      *
-     * @ORM\Column(name="courseID", type="string", length=255)
+     * @ORM\Column(name="courseName", type="string", length=255)
      */
-    private $courseID;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="courseDescription", type="string", length=500)
-     */
-    private $courseDescription;
+    private $courseName;
 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="adminID", type="string", length=255)
+     * @ORM\Column(name="adminId", type="string", length=255)
      */
-    private $adminID;
+    private $adminId;
 
     /**
      * @var string
@@ -76,49 +69,49 @@ class Assignments
     }
 
     /**
-     * Set courseID
+     * Set courseName
      *
-     * @param string $courseID
+     * @param string $courseName
      * @return Assignments
      */
-    public function setCourseID($courseID)
+    public function setCourseName($courseName)
     {
-        $this->courseID = $courseID;
+        $this->courseName = $courseName;
 
         return $this;
     }
 
     /**
-     * Get courseID
+     * Get courseName
      *
      * @return string 
      */
-    public function getCourseID()
+    public function getCourseName()
     {
-        return $this->courseID;
+        return $this->courseName;
     }
 
     /**
-     * Set adminID
+     * Set adminId
      *
-     * @param string $adminID
+     * @param string $adminId
      * @return Assignments
      */
-    public function setAdminID($adminID)
+    public function setAdminId($adminId)
     {
-        $this->adminID = $adminID;
+        $this->adminId = $adminId;
 
         return $this;
     }
 
     /**
-     * Get adminID
+     * Get adminId
      *
      * @return string 
      */
-    public function getAdminID()
+    public function getAdminId()
     {
-        return $this->adminID;
+        return $this->adminId;
     }
 
     /**
@@ -190,26 +183,5 @@ class Assignments
         return $this->dueDate;
     }
 
-    /**
-     * Set courseDescription
-     *
-     * @param string $courseDescription
-     * @return Assignments
-     */
-    public function setCourseDescription($courseDescription)
-    {
-        $this->courseDescription = $courseDescription;
 
-        return $this;
-    }
-
-    /**
-     * Get courseDescription
-     *
-     * @return string
-     */
-    public function getCourseDescription()
-    {
-        return $this->courseDescription;
-    }
 }

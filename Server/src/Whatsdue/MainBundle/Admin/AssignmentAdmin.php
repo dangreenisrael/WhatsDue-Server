@@ -20,16 +20,12 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 class AssignmentAdmin extends Admin
 {
 
-
-
     public function getDoctrine(){
         return $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager');
-
     }
 
-    public function getAdminID () {
+    public function getAdminId () {
         return $this->getConfigurationPool()->getContainer()->get('security.context')->getToken()->getUser();
-
     }
 
     public function getCourses(){
@@ -38,57 +34,28 @@ class AssignmentAdmin extends Admin
 
         $course = array(""=>"");
         foreach ($allRows as $key => $value){
-            $course[] = $value->getCourseID();
+            $course[] = $value->getCourseName();
         }
+
         return array_unique($course);
     }
 
-    public function getDescription($courseID = null){
-        $em = $this->getDoctrine();
-        return $em->getRepository('WhatsdueMainBundle:Assignments')->findOneByCourseID($courseID)->getCourseDescription();
-    }
+
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
 
 
-
-        if ( $courseID = @$_GET['course']){
-                $courseDescriptionType = "hidden";
-                $courseDescriptionAtts = array('attr'=>array(
-                    'value'=> $this->getDescription($_GET['course'])));
-
-                $courseIDType = "hidden";
-                $courseIDAtts = array('attr'=>array(
-                    'value'=> $_GET['course']));
-            }
-            else{
-                $courseDescriptionType = "textarea";
-                $courseDescriptionAtts = array('attr'=>array(
-                    'placeholder'   => "Description/Name of the course"
-                ));
-
-                $courseIDType = "text";
-                $courseIDAtts = array('attr'=>array(
-                    'label'   => "Course Code",
-                    'placeholder'         => "Course Code"
-                ));
-            }
-
-
             $this->getCourses();
             $date   = new \DateTime();
             $date   = $date->format('m-d-Y');
             $formMapper
-
-            ->add('courseID', $courseIDType, $courseIDAtts)
-            ->add('courseDescription', $courseDescriptionType, $courseDescriptionAtts)
             ->add('assignmentName', 'text',array('attr'=>array(
                     'placeholder'=> "Assignment Name",
                     'label' => 'Assignment Name')))
 
-            ->add('description', 'text', array('attr'=>array(
+            ->add('description', 'textarea', array('attr'=>array(
                     'placeholder'=> "Assignment Description",
                     'label' => 'Assignment Description'
                 )))
@@ -97,9 +64,6 @@ class AssignmentAdmin extends Admin
                 'readonly' => ""
             )))
 
-            ->add('adminID', 'hidden',(array('attr'=>array(
-                'value'=> $this->getAdminID()
-            ))))
         ;
     }
 
@@ -115,7 +79,8 @@ class AssignmentAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('courseID')
+            ->add('courseName')
+            ->add('adminId')
         ;
     }
 
@@ -125,8 +90,58 @@ class AssignmentAdmin extends Admin
         $listMapper
             ->addIdentifier('assignmentName')
             ->add('dueDate')
-            ->add('courseID')
+            ->add('courseName')
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilterParameters()
+    {
+        $parameters = array();
+
+        // build the values array
+        if ($this->hasRequest()) {
+            $filters = $this->request->query->get('filter', array());
+
+            /** Ensure only admins get in  **/
+            $filters['adminId']['value'] = $this->getAdminId();
+
+            /** Only Show courses, if one is selected **/
+            if(@isset($_GET['course'])){
+                $activeCourse = $_GET['course'];
+                var_dump($activeCourse);
+                $filters['courseName']['value'] = $activeCourse;
+            }
+
+            // if persisting filters, save filters to session, or pull them out of session if no new filters set
+            if ($this->persistFilters) {
+                if ($filters == array() && $this->request->query->get('filters') != 'reset') {
+                    $filters = $this->request->getSession()->get($this->getCode().'.filter.parameters', array());
+                } else {
+                    $this->request->getSession()->set($this->getCode().'.filter.parameters', $filters);
+                }
+            }
+
+            $parameters = array_merge(
+                $this->getModelManager()->getDefaultSortValues($this->getClass()),
+                $this->datagridValues,
+                $filters
+            );
+
+            if (!$this->determinedPerPageValue($parameters['_per_page'])) {
+                $parameters['_per_page'] = $this->maxPerPage;
+            }
+
+            // always force the parent value
+            if ($this->isChild() && $this->getParentAssociationMapping()) {
+                $name = str_replace('.', '__', $this->getParentAssociationMapping());
+                $parameters[$name] = array('value' => $this->request->get($this->getParent()->getIdParameter()));
+            }
+        }
+
+        return $parameters;
     }
 
 

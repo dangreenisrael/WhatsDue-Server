@@ -4,3 +4,10 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: twig.extension }
+
+#Event Listeners
+    whatsdue.courses.add_course:
+        class: Whatsdue\MainBundle\Classes\LifecycleActions
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

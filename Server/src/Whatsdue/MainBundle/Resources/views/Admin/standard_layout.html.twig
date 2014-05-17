@@ -100,13 +100,13 @@ file that was distributed with this source code.
                     {% for Key, Link in AdminLinks %}
                     <li class="menu-list"><a href=""><i class="fa fa-book"></i> <span>{{ Link.name }}</span></a>
                         <ul class="sub-menu-list">
-                            <li><a href="{{ base }}/whatsdue/main/assignments/list?course={{ Link.id }}">Assignment List</a></li>
-                            <li><a href="{{ base }}/whatsdue/main/assignments/create?course={{ Link.id }}">New Assignment</a></li>
+                            <li><a href="{{ base }}/whatsdue/main/assignments/list?course={{ Link.name }}">Assignment List</a></li>
+                            <li><a href="{{ base }}/whatsdue/main/assignments/create?course={{ Link.name }}">New Assignment</a></li>
                         </ul>
                     </li>
                     {% endfor %}
-                    <li><a href="{{ base }}/whatsdue/main/assignments/list?course=all"><i class="fa fa-book"></i><span>All Assignments</span></a></li>
-                    <li><a href="{{ base }}/whatsdue/main/assignments/create"><i class="fa fa-pencil"></i> <span>Add for new course</span></a></li>
+                    <li><a href="{{ base }}/whatsdue/main/courses/list"><i class="fa fa-book"></i><span>Edit Courses</span></a></li>
+                    <li><a href="{{ base }}/whatsdue/main/courses/create"><i class="fa fa-pencil"></i> <span>Add Course</span></a></li>
                     <li><a href="{{ base }}/logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
                 </ul>
                 <!--sidebar nav end-->

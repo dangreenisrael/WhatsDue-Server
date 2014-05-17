@@ -112,4 +112,6 @@ class CoreController extends Controller
             'groups'        => $this->getAdminPool()->getDashboardGroups()
         ));
     }
+
+
 }
