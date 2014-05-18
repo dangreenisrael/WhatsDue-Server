@@ -28,59 +28,40 @@ class AssignmentAdmin extends Admin
         return $this->getConfigurationPool()->getContainer()->get('security.context')->getToken()->getUser();
     }
 
-    public function getCourses(){
-        $em = $this->getDoctrine();
-        $allRows = $em->getRepository('WhatsdueMainBundle:Assignments')->findAll();
-
-        $course = array(""=>"");
-        foreach ($allRows as $key => $value){
-            $course[] = $value->getCourseName();
-        }
-
-        return array_unique($course);
-    }
-
-
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        if (@$_GET['course']){
+            $_SESSION['courseId']   = @$_GET['course'];
+            $_SESSION['courseName'] = @$_GET['courseName'];
+        }
+        $date   = new \DateTime();
+        $date   = $date->format('m-d-Y');
+        $formMapper
+        ->add('assignmentName', 'text',array('attr'=>array(
+                'placeholder'=> "Assignment Name",
+                'label' => 'Assignment Name')))
 
-
-            $this->getCourses();
-            $date   = new \DateTime();
-            $date   = $date->format('m-d-Y');
-            $formMapper
-            ->add('assignmentName', 'text',array('attr'=>array(
-                    'placeholder'=> "Assignment Name",
-                    'label' => 'Assignment Name')))
-
-            ->add('description', 'textarea', array('attr'=>array(
-                    'placeholder'=> "Assignment Description",
-                    'label' => 'Assignment Description'
-                )))
-            ->add('dueDate', 'text', array('attr'=>array(
-                'class' =>"input-group form_datetime",
-                'readonly' => ""
+        ->add('description', 'textarea', array('attr'=>array(
+                'placeholder'=> "Assignment Description",
+                'label' => 'Assignment Description'
             )))
-
+        ->add('dueDate', 'text', array('attr'=>array(
+            'class' =>"input-group form_datetime",
+            'readonly' => ""
+            )))
         ;
     }
 
-    /*
-    ->add('dueDate', 'datetime', array('label' => 'Created At',
-                'input' => 'string',
-                'data' => $date." 12:00:00",
-                'date_widget' => 'choice',
-                'time_widget' => 'choice',
-                'date_format' => 'MMM d y'))
-    */
+
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('courseName')
             ->add('adminId')
+            ->add('courseId')
         ;
     }
 
@@ -112,7 +93,7 @@ class AssignmentAdmin extends Admin
             if(@isset($_GET['course'])){
                 $activeCourse = $_GET['course'];
                 var_dump($activeCourse);
-                $filters['courseName']['value'] = $activeCourse;
+                $filters['courseId']['value'] = $activeCourse;
             }
 
             // if persisting filters, save filters to session, or pull them out of session if no new filters set

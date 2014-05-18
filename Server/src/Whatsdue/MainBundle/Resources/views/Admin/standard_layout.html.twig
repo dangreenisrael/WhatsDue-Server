@@ -98,10 +98,11 @@ file that was distributed with this source code.
                     <li class="active"><a href="{{ base }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
 
                     {% for Key, Link in AdminLinks %}
+
                     <li class="menu-list"><a href=""><i class="fa fa-book"></i> <span>{{ Link.name }}</span></a>
                         <ul class="sub-menu-list">
-                            <li><a href="{{ base }}/whatsdue/main/assignments/list?course={{ Link.name }}">Assignment List</a></li>
-                            <li><a href="{{ base }}/whatsdue/main/assignments/create?course={{ Link.name }}">New Assignment</a></li>
+                            <li><a href="{{ base }}/whatsdue/main/assignments/list?course={{ Link.id }}&courseName={{ Link.name }}">Assignment List</a></li>
+                            <li><a href="{{ base }}/whatsdue/main/assignments/create?course={{ Link.id }}&courseName={{ Link.name }}">New Assignment</a></li>
                         </ul>
                     </li>
                     {% endfor %}

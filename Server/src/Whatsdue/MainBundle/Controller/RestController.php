@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 header("Access-Control-Allow-Origin: * ");
-header("Access-Control-Allow-Headers: course, accept, content-type");
+header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp");
 header("Access-Control-Allow-Method: GET, POST, OPTION");
 
 class RestController extends Controller{
@@ -45,11 +45,18 @@ class RestController extends Controller{
      * @View()
      */
     public function getAllCoursesAction(){
-        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses')
-            ->findAll();
+        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+        $timestamp = json_decode($this->getHeader('timestamp'));
+
+        $query = $courses->createQueryBuilder('p')
+            ->where('p.lastModified > :timestamp')
+            ->setParameter('timestamp', $timestamp)
+            ->getQuery();
+
+        $products = $query->getResult();
 
         $data = array(
-            "course"=>$courses,
+            "course"=>$products,
             "meta"=>array(
                 "timestamp"=> $this->timestamp()
             )
@@ -59,9 +66,21 @@ class RestController extends Controller{
 
 
 
-
-
     /******* Get Assignments by ID: json array of course IDs ********/
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function optionsAssignmentsAction(){
+        return null;
+
+    }
+
+    public function filterAssignments($assignment){
+        $timestamp = json_decode($this->getHeader('timestamp'));
+        return ($assignment->getLastModified() > $timestamp);
+    }
     /**
      * @return array
      * @View()
@@ -71,8 +90,11 @@ class RestController extends Controller{
         $courses = json_decode($this->getHeader('courses'));
         $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
             ->findBy( array(
-                'courseName' => $courses
+                'courseId' => $courses
             ));
+
+        $assignments = array_filter($assignments, array($this, 'filterAssignments'));
+
         $data = array(
             "assignment"=>$assignments,
             "meta"=>array(

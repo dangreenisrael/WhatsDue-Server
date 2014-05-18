@@ -11,13 +11,13 @@ namespace Whatsdue\MainBundle\Classes;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Whatsdue\MainBundle\Entity\Courses;
+use Whatsdue\MainBundle\Entity\Assignments;
 
 class LifecycleActions {
 
     protected $container;
 
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(ContainerInterface $container){
         $this->container = $container;
     }
 
@@ -35,5 +35,11 @@ class LifecycleActions {
         $entity = $args->getEntity();
         $adminId = $this->getAdminID();
         $entity->setAdminId($adminId);
+
+        if ($entity instanceof Assignments) {
+            $entity->setCourseName($_SESSION['courseName']);
+            $entity->setCourseId($_SESSION['courseId']);
+
+        }
     }
-} 
+}

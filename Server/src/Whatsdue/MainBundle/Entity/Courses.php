@@ -89,11 +89,41 @@ class Courses
     /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
+    public function setLastUpdatedValue()
     {
         $this->lastUpdated = $this->timestamp();
         $this->lastModified = $this->timestamp();
 
+    }
+
+    /**
+     * Get lastModified
+     *
+     * @return integer
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
+
+    /**
+     * Get lastUpdated
+     *
+     * @return integer
+     */
+    public function getLastUpdated()
+    {
+        return $this->lastUpdated;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return integer
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
 

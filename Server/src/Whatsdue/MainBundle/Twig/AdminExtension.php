@@ -40,8 +40,9 @@ class AdminExtension extends \Twig_Extension
         foreach ($courses as $key => $value){
             if ($value->getAdminId() == $this->user){
             $coursesList[] = array(
-               "name"     =>$value->getCourseName(),
-               "description"  =>$value->getCourseDescription());
+               "name"           =>$value->getCourseName(),
+               "id"             =>$value->getId(),
+               "description"    =>$value->getCourseDescription());
             }
         }
 

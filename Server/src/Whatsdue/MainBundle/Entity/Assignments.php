@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\AssignmentsRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Assignments
 {
@@ -27,6 +28,13 @@ class Assignments
      * @ORM\Column(name="courseName", type="string", length=255)
      */
     private $courseName;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="courseId", type="integer")
+     */
+    private $courseId;
 
 
     /**
@@ -56,6 +64,85 @@ class Assignments
      * @ORM\Column(name="dueDate", type="string", length=255)
      */
     private $dueDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="createdAt", type="integer", length=255)
+     */
+    private $createdAt;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lastUpdated", type="integer", length=255, nullable=true)
+     */
+    private $lastUpdated;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lastModified", type="integer", length=255)
+     */
+    private $lastModified;
+
+    private function timestamp(){
+        $date = new \DateTime();
+        return $date->format('U');
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = $this->timestamp();
+        $this->lastModified = $this->timestamp();
+    }
+
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setLastUpdatedValue()
+    {
+        $this->lastUpdated = $this->timestamp();
+        $this->lastModified = $this->timestamp();
+
+    }
+
+
+    /**
+     * Get lastModified
+     *
+     * @return integer
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
+
+    /**
+     * Get lastUpdated
+     *
+     * @return integer
+     */
+    public function getLastUpdated()
+    {
+        return $this->lastUpdated;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return integer
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 
 
     /**
@@ -89,6 +176,29 @@ class Assignments
     public function getCourseName()
     {
         return $this->courseName;
+    }
+
+    /**
+     * Set courseId
+     *
+     * @param integer $courseId
+     * @return Assignments
+     */
+    public function setCourseId($courseId)
+    {
+        $this->courseId = $courseId;
+
+        return $this;
+    }
+
+    /**
+     * Get courseId
+     *
+     * @return integer
+     */
+    public function getCourseId()
+    {
+        return $this->courseId;
     }
 
     /**
