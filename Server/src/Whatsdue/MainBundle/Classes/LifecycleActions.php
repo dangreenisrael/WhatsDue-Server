@@ -30,16 +30,17 @@ class LifecycleActions {
     }
 
     public function prePersist(LifeCycleEventArgs $args){
-
-        /** UserId is recorded for ALL entries **/
         $entity = $args->getEntity();
-        $adminId = $this->getAdminID();
-        $entity->setAdminId($adminId);
+
+        if (($entity instanceof Assignments) || ($entity instanceof Courses)){
+            /** UserId is recorded for ALL entries **/
+            $adminId = $this->getAdminID();
+            $entity->setAdminId($adminId);
+        }
 
         if ($entity instanceof Assignments) {
             $entity->setCourseName($_SESSION['courseName']);
             $entity->setCourseId($_SESSION['courseId']);
-
         }
     }
 }
