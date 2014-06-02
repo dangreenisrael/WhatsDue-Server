@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 header("Access-Control-Allow-Origin: * ");
-header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp");
+header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp, sendAll");
 header("Access-Control-Allow-Method: GET, POST, OPTION");
 
 class RestController extends Controller{
@@ -38,22 +38,25 @@ class RestController extends Controller{
      */
     public function optionsAllCoursesAction(){
         return null;
-
     }
+
     /**
      * @return array
      * @View()
      */
     public function getAllCoursesAction(){
         $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+        $sendAll = $this->getHeader('sendAll');
         $timestamp = json_decode($this->getHeader('timestamp'));
-
-        $query = $courses->createQueryBuilder('p')
-            ->where('p.lastModified > :timestamp')
-            ->setParameter('timestamp', $timestamp)
-            ->getQuery();
-
-        $products = $query->getResult();
+        if ($sendAll == true){
+            $products = $courses->findAll();
+        } else{
+            $query = $courses->createQueryBuilder('p')
+                ->where('p.lastModified > :timestamp')
+                ->setParameter('timestamp', $timestamp)
+                ->getQuery();
+            $products = $query->getResult();
+        }
 
         $data = array(
             "course"=>$products,
@@ -74,11 +77,14 @@ class RestController extends Controller{
      */
     public function optionsAssignmentsAction(){
         return null;
-
     }
 
     public function filterAssignments($assignment){
-        $timestamp = json_decode($this->getHeader('timestamp'));
+        if ($this->getHeader('sendAll') == true){
+            $timestamp = 0;
+        } else{
+            $timestamp = json_decode($this->getHeader('timestamp'));
+        }
         return ($assignment->getLastModified() > $timestamp);
     }
     /**
@@ -88,11 +94,12 @@ class RestController extends Controller{
 
     public function getAssignmentsAction(){
         $courses = json_decode($this->getHeader('courses'));
-        $assignments = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments')
+        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+
+        $assignments = $repo
             ->findBy( array(
                 'courseId' => $courses
             ));
-
         $assignments = array_filter($assignments, array($this, 'filterAssignments'));
 
         $data = array(
@@ -103,5 +110,4 @@ class RestController extends Controller{
         );
         return $data;
     }
-
 }
