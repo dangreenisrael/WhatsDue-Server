@@ -52,7 +52,7 @@ class RestController extends Controller{
             $products = $courses->findAll();
         } else{
             $query = $courses->createQueryBuilder('p')
-                ->where('p.lastModified > :timestamp')
+                ->where('p.lastModified >= :timestamp')
                 ->setParameter('timestamp', $timestamp)
                 ->getQuery();
             $products = $query->getResult();
