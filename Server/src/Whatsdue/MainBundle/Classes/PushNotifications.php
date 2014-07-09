@@ -8,7 +8,7 @@
 
 namespace Whatsdue\MainBundle\Classes;
 
-define( 'API_ACCESS_KEY', "AIzaSyBYoGvX_ciWo2V8_1UE2ts_s3vKC890bjc" );
+define( 'API_ACCESS_KEY', "AIzaSyDbUaBlRrYZpg2GPLqZTls-SAGIX1cBDek" );
 class PushNotifications {
 
     public function androidNotifications($title, $message, $tickerText, $pushIds, $alert, $assignmentId){
