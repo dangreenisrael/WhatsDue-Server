@@ -50,14 +50,14 @@ class Courses
     /**
      * @var string
      *
-     * @ORM\Column(name="androidUsers", type="text")
+     * @ORM\Column(name="androidUsers", type="text", nullable=true)
      */
     private $androidUsers;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="iosUsers", type="text")
+     * @ORM\Column(name="iosUsers", type="text", nullable=true)
      */
     private $iosUsers;
 
