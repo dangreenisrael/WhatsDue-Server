@@ -48,6 +48,21 @@ class Courses
     private $adminId;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="androidUsers", type="text")
+     */
+    private $androidUsers;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="iosUsers", type="text")
+     */
+    private $iosUsers;
+
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)
@@ -183,74 +198,8 @@ class Courses
         return $this->adminId;
     }
 
-    /**
-     * Set assignmentName
-     *
-     * @param string $assignmentName
-     * @return Courses
-     */
-    public function setAssignmentName($assignmentName)
-    {
-        $this->assignmentName = $assignmentName;
 
-        return $this;
-    }
 
-    /**
-     * Get assignmentName
-     *
-     * @return string 
-     */
-    public function getAssignmentName()
-    {
-        return $this->assignmentName;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Courses
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set dueDate
-     *
-     * @param string $dueDate
-     * @return Courses
-     */
-    public function setDueDate($dueDate)
-    {
-        $this->dueDate = $dueDate;
-
-        return $this;
-    }
-
-    /**
-     * Get dueDate
-     *
-     * @return string 
-     */
-    public function getDueDate()
-    {
-        return $this->dueDate;
-    }
 
     /**
      * Set courseDescription
@@ -273,5 +222,90 @@ class Courses
     public function getCourseDescription()
     {
         return $this->courseDescription;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param integer $createdAt
+     * @return Courses
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Set lastUpdated
+     *
+     * @param integer $lastUpdated
+     * @return Courses
+     */
+    public function setLastUpdated($lastUpdated)
+    {
+        $this->lastUpdated = $lastUpdated;
+
+        return $this;
+    }
+
+    /**
+     * Set lastModified
+     *
+     * @param integer $lastModified
+     * @return Courses
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
+
+        return $this;
+    }
+
+    /**
+     * Set androidUsers
+     *
+     * @param string $androidUsers
+     * @return Courses
+     */
+    public function setAndroidUsers($androidUsers)
+    {
+        $this->androidUsers = $androidUsers;
+
+        return $this;
+    }
+
+    /**
+     * Get androidUsers
+     *
+     * @return string 
+     */
+    public function getAndroidUsers()
+    {
+        return $this->androidUsers;
+    }
+
+    /**
+     * Set iosUsers
+     *
+     * @param string $iosUsers
+     * @return Courses
+     */
+    public function setIosUsers($iosUsers)
+    {
+        $this->iosUsers = $iosUsers;
+
+        return $this;
+    }
+
+    /**
+     * Get iosUsers
+     *
+     * @return string 
+     */
+    public function getIosUsers()
+    {
+        return $this->iosUsers;
     }
 }

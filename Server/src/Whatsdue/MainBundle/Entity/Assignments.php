@@ -294,4 +294,43 @@ class Assignments
     }
 
 
+
+    /**
+     * Set createdAt
+     *
+     * @param integer $createdAt
+     * @return Assignments
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Set lastUpdated
+     *
+     * @param integer $lastUpdated
+     * @return Assignments
+     */
+    public function setLastUpdated($lastUpdated)
+    {
+        $this->lastUpdated = $lastUpdated;
+
+        return $this;
+    }
+
+    /**
+     * Set lastModified
+     *
+     * @param integer $lastModified
+     * @return Assignments
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
+
+        return $this;
+    }
 }

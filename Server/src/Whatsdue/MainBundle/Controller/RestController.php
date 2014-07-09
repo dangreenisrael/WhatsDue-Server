@@ -11,7 +11,7 @@ namespace Whatsdue\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
-use Whatsdue\MainBundle\Entity\Assignments;
+use Whatsdue\MainBundle\Entity\Students;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -109,5 +109,98 @@ class RestController extends Controller{
             )
         );
         return $data;
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function postStudentAction(){
+        $uuid = $_POST['uuid'];
+        $platform = $_POST['platform'];
+        $pushId = $_POST['pushId'];
+        $em = $this->getDoctrine()->getManager();
+        if ($student = $em->getRepository('WhatsdueMainBundle:Students')->findOneBy(array('uuid' => $uuid))){
+            $student->setPushId($pushId);
+        } else{
+            $student = new Students;
+            $student->setUuid($uuid);
+            $student->setPlatform($platform);
+            $student->setPushId($pushId);
+            $em->persist($student);
+        }
+        $em->flush();
+
+        return array("primaryKey"=>$student->getId());
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function postCourseEnrollAction($courseId){
+        $primaryKey = $_POST['primaryKey'];
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+
+        $pushId = str_replace("_","|",$student->getPushId());
+
+        if ($student->getPlatform() == "Android"){
+            $subscribers   = $course->getAndroidUsers();
+            $subscribers   = unserialize($subscribers);
+            if (@!in_array($pushId, $subscribers)) $subscribers[] = $pushId;
+            $course -> setAndroidUsers(serialize($subscribers));
+
+        } else{
+            $subscribers   = $course->getIosUsers();
+            $subscribers   = unserialize($subscribers);
+            if (@!in_array($pushId, $subscribers)) $subscribers[] = $pushId;
+            $course -> setIosUsers(serialize($subscribers));
+        }
+
+        $em->flush();
+
+        return "success";
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function postCourseUnenrollAction($courseId){
+
+        $primaryKey = $_POST['primaryKey'];
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+
+        $pushId = str_replace("_","|",$student->getPushId());
+
+        if ($student->getPlatform() == "Android"){
+            $subscribers   = $course->getAndroidUsers();
+            $subscribers   = unserialize($subscribers);
+            if(($key = array_search($pushId, $subscribers)) !== false) {
+                unset($subscribers[$key]);
+            }
+            $course -> setAndroidUsers(serialize($subscribers));
+
+        } else{
+            $subscribers   = $course->getIosUsers();
+            $subscribers   = unserialize($subscribers);
+            unset($subscribers[$pushId]);
+            if(($key = array_search($pushId, $subscribers)) !== false) {
+                unset($subscribers[$key]);
+            }
+            $course -> setIosUsers(serialize($subscribers));
+        }
+
+        $em->flush();
+
+
+        return "success";
     }
 }
