@@ -161,6 +161,7 @@ class RestController extends Controller{
             $course -> setIosUsers(serialize($subscribers));
         }
 
+
         $em->flush();
 
         return "success";
