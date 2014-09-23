@@ -1,30 +1,37 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-
-{% if app.user %}
-    <script type="text/javascript">
-        window.location.href = "{{ base }}/dashboard";
-    </script>
-{% endif %}
-
+    {% if app.user %}
+        <script type="text/javascript">
+            window.location.href = "{{ base }}/";
+        </script>
+    {% endif %}
 <form class = "form-signin" action="{{ path("fos_user_security_check") }}" method="post">
     <div class="form-signin-heading text-center">
-        <h1 class="sign-title">Log In</h1>
-        <img class="sign-in-logo" src="{{ asset("admin/images/Whatsduelogo-blue.png")}}" alt="">
+        <img class="sign-in-logo" src="{{ asset("admin/images/whatsdue-logo.png")}}" alt="">
     </div>
     {% if error %}
         <div style="text-align: center">{{ error|trans({}, 'FOSUserBundle') }}</div>
     {% endif %}
     <div class="login-wrap">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <input type="text" class="form-control" placeholder="User ID" autofocus="" id="username" name="_username" value="{{ last_username }}" required="required">
-    <input type="password" class="form-control" placeholder="Password" id="password" name="_password" required="required">
+        <input type="text" class="form-control" placeholder="User ID" autofocus="" id="username" name="_username" value="{{ last_username }}" required="required">
+        <input type="password" class="form-control" placeholder="Password" id="password" name="_password" required="required">
 
-    <button id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
-        <i class="fa fa-check"></i>
-    </button>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <button id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
+                    <i class="fa fa-sign-in"></i>
+                </button>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ app.request.getBaseURL() }}/auth/facebook" class="btn btn-login btn-block">
+                    <i class="fa fa-facebook"></i>
+                </a></div>
+        </div>
 
         <div class="registration">
             Not a member yet?

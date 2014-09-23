@@ -1,0 +1,28 @@
+.main-content{
+    margin-left: 0;
+}
+
+.sticky-header .header-section{
+    left: 0;
+}
+
+.sticky-header .menu-right {
+    margin-right: 0;
+}
+
+.main-content{
+    min-height: 0;
+}
+
+.modal-body input{
+    width: 100%;
+}
+
+#logo{
+    height:50px;
+    padding:10px;
+}
+
+.panel-heading button{
+    margin-top: -7px;
+}

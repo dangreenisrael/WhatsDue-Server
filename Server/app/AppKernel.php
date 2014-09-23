@@ -25,16 +25,12 @@ class AppKernel extends Kernel
             new Whatsdue\MainBundle\WhatsdueMainBundle(),
 
             new FOS\UserBundle\FOSUserBundle(),
-            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-
-            new Sonata\CoreBundle\SonataCoreBundle(),
-            new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Whatsdue\UserBundle\WhatsdueUserBundle(),
 
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle()
 
 
         );

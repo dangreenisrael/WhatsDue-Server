@@ -1,0 +1,5 @@
+#Stop REST naming conflicts
+students:
+    type:         rest
+    resource:     Whatsdue\MainBundle\Controller\StudentController
+    name_prefix:  student_

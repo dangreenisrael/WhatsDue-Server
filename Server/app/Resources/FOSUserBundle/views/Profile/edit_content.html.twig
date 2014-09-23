@@ -1,6 +1,20 @@
-<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form-signin">
+
+
+    <div class="form-signin-heading text-center">
+        <img class="sign-in-logo" src="{{ asset("admin/images/whatsdue-logo.png")}}" alt="">
     </div>
+
+    <div class="login-wrap">
+        {{ form_widget(form) }}
+
+        <button id="_submit" name="_submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
+            <i class="fa fa-check"></i>
+        </button>
+    </div>
+
 </form>
+
+
+
+

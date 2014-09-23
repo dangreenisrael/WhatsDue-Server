@@ -28,16 +28,16 @@ class Courses
     /**
      * @var string
      *
-     * @ORM\Column(name="courseName", type="string", length=255)
+     * @ORM\Column(name="courseName", type="string", length=50)
      */
     private $courseName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="courseDescription", type="string", length=500)
+     * @ORM\Column(name="instructorName", type="string", length=50)
      */
-    private $courseDescription;
+    private $instructorName;
 
 
     /**
@@ -202,26 +202,26 @@ class Courses
 
 
     /**
-     * Set courseDescription
+     * Set instructorName
      *
-     * @param string $courseDescription
+     * @param string $instructorName
      * @return Courses
      */
-    public function setCourseDescription($courseDescription)
+    public function setInstructorName($instructorName)
     {
-        $this->courseDescription = $courseDescription;
+        $this->instructorName = $instructorName;
 
         return $this;
     }
 
     /**
-     * Get courseDescription
+     * Get instructorName
      *
      * @return string
      */
-    public function getCourseDescription()
+    public function getInstructorName()
     {
-        return $this->courseDescription;
+        return $this->instructorName;
     }
 
     /**
@@ -308,4 +308,6 @@ class Courses
     {
         return $this->iosUsers;
     }
+
+
 }

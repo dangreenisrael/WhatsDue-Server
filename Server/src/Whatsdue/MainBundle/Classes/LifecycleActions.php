@@ -45,9 +45,9 @@ class LifecycleActions {
         }
 
         if ($entity instanceof Assignments) {
-            $entity->setCourseName($_SESSION['courseName']);
-            $entity->setCourseId($_SESSION['courseId']);
-            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($_SESSION['courseId']);
+           // $entity->setCourseName($_SESSION['courseName']);
+            //$entity->setCourseId($_SESSION['courseId']);
+            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($entity->getCourseId());
             /* Send Push Notifications */
             $title = $entity->getAssignmentName();
             $message = $entity->getDescription();
@@ -65,9 +65,9 @@ class LifecycleActions {
             $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($id);
             /* Send Push Notifications */
             $assignment_id = $entity->getId();
-            $title = "Assignment Update for ". $entity->getCourseName();
+            $title = "Assignment Update for ". $course->getCourseName();
             $message = $entity->getAssignmentName();
-            $tickerText = "Updated assignment for ".$entity->getCourseName();
+            $tickerText = "Updated assignment for ".$course->getCourseName();
             $androidIds = unserialize($course->getAndroidUsers());
             $this->notifications->androidNotifications($title, $message, $tickerText, $androidIds, true, $assignment_id);
         }
