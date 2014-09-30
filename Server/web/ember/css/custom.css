@@ -26,3 +26,12 @@
 .panel-heading button{
     margin-top: -7px;
 }
+
+.modal-body{
+    height: 200px;
+}
+
+#datetime{
+    position: absolute;
+    left: -1000px;
+}

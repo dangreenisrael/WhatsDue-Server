@@ -69,13 +69,3 @@ Ember.LinkView.reopen({
     attributeBindings: ['data-toggle']
 });
 
-/*
- jQuery Manipulation
- */
-
-function initChooser() {
-    setTimeout(function(){
-        $('.form_datetime').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-    }, 500)
-
-}

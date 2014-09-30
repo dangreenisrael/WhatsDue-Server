@@ -1,10 +1,21 @@
 /**
  * Created by Dan on 9/22/14.
  */
+function save(model){
+    model.save().then(function (post) {
+        $('#Picker').modal('hide');
+        $('.modal-body input').val('');
+    }).catch(function(reason){
+        if (reason.status == 500){
+            alert('Please fill everything out')
+        }
+    });
+}
+
 App.AssignmentsInfoController = Ember.ObjectController.extend({
     actions: {
         save: function() {
-            this.get('model').save();
+            save(this.get('model'));
         }
     }
 });
@@ -12,7 +23,7 @@ App.AssignmentsInfoController = Ember.ObjectController.extend({
 App.AssignmentsCourseController = Ember.ObjectController.extend({
     actions: {
         save: function() {
-            this.get('model').save();
+            save(this.get('model'));
         }
     }
 });
@@ -27,8 +38,8 @@ App.AssignmentsNewAssignmentController = Ember.ObjectController.extend({
                 assignment_name: data.assignment_name,
                 admin_id: data._data.admin_id
             });
-            assignment.save();
-            $('.modal-body input').val('');
+            save(assignment);
+
         }
     }
 });
@@ -41,8 +52,7 @@ App.AssignmentsNewCourseController = Ember.ObjectController.extend({
                 course_name: data.course_name,
                 instructor_name: data.instructor_name
             });
-            course.save();
-            $('.modal-body input').val('');
+            save(course);
         }
     }
 });

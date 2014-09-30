@@ -142,6 +142,7 @@ class StudentController extends Controller{
 
     public function postCourseEnrollAction($courseId){
         $primaryKey = $_POST['primaryKey'];
+        if ($primaryKey == "") return "No Push";
         $em = $this->getDoctrine()->getManager();
         $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
