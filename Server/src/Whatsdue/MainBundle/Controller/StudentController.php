@@ -85,7 +85,7 @@ class StudentController extends Controller{
         } else{
             $timestamp = json_decode($this->getHeader('timestamp'));
         }
-        return ($assignment->getLastModified() > $timestamp);
+        return ($assignment->getLastModified() >= $timestamp);
     }
     /**
      * @return array

@@ -156,6 +156,19 @@ class TeacherController extends Controller{
      * @return array
      * @View()
      */
+    public function deleteAssignmentsAction($Id){
+        $em = $this->getDoctrine()->getManager();
+        $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        $record->setArchived(true);
+        $em->flush();
+        return "Deleted";
+    }
+
+
+    /**
+     * @return array
+     * @View()
+     */
     public function getAssignmentAction($Id, Request $request){
         $em = $this->getDoctrine()->getManager();
         $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);

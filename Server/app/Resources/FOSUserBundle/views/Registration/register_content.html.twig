@@ -2,7 +2,7 @@
 
     <div class="form-signin-heading text-center">
         <h1 class="sign-title">Sign Up to Post</h1>
-        <img class="sign-in-logo" src="{{ asset("admin/images/Whatsduelogo-blue.png")}}" alt="">
+        <img class="sign-in-logo" src="{{ asset("ember/images/whatsdue-logo.png")}}" alt="">
     </div>
     <div class="login-wrap">
         {{ form_errors(form.plainPassword.first) }}
@@ -10,10 +10,10 @@
         {{ form_errors(form.username) }}
         {{ form_errors(form.email) }}
 
-        {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder' : 'User ID'}}) }}
-        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Password'}}) }}
-        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Re-Type'}}) }}
-        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'e-mail'}}) }}
+        {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder' : 'Choose User ID'}}) }}
+        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Choose Password'}}) }}
+        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Confirm Password'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'Your E-Mail'}}) }}
 
 
         <button value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">

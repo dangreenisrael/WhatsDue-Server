@@ -21,6 +21,7 @@ App.Assignment = DS.Model.extend({
     admin_id:            DS.attr('string'),
     assignment_name:     DS.attr('string'),
     due_date:            DS.attr('string'),
+    archived:            DS.attr('boolean'),
     course_id:           DS.belongsTo('course'),
     dueDate: function(){
         return moment(this.get('due_date')).format('dddd MMM D h:mm A');

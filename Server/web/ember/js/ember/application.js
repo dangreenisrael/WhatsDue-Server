@@ -34,7 +34,8 @@ var helperObj = {
         'assignments_info.hbs',
         'assignments_course.hbs',
         'assignments_newAssignment.hbs',
-        'assignments_newCourse.hbs'
+        'assignments_newCourse.hbs',
+        'assignments_trash.hbs'
     ]
 };
 

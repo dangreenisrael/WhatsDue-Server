@@ -23,6 +23,7 @@ security:
                 check_path: /login_check
                 default_target_path: ember
                 always_use_default_target_path: true
+
             oauth:
                 resource_owners:
                     facebook:      "/auth/check-facebook"

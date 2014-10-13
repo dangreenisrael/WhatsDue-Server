@@ -6,15 +6,15 @@
     <form action="#" class="form-horizontal ">
         <div class="form-group">
             <div class="col-md-6">
-                {{input type="text" value=course_name maxlength="20" class="form-control" size="16" placeholder="Course Name"}}
+                {{course_name}}
             </div>
             <div class="col-md-6">
-                {{input type="text" value=instructor_name maxlength="20" class="form-control" size="16" placeholder="Instructor Name"}}
+                {{instructor_name}}
             </div>
         </div>
 
     </form>
 </div>
 <div class="modal-footer">
-    <button  data-dismiss="modal" class="btn btn-primary" type="button" {{action 'save'}} >Save</button>
+    <button  data-dismiss="modal" class="btn btn-primary" type="button" {{action 'undelete'}} >undelete</button>
 </div>

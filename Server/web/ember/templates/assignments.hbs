@@ -1,11 +1,14 @@
 {{#each course in model}}
     <div class="col-sm-6">
-    <section class="panel">
+        <img id="add-first-assignment" src="/ember/images/add-first-assignment.png">
+
+        <section class="panel">
+
         <header class="panel-heading">
             {{#link-to 'assignments.course' course data-toggle="modal" href="#Picker"}}
                 <i class="fa fa-edit"></i>
+                {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
             {{/link-to}}
-            {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
             {{#link-to 'assignments.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
                 <i class="fa fa-plus"></i> Add Assignment
             {{/link-to}}
@@ -22,10 +25,12 @@
                 <tbody>
 
                 {{#each assignment in course.assignments}}
-                    {{#link-to 'assignments.info' assignment tagName="tr" class=assignment.hidden data-toggle="modal" href="#Picker"}}
+                    {{#unless assignment.archived}}
+                        {{#link-to 'assignments.info' assignment tagName="tr" class=assignment.hidden data-toggle="modal" href="#Picker"}}
                             <td> {{assignment.assignment_name}}</td>
                             <td> {{assignment.dueDate}}</td>
-                    {{/link-to}}
+                        {{/link-to}}
+                    {{/unless}}
                 {{/each}}
                 </tbody>
             </table>

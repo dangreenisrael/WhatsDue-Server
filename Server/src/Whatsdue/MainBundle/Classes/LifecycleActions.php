@@ -59,17 +59,20 @@ class LifecycleActions {
 
     public function preUpdate(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
-
         if ($entity instanceof Assignments) {
             $id = $entity->getCourseId();
             $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($id);
             /* Send Push Notifications */
             $assignment_id = $entity->getId();
-            $title = "Assignment Update for ". $course->getCourseName();
-            $message = $entity->getAssignmentName();
-            $tickerText = "Updated assignment for ".$course->getCourseName();
+            if ($entity->getArchived() == true){
+                $title = $entity->getAssignmentName() . "removed";
+                $tickerText = $title;
+            }else {
+                $title = "Assignment Update for " . $course->getCourseName();
+                $tickerText = "Updated assignment for " . $course->getCourseName();
+            }
             $androidIds = unserialize($course->getAndroidUsers());
-            $this->notifications->androidNotifications($title, $message, $tickerText, $androidIds, true, $assignment_id);
+            $this->notifications->androidNotifications($title, " ", $tickerText, $androidIds, true, $assignment_id);
         }
     }
 }

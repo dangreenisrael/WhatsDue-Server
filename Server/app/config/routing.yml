@@ -63,3 +63,11 @@ root:
         _controller: FrameworkBundle:Redirect:urlRedirect
         path: /secure
         permanent: true
+
+# Preventing 404 Errors
+dashboard_redirect:
+    path: /dashboard
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /
+        permanent: true

@@ -60,6 +60,13 @@ class Assignments
     private $dueDate;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="archived", type="boolean")
+     */
+    private $archived;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)

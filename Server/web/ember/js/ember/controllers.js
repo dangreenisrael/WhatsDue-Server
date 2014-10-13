@@ -16,6 +16,11 @@ App.AssignmentsInfoController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             save(this.get('model'));
+        },
+        remove: function(){
+            var model = this.get('model');
+            model.deleteRecord();
+            save(model);
         }
     }
 });
@@ -39,7 +44,8 @@ App.AssignmentsNewAssignmentController = Ember.ObjectController.extend({
                 admin_id: data._data.admin_id
             });
             save(assignment);
-
+            localStorage.setItem('firstAssignmentAdded', 'true');
+            $('#add-first-assignment').hide();
         }
     }
 });
@@ -53,8 +59,8 @@ App.AssignmentsNewCourseController = Ember.ObjectController.extend({
                 instructor_name: data.instructor_name
             });
             save(course);
+            localStorage.setItem('firstCourseAdded', 'true');
+            $('#add-first-course').hide();
         }
     }
 });
-
-

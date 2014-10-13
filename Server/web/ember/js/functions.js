@@ -1,19 +1,38 @@
 /**
  * Created by Dan on 9/23/14.
  */
+$(document).ready(function () {
+    /*
+     *   This should go in the app view
+     */
+    setTimeout(function(){
+        var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
+        var topPadding = $('html').height()-contentHeight+10;
+        $('#mainFooter').css('margin-top',topPadding);
+        if (localStorage.getItem('firstCourseAdded') == "true"){
+            $('#add-first-course').hide();
+        }
+        if (localStorage.getItem('firstAssignmentAdded') == "true"){
+            $('#add-first-assignment').hide();
+        }
+    }, 800)
 
+});
 
 /*
  jQuery Manipulation
  */
-console.log('hi')
 function initChooser() {
     setTimeout(function(){
 
-        var now = moment()._d;
 
+        var now = moment()._d;
         var date = $('#date');
         var time = $('#time');
+        var datetimeValue = $('#datetime').val();
+        date.val(moment(datetimeValue).format('dddd MMM Do'));
+        time.val(moment(datetimeValue).format('h:mm A'));
+
         date.datepicker({
             startDate: now
         }).on('changeDate', function(ev){
@@ -51,17 +70,10 @@ function initChooser() {
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
 
-
-
-
-
-
         var pickerButton = $('[href="#Picker"]');
         pickerButton.off();
         pickerButton.on('click', function(){
             console.log('click');
         });
-
-
     }, 500);
 }

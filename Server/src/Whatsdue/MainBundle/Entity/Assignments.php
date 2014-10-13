@@ -60,6 +60,13 @@ class Assignments
     private $dueDate;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="archived", type="boolean", nullable=true)
+     */
+    private $archived;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)
@@ -304,5 +311,36 @@ class Assignments
         $this->lastModified = $lastModified;
 
         return $this;
+    }
+
+    /**
+     * Set archived
+     *
+     * @param boolean $archived
+     * @return Assignments
+     */
+    public function setArchived($archived)
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * Get archived
+     *
+     * @return boolean 
+     */
+    public function getArchived()
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setArchivedValue()
+    {
+        $this->archived = 0;
     }
 }
