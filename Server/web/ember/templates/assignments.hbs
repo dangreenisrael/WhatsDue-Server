@@ -26,7 +26,7 @@
 
                 {{#each assignment in course.assignments}}
                     {{#unless assignment.archived}}
-                        {{#link-to 'assignments.info' assignment tagName="tr" class=assignment.hidden data-toggle="modal" href="#Picker"}}
+                        {{#link-to 'assignments.info' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
                             <td> {{assignment.assignment_name}}</td>
                             <td> {{assignment.dueDate}}</td>
                         {{/link-to}}

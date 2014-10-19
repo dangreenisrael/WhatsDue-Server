@@ -22,7 +22,6 @@ function loadView(){
 function initChooser() {
     setTimeout(function(){
 
-
         var date = $('#date');
         var time = $('#time');
         var datetimeValue = $('#datetime').val();
