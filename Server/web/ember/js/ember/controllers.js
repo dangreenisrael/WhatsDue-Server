@@ -12,6 +12,13 @@ function save(model){
     });
 }
 
+App.AssignmentsCourseController = Ember.ArrayController.extend({
+    content:[],
+    mainData: (function() {
+        return this.get('model')
+    }).property('content.@each.enrolled')
+});
+
 App.AssignmentsInfoController = Ember.ObjectController.extend({
     actions: {
         save: function() {

@@ -1,23 +1,20 @@
 /**
  * Created by Dan on 9/23/14.
  */
-$(document).ready(function () {
-    /*
-     *   This should go in the app view
-     */
-    setTimeout(function(){
-        var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
-        var topPadding = $('html').height()-contentHeight+10;
-        $('#mainFooter').css('margin-top',topPadding);
-        if (localStorage.getItem('firstCourseAdded') == "true"){
-            $('#add-first-course').hide();
-        }
-        if (localStorage.getItem('firstAssignmentAdded') == "true"){
-            $('#add-first-assignment').hide();
-        }
-    }, 800)
 
-});
+
+function loadView(){
+    if (localStorage.getItem('firstCourseAdded') != "true"){
+        $('#add-first-course').show();
+    }
+    if (localStorage.getItem('firstAssignmentAdded') != "true"){
+        $('#add-first-assignment').show();
+    }
+    var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
+    var topPadding = $('html').height()-contentHeight+10;
+    $('#mainFooter').css('margin-top',topPadding);
+}
+
 
 /*
  jQuery Manipulation
@@ -26,12 +23,20 @@ function initChooser() {
     setTimeout(function(){
 
 
-        var now = moment()._d;
         var date = $('#date');
         var time = $('#time');
         var datetimeValue = $('#datetime').val();
         date.val(moment(datetimeValue).format('dddd MMM Do'));
         time.val(moment(datetimeValue).format('h:mm A'));
+        function getISODateString(days)
+        {
+            var date = new Date();
+            date.setUTCHours(0,0,0,0);
+            date.setUTCDate(date.getDate() + days + 1);
+            return date.toISOString();
+        }
+        var now = moment(getISODateString(-2))._d;
+        console.log(now);
 
         date.datepicker({
             startDate: now

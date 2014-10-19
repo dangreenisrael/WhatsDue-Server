@@ -53,3 +53,7 @@ body{
 .panel-heading a{
     color: #49586e;
 }
+
+#add-first-assignment, #add-first-course{
+    display: none;
+}
