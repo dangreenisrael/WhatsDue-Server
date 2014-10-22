@@ -7,5 +7,5 @@
 /.idea/*
 /Server/.idea
 /Server/.idea/*
-#/Server/web/ember/.idea
-#/Server/web/ember/.idea/*
+/Server/web/ember/.idea
+/Server/web/ember/.idea/*
