@@ -13,6 +13,8 @@ function loadView(){
     var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
     var topPadding = $('html').height()-contentHeight+10;
     $('#mainFooter').css('margin-top',topPadding);
+
+
 }
 
 
@@ -20,6 +22,7 @@ function loadView(){
  jQuery Manipulation
  */
 function initChooser() {
+
     setTimeout(function(){
 
         var date = $('#date');
@@ -35,7 +38,6 @@ function initChooser() {
             return date.toISOString();
         }
         var now = moment(getISODateString(-2))._d;
-        console.log(now);
 
         date.datepicker({
             startDate: now
@@ -66,18 +68,18 @@ function initChooser() {
         }).on('show.timepicker', function(e) {
             time.val('8:30 AM');
         });
-        time.off('change');
+
         time.on('change',  function() {
-            console.log('change');
             var datetime = $(date).val()+" "+$(time).val();
             datetime = moment(datetime, "dddd MMM Do h:mm A");
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
 
-        var pickerButton = $('[href="#Picker"]');
-        pickerButton.off();
-        pickerButton.on('click', function(){
-            console.log('click');
-        });
+
     }, 500);
+
+
+
+
+
 }

@@ -12,6 +12,7 @@ function save(model){
     });
 }
 
+
 App.AssignmentsCourseController = Ember.ArrayController.extend({
     content:[],
     mainData: (function() {
@@ -22,12 +23,12 @@ App.AssignmentsCourseController = Ember.ArrayController.extend({
 App.AssignmentsInfoController = Ember.ObjectController.extend({
     actions: {
         save: function() {
-            save(this.get('model'));
+            save(this.get('model')).then( this.transitionToRoute('assignments') );
         },
         remove: function(){
             var model = this.get('model');
             model.deleteRecord();
-            save(model);
+            save(model).then( this.transitionToRoute('assignments') );
         }
     }
 });
@@ -36,6 +37,8 @@ App.AssignmentsCourseController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             save(this.get('model'));
+            this.transitionToRoute('assignments');
+
         }
     }
 });
@@ -53,6 +56,7 @@ App.AssignmentsNewAssignmentController = Ember.ObjectController.extend({
             save(assignment);
             localStorage.setItem('firstAssignmentAdded', 'true');
             $('#add-first-assignment').hide();
+            this.transitionToRoute('assignments');
         }
     }
 });
@@ -68,6 +72,7 @@ App.AssignmentsNewCourseController = Ember.ObjectController.extend({
             save(course);
             localStorage.setItem('firstCourseAdded', 'true');
             $('#add-first-course').hide();
+            this.transitionToRoute('assignments');
         }
     }
 });
