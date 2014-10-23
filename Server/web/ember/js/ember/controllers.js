@@ -23,12 +23,14 @@ App.AssignmentsCourseController = Ember.ArrayController.extend({
 App.AssignmentsInfoController = Ember.ObjectController.extend({
     actions: {
         save: function() {
-            save(this.get('model')).then( this.transitionToRoute('assignments') );
+            save(this.get('model'));
+            this.transitionToRoute('assignments');
         },
         remove: function(){
             var model = this.get('model');
             model.deleteRecord();
-            save(model).then( this.transitionToRoute('assignments') );
+            save(model)
+            this.transitionToRoute('assignments');
         }
     }
 });
@@ -38,7 +40,6 @@ App.AssignmentsCourseController = Ember.ObjectController.extend({
         save: function() {
             save(this.get('model'));
             this.transitionToRoute('assignments');
-
         }
     }
 });
