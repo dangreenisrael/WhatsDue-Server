@@ -52,7 +52,7 @@ class LifecycleActions {
             $title = $entity->getAssignmentName();
             $message = $entity->getDescription();
             $tickerText = "New assignment for ".$title;
-            $androidIds = unserialize($course->getAndroidUsers());
+            $androidIds = json_decode($course->getAndroidUsers());
             $this->notifications->androidNotifications($title, $message, $tickerText, $androidIds, false, false);
         }
     }
@@ -71,7 +71,7 @@ class LifecycleActions {
                 $title = "Assignment Update for " . $course->getCourseName();
                 $tickerText = "Updated assignment for " . $course->getCourseName();
             }
-            $androidIds = unserialize($course->getAndroidUsers());
+            $androidIds = json_decode($course->getAndroidUsers());
             $this->notifications->androidNotifications($title, " ", $tickerText, $androidIds, true, $assignment_id);
         }
     }

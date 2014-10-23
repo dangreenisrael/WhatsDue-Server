@@ -151,15 +151,15 @@ class StudentController extends Controller{
 
         if ($student->getPlatform() == "Android"){
             $subscribers   = $course->getAndroidUsers();
-            $subscribers   = unserialize($subscribers);
+            $subscribers   = json_decode($subscribers);
             if (@!in_array($pushId, $subscribers)) $subscribers[] = $pushId;
-            $course -> setAndroidUsers(serialize($subscribers));
+            $course -> setAndroidUsers(json_encode($subscribers));
 
         } else{
             $subscribers   = $course->getIosUsers();
-            $subscribers   = unserialize($subscribers);
+            $subscribers   = json_decode($subscribers);
             if (@!in_array($pushId, $subscribers)) $subscribers[] = $pushId;
-            $course -> setIosUsers(serialize($subscribers));
+            $course -> setIosUsers(json_encode($subscribers));
         }
 
 
