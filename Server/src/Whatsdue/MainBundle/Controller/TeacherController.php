@@ -18,8 +18,10 @@ use Whatsdue\MainBundle\Entity\Courses;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Controller\FOSRestController;
 
-class TeacherController extends Controller{
+
+class TeacherController extends FOSRestController{
 
 
     public function getHeader($header){
@@ -161,7 +163,8 @@ class TeacherController extends Controller{
         $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         $record->setArchived(true);
         $em->flush();
-        return "Deleted";
+
+        return $this->view('', 204);
     }
 
 
