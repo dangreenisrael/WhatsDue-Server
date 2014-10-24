@@ -5,11 +5,11 @@
         <section class="panel">
 
         <header class="panel-heading">
-            {{#link-to 'assignments.course' course data-toggle="modal" href="#Picker"}}
+            {{#link-to 'main.course' course data-toggle="modal" href="#Picker"}}
                 <i class="fa fa-edit"></i>
                 {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
             {{/link-to}}
-            {{#link-to 'assignments.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
+            {{#link-to 'main.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
                 <i class="fa fa-plus"></i> Add Assignment
             {{/link-to}}
         </header>
@@ -26,7 +26,7 @@
 
                 {{#each assignment in course.assignments}}
                     {{#unless assignment.archived}}
-                        {{#link-to 'assignments.info' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
+                        {{#link-to 'main.info' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
                             <td> {{assignment.assignment_name}}</td>
                             <td> {{assignment.dueDate}}</td>
                         {{/link-to}}

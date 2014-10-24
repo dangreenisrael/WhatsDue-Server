@@ -3,7 +3,7 @@
  */
 
 App.Router.map(function(){
-    this.resource('assignments', {path: '/'}, function(){
+    this.resource('main', {path: '/'}, function(){
         this.route('info', {path: 'assignment/:id'});
         this.route('course', {path: 'course/:id'});
         this.route('newAssignment', {path: 'course/:id/new'});
@@ -15,11 +15,11 @@ App.Router.map(function(){
 App.ApplicationRoute = Ember.Route.extend({
     actions:{
         close : function(){
-            this.transitionTo('assignments');
+            this.transitionTo('main');
         }
     }
 });
-App.AssignmentsRoute = Ember.Route.extend({
+App.MainRoute = Ember.Route.extend({
     model: function() {
         this.store.find('assignment');
         return this.store.find('course');
@@ -29,7 +29,7 @@ App.AssignmentsRoute = Ember.Route.extend({
     }
 });
 
-App.AssignmentsInfoRoute = Ember.Route.extend({
+App.MainInfoRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('assignment', params.id);
     },
@@ -38,7 +38,7 @@ App.AssignmentsInfoRoute = Ember.Route.extend({
     }
 });
 
-App.AssignmentsCourseRoute = Ember.Route.extend({
+App.MainCourseRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('course', params.id);
     },
@@ -47,7 +47,7 @@ App.AssignmentsCourseRoute = Ember.Route.extend({
     }
 });
 
-App.AssignmentsNewAssignmentRoute = Ember.Route.extend({
+App.MainNewAssignmentRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('course', params.id);
     },

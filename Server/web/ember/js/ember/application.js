@@ -3,7 +3,7 @@ var loaderObj = {
 
     templates : [
         'application.hbs',
-        'assignments.hbs'
+        'main.hbs'
     ]
 };
 
@@ -31,11 +31,11 @@ function loadTemplates(templates) {
 var helperObj = {
 
     templates : [
-        'assignments_info.hbs',
-        'assignments_course.hbs',
-        'assignments_newAssignment.hbs',
-        'assignments_newCourse.hbs',
-        'assignments_trash.hbs'
+        'main_info.hbs',
+        'main_course.hbs',
+        'main_newAssignment.hbs',
+        'main_newCourse.hbs',
+        'main_trash.hbs'
     ]
 };
 

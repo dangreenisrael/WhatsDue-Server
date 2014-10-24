@@ -28,8 +28,14 @@ function initChooser() {
         var date = $('#date');
         var time = $('#time');
         var datetimeValue = $('#datetime').val();
-        date.val(moment(datetimeValue).format('dddd MMM Do'));
-        time.val(moment(datetimeValue).format('h:mm A'));
+        if (datetimeValue == ""){
+            date.val('Enter Date');
+            time.val('Enter Time');
+        } else{
+            date.val(moment(datetimeValue).format('dddd MMM Do'));
+            time.val(moment(datetimeValue).format('h:mm A'));
+        }
+
         function getISODateString(days)
         {
             var date = new Date();
@@ -69,6 +75,7 @@ function initChooser() {
             time.val('8:30 AM');
         });
 
+
         time.on('change',  function() {
             var datetime = $(date).val()+" "+$(time).val();
             datetime = moment(datetime, "dddd MMM Do h:mm A");
@@ -76,10 +83,20 @@ function initChooser() {
         });
 
 
+
     }, 500);
+}
 
-
-
-
-
+function validateAssignment (){
+    var date = $('#date').val();
+    var name = $('#assignment-name').val();
+    console.log(date);
+    if (
+        (date != 'Date has passed') &&
+        (date != 'Invalid date') &&
+        (date != 'Enter Date') &&
+        (name != '')
+        ){
+        return true;
+    }
 }
