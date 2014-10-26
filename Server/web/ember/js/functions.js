@@ -2,6 +2,14 @@
  * Created by Dan on 9/23/14.
  */
 
+/* Extend jQuery */
+(function($){
+    $.expr[':'].text = function(obj, index, meta, stack){
+        return ($(obj).text() === meta[3])
+    };
+})(jQuery);
+
+/* End Extend jQuery */
 
 function loadView(){
     if (localStorage.getItem('firstCourseAdded') != "true"){
@@ -13,8 +21,6 @@ function loadView(){
     var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
     var topPadding = $('html').height()-contentHeight+10;
     $('#mainFooter').css('margin-top',topPadding);
-
-
 }
 
 
@@ -45,43 +51,65 @@ function initChooser() {
         }
         var now = moment(getISODateString(-2))._d;
 
+
+
+        /* Today's Date*/
+        var nowTemp = new Date();
+        var today = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+        /* Select Date in Picker:
+        $('.day').removeClass('active')
+        var dayMonth = moment($('#datetime').val()).format('D');
+        $(".day:not('.new, .old'):text("+dayMonth+")").addClass('active')
+        */
         date.datepicker({
-            startDate: now
-        }).on('changeDate', function(ev){
-
-            if (moment(ev.date).isAfter(now)){
-                date.datepicker('hide');
-            }else{
-                date.val('Date has passed');
+            onRender: function(date) {
+                return date.valueOf() < today.valueOf() ? 'disabled' : '';
             }
-        }).on('hide', function(ev){
-            if (moment(ev.date).isAfter(now)){
-                var pretty = moment(ev.date).format('dddd MMM Do');
-                date.val(pretty);
-                time.click();
-            }else{
-                date.val('Date has passed');
-                date.datepicker('show');
-            }
+            }).on('changeDate', function(ev){
 
+                if (moment(ev.date).isAfter(now)){
+                    date.datepicker('hide');
+                }else{
+                    date.val('Date has passed');
+                }
+            }).on('hide', function(ev){
+                if (moment(ev.date).isAfter(now)){
+                    var pretty = moment(ev.date).format('dddd MMM Do');
+                    date.val(pretty);
+                    time.click();
+                }else{
+                    date.val('Date has passed');
+                    date.datepicker('show');
+                }
         });
-
 
         time.timepicker({
             minuteStep: 15,
             showMeridian: true,
             defaultTime: '8:30 AM'
-        }).on('show.timepicker', function(e) {
-            time.val('8:30 AM');
         });
 
+        if (date.val() != 'Enter Date'){
+            $('.day').removeClass('active');
+            var dateTime = moment($('#datetime').val());
+            var dayMonth = dateTime.format('D');
+            var hour = dateTime.format('hh');
+            var minute = dateTime.format('mm');
+            var meridian = dateTime.format('A');
+            time.val(dateTime.format('hh:mm A'));
+            $(".day:not('.new, .old'):text("+dayMonth+")").addClass('active')
+            $('.bootstrap-timepicker-hour').val(hour);
+            $('.bootstrap-timepicker-minute').val(minute);
+            $('.bootstrap-timepicker-meridian').val(meridian);
+
+        }
 
         time.on('change',  function() {
             var datetime = $(date).val()+" "+$(time).val();
             datetime = moment(datetime, "dddd MMM Do h:mm A");
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
-
 
 
     }, 500);

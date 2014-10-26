@@ -57,3 +57,7 @@ body{
 #add-first-assignment, #add-first-course{
     display: none;
 }
+
+td.disabled{
+    color: #d3d3d3!important;
+}

@@ -12,13 +12,7 @@ App.Router.map(function(){
 });
 
 
-App.ApplicationRoute = Ember.Route.extend({
-    actions:{
-        close : function(){
-            this.transitionTo('main');
-        }
-    }
-});
+
 App.MainRoute = Ember.Route.extend({
     model: function() {
         this.store.find('assignment');

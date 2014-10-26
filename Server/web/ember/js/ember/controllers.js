@@ -36,6 +36,10 @@ App.MainInfoController = Ember.ObjectController.extend({
             model.deleteRecord();
             save(model, this);
             this.transitionToRoute('main');
+        },
+        close: function(){
+            this.get('model').rollback();
+            this.transitionToRoute('main');
         }
     }
 });
@@ -44,6 +48,10 @@ App.MainCourseController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             save(this.get('model'), this);
+            this.transitionToRoute('main');
+        },
+        close: function(){
+            this.get('model').rollback();
             this.transitionToRoute('main');
         }
     }
@@ -67,6 +75,10 @@ App.MainNewAssignmentController = Ember.ObjectController.extend({
             } else{
                 alert ('Please fill everything out');
             }
+        },
+        close: function(){
+            this.get('model').rollback();
+            this.transitionToRoute('main');
         }
     }
 });
@@ -82,6 +94,9 @@ App.MainNewCourseController = Ember.ObjectController.extend({
             save(course, this);
             localStorage.setItem('firstCourseAdded', 'true');
             $('#add-first-course').hide();
+        },
+        close: function(){
+            this.transitionToRoute('main');
         }
     }
 });
