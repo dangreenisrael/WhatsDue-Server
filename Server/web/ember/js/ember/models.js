@@ -3,7 +3,7 @@
  */
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    host: 'http://teachers.whatsdueapp.com/app_dev.php',
+    host: 'http://teachers.whatsdueapp.com',
     namespace: 'teacher'
 });
 
