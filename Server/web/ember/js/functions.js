@@ -21,6 +21,11 @@ function loadView(){
     var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
     var topPadding = $('html').height()-contentHeight+10;
     $('#mainFooter').css('margin-top',topPadding);
+
+    $('#Picker').on('shown.bs.modal', function (e) {
+        console.log('shoen')
+        $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
+    });
 }
 
 
@@ -113,6 +118,7 @@ function initChooser() {
 
 
     }, 500);
+
 }
 
 function validateAssignment (){
@@ -128,3 +134,5 @@ function validateAssignment (){
         return true;
     }
 }
+
+

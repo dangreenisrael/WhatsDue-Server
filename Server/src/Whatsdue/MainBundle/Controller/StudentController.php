@@ -28,7 +28,7 @@ class StudentController extends Controller{
 
     public function timestamp(){
         $date = new \DateTime();
-        return $date->format('U');
+        return $date->format('U')-4;
     }
 
     /******* Get a list of Courses ********/
@@ -171,7 +171,6 @@ class StudentController extends Controller{
         $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
         $uuid = $student->getUuid();
-
 
         $subscribers   = $course->getDeviceIds();
         $subscribers   = json_decode($subscribers, true);

@@ -71,7 +71,8 @@ App.MainNewAssignmentController = Ember.ObjectController.extend({
                 save(assignment, this);
                 localStorage.setItem('firstAssignmentAdded', 'true');
                 $('#add-first-assignment').hide();
-                console.log()
+                save(this.get('model'));
+                this.transitionToRoute('main');
             } else{
                 alert ('Please fill everything out');
             }

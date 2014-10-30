@@ -61,3 +61,15 @@ body{
 td.disabled{
     color: #d3d3d3!important;
 }
+
+.fa.big-middle{
+    font-size: 300px;
+    color: lightskyblue;
+    display: block;
+    width: 255px;
+    height: 255px;
+    line-height: 260px;
+    margin: 100px auto;
+
+
+}
