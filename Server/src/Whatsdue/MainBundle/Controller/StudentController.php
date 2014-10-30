@@ -142,30 +142,19 @@ class StudentController extends Controller{
 
     public function postCourseEnrollAction($courseId){
         $primaryKey = $_POST['primaryKey'];
-        if ($primaryKey == "") return "No Push";
+        if ($primaryKey == "") return "No UUID";
         $em = $this->getDoctrine()->getManager();
         $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+        $uuid = $student->getUuid();
 
-        $pushId = str_replace("_","|",$student->getPushId());
-
-        if ($student->getPlatform() == "Android"){
-            $subscribers   = $course->getAndroidUsers();
-            $subscribers   = json_decode($subscribers);
-            if (@!in_array($pushId, $subscribers)) $subscribers[] = $pushId;
-            $course -> setAndroidUsers(json_encode($subscribers));
-
-        } else{
-            $subscribers   = $course->getIosUsers();
-            $subscribers   = json_decode($subscribers);
-            if (@!in_array($pushId, $subscribers)) $subscribers[] = $pushId;
-            $course -> setIosUsers(json_encode($subscribers));
-        }
-
+        $subscribers   = $course->getDeviceIds();
+        $subscribers   = json_decode($subscribers, true);
+        if (@!in_array($uuid, $subscribers)) $subscribers[] = $uuid;
+        $course ->setDeviceIds(json_encode($subscribers));
 
         $em->flush();
-
-        return "success";
+        return "Added Student";
     }
 
     /**
@@ -180,30 +169,17 @@ class StudentController extends Controller{
         $em = $this->getDoctrine()->getManager();
         $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+        $uuid = $student->getUuid();
 
-        $pushId = str_replace("_","|",$student->getPushId());
 
-        if ($student->getPlatform() == "Android"){
-            $subscribers   = $course->getAndroidUsers();
-            $subscribers   = unserialize($subscribers);
-            if(($key = array_search($pushId, $subscribers)) !== false) {
-                unset($subscribers[$key]);
-            }
-            $course -> setAndroidUsers(serialize($subscribers));
+        $subscribers   = $course->getDeviceIds();
+        $subscribers   = json_decode($subscribers, true);
 
-        } else{
-            $subscribers   = $course->getIosUsers();
-            $subscribers   = unserialize($subscribers);
-            unset($subscribers[$pushId]);
-            if(($key = array_search($pushId, $subscribers)) !== false) {
-                unset($subscribers[$key]);
-            }
-            $course -> setIosUsers(serialize($subscribers));
+        if(($key = array_search($uuid, $subscribers)) !== false) {
+            unset($subscribers[$key]);
         }
-
+        $course ->setDeviceIds(json_encode($subscribers));
         $em->flush();
-
-
-        return "success";
+        return "Removed Student";
     }
 }

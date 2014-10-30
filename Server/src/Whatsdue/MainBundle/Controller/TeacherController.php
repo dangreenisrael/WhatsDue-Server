@@ -21,6 +21,10 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 
 
+use Whatsdue\MainBundle\Classes\PushNotifications;
+
+
+
 class TeacherController extends FOSRestController{
 
 
@@ -64,6 +68,8 @@ class TeacherController extends FOSRestController{
         $course->setCourseName($data->course->course_name);
         $course->setInstructorName($data->course->instructor_name);
         $course->setAdminId($username);
+        $course->setAndroidUsers('{}');
+        $course->setIosUsers('{}');
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
@@ -177,4 +183,21 @@ class TeacherController extends FOSRestController{
         $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         return array('assignment' => $record);
     }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function pushAction()
+    {
+
+        $notifications = new PushNotifications($this->container);
+
+        $ids = array("39cd2c28c433efca","1217B25E-4B64-483E-A0FE-6FA0F7546F0A");
+        $notifications->sendNotifications("Title", "message", $ids);
+
+        return "sent";
+    }
+
 }

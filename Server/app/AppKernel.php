@@ -30,8 +30,9 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new HWI\Bundle\OAuthBundle\HWIOAuthBundle()
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
 
+            new RMS\PushNotificationsBundle\RMSPushNotificationsBundle()
 
         );
 

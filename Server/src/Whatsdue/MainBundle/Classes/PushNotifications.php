@@ -7,20 +7,23 @@
  */
 
 namespace Whatsdue\MainBundle\Classes;
+use RMS\PushNotificationsBundle\Message\iOSMessage;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Whatsdue\MainBundle\Entity\Students;
 
 define( 'API_ACCESS_KEY', "AIzaSyDbUaBlRrYZpg2GPLqZTls-SAGIX1cBDek" );
 class PushNotifications {
 
-    public function androidNotifications($title, $message, $tickerText, $pushIds, $alert, $assignmentId){
-        $pushIds = str_replace("|","_",$pushIds);
+    public function __construct(ContainerInterface $container){
+        $this->container = $container;
+        }
+
+    private function androidNotifications($title, $message, $pushIds){
         // prep the bundle
         $msg = array
         (
             'title'			=> $title,
             'message' 		=> $message,
-            'tickerText'	=> $tickerText,
-            'alert'         => $alert,
-            'assignmentId'  => $assignmentId,
             'vibrate'	    => 1,
             'sound'		    => 1
         );
@@ -47,4 +50,37 @@ class PushNotifications {
         $result = curl_exec($ch );
         curl_close( $ch );
     }
+
+    private function iosNotifications($text, $pushIds){
+        $message = new iOSMessage();
+        $message->setMessage($text);
+
+        foreach ($pushIds as $pushId){
+            $message->setDeviceIdentifier($pushId);
+            $this->container->get('rms_push_notifications')->send($message);
+        }
+
+    }
+
+    public function sendNotifications($title, $message, $deviceIds){
+        $repository = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Students');
+        $androidUsers = [];
+        $iosUsers = [];
+        foreach ($deviceIds as $uuid){
+            $student = $repository->findOneBy(
+                array('uuid' => $uuid)
+            );
+            if ($student->getPlatform() == "Android"){
+                $androidUsers[] = $student->getPushId();
+            } else{
+                $iosUsers[] = $student->getPushId();
+            }
+        }
+        /*
+         * Send the Notifications
+         */
+        $this->androidNotifications($title, $message, $androidUsers);
+        $this->iosNotifications($message, $iosUsers);
+    }
+
 } 

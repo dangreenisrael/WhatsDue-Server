@@ -18,12 +18,12 @@ use Whatsdue\MainBundle\Classes\PushNotifications;
 class LifecycleActions {
 
     protected $container;
-    protected $notifications;
+    protected $pushNotifications;
     protected $request;
 
     public function __construct(ContainerInterface $container){
         $this->container = $container;
-        $this->notifications = new PushNotifications();
+        $this->pushNotifications = new PushNotifications($container);
         $this->request = new Request();
     }
 
@@ -35,6 +35,7 @@ class LifecycleActions {
         return $this->getContainer()->get('security.context')->getToken()->getUser();
     }
 
+
     public function prePersist(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
 
@@ -45,15 +46,11 @@ class LifecycleActions {
         }
 
         if ($entity instanceof Assignments) {
-           // $entity->setCourseName($_SESSION['courseName']);
-            //$entity->setCourseId($_SESSION['courseId']);
             $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($entity->getCourseId());
-            /* Send Push Notifications */
-            $title = $entity->getAssignmentName();
-            $message = $entity->getDescription();
-            $tickerText = "New assignment for ".$title;
-            $androidIds = json_decode($course->getAndroidUsers());
-            $this->notifications->androidNotifications($title, $message, $tickerText, $androidIds, false, false);
+            $title = $course->getCourseName();
+            $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
+            $deviceIds = json_decode($course->getDeviceIds());
+            $this->pushNotifications->sendNotifications($title, $message, $deviceIds);
         }
     }
 
@@ -65,14 +62,15 @@ class LifecycleActions {
             /* Send Push Notifications */
             $assignment_id = $entity->getId();
             if ($entity->getArchived() == true){
-                $title = $entity->getAssignmentName() . "removed";
-                $tickerText = $title;
+                $title = 'Assignment Removed';
+                $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was removed.';
+
             }else {
-                $title = "Assignment Update for " . $course->getCourseName();
-                $tickerText = "Updated assignment for " . $course->getCourseName();
+                $title = 'Assignment Updated';
+                $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
             }
-            $androidIds = json_decode($course->getAndroidUsers());
-            $this->notifications->androidNotifications($title, " ", $tickerText, $androidIds, true, $assignment_id);
+            $deviceIds = json_decode($course->getDeviceIds());
+            $this->pushNotifications->sendNotifications($title, $message, $deviceIds);
         }
     }
 }

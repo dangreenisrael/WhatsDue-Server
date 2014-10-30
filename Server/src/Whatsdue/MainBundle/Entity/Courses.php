@@ -47,19 +47,13 @@ class Courses
      */
     private $adminId;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="androidUsers", type="text", nullable=true)
-     */
-    private $androidUsers;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="iosUsers", type="text", nullable=true)
+     * @ORM\Column(name="deviceIds", type="text", nullable=true)
      */
-    private $iosUsers;
+    private $deviceIds;
 
 
     /**
@@ -263,50 +257,29 @@ class Courses
         return $this;
     }
 
+
+
     /**
-     * Set androidUsers
+     * Set deviceIds
      *
-     * @param string $androidUsers
+     * @param string $deviceIds
      * @return Courses
      */
-    public function setAndroidUsers($androidUsers)
+    public function setDeviceIds($deviceIds)
     {
-        $this->androidUsers = $androidUsers;
+        $this->deviceIds = $deviceIds;
 
         return $this;
     }
 
     /**
-     * Get androidUsers
+     * Get deviceIds
      *
      * @return string 
      */
-    public function getAndroidUsers()
+    public function getDeviceIds()
     {
-        return $this->androidUsers;
-    }
-
-    /**
-     * Set iosUsers
-     *
-     * @param string $iosUsers
-     * @return Courses
-     */
-    public function setIosUsers($iosUsers)
-    {
-        $this->iosUsers = $iosUsers;
-
-        return $this;
-    }
-
-    /**
-     * Get iosUsers
-     *
-     * @return string 
-     */
-    public function getIosUsers()
-    {
-        return $this->iosUsers;
+        return $this->deviceIds;
     }
 
 
