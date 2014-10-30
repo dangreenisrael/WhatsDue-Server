@@ -94,6 +94,7 @@ class StudentController extends Controller{
 
     public function getAssignmentsAction(){
         $courses = json_decode($this->getHeader('courses'));
+        $currentTime = $this->timestamp();
         $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
 
         $assignments = $repo
@@ -105,7 +106,7 @@ class StudentController extends Controller{
         $data = array(
             "assignment"=>$assignments,
             "meta"=>array(
-                "timestamp"=> $this->timestamp()
+                "timestamp"=> $currentTime
             )
         );
         return $data;
