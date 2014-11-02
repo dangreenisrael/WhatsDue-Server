@@ -12,16 +12,7 @@
 /* End Extend jQuery */
 
 function loadView(){
-    if (localStorage.getItem('firstCourseAdded') != "true"){
-        $('#add-first-course').show();
-    }
-    if (localStorage.getItem('firstAssignmentAdded') != "true"){
-        $('#add-first-assignment').show();
-    }
-
     if ($(window).height() > $('.main-content').height()) {
-
-
         $('#mainFooter').css({'position': 'fixed', 'bottom':0});
     }
     $('#Picker').on('shown.bs.modal', function (e) {
@@ -138,3 +129,8 @@ function validateAssignment (){
 }
 
 
+function showModal(){
+    setTimeout( function(){
+        $('#Picker').modal('show');
+    },700)
+}

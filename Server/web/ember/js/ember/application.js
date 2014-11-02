@@ -35,7 +35,8 @@ var helperObj = {
         'main_course.hbs',
         'main_newAssignment.hbs',
         'main_newCourse.hbs',
-        'main_trash.hbs'
+        'main_trash.hbs',
+        'main_welcome.hbs'
     ]
 };
 
@@ -68,5 +69,12 @@ var App = Ember.Application.create();
 
 Ember.LinkView.reopen({
     attributeBindings: ['data-toggle']
+});
+
+
+$.get('http://teachers.whatsdueapp.com/app_dev.php/teacher/username', function(username){
+    Ember.Handlebars.helper('userName', function() {
+        return new Ember.Handlebars.SafeString(username)
+    });
 });
 

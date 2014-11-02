@@ -8,6 +8,7 @@ App.Router.map(function(){
         this.route('course', {path: 'course/:id'});
         this.route('newAssignment', {path: 'course/:id/new'});
         this.route('newCourse', {path: 'new-course'});
+        this.route('welcome', {path: 'welcome'});
     });
 });
 
@@ -20,6 +21,11 @@ App.MainRoute = Ember.Route.extend({
     },
     afterModel: function(){
         initChooser();
+        var count = this.modelFor('main').get('length');
+        if (count == 0){
+            this.transitionTo('main.welcome');
+        }
+
     }
 });
 
@@ -47,5 +53,20 @@ App.MainNewAssignmentRoute = Ember.Route.extend({
     },
     afterModel: function(){
         initChooser();
+    }
+});
+
+App.MainWelcomeRoute = Ember.Route.extend({
+    model: function(){
+        return "";
+    },
+    afterModel: function(){
+        showModal()
+    },
+    actions: {
+        addCourse: function () {
+            showModal();
+            this.transitionTo('main.newCourse');
+        }
     }
 });

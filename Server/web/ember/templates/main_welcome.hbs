@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Welcome to WhatsDue</h4>
+</div>
+
+<div class="modal-body">
+
+    <p>Hey, {{userName}}</p>
+    <p>
+        Here's how to use WhatsDue. (Do the same thing for each course)
+    </p>
+    <ol>
+        <li>
+            Click <strong>"Add a Course"</strong> and fill in the details
+        </li>
+        <li>
+            Click <strong>"Add an Assignment"</strong> and do the same
+        </li>
+        <li>
+            Tell your students to search for <strong>{{userName}}</strong> in the app.
+        </li>
+    </ol>
+   <p>
+       If you have any questions, you can get a hold of us by email or Skype 24/7
+   </p>
+    <p>
+        Thanks for using WhatsDue
+    </p>
+    <p>
+        Dan & Aaron
+    </p>
+</div>
+
+<div class="modal-footer">
+    <button  data-dismiss="modal" class="btn btn-primary" type="button" {{action 'addCourse'}} >Add a Course</button>
+</div>

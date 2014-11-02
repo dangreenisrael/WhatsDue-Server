@@ -41,6 +41,14 @@ class TeacherController extends FOSRestController{
      * @return array
      * @View()
      */
+    public function getUsernameAction(){
+        return $this->getUser()->getUsername();
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
     public function optionsCoursesAction(){
         return null;
     }
