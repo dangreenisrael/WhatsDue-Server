@@ -68,8 +68,7 @@ class TeacherController extends FOSRestController{
         $course->setCourseName($data->course->course_name);
         $course->setInstructorName($data->course->instructor_name);
         $course->setAdminId($username);
-        $course->setAndroidUsers('{}');
-        $course->setIosUsers('{}');
+        $course->setDeviceIds('{}');
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
