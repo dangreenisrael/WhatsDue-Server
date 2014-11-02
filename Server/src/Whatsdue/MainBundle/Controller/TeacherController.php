@@ -101,6 +101,20 @@ class TeacherController extends FOSRestController{
     }
 
 
+    /**
+     * @return array
+     * @View()
+     */
+    public function deleteCourseAction($Id){
+        $em = $this->getDoctrine()->getManager();
+        $record = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
+        $record->setArchived(true);
+        $em->flush();
+
+        return $this->view('', 204);
+    }
+
+
     /*
      * Assignments Stuff
      */

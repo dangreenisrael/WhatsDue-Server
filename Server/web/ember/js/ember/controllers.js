@@ -21,7 +21,7 @@ App.MainCourseController = Ember.ArrayController.extend({
     }).property('content.@each.enrolled')
 });
 
-App.MainInfoController = Ember.ObjectController.extend({
+App.MainAssignmentController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             if (validateAssignment() == true) {
@@ -48,6 +48,12 @@ App.MainCourseController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             save(this.get('model'), this);
+            this.transitionToRoute('main');
+        },
+        remove: function(){
+            var model = this.get('model');
+            model.deleteRecord();
+            save(model, this);
             this.transitionToRoute('main');
         },
         close: function(){

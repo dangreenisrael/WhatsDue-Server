@@ -31,7 +31,7 @@ function loadTemplates(templates) {
 var helperObj = {
 
     templates : [
-        'main_info.hbs',
+        'main_assignment.hbs',
         'main_course.hbs',
         'main_newAssignment.hbs',
         'main_newCourse.hbs',

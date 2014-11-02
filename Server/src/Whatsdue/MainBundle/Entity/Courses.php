@@ -55,6 +55,13 @@ class Courses
      */
     private $deviceIds;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="archived", type="boolean", nullable=true)
+     */
+    private $archived;
+
 
     /**
      * @var integer
@@ -280,6 +287,37 @@ class Courses
     public function getDeviceIds()
     {
         return $this->deviceIds;
+    }
+
+    /**
+     * Set archived
+     *
+     * @param boolean $archived
+     * @return Assignments
+     */
+    public function setArchived($archived)
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * Get archived
+     *
+     * @return boolean
+     */
+    public function getArchived()
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setArchivedValue()
+    {
+        $this->archived = 0;
     }
 
 

@@ -18,12 +18,14 @@ function loadView(){
     if (localStorage.getItem('firstAssignmentAdded') != "true"){
         $('#add-first-assignment').show();
     }
-    var contentHeight = $('.header-section').height()+$('.page-heading').height()+$('.wrapper').height()+$('#main-footer').height();
-    var topPadding = $('html').height()-contentHeight+10;
-    $('#mainFooter').css('margin-top',topPadding);
 
+    if ($(window).height() > $('.main-content').height()) {
+
+
+        $('#mainFooter').css({'position': 'fixed', 'bottom':0});
+    }
     $('#Picker').on('shown.bs.modal', function (e) {
-        console.log('shoen')
+        console.log('shown')
         $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
     });
 }

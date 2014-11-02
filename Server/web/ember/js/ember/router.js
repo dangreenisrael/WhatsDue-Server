@@ -4,7 +4,7 @@
 
 App.Router.map(function(){
     this.resource('main', {path: '/'}, function(){
-        this.route('info', {path: 'assignment/:id'});
+        this.route('assignment', {path: 'assignment/:id'});
         this.route('course', {path: 'course/:id'});
         this.route('newAssignment', {path: 'course/:id/new'});
         this.route('newCourse', {path: 'new-course'});
@@ -23,7 +23,7 @@ App.MainRoute = Ember.Route.extend({
     }
 });
 
-App.MainInfoRoute = Ember.Route.extend({
+App.MainAssignmentRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('assignment', params.id);
     },
