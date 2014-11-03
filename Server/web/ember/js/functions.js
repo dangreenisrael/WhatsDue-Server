@@ -18,6 +18,12 @@ function loadView(){
     $('#Picker').on('shown.bs.modal', function (e) {
         console.log('shown')
         $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
+
+        $.ajax( "http://teachers.whatsdueapp.com/app_dev.php/teacher/username" )
+            .fail(function() {
+                alert( "You need to log back in again" );
+                window.location = '/logout';
+            })
     });
 }
 

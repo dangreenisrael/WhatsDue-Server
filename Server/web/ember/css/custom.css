@@ -89,4 +89,8 @@ td.disabled{
         margin-top: 10px;
         width: 100%;
     }
+    .notification-menu li:first-child .dropdown-menu{
+        margin-right: 0!important;;
+    }
 }
+
