@@ -4,8 +4,8 @@
 
 App.Router.map(function(){
     this.resource('main', {path: '/'}, function(){
-        this.route('assignment', {path: 'assignment/:id'});
-        this.route('course', {path: 'course/:id'});
+        this.route('editAssignment', {path: 'edit-assignment/assignment/:id'});
+        this.route('editCourse', {path: 'edit-course/:id'});
         this.route('newAssignment', {path: 'course/:id/new'});
         this.route('newCourse', {path: 'new-course'});
         this.route('welcome', {path: 'welcome'});
@@ -25,11 +25,17 @@ App.MainRoute = Ember.Route.extend({
         if (count == 0){
             this.transitionTo('main.welcome');
         }
-
+    },
+    actions: {
+        invalidateModel: function() {
+            Ember.Logger.log('Route is now refreshing...');
+            this.refresh();
+        }
     }
 });
 
-App.MainAssignmentRoute = Ember.Route.extend({
+
+App.MainEditAssignmentRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('assignment', params.id);
     },
@@ -38,7 +44,7 @@ App.MainAssignmentRoute = Ember.Route.extend({
     }
 });
 
-App.MainCourseRoute = Ember.Route.extend({
+App.MainEditCourseRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('course', params.id);
     },

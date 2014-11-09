@@ -10,14 +10,11 @@
         <div class="pull-left">
             <img id="logo" src="/ember/images/whatsdue-logo.png"/>
         </div>
-        <span>
-
-        <span>
         <div class="menu-right">
             <ul class="notification-menu">
                 <li>
                     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <strong>{{userName}}</strong>
+                        <i class="fa fa-info-circle"></i> <strong>{{userName}}</strong>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
@@ -29,21 +26,10 @@
             </ul>
         </div>
         <!--notification menu end -->
-
     </div>
     <!-- header section end-->
 
-    <!-- page heading start-->
-    <div class="page-heading">
-        <h3>
 
-            {{#link-to 'main.newCourse' tag="i" class="fa fa-plus-square-o" data-toggle="modal" href="#Picker"}}
-                Add Course
-            {{/link-to}}
-        </h3>
-
-    </div>
-    <!-- page heading end-->
 
     <!--body wrapper start-->
     <div class="wrapper">
@@ -52,16 +38,17 @@
     </div>
     <!--body wrapper end-->
 
-    <!--footer section start-->
-    <footer id="mainFooter">
-        2014 &copy; WhatsDue
-    </footer>
-    <!--footer section end-->
 
 
     </div>
     <!-- main content end-->
 </section>
+<!--footer section start-->
+<footer id="mainFooter">
+    2014 &copy; WhatsDue
+</footer>
+<!--footer section end-->
+
 
 <div class="overlay" style="display: none">
     

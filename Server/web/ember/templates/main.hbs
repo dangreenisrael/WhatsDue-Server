@@ -1,44 +1,71 @@
-{{#each course in model}}
-    <div class="col-sm-6">
+<div class="row">
+    <div class="col-sm-4 col-md-3">
 
-        <section class="panel">
+        <!-- page heading start-->
+        <div class="sidebar panel panel-default">
 
-        <header class="panel-heading">
-            {{#link-to 'main.course' course data-toggle="modal" href="#Picker"}}
-                <i class="fa fa-edit"></i>
-                {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
-            {{/link-to}}
-            {{#link-to 'main.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
-                <i class="fa fa-plus"></i> Add Assignment
-            {{/link-to}}
-        </header>
-        <div class="panel-body">
-
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Assignment Name</th>
-                    <th>Due Date</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                {{#each assignment in course.assignments}}
-                    {{#unless assignment.archived}}
-                        {{#link-to 'main.assignment' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
-                            <td> {{assignment.assignment_name}}</td>
-                            <td> {{assignment.dueDate}}</td>
-                        {{/link-to}}
-                    {{/unless}}
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{#link-to 'main.newCourse' tag="i" class="fa fa-plus-square-o pointer" data-toggle="modal" href="#Picker"}}
+                        Add Course
+                    {{/link-to}}
+                </h3>
+            </div>
+            <div class="panel-body">
+               <ul class="draggable">
+                   <li id="0Panel"> </li>
+                {{#each course in activeCourses}}
+                    {{liScrollToId course.course_name course.id}}
                 {{/each}}
-                </tbody>
-            </table>
+               </ul>
+            </div>
         </div>
-    </section>
+        <!-- page heading end-->
+
+
+    </div>
+    <div class="col-sm-8 col-md-9">
+        <ul class="courses">
+
+        {{#each course in activeCourses}}
+            <li class="col-md-12 panel ui-state-default" {{bindAttr id="course.id"}}>
+                <header class="panel-heading">
+                    {{#link-to 'main.editCourse' course data-toggle="modal" href="#Picker"}}
+                        <i class="fa fa-edit"></i>
+                        {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
+                    {{/link-to}}
+                    {{#link-to 'main.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
+                        <i class="fa fa-plus"></i> Add Assignment
+                    {{/link-to}}
+                </header>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Due Date</th>
+                            <th>Name</th>
+                            <th>Description </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {{#each assignment in course.assignments}}
+                            {{#unless assignment.archived}}
+                                {{#link-to 'main.editAssignment' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
+                                    <td> {{assignment.dueDate}}</td>
+                                    <td> {{assignment.assignment_name}}</td>
+                                    <td> {{assignment.description}} </td>
+                                {{/link-to}}
+                            {{/unless}}
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        {{/each}}
+        </ul>
+    </div>
 </div>
-{{/each}}
-
-
 <div class="modal fade" id="Picker" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -46,4 +73,3 @@
         </div>
     </div>
 </div>
-

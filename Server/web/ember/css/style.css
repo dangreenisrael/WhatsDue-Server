@@ -3749,7 +3749,7 @@ ul.activity-list .activity-desk h5 a {
     margin-bottom: 10px;
     text-align: center;
     background: #51d4cc;
-   margin-left: -15px;
+    margin-left: -15px;
     margin-right: -15px;
     margin-top: -15px;
     padding: 56px 20px;
@@ -3779,7 +3779,7 @@ ul.activity-list .activity-desk h5 a {
 }
 
 .clndr-previous-button{
-   position: relative;
+    position: relative;
     top: -30px;
 }
 

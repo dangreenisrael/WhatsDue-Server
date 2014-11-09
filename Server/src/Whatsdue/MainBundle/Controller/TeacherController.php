@@ -156,7 +156,7 @@ class TeacherController extends FOSRestController{
         $assignment = new Assignments();
         $assignment->setAssignmentName($data->assignment->assignment_name);
         $assignment->setCourseId($data->assignment->course_id);
-        $assignment->setDescription(" ");
+        $assignment->setDescription($data->assignment->description);
         $assignment->setAdminId($username);
         $assignment->setDueDate($data->assignment->due_date);
         $em = $this->getDoctrine()->getManager();
@@ -175,6 +175,7 @@ class TeacherController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         $record->setDueDate($data->assignment->due_date);
+        $record->setDescription($data->assignment->description);
         $record->setAssignmentName($data->assignment->assignment_name);
 
         $em->flush();
@@ -199,10 +200,28 @@ class TeacherController extends FOSRestController{
      * @return array
      * @View()
      */
-    public function getAssignmentAction($Id, Request $request){
+    public function getAssignmentAction($Id){
         $em = $this->getDoctrine()->getManager();
         $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         return array('assignment' => $record);
+    }
+
+    /*
+     * Settings
+     */
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function getSettingsAction($setting){
+        $settingsSerialized = $this->getUser()->getSettings();
+        $settings = json_decode(stripslashes($settingsSerialized),true);
+        if (@$setting = $settings[$setting]){
+            return $setting;
+        }else{
+            return " ";
+        }
     }
 
     /**
@@ -210,15 +229,18 @@ class TeacherController extends FOSRestController{
      * @View()
      */
 
-    public function pushAction()
-    {
-
-        $notifications = new PushNotifications($this->container);
-
-        $ids = array("39cd2c28c433efca","1217B25E-4B64-483E-A0FE-6FA0F7546F0A");
-        $notifications->sendNotifications("Title", "message", $ids);
-
-        return "sent";
+    public function putSettingsAction($settingPair){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('WhatsdueMainBundle:User')->find($this->getUser()->getId());
+        $settingsSerialized = $user->getSettings();
+        $settings = json_decode(stripslashes($settingsSerialized),true);
+        $settingPair = explode("-",$settingPair);
+        $settingName = $settingPair[0];
+        $settingValue = $settingPair[1];
+        $settings[$settingName] = $settingValue;
+        $settingsSerialized = json_encode($settings);
+        $user->setSettings($settingsSerialized);
+        $em->flush();
+        return $settings;
     }
-
 }

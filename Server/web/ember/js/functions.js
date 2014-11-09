@@ -12,7 +12,7 @@
 /* End Extend jQuery */
 
 function loadView(){
-    if ($(window).height() > $('.main-content').height()) {
+    if ($(window).height()-50 > $('.main-content').height()) {
         $('#mainFooter').css({'position': 'fixed', 'bottom':0});
     }
     $('#Picker').on('shown.bs.modal', function (e) {
@@ -21,10 +21,12 @@ function loadView(){
 
         $.ajax( "http://teachers.whatsdueapp.com/app_dev.php/teacher/username" )
             .fail(function() {
-                alert( "You need to log back in again" );
+                alert( "You've been logged out due to inactivity" );
                 window.location = '/logout';
             })
     });
+    courseUpdate();
+    resizePage();
 }
 
 
@@ -39,8 +41,8 @@ function initChooser() {
         var time = $('#time');
         var datetimeValue = $('#datetime').val();
         if (datetimeValue == ""){
-            date.val('Enter Date');
-            time.val('Enter Time');
+            date.val('Click to choose date');
+            time.val('Adjust time below');
         } else{
             date.val(moment(datetimeValue).format('dddd MMM Do'));
             time.val(moment(datetimeValue).format('h:mm A'));
@@ -139,4 +141,66 @@ function showModal(){
     setTimeout( function(){
         $('#Picker').modal('show');
     },700)
+}
+
+
+function courseUpdate(){
+    var panelList = $('.draggable');
+    panelList.disableSelection();
+    panelList.sortable({
+        // Only make the .panel-heading child elements support dragging.
+        // Omit this to make the entire <li>...</li> draggable.
+        handle: '.fa-sort',
+        items: "li",
+        update: function(e,ui) {
+            var order = panelList.sortable("toArray").join();
+            $.ajax({
+                url: "http://teachers.whatsdueapp.com/app_dev.php/teacher/settings/order-" + order,
+                type: 'PUT',
+                success: function (order) {
+                    console.log(order)
+                }
+            });
+            var mainPanels = $('ul.courses');
+            var panelOrder = order.replace(/Panel/g, '');
+            $.each(panelOrder.split(','), function (i, id) {
+                $("#" + id).appendTo(mainPanels);
+
+            });
+        }
+    });
+
+    $.get('http://teachers.whatsdueapp.com/app_dev.php/teacher/settings/order', function(order){
+        if (order) {
+            $.each(order.split(','), function (i, id) {
+                $("#" + id).appendTo(panelList);
+            });
+
+            var mainPanels = $('ul.courses');
+            var panelOrder = order.replace(/Panel/g, '');
+            $.each(panelOrder.split(','), function (i, id) {
+                $("#" + id).appendTo(mainPanels);
+
+            });
+        }
+    });
+
+}
+
+
+function resizePage(){
+    var sidebar = $('.sidebar.panel');
+    sidebar.width(sidebar.parent('div').width())
+}
+$( window ).resize(function(){
+    var sidebar = $('.sidebar.panel');
+    sidebar.width(sidebar.parent('div').width())
+});
+
+
+function scrollToId(id){
+    var target = ($('#'+id).offset().top)-105;
+    $('html,body').animate({
+        scrollTop: target
+    }, 500);
 }

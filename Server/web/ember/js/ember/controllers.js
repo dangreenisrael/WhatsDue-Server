@@ -14,14 +14,18 @@ function save(model, context){
     });
 }
 
-App.MainCourseController = Ember.ArrayController.extend({
+App.MainController = Ember.ArrayController.extend({
     content:[],
-    mainData: (function() {
-        return this.get('model')
-    }).property('content.@each.enrolled')
+    activeCourses: (function() {
+        return this.get('model').filterBy('archived',false);
+    }).property('model.@each.archived'),
+    getLatest: function() {
+        Ember.Logger.log('Controller requesting route to refresh...');
+        this.send('invalidateModel');
+    }
 });
 
-App.MainAssignmentController = Ember.ObjectController.extend({
+App.MainEditAssignmentController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             if (validateAssignment() == true) {
@@ -44,7 +48,7 @@ App.MainAssignmentController = Ember.ObjectController.extend({
     }
 });
 
-App.MainCourseController = Ember.ObjectController.extend({
+App.MainEditCourseController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             save(this.get('model'), this);
@@ -54,6 +58,7 @@ App.MainCourseController = Ember.ObjectController.extend({
             var model = this.get('model');
             model.deleteRecord();
             save(model, this);
+            App.__container__.lookup("controller:main").send('getLatest');
             this.transitionToRoute('main');
         },
         close: function(){
@@ -69,10 +74,11 @@ App.MainNewAssignmentController = Ember.ObjectController.extend({
             if (validateAssignment() == true) {
                 var data = this.get('model');
                 var assignment = this.store.createRecord('assignment', {
-                    course_id: data,
-                    due_date: data.due_date,
-                    assignment_name: data.assignment_name,
-                    admin_id: data._data.admin_id
+                    course_id:          data,
+                    due_date:           data.due_date,
+                    assignment_name:    data.assignment_name,
+                    description:        data.description,
+                    admin_id:           data._data.admin_id
                 });
                 save(assignment, this);
                 localStorage.setItem('firstAssignmentAdded', 'true');

@@ -13,13 +13,14 @@ App.Course = DS.Model.extend({
     admin_id:            DS.attr('string'),
     last_modified:       DS.attr('number'),
     created_at:          DS.attr('number'),
+    archived:            DS.attr('boolean'),
     assignments:         DS.hasMany('Assignment')
 });
-
 
 App.Assignment = DS.Model.extend({
     admin_id:            DS.attr('string'),
     assignment_name:     DS.attr('string'),
+    description:         DS.attr('string'),
     due_date:            DS.attr('string'),
     archived:            DS.attr('boolean'),
     course_id:           DS.belongsTo('course'),
@@ -33,5 +34,4 @@ App.Assignment = DS.Model.extend({
             return " ";
         }
     }.property('due_date')
-
 });

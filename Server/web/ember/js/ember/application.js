@@ -31,8 +31,8 @@ function loadTemplates(templates) {
 var helperObj = {
 
     templates : [
-        'main_assignment.hbs',
-        'main_course.hbs',
+        'main_editAssignment.hbs',
+        'main_editCourse.hbs',
         'main_newAssignment.hbs',
         'main_newCourse.hbs',
         'main_trash.hbs',
@@ -78,3 +78,6 @@ $.get('http://teachers.whatsdueapp.com/app_dev.php/teacher/username', function(u
     });
 });
 
+Ember.Handlebars.helper('liScrollToId', function(name, id) {
+   return new Ember.Handlebars.SafeString("<li id='"+id+"Panel'><i class='fa fa-sort'></i><span onclick='scrollToId("+id+")'>"+name+"</span></li>");
+});

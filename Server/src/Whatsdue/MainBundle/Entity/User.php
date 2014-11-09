@@ -51,6 +51,9 @@ class User extends BaseUser
     /** @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) */
     protected $google_access_token;
 
+    /** @ORM\Column(name="settings", type="string", nullable=true) */
+    protected $settings;
+
     /**
      * The salt to use for hashing
      *
@@ -349,6 +352,29 @@ class User extends BaseUser
      */
     public function getEmailCanonical()
     {
-        return $this->emailCanonical;
+        return $this->settings;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param string $settings
+     * @return User
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * Get settings
+     *
+     * @return string
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }

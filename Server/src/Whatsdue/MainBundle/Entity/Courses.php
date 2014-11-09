@@ -85,6 +85,8 @@ class Courses
     private $lastModified;
 
 
+
+
     private function timestamp(){
         $date = new \DateTime();
         return $date->format('U');
