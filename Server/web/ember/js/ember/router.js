@@ -50,7 +50,13 @@ App.MainEditCourseRoute = Ember.Route.extend({
     },
     afterModel: function(){
         initChooser();
+    },
+    actions: {
+    invalidateModel: function() {
+        Ember.Logger.log('Route is now refreshing...');
+        this.refresh();
     }
+}
 });
 
 App.MainNewAssignmentRoute = Ember.Route.extend({

@@ -94,8 +94,9 @@ class TeacherController extends FOSRestController{
         $record = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
         $record->setCourseName($data->course->course_name);
         $record->setInstructorName($data->course->instructor_name);
+        $record->setArchived($data->course->archived);
         $em->flush();
-        return array("assignment"=>$record);
+        return array("course"=>$record);
     }
 
     /**
@@ -177,6 +178,7 @@ class TeacherController extends FOSRestController{
         $record->setDueDate($data->assignment->due_date);
         $record->setDescription($data->assignment->description);
         $record->setAssignmentName($data->assignment->assignment_name);
+        $record->setArchived($data->assignment->archived);
 
         $em->flush();
         return array('assignment' => $record);

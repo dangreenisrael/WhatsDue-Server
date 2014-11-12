@@ -19,7 +19,7 @@ function loadView(){
         console.log('shown')
         $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
 
-        $.ajax( "http://teachers.whatsdueapp.com/app_dev.php/teacher/username" )
+        $.ajax( "http://teachers.whatsdueapp.com/teacher/username" )
             .fail(function() {
                 alert( "You've been logged out due to inactivity" );
                 window.location = '/logout';
@@ -155,7 +155,7 @@ function courseUpdate(){
         update: function(e,ui) {
             var order = panelList.sortable("toArray").join();
             $.ajax({
-                url: "http://teachers.whatsdueapp.com/app_dev.php/teacher/settings/order-" + order,
+                url: "http://teachers.whatsdueapp.com/teacher/settings/order-" + order,
                 type: 'PUT',
                 success: function (order) {
                     console.log(order)
@@ -170,7 +170,7 @@ function courseUpdate(){
         }
     });
 
-    $.get('http://teachers.whatsdueapp.com/app_dev.php/teacher/settings/order', function(order){
+    $.get('http://teachers.whatsdueapp.com/teacher/settings/order', function(order){
         if (order) {
             $.each(order.split(','), function (i, id) {
                 $("#" + id).appendTo(panelList);
@@ -203,4 +203,24 @@ function scrollToId(id){
     $('html,body').animate({
         scrollTop: target
     }, 500);
+}
+
+function trackEvent(event, firstOption, firstValue, secondOption, secondValue){
+    firstOption = firstOption || null;
+    firstValue = firstValue || null;
+    secondOption = secondOption || null;
+    secondValue = secondValue || null;
+
+    var options = {};
+    options['username'] = username;
+    if (firstOption != null) {
+        options[firstOption] = firstValue;
+        if (secondOption != null) {
+            options[secondOption] = secondValue;
+        }
+    }
+
+    ll('tagEvent', event, options);
+    console.log('tracked: ' + event);
+    console.log(options);
 }

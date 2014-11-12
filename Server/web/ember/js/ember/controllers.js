@@ -18,7 +18,7 @@ App.MainController = Ember.ArrayController.extend({
     content:[],
     activeCourses: (function() {
         return this.get('model').filterBy('archived',false);
-    }).property('model.@each.archived'),
+    }).property( 'model.@each'),
     getLatest: function() {
         Ember.Logger.log('Controller requesting route to refresh...');
         this.send('invalidateModel');
@@ -37,8 +37,10 @@ App.MainEditAssignmentController = Ember.ObjectController.extend({
         },
         remove: function(){
             var model = this.get('model');
-            model.deleteRecord();
-            save(model, this);
+            //model.deleteRecord();
+            //save(model, this);
+            model.set('archived',true);
+            save(model);
             this.transitionToRoute('main');
         },
         close: function(){
@@ -56,14 +58,15 @@ App.MainEditCourseController = Ember.ObjectController.extend({
         },
         remove: function(){
             var model = this.get('model');
-            model.deleteRecord();
-            save(model, this);
-            App.__container__.lookup("controller:main").send('getLatest');
+            model.set('archived',true);
+            save(model);
             this.transitionToRoute('main');
+            location.reload(false);
         },
         close: function(){
             this.get('model').rollback();
             this.transitionToRoute('main');
+            location.reload(false);
         }
     }
 });
@@ -84,6 +87,7 @@ App.MainNewAssignmentController = Ember.ObjectController.extend({
                 localStorage.setItem('firstAssignmentAdded', 'true');
                 $('#add-first-assignment').hide();
                 save(this.get('model'));
+                trackEvent("Added Assignment");
                 this.transitionToRoute('main');
             } else{
                 alert ('Please fill everything out');
@@ -105,8 +109,10 @@ App.MainNewCourseController = Ember.ObjectController.extend({
                 instructor_name: data.instructor_name
             });
             save(course, this);
-            localStorage.setItem('firstCourseAdded', 'true');
             $('#add-first-course').hide();
+            trackEvent("Added Course");
+            this.transitionToRoute('main');
+            location.reload(false);
         },
         close: function(){
             this.transitionToRoute('main');

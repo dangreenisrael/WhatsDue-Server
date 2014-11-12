@@ -60,15 +60,6 @@ td.disabled {
 li {
   list-style: none;
 }
-.draggable .panel-heading {
-  cursor: move;
-}
-ul.draggable {
-  display: inline;
-}
-.ui-sortable-placeholder {
-  height: 40px;
-}
 .notification-menu .dropdown-toggle {
   padding: 16px 10px;
   margin-top: -5px;
@@ -118,12 +109,25 @@ ul.draggable {
   margin-left: 0px;
 }
 .sidebar {
-  margin-top: 40px;
+  margin-top: 20px;
   position: fixed;
+}
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+  }
 }
 .sidebar ul {
   padding-left: 0;
   margin-top: -10px;
+  display: inline;
+  /*
+    :nth-of-type(1){
+      padding: 0;
+      height: 0;
+      border: none;
+    }
+    */
 }
 .sidebar ul li {
   padding: 17px 0;
@@ -137,23 +141,31 @@ ul.draggable {
   background: #fff;
   border-bottom: 1px dotted rgba(0, 0, 0, 0.2);
 }
-.sidebar ul li:last-of-type {
+.sidebar ul :last-of-type {
   border-bottom: none;
   padding-bottom: 5px;
 }
-.sidebar ul li:nth-of-type(2) {
+.sidebar ul :nth-of-type(1) {
   padding-top: 5px;
-}
-.sidebar ul li#0Panel {
-  padding: 0;
-  height: 0;
-  border: none;
 }
 .sidebar ul .fa-sort {
   top: 1px;
   padding-right: 10px;
   cursor: move;
 }
+.sidebar ul .panel-heading {
+  cursor: move;
+}
+.sidebar ul .ui-sortable-placeholder {
+  height: 40px;
+  background-color: #0075b0;
+  visibility: visible!important;
+}
 ul.courses {
-  margin-top: 40px;
+  margin-top: 20px;
+}
+@media (max-width: 767px) {
+  ul.courses {
+    padding-left: 0;
+  }
 }

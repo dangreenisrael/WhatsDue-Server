@@ -23,6 +23,24 @@
     <script src='{{ asset("ember/js/template/html5shiv.js") }}'></script>
     <script src='{{ asset("ember/js/template/respond.min.js") }}'></script>
     <![endif]-->
+
+    <!-- Localytics -->
+
+    <script>
+        +function(l,y,t,i,c,s) {
+            l['LocalyticsGlobal'] = i;
+            l[i] = function() { (l[i].q = l[i].q || []).push(arguments) };
+            l[i].t = +new Date;
+            (s = y.createElement(t)).type = 'text/javascript';
+            s.src = '//web.localytics.com/v3/localytics.min.js';
+            (c = y.getElementsByTagName(t)[0]).parentNode.insertBefore(s, c);
+
+            ll('init', 'c9a543b3c75d6a18b4d1baf-d9b507d6-6825-11e4-a72c-009c5fda0a25', {trackPageView: true, domain: 'localytics.com'});
+
+        }(window, document, 'script', 'll');
+    </script>
+
+    <!-- End Localytics -->
 </head>
 
 <body class="sticky-header">

@@ -13,15 +13,18 @@
             </div>
             <div class="panel-body">
                <ul class="draggable">
-                   <li id="0Panel"> </li>
-                {{#each course in activeCourses}}
-                    {{liScrollToId course.course_name course.id}}
-                {{/each}}
+                    {{#each course in activeCourses}}
+                        <li {{bindAttr id='course.panelId'}}>
+                        <i class='fa fa-sort'></i>
+                            <span>
+                                {{course.course_name}}
+                            </span>
+                        </li>
+                    {{/each}}
                </ul>
             </div>
         </div>
         <!-- page heading end-->
-
 
     </div>
     <div class="col-sm-8 col-md-9">

@@ -71,8 +71,12 @@ Ember.LinkView.reopen({
     attributeBindings: ['data-toggle']
 });
 
+var username;
 
-$.get('http://teachers.whatsdueapp.com/app_dev.php/teacher/username', function(username){
+
+$.get('http://teachers.whatsdueapp.com/teacher/username', function(userid){
+    username = userid;
+    trackEvent('Opened Site');
     Ember.Handlebars.helper('userName', function() {
         return new Ember.Handlebars.SafeString(username)
     });

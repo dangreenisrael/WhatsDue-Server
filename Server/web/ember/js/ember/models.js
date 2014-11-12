@@ -3,7 +3,7 @@
  */
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    host: 'http://teachers.whatsdueapp.com/app_dev.php',
+    host: 'http://teachers.whatsdueapp.com',
     namespace: 'teacher'
 });
 
@@ -14,7 +14,10 @@ App.Course = DS.Model.extend({
     last_modified:       DS.attr('number'),
     created_at:          DS.attr('number'),
     archived:            DS.attr('boolean'),
-    assignments:         DS.hasMany('Assignment')
+    assignments:         DS.hasMany('Assignment'),
+    panelId: function(){
+        return this.get('id')+"Panel";
+    }.property('id')
 });
 
 App.Assignment = DS.Model.extend({
