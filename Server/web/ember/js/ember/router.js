@@ -27,8 +27,9 @@ App.MainRoute = Ember.Route.extend({
         }
     },
     actions: {
-        invalidateModel: function() {
-            Ember.Logger.log('Route is now refreshing...');
+        change: function() {
+            // deal with the change
+            console.log('change');
             this.refresh();
         }
     }

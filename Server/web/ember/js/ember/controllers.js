@@ -15,14 +15,7 @@ function save(model, context){
 }
 
 App.MainController = Ember.ArrayController.extend({
-    content:[],
-    activeCourses: (function() {
-        return this.get('model').filterBy('archived',false);
-    }).property( 'model.@each'),
-    getLatest: function() {
-        Ember.Logger.log('Controller requesting route to refresh...');
-        this.send('invalidateModel');
-    }
+    content:[]
 });
 
 App.MainEditAssignmentController = Ember.ObjectController.extend({
@@ -37,9 +30,7 @@ App.MainEditAssignmentController = Ember.ObjectController.extend({
         },
         remove: function(){
             var model = this.get('model');
-            //model.deleteRecord();
-            //save(model, this);
-            model.set('archived',true);
+            model.deleteRecord();
             save(model);
             this.transitionToRoute('main');
         },
@@ -58,15 +49,14 @@ App.MainEditCourseController = Ember.ObjectController.extend({
         },
         remove: function(){
             var model = this.get('model');
-            model.set('archived',true);
+            //model.set('archived',true);
+            model.deleteRecord();
             save(model);
             this.transitionToRoute('main');
-            location.reload(false);
         },
         close: function(){
             this.get('model').rollback();
             this.transitionToRoute('main');
-            location.reload(false);
         }
     }
 });
@@ -101,6 +91,7 @@ App.MainNewAssignmentController = Ember.ObjectController.extend({
 });
 
 App.MainNewCourseController = Ember.ObjectController.extend({
+    needs:['main'],
     actions: {
         save: function() {
             var data = this.get('model');
@@ -111,8 +102,10 @@ App.MainNewCourseController = Ember.ObjectController.extend({
             save(course, this);
             $('#add-first-course').hide();
             trackEvent("Added Course");
+            //this.modelFor('main').reload()
+            this.get('controllers.main').send('change');
             this.transitionToRoute('main');
-            location.reload(false);
+            //location.reload(false);
         },
         close: function(){
             this.transitionToRoute('main');

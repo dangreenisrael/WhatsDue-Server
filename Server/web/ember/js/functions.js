@@ -220,7 +220,7 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue){
         }
     }
 
-    ll('tagEvent', event, options);
+    //ll('tagEvent', event, options);
     console.log('tracked: ' + event);
     console.log(options);
 }

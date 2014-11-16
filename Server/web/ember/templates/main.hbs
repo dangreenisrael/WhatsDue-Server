@@ -13,13 +13,15 @@
             </div>
             <div class="panel-body">
                <ul class="draggable">
-                    {{#each course in activeCourses}}
+                    {{#each course in model}}
+                        {{#unless course.archived}}
                         <li {{bindAttr id='course.panelId'}}>
                         <i class='fa fa-sort'></i>
                             <span>
                                 {{course.course_name}}
                             </span>
                         </li>
+                        {{/unless}}
                     {{/each}}
                </ul>
             </div>
@@ -30,41 +32,43 @@
     <div class="col-sm-8 col-md-9">
         <ul class="courses">
 
-        {{#each course in activeCourses}}
-            <li class="col-md-12 panel ui-state-default" {{bindAttr id="course.id"}}>
-                <header class="panel-heading">
-                    {{#link-to 'main.editCourse' course data-toggle="modal" href="#Picker"}}
-                        <i class="fa fa-edit"></i>
-                        {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
-                    {{/link-to}}
-                    {{#link-to 'main.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
-                        <i class="fa fa-plus"></i> Add Assignment
-                    {{/link-to}}
-                </header>
-                <div class="panel-body">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Due Date</th>
-                            <th>Name</th>
-                            <th>Description </th>
-                        </tr>
-                        </thead>
-                        <tbody>
+        {{#each course in model}}
+            {{#unless course.archived}}
+                <li class="col-md-12 panel ui-state-default" {{bindAttr id="course.id"}}>
+                    <header class="panel-heading">
+                        {{#link-to 'main.editCourse' course data-toggle="modal" href="#Picker"}}
+                            <i class="fa fa-edit"></i>
+                            {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
+                        {{/link-to}}
+                        {{#link-to 'main.newAssignment' course tag="button" class="pull-right btn btn-primary" data-toggle="modal" href="#Picker"}}
+                            <i class="fa fa-plus"></i> Add Assignment
+                        {{/link-to}}
+                    </header>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Due Date</th>
+                                <th>Name</th>
+                                <th>Description </th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                        {{#each assignment in course.assignments}}
-                            {{#unless assignment.archived}}
-                                {{#link-to 'main.editAssignment' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
-                                    <td> {{assignment.dueDate}}</td>
-                                    <td> {{assignment.assignment_name}}</td>
-                                    <td> {{assignment.description}} </td>
-                                {{/link-to}}
-                            {{/unless}}
-                        {{/each}}
-                        </tbody>
-                    </table>
-                </div>
-            </li>
+                            {{#each assignment in course.assignments}}
+                                {{#unless assignment.archived}}
+                                    {{#link-to 'main.editAssignment' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
+                                        <td> {{assignment.dueDate}}</td>
+                                        <td> {{assignment.assignment_name}}</td>
+                                        <td> {{assignment.description}} </td>
+                                    {{/link-to}}
+                                {{/unless}}
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            {{/unless}}
         {{/each}}
         </ul>
     </div>
