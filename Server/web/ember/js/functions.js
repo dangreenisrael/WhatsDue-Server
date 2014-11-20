@@ -16,7 +16,6 @@ function loadView(){
         $('#mainFooter').css({'position': 'fixed', 'bottom':0});
     }
     $('#Picker').on('shown.bs.modal', function (e) {
-        console.log('shown')
         $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
 
         $.ajax( "http://teachers.whatsdueapp.com/teacher/username" )
@@ -24,6 +23,8 @@ function loadView(){
                 alert( "You've been logged out due to inactivity" );
                 window.location = '/logout';
             })
+        initChooser();
+
     });
     courseUpdate();
     resizePage();
@@ -34,8 +35,6 @@ function loadView(){
  jQuery Manipulation
  */
 function initChooser() {
-
-    setTimeout(function(){
 
         var date = $('#date');
         var time = $('#time');
@@ -116,9 +115,6 @@ function initChooser() {
             datetime = moment(datetime, "dddd MMM Do YYYY h:mm A");
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
-
-    }, 1500);
-
 }
 
 function validateAssignment (){
