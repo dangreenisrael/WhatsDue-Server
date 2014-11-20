@@ -5,10 +5,17 @@
 App.Router.map(function(){
     this.resource('main', {path: '/'}, function(){
         this.route('editAssignment', {path: 'edit-assignment/assignment/:id'});
+        this.resource('course',{path: 'course/:id'}, function(){
+            this.route('newAssignment');
+            this.resource('message', {path:'messages'}, function(){
+                this.route('new');
+                this.route('history');
+            })
+        });
         this.route('editCourse', {path: 'edit-course/:id'});
-        this.route('newAssignment', {path: 'course/:id/new'});
         this.route('newCourse', {path: 'new-course'});
         this.route('welcome', {path: 'welcome'});
+
     });
 });
 
@@ -45,6 +52,8 @@ App.MainEditAssignmentRoute = Ember.Route.extend({
     }
 });
 
+
+
 App.MainEditCourseRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('course', params.id);
@@ -60,12 +69,34 @@ App.MainEditCourseRoute = Ember.Route.extend({
 }
 });
 
-App.MainNewAssignmentRoute = Ember.Route.extend({
+App.CourseNewAsignmentRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('course', params.id);
     },
     afterModel: function(){
         initChooser();
+    }
+});
+
+App.MessageNewRoute = Ember.Route.extend({
+    model: function() {
+        var id = this.modelFor('course').id;
+        return this.store.find('course', id);
+    }
+});
+
+App.MessageNewRoute = Ember.Route.extend({
+    model: function() {
+        var id = this.modelFor('course').id;
+        return this.store.find('course', id);
+    }
+});
+
+App.MessageHistoryRoute = Ember.Route.extend({
+    model: function() {
+        var id = this.modelFor('course').id;
+        console.log(this.store.find('message', {course_id:id}))
+        return this.store.find('message', {course_id:id});
     }
 });
 

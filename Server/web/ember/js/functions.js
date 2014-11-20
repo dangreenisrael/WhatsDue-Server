@@ -44,7 +44,7 @@ function initChooser() {
             date.val('Click to choose date');
             time.val('Adjust time below');
         } else{
-            date.val(moment(datetimeValue).format('dddd MMM Do'));
+            date.val(moment(datetimeValue).format('dddd MMM Do YYYY'));
             time.val(moment(datetimeValue).format('h:mm A'));
         }
 
@@ -81,7 +81,7 @@ function initChooser() {
                 }
             }).on('hide', function(ev){
                 if (moment(ev.date).isAfter(now)){
-                    var pretty = moment(ev.date).format('dddd MMM Do');
+                    var pretty = moment(ev.date).format('dddd MMM Do YYYY');
                     date.val(pretty);
                     time.click();
                 }else{
@@ -113,7 +113,7 @@ function initChooser() {
 
         time.on('change',  function() {
             var datetime = $(date).val()+" "+$(time).val();
-            datetime = moment(datetime, "dddd MMM Do h:mm A");
+            datetime = moment(datetime, "dddd MMM Do YYYY h:mm A");
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
 

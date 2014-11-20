@@ -25,15 +25,22 @@ body {
   height: 50px;
   padding: 10px;
 }
-.panel-heading button {
-  margin-top: -7px;
-}
 .modal-body {
   min-height: 210px;
+}
+.modal .modal-body {
+  max-height: 420px;
+  overflow-y: auto;
 }
 #datetime {
   position: absolute;
   left: -1000px;
+}
+.panel-heading .padded button {
+  margin-top: 10px;
+}
+.panel-heading .padded button .fa-archive {
+  width: 15px;
 }
 .panel-heading a {
   color: #49586e;

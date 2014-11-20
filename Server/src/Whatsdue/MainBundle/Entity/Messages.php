@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\MessagesRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Messages
 {
@@ -210,5 +211,30 @@ class Messages
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    private function timestamp(){
+        $date = new \DateTime();
+        return $date->format('U');
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = $this->timestamp();
+        $this->updatedAt = $this->timestamp();
+    }
+
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setLastUpdatedValue()
+    {
+        $this->updatedAt = $this->timestamp();
+
     }
 }
