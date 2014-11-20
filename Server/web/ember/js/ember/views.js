@@ -9,7 +9,7 @@ App.MainView = Ember.View.extend({
     }.observes('controller.mainData')
 });
 
-App.MainNewAssignmentView = Ember.View.extend({
+App.CourseNewAssignmentView = Ember.View.extend({
     didInsertElement: function() {
         console.log('loaded');
         $('input').val('');

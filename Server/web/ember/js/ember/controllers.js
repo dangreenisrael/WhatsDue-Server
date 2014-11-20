@@ -15,7 +15,7 @@ function save(model, context){
 }
 
 App.MainController = Ember.ArrayController.extend({
-    content:[]
+    model:[]
 });
 
 App.MainEditAssignmentController = Ember.ObjectController.extend({
@@ -61,7 +61,7 @@ App.MainEditCourseController = Ember.ObjectController.extend({
     }
 });
 
-App.MainNewAssignmentController = Ember.ObjectController.extend({
+App.CourseNewAssignmentController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             if (validateAssignment() == true) {
@@ -111,4 +111,35 @@ App.MainNewCourseController = Ember.ObjectController.extend({
             this.transitionToRoute('main');
         }
     }
+});
+
+
+App.MessageNewController = Ember.ObjectController.extend({
+    actions: {
+        save: function() {
+            if (validateAssignment() == true) {
+                var data = this.get('model');
+                var message = this.store.createRecord('message', {
+                    course_id:          data,
+                    body:               data.body
+                });
+                save(message, this);
+                save(this.get('model'));
+                trackEvent("Sent Message");
+                this.transitionToRoute('main');
+            } else{
+                alert ('Please fill everything out');
+            }
+        },
+        close: function(){
+            this.get('model').rollback();
+            this.transitionToRoute('main');
+        }
+    }
+});
+
+App.MessageHistoryController = Ember.ArrayController.extend({
+    sortProperties: ['updated_at'],
+    sortAscending: false,
+    needs: ['course']
 });

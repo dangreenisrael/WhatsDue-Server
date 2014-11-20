@@ -33,8 +33,10 @@ var helperObj = {
     templates : [
         'main_editAssignment.hbs',
         'main_editCourse.hbs',
-        'main_newAssignment.hbs',
+        'course_newAssignment.hbs',
         'main_newCourse.hbs',
+        'message_new.hbs',
+        'message_history.hbs',
         'main_trash.hbs',
         'main_welcome.hbs'
     ]

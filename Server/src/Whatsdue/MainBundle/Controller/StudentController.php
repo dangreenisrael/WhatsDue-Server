@@ -112,6 +112,50 @@ class StudentController extends Controller{
         return $data;
     }
 
+
+    /******* Get Messages by ID: json array of course IDs ********/
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function optionsMessagesAction(){
+        return null;
+    }
+
+    public function filterMessages($message){
+        if ($this->getHeader('sendAll') == true){
+            $timestamp = 0;
+        } else{
+            $timestamp = json_decode($this->getHeader('timestamp'));
+        }
+        return ($message->getUpdatedAt() >= $timestamp);
+    }
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getMessagesAction(){
+        $courses = json_decode($this->getHeader('courses'));
+        $currentTime = $this->timestamp();
+        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Messages');
+
+        $messages = $repo
+            ->findBy( array(
+                'courseId' => $courses
+            ));
+        $messages = array_filter($messages, array($this, 'filterMessages'));
+
+        $data = array(
+            "message"=>$messages,
+            "meta"=>array(
+                "timestamp"=> $currentTime
+            )
+        );
+        return $data;
+    }
+
     /**
      * @return array
      * @View()

@@ -35,12 +35,14 @@ body{
   padding:10px;
 }
 
-.panel-heading button{
-  margin-top: -7px;
-}
 
 .modal-body{
   min-height: 210px;
+}
+
+.modal .modal-body {
+  max-height: 420px;
+  overflow-y: auto;
 }
 
 #datetime{
@@ -48,10 +50,19 @@ body{
   left: -1000px;
 }
 
-.panel-heading a{
-  color: #49586e;
+.panel-heading {
+  .padded{
+    button{
+      margin-top: 10px;
+      .fa-archive{
+        width:15px;
+      }
+    }
+  }
+  a {
+    color: #49586e;
+  }
 }
-
 td.disabled{
   color: #d3d3d3!important;
 }
@@ -73,6 +84,7 @@ td.disabled{
   display: block;
   line-height: 50px;
   color: #49586e;
+
 }
 
 li{

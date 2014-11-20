@@ -14,6 +14,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Students;
 use Whatsdue\MainBundle\Entity\Assignments;
 use Whatsdue\MainBundle\Entity\Courses;
+use Whatsdue\MainBundle\Entity\Messages;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,6 @@ use Whatsdue\MainBundle\Classes\PushNotifications;
 
 
 class TeacherController extends FOSRestController{
-
 
     public function getHeader($header){
         $request = Request::createFromGlobals();
@@ -61,7 +61,6 @@ class TeacherController extends FOSRestController{
         $username = $this->getUser()->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
         $courses = $repository->findByAdminId($username);
-
         return array("courses"=>$courses);
     }
 
@@ -80,7 +79,6 @@ class TeacherController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
-
         return array('course'=>$course);
     }
 
@@ -119,7 +117,6 @@ class TeacherController extends FOSRestController{
         $record = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
         $record->setArchived(true);
         $em->flush();
-
         return $this->view('', 204);
     }
 
@@ -206,6 +203,49 @@ class TeacherController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         return array('assignment' => $record);
+    }
+
+
+
+    /*
+     * Messages Stuff
+     */
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function optionsMessagesAction(){
+        return null;
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function getMessagesAction(){
+        $username = $this->getUser()->getUsername();
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Messages');
+        $messages = $repository->findByUsername($username);
+        return array("message" => $messages);
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function postMessagesAction( Request $request ){
+        $username = $this->getUser()->getUsername();
+        $data = json_decode($request->getContent());
+        $message = new Messages();
+        $message->setCourseId($data->message->course_id);
+        $message->setTitle('');
+        $message->setBody($data->message->body);
+        $message->setUsername($username);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($message);
+        $em->flush();
+        return array('message'=>$message);
     }
 
     /*

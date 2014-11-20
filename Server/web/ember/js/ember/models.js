@@ -3,7 +3,7 @@
  */
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    host: 'http://teachers.whatsdueapp.com',
+    host: 'http://teachers.whatsdueapp.com/app_dev.php',
     namespace: 'teacher'
 });
 
@@ -37,4 +37,14 @@ App.Assignment = DS.Model.extend({
             return " ";
         }
     }.property('due_date')
+});
+
+App.Message = DS.Model.extend({
+    username:           DS.attr('string'),
+    body:               DS.attr('string'),
+    updated_at:         DS.attr('number'),
+    course_id:          DS.belongsTo('course', {async:true}),
+    date: function(){
+        return moment(this.get('updated_at'),"X").format('MMM Do, hh:mm A');
+    }.property('updated_at')
 });
