@@ -13,5 +13,10 @@ App.CourseNewAssignmentView = Ember.View.extend({
     didInsertElement: function() {
         console.log('loaded');
         $('input').val('');
+        initChooser();
+        setTimeout(function () {
+            $('#time').val('9:00 AM');
+        }, 600);
+
     }
 });
