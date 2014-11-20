@@ -16,7 +16,7 @@ App.CourseNewAssignmentView = Ember.View.extend({
         initChooser();
         setTimeout(function () {
             $('#time').val('9:00 AM');
-        }, 600);
+        }, 1800);
 
     }
 });

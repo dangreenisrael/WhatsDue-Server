@@ -117,8 +117,7 @@ function initChooser() {
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
 
-
-    }, 500);
+    }, 1500);
 
 }
 
