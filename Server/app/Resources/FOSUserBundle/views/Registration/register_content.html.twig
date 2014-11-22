@@ -10,7 +10,12 @@
         {{ form_errors(form.username) }}
         {{ form_errors(form.email) }}
 
-        {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder' : 'Choose User ID'}}) }}
+        {{ form_widget(form.username, {'attr': {
+            'class': 'form-control',
+            'placeholder' : 'Choose User ID (Letter or Numbers - No Spaces)',
+            'maxlength' : 12,
+            'pattern' : "[a-zA-Z0-9]+"
+        }}) }}
         {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Choose Password'}}) }}
         {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Confirm Password'}}) }}
         {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'Your E-Mail'}}) }}

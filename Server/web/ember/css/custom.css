@@ -18,8 +18,15 @@ body {
   min-height: 0;
 }
 .modal-body input {
-  width: 100%;
+  width: 100%!important;
   min-height: 50px;
+}
+.modal-body #assignment-name {
+  margin-bottom: 17px;
+}
+.modal-body .bootstrap-timepicker-widget.dropdown-menu:before,
+.modal-body .bootstrap-timepicker-widget.dropdown-menu:after {
+  display: none !important;
 }
 #logo {
   height: 50px;
@@ -110,7 +117,7 @@ li {
   margin-top: 10px;
 }
 .modal-body textarea {
-  height: 180px;
+  height: 152px;
 }
 .modal-body .col-md-5 .form-group {
   margin-left: 0px;
@@ -123,6 +130,10 @@ li {
   .sidebar {
     display: none;
   }
+}
+.sidebar .panel-body {
+  max-height: 350px;
+  overflow-y: auto;
 }
 .sidebar ul {
   padding-left: 0;

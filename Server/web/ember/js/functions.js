@@ -25,6 +25,7 @@ function loadView(){
             })
         initChooser();
 
+
     });
     courseUpdate();
     resizePage();
@@ -38,14 +39,17 @@ function initChooser() {
 
         var date = $('#date');
         var time = $('#time');
+        var newEntry = false;
+
         var datetimeValue = $('#datetime').val();
         if (datetimeValue == ""){
             date.val('Click to choose date');
-            time.val('Adjust time below');
+            newEntry = true;
         } else{
             date.val(moment(datetimeValue).format('dddd MMM Do YYYY'));
             time.val(moment(datetimeValue).format('h:mm A'));
         }
+
 
         function getISODateString(days)
         {
@@ -89,11 +93,6 @@ function initChooser() {
                 }
         });
 
-        time.timepicker({
-            minuteStep: 15,
-            showMeridian: true,
-            defaultTime: '8:30 AM'
-        });
 
         if (date.val() != 'Enter Date'){
             $('.day').removeClass('active');
@@ -115,6 +114,18 @@ function initChooser() {
             datetime = moment(datetime, "dddd MMM Do YYYY h:mm A");
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
+
+        time.timepicker('showWidget');
+        time.timepicker().on('hide.timepicker', function(e) {
+            setTimeout(function () {
+                $('.bootstrap-timepicker-widget').addClass('open')
+            }, 1)
+
+        });
+        if(newEntry == true){
+            $('#time').timepicker('setTime', '9:30 AM');
+        }
+
 }
 
 function validateAssignment (){
