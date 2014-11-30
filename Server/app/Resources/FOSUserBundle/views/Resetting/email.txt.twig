@@ -8,4 +8,70 @@
 {{ 'resetting.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') }}
 {% endautoescape %}
 {% endblock %}
-{% block body_html %}{% endblock %}
+{% block body_html %}
+    <html>
+    <head>
+    </head>
+    <body style="font-family: 'Veranda', sans-serif;">
+    <div style="padding: 20px;">
+        <!-- Start Header -->
+        <div style="border-bottom: 5px solid #333; height: 100px; padding-bottom: 10px">
+            <img src="http://whatsdueapp.com/img/logo.png" style="height: 100px; float: left;">
+            <h1 style="line-height: 65px; float: left; font-weight: 900;">
+                WhatsDue
+            </h1>
+
+            <h3 style="line-height: 75px; float: right; display: none;">
+                <span style="color: #99ccff; font-size: 25px;"> > </span> Email Subject Ipsum
+            </h3>
+        </div>
+        <!-- End Header -->
+
+        <!-- Start Body -->
+        <div style="padding: 30px;">
+		<span style="font-weight: 100; font-style: italic; color: #666666;">
+			September 1, 2014
+		</span>
+
+            <h3 style="font-weight: 400;">
+                Hi {{ user.username }},
+            </h3>
+            <div style="font-weight: 100;">
+                <p>
+                    It seems like you forgot your password.
+                </p>
+                <p>
+                    Don't worry about it.  Just click the following link and choose a new one.
+                </p>
+
+                <p>
+                    <a href="{{ confirmationUrl }}">Click to reset</a>
+                </p>
+            </div>
+            <div style="width: 50px; border-bottom: 3px solid #333; padding: 10px 0;"></div>
+            <h2 style="color: #666666; margin-bottom: 0; font-weight: 100;">
+                Aaron &amp; The WhatsDue Team
+            </h2>
+            <p style="margin-top: 5px; margin-bottom: 0;">
+                <a href="mailto:aaron@whatsdueapp.com" style="color: #3399cc; text-decoration: none; font-weight: 100;">aaron@whatsdueapp.com </a>
+                <br/>
+                <a href="http://whatsdueapp.com"style="color: #3399cc; text-decoration: none; font-weight: 100;" >whatsdueapp.com</a>
+            </p>
+
+        </div>
+
+        <!-- End Body -->
+
+        <!-- Start Footer -->
+        <div style="border-top: 1px solid #333; height: 10px; padding: 30px; padding-bottom: 0;">
+		<span style="font-size: 10px; font-weight: 100; font-style: italic; color: #999999;">
+			&copy;2014 WhatsDue, All Rights Reserved
+		</span>
+        </div>
+        <!-- End Footer -->
+
+    </div>
+    </body>
+    </html>
+
+{% endblock %}

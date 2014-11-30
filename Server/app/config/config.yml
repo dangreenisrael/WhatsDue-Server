@@ -69,6 +69,8 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
+    resetting:
+        token_ttl: 7200
     user_class: Whatsdue\MainBundle\Entity\User
     group:
         group_class:   Whatsdue\MainBundle\Entity\User
@@ -79,6 +81,9 @@ fos_user:
     from_email:
         address:        accounts@whatsdueapp.com
         sender_name:    "WhatsDue Account Management"
+    service:
+        mailer: fos_user.mailer.twig_swift
+
 
 
 
