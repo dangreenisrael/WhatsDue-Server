@@ -1,8 +1,4 @@
-<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="form-signin">
-    <div class="form-signin-heading text-center">
-        <img class="sign-in-logo" src="{{ asset("ember/images/whatsdue-logo.png")}}" alt="">
-
-    </div>
+<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST">
     <div class="login-wrap">
         {{ form_widget(form) }}
         <div>

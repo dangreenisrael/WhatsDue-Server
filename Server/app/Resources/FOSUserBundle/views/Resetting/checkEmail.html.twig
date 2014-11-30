@@ -2,11 +2,7 @@
 
 {% block fos_user_content %}
 
-
-    <div action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="form-signin">
-        <div class="form-signin-heading text-center">
-            <img class="sign-in-logo" src="{{ asset("ember/images/whatsdue-logo.png")}}" alt="">
-        </div>
+    <div action="{{ path('fos_user_resetting_send_email') }}" method="POST" >
         <div class="login-wrap">
             <div>
                 <strong>
@@ -15,12 +11,10 @@
                 </strong>
                 <br/>
                 <br/>
-                <strong>
-                    In it there is a link that you can follow to reset your password.
+                <strong>In it you will find instructions on how to reset your password
                 </strong>
             </div>
         </div>
     </div>
-
 
 {% endblock %}

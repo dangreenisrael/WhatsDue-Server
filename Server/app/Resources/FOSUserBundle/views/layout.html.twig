@@ -30,7 +30,21 @@
 
 <div class="container">
 
-   {% block fos_user_content %}{% endblock %}
+    {% if app.user %}
+        <script type="text/javascript">
+            window.location.href = "{{ base }}/";
+        </script>
+    {% endif %}
+    <div class="form-signin">
+        <div class="form-signin-heading text-center">
+            <a href="/">
+                <img class="sign-in-logo" src="{{ asset("admin/images/whatsdue-logo.png")}}" alt="">
+            </a>
+        </div>
+
+        {% block fos_user_content %}{% endblock %}
+
+    </div>
 
 </div>
 

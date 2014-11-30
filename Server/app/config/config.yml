@@ -70,7 +70,8 @@ fos_user:
     db_driver: orm
     firewall_name: main
     resetting:
-        token_ttl: 7200
+        token_ttl: 15
+#        token_ttl: 7200
     user_class: Whatsdue\MainBundle\Entity\User
     group:
         group_class:   Whatsdue\MainBundle\Entity\User
