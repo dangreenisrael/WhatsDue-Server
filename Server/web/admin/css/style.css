@@ -3836,3 +3836,19 @@ img.corner-logo{
     height:35px;
     padding-top: 5px;
 }
+
+.btn-login{
+    margin-top: 0!important;
+    font-size: 20px!important;
+}
+.btn-info{
+    background: #39b3d7!important;
+}
+.btn-info:hover{
+    color: white!important;
+    text-decoration: none;
+}
+
+.center{
+    text-align: center;
+}

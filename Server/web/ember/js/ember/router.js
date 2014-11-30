@@ -15,7 +15,6 @@ App.Router.map(function(){
         this.route('editCourse', {path: 'edit-course/:id'});
         this.route('newCourse', {path: 'new-course'});
         this.route('welcome', {path: 'welcome'});
-
     });
 });
 
@@ -27,6 +26,7 @@ App.MainRoute = Ember.Route.extend({
         return this.store.find('course');
     },
     afterModel: function(){
+
         initChooser();
         var count = this.modelFor('main').get('length');
         if (count == 0){

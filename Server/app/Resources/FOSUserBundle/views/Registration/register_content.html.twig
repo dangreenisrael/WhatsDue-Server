@@ -13,8 +13,10 @@
         {{ form_widget(form.username, {'attr': {
             'class': 'form-control',
             'placeholder' : 'Choose User ID (Letter or Numbers - No Spaces)',
-            'maxlength' : 12,
-            'pattern' : "[a-zA-Z0-9]+"
+            'maxlength'   : 12,
+            'oninvalid'   : "setCustomValidity('Only Numbers and Letters Please (no spaces)')",
+            'onchange'    : "try{setCustomValidity('')}catch(e){}",
+            'pattern'     : "[a-zA-Z0-9]+"
         }}) }}
         {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Choose Password'}}) }}
         {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Confirm Password'}}) }}
@@ -25,5 +27,6 @@
             <i class="fa fa-check"></i>
         </button>
     {{ form_widget(form) }}
+    </div>
 
 </form>

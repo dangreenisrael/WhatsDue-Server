@@ -1,7 +1,26 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-<p>
-{{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}
-</p>
+
+
+    <div action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="form-signin">
+        <div class="form-signin-heading text-center">
+            <img class="sign-in-logo" src="{{ asset("ember/images/whatsdue-logo.png")}}" alt="">
+        </div>
+        <div class="login-wrap">
+            <div>
+                <strong>
+                We have send an email to
+                {{ email }}
+                </strong>
+                <br/>
+                <br/>
+                <strong>
+                    In it there is a link that you can follow to reset your password.
+                </strong>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}

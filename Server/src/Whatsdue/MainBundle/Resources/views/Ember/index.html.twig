@@ -22,6 +22,13 @@
     <script src='{{ asset("ember/js/template/respond.min.js") }}'></script>
     <![endif]-->
 
+    <!--[if IE]>
+    <script>
+        alert("UH OH, you seem to be using Internet Explorer (IE) \nDue to security issues with IE, we do support it as a platform. \nWe highly recommend Google Chrome, but any browser will work. ")
+        window.location="https://www.google.ca/chrome/browser/?platform=win"
+    </script>
+    <![endif]-->
+
     <!-- Localytics -->
 
     <script>
@@ -42,19 +49,20 @@
 </head>
 
 <body class="sticky-header">
-
     <script src='{{ asset("ember/js/libs/jquery-1.10.2.js") }}'></script>
 
-    <script src='{{ asset("ember/js/libs/handlebars-1.1.2.js") }}'></script>
-    <script src='{{ asset("ember/js/libs/ember.min.js") }}'></script>
-    <script src='{{ asset("ember/js/libs/ember-data.prod.js") }}'></script>
-    <script src='{{ asset("ember/js/functions.js") }}'></script>
-
+    <script src='{{ asset("ember/js/libs/handlebars-v1.3.0.js") }}'></script>
+    <script src='{{ asset("ember/js/libs/ember.js") }}'></script>
+    <script src='{{ asset("ember/js/libs/ember-data.js") }}'></script>
     <script src='{{ asset("ember/js/ember/application.js") }}'></script>
+    <script src='{{ asset("ember/build/templates.js") }}'></script>
+    <script src='{{ asset("ember/js/functions.js") }}'></script>
     <script src='{{ asset("ember/js/ember/models.js") }}'></script>
     <script src='{{ asset("ember/js/ember/router.js") }}'></script>
     <script src='{{ asset("ember/js/ember/controllers.js") }}'></script>
     <script src='{{ asset("ember/js/ember/views.js") }}'></script>
+
+
 
     <script src='{{ asset("ember/vendors/moment.min.js") }}'></script>
 
@@ -73,6 +81,7 @@
     <script src='{{ asset("ember/js/template/bootstrap-datepicker/js/bootstrap-datepicker.js") }}'></script>
     <script src='{{ asset("ember/vendors/js/bootstrap-timepicker.js") }}'></script>
     <script src="{{ asset("libraries/placeholders.min.js") }}"></script>
+
 
 
 </body>

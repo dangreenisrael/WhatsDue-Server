@@ -1,12 +1,18 @@
-<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-    <div>
-        {% if invalid_username is defined %}
-            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
-        {% endif %}
-        <label for="username">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
-        <input type="text" id="username" name="username" required="required" />
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="form-signin">
+    <div class="form-signin-heading text-center">
+        <img class="sign-in-logo" src="{{ asset("ember/images/whatsdue-logo.png")}}" alt="">
     </div>
-    <div>
-        <input type="submit" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" />
+    <div class="login-wrap">
+        <div>
+            {% if invalid_username is defined %}
+                <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+            {% endif %}
+            <label for="username">Enter your username or email address</label>
+            <input type="text" id="username" name="username" required="required" class="form-control" placeholder="username/email"/>
+        </div>
+        <div>
+            <input type="submit" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" class="form-control" />
+        </div>
     </div>
 </form>
+

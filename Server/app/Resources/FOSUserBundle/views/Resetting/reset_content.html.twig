@@ -1,6 +1,12 @@
-<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}" />
+<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="form-signin">
+    <div class="form-signin-heading text-center">
+        <img class="sign-in-logo" src="{{ asset("ember/images/whatsdue-logo.png")}}" alt="">
+
+    </div>
+    <div class="login-wrap">
+        {{ form_widget(form) }}
+        <div>
+            <input type="submit" value="{{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}" class="form-control" />
+        </div>
     </div>
 </form>

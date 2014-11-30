@@ -22,10 +22,8 @@ function loadView(){
             .fail(function() {
                 alert( "You've been logged out due to inactivity" );
                 window.location = '/logout';
-            })
+            });
         initChooser();
-
-
     });
     courseUpdate();
     resizePage();
@@ -125,7 +123,6 @@ function initChooser() {
         if(newEntry == true){
             $('#time').timepicker('setTime', '9:30 AM');
         }
-
 }
 
 function validateAssignment (){

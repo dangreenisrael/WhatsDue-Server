@@ -42,7 +42,9 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getUsernameAction(){
-        return $this->getUser()->getUsername();
+
+	    $user = $this->container->get('security.context')->getToken()->getUser();
+        return $user;
     }
 
     /**
