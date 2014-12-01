@@ -13,4 +13,9 @@ class EmberController extends Controller
         return $this->render('WhatsdueMainBundle:Ember:index.html.twig');
     }
 
+    public function adminAction()
+    {
+        return $this->render('WhatsdueMainBundle:Ember:admin.html.twig');
+    }
+
 }

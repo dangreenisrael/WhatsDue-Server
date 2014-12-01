@@ -20358,7 +20358,7 @@ define("ember-routing-handlebars/helpers/shared",
     __exports__.resolveParams = resolveParams;function stashParamNames(router, handlerInfos) {
       if (handlerInfos._namesStashed) { return; }
 
-      // This helper exists because router.js/route-recognizer.js awkwardly
+      // This helper exists because ember_router.js/route-recognizer.js awkwardly
       // keeps separate a handlerInfo's list of parameter names depending
       // on whether a URL transition or named transition is happening.
       // Hopefully we can remove this in the future.
@@ -22944,7 +22944,7 @@ define("ember-routing/system/route",
       },
 
       /**
-        This hook is the entry point for router.js
+        This hook is the entry point for ember_router.js
 
         @private
         @method setup
@@ -23129,7 +23129,7 @@ define("ember-routing/system/route",
       redirect: Ember.K,
 
       /**
-        Called when the context is changed by router.js.
+        Called when the context is changed by ember_router.js.
 
         @private
         @method contextDidChange
