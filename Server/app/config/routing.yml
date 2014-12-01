@@ -39,16 +39,6 @@ google_login:
     pattern: /auth/check-google
 
 
-# Ember
-
-ember:
-    path:      /secure
-    defaults:  { _controller: WhatsdueMainBundle:Ember:index }
-
-ember_admin:
-    path:     /admin
-    defaults:   { _controller: WhatsdueMainBundle:Ember:admin }
-
 # REST
 
 student:
@@ -61,11 +51,11 @@ teacher:
     type: rest
     prefix: /teacher
 
-admin_rest:
-    resource: Whatsdue\MainBundle\Controller\AdminController
-    type: rest
-    prefix: /admin/api
+# Ember
 
+ember:
+    path:      /secure
+    defaults:  { _controller: WhatsdueMainBundle:Ember:index }
 
 
 
