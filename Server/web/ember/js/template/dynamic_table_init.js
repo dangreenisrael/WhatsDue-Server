@@ -10,7 +10,7 @@ function fnFormatDetails ( oTable, nTr )
     return sOut;
 }
 
-$(document).ready(function() {
+function initTable() {
 
     $('#dynamic-table').dataTable( {
         "aaSorting": [[ 4, "desc" ]]
@@ -21,7 +21,6 @@ $(document).ready(function() {
      */
     var nCloneTh = document.createElement( 'th' );
     var nCloneTd = document.createElement( 'td' );
-    nCloneTd.innerHTML = '<img src="images/details_open.png">';
     nCloneTd.className = "center";
 
     $('#hidden-table-info thead tr').each( function () {
@@ -61,4 +60,4 @@ $(document).ready(function() {
             oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
         }
     } );
-} );
+}

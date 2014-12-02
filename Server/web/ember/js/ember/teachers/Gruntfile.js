@@ -9,7 +9,7 @@ module.exports = function(grunt) {
                     templateBasePath: /templates\//
                 },
                 files: {
-                    "ember_templates.js": ["templates/**/*.hbs"]
+                    "teachers_templates.js": ["templates/**/*.hbs"]
                 }
             }
         },

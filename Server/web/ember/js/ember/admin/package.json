@@ -1,0 +1,18 @@
+{
+  "name": "WhatsDueTeachers",
+  "version": "1.0.0",
+  "description": "WhatsDue Teachers Ember app",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dan Green",
+  "license": "ISC",
+  "dependencies": {
+    "ember-template-compiler": "^1.9.0-alpha",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-ember-templates": "^0.5.0-alpha",
+    "handlebars": "^1.3.0"
+  }
+}
