@@ -10,7 +10,7 @@ class EmberController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('WhatsdueMainBundle:Ember:index.html.twig');
+        return $this->render('WhatsdueMainBundle:Ember:teachers.html.twig');
     }
 
     public function adminAction()

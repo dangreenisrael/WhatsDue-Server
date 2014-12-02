@@ -15,6 +15,14 @@
     <link href='{{ asset("ember/css/custom.css") }}' rel="stylesheet">
 
 
+    <!--dynamic table-->
+    <link href="{{ asset("ember/js/template/advanced-datatable/css/demo_page.css") }}" rel="stylesheet"/>
+    <link href="{{ asset("ember/js/template/advanced-datatable/css/demo_table.css") }}" rel="stylesheet"/>
+    <link href="{{ asset("ember/js/template/data-tables/DT_bootstrap.css") }}" rel="stylesheet"/>
+
+
+
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -29,60 +37,43 @@
     </script>
     <![endif]-->
 
-    <!-- Localytics -->
 
-    <script>
-        +function(l,y,t,i,c,s) {
-            l['LocalyticsGlobal'] = i;
-            l[i] = function() { (l[i].q = l[i].q || []).push(arguments) };
-            l[i].t = +new Date;
-            (s = y.createElement(t)).type = 'text/javascript';
-            s.src = '//web.localytics.com/v3/localytics.min.js';
-            (c = y.getElementsByTagName(t)[0]).parentNode.insertBefore(s, c);
-
-            ll('init', 'c9a543b3c75d6a18b4d1baf-d9b507d6-6825-11e4-a72c-009c5fda0a25', {trackPageView: true, domain: 'localytics.com'});
-
-        }(window, document, 'script', 'll');
-    </script>
-
-    <!-- End Localytics -->
 </head>
 
 <body class="sticky-header">
-    <script src='{{ asset("ember/js/libs/jquery-1.10.2.js") }}'></script>
+<script src='{{ asset("ember/js/libs/jquery-1.10.2.js") }}'></script>
 
-    <script src='{{ asset("ember/js/libs/handlebars-v1.3.0.js") }}'></script>
-    <script src='{{ asset("ember/js/libs/ember.js") }}'></script>
-    <script src='{{ asset("ember/js/libs/ember-data.js") }}'></script>
-    <script src='{{ asset("ember/js/ember/application.js") }}'></script>
-    <script src='{{ asset("ember/build/templates.js") }}'></script>
-    <script src='{{ asset("ember/js/functions.js") }}'></script>
-    <script src='{{ asset("ember/js/ember/models.js") }}'></script>
-    <script src='{{ asset("ember/js/ember/router.js") }}'></script>
-    <script src='{{ asset("ember/js/ember/controllers.js") }}'></script>
-    <script src='{{ asset("ember/js/ember/views.js") }}'></script>
-
-
-
-    <script src='{{ asset("ember/vendors/moment.min.js") }}'></script>
-
-    <!-- Placed js at the end of the document so the pages load faster -->
-    <!--script src='{{ asset("ember/js/template/jquery-ui-1.9.2.custom.min.js") }}'></script-->
-    <script src='{{ asset("ember/js/libs/jquery-ui-1.10.4.custom.min.js") }}'></script>
-    <script src='{{ asset("ember/js/template/jquery-migrate-1.2.1.min.js") }}'></script>
-    <script src='{{ asset("ember/js/template/bootstrap.min.js") }}'></script>
-    <script src='{{ asset("ember/js/template/modernizr.min.js") }}'></script>
-    <!--script src='{{ asset("ember/js/template/jquery.nicescroll.js") }}'></script>
-
-    <!--common scripts for all pages-->
-    <script src='{{ asset("ember/js/template/scripts.js") }}'></script>
-
-    <!--pickers plugins-->
-    <script src='{{ asset("ember/js/template/bootstrap-datepicker/js/bootstrap-datepicker.js") }}'></script>
-    <script src='{{ asset("ember/vendors/js/bootstrap-timepicker.js") }}'></script>
-    <script src="{{ asset("libraries/placeholders.min.js") }}"></script>
+<script src='{{ asset("ember/js/libs/handlebars-v1.3.0.js") }}'></script>
+<script src='{{ asset("ember/js/libs/ember.js") }}'></script>
+<script src='{{ asset("ember/js/libs/ember-data.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_application.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_templates.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_functions.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_models.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_router.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_controllers.js") }}'></script>
+<script src='{{ asset("ember/js/ember/admin/admin_views.js") }}'></script>
+<script src='{{ asset("ember/vendors/moment.min.js") }}'></script>
 
 
+<!-- Placed js at the end of the document so the pages load faster -->
+<!--script src='{{ asset("ember/js/template/jquery-ui-1.9.2.custom.min.js") }}'></script-->
+<script src='{{ asset("ember/js/libs/jquery-ui-1.10.4.custom.min.js") }}'></script>
+<script src='{{ asset("ember/js/template/jquery-migrate-1.2.1.min.js") }}'></script>
+<script src='{{ asset("ember/js/template/bootstrap.min.js") }}'></script>
+<script src='{{ asset("ember/js/template/modernizr.min.js") }}'></script>
+
+<script src='{{ asset("ember/js/template/advanced-datatable/js/jquery.dataTables.js") }}'></script>
+<script src='{{ asset("ember/js/template/data-tables/DT_bootstrap.js") }}'></script>
+<script src='{{ asset("ember/js/template/dynamic_table_init.js") }}'></script>
+
+<!--common scripts for all pages-->
+<script src='{{ asset("ember/js/template/scripts.js") }}'></script>
+
+<!--pickers plugins-->
+<script src='{{ asset("ember/js/template/bootstrap-datepicker/js/bootstrap-datepicker.js") }}'></script>
+<script src='{{ asset("ember/vendors/js/bootstrap-timepicker.js") }}'></script>
+<script src="{{ asset("libraries/placeholders.min.js") }}"></script>
 
 </body>
 </html>
