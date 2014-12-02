@@ -49,7 +49,7 @@ body {
 .panel-heading .padded button .fa-archive {
   width: 15px;
 }
-.panel-heading a {
+.panel-heading a:not(.btn) {
   color: #49586e;
 }
 td.disabled {
@@ -192,12 +192,15 @@ ul.courses {
   }
 }
 /* Admin */
-.adv-table th:first-of-type {
+.admin .adv-table th:first-of-type {
   width: 45px!important;
 }
-.adv-table th:nth-of-type(2) {
+.admin .adv-table th:nth-of-type(2) {
   width: 150px!important;
 }
-.adv-table th:nth-of-type(3) {
+.admin .adv-table th:nth-of-type(3) {
   width: 280px!important;
+}
+.admin .panel-heading .btn {
+  margin-top: -6px;
 }

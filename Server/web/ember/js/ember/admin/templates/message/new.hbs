@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <button {{action 'close'}} type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Bulk Message</h4>
+</div>
+<div class="modal-body">
+    <form action="#" class="form-horizontal ">
+        <div class="form-group">
+
+            <div class="col-md-6">
+                {{input value=title class="pull-left form-control" placeholder="Message title" }}
+            </div>
+            <div class="col-md-12">
+                <br/>
+                {{input value=body class="pull-left form-control" placeholder="Type message to all users" maxlength="40"}}
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button  data-dismiss="modal" class="btn btn-primary" type="button" {{action 'send'}} >Send to ALL users</button>
+</div>

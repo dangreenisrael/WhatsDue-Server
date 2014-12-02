@@ -14,8 +14,10 @@ use Whatsdue\MainBundle\Entity\Students;
 define( 'API_ACCESS_KEY', "AIzaSyDbUaBlRrYZpg2GPLqZTls-SAGIX1cBDek" );
 class PushNotifications {
 
+    public $container;
+
     public function __construct(ContainerInterface $container){
-        $this->container = $container;
+            $this->container = $container;
         }
 
     private function androidNotifications($title, $message, $pushIds){

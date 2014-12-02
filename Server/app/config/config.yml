@@ -127,10 +127,15 @@ hwi_oauth:
 
 
 rms_push_notifications:
-  android:
-      gcm:
+    android:
+        gcm:
           api_key: AIzaSyDbUaBlRrYZpg2GPLqZTls-SAGIX1cBDek
-  ios:
-      sandbox: true
-      pem: certificates/ck.pem # can be absolute or relative path (from app directory)
-      passphrase: Ezonics3228
+    ios:
+        sandbox: false
+        pem: certificates/ck.pem # can be absolute or relative path (from app directory)
+        passphrase: Ezonics3228
+
+services:
+    push_notifications:
+        class: Whatsdue\MainBundle\Classes\PushNotifications
+        arguments: ['@service_container']

@@ -29,7 +29,6 @@
         "hwi/oauth-bundle": "0.4.*@dev",
 
         "richsage/rms-push-notifications-bundle": "0.1.2"
-
     },
     "scripts": {
         "post-install-cmd": [

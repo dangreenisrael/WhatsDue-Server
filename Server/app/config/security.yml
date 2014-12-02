@@ -55,3 +55,4 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/aaron, role: [ROLE_SUPER_ADMIN] }
+        - { path: ^/api/admin, role: [ROLE_SUPER_ADMIN] }

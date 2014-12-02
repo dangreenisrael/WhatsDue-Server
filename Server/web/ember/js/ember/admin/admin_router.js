@@ -4,6 +4,9 @@
 
 App.Router.map(function(){
     this.resource('main', {path: '/'}, function(){
+        this.resource('message', {path:'messages'}, function(){
+            this.route('new');
+        })
     });
 });
 

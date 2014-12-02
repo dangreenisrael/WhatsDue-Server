@@ -66,6 +66,9 @@ admin:
     path:      /aaron
     defaults:  { _controller: WhatsdueMainBundle:Ember:admin }
 
+test:
+    path:      /test
+    defaults:  { _controller: WhatsdueMainBundle:Ember:test }
 
 root:
     path: /

@@ -16,7 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
-use Whatsdue\MainBundle\Entity\User;
+use Whatsdue\MainBundle\Entity\Messages;
+use Whatsdue\MainBundle\Entity\Students;
 
 use Whatsdue\MainBundle\Classes\PushNotifications;
 
@@ -59,5 +60,50 @@ class AdminController extends FOSRestController{
         }
 
         return array("users" => array_values($teachers));
+    }
+
+    /*
+     * Messages Stuff
+     */
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function optionsMessagesAction(){
+        return null;
+    }
+
+    /**
+     * @return array
+     * @View()
+     * Send message to ALL users
+     */
+    public function postMessageAction( Request $request ){
+        $username = $this->getUser()->getUsername();
+        $data = json_decode($request->getContent());
+        $title = $data->message->title;
+        $body = $data->message->body;
+        $message = new Messages();
+        $message->setCourseId(0);
+        $message->setTitle($title);
+        $message->setBody($body);
+        $message->setUsername($username);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($message);
+        $em->flush();
+
+        $studentRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Students');
+        $allStudents = $studentRepository->findAll();
+        $allUuids = array();
+        foreach ($allStudents as $student){
+            $allUuids[] = $student->getUuid();
+        }
+
+        $pushNotifications = $mailer = $this->get('push_notifications');
+        $pushNotifications->sendNotifications($title, $body, $allUuids);
+        //$pushNotifications->sendNotifications($title, $body, array('39cd2c28c433efca'));
+
+        return array('message'=>$message);
     }
 }

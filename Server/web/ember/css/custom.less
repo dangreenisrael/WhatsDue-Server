@@ -68,7 +68,7 @@ body{
       }
     }
   }
-  a {
+  a:not(.btn) {
     color: #49586e;
   }
 }
@@ -230,15 +230,21 @@ ul.courses{
 }
 
 /* Admin */
-
-.adv-table {
-  th:first-of-type{
+.admin{
+  .adv-table {
+    th:first-of-type{
       width: 45px!important;
-  }
-  th:nth-of-type(2){
+    }
+    th:nth-of-type(2){
       width: 150px!important;
+    }
+    th:nth-of-type(3){
+      width: 280px!important;
+    }
   }
-  th:nth-of-type(3){
-    width: 280px!important;
+  .panel-heading{
+    .btn{
+      margin-top: -6px;
+    }
   }
 }
