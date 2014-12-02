@@ -25,7 +25,12 @@
                                 <th class="sorting" role="columnheader" aria-controls="dynamic-table" >
                                     Last Login
                                 </th>
-
+                                <th>
+                                    Courses
+                                </th>
+                                <th>
+                                    Assignments
+                                </th>
                             </tr>
                             </thead>
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -34,7 +39,18 @@
                                         <td class=" ">{{user.id}}</td>
                                         <td class=" ">{{user.username}}</td>
                                         <td class=" ">{{user.email}}</td>
-                                        <td class=" ">{{user.last_login_h}}</td>
+                                        <td class=" ">
+                                            <span class="hidden">
+                                                {{user.last_login_t}}
+                                            </span>
+                                            {{user.last_login_since}}
+                                        </td>
+                                        <td>
+                                            {{user.course_count}}
+                                        </td>
+                                        <td>
+                                            {{user.assignment_count}}
+                                        </td>
                                     </tr>
                                 {{/each}}
                             </tbody>

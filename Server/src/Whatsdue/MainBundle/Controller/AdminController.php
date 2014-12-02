@@ -33,15 +33,29 @@ class AdminController extends FOSRestController{
      * @View()
      */
     public function getUsersAction(){
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:User');
-        $users = $repository->findAll();
+        $userRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:User');
+        $assignmentRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+
+        $users = $userRepository->findAll();
+
         $i = 0;
         foreach ($users as $user){
             $i++;
-            $teachers[$i]['id'] = $user->getId();
-            $teachers[$i]['username'] = $user->getUsername();
-            $teachers[$i]['email'] = $user->getEmailCanonical();
-            $teachers[$i]['last_login'] = $user->getLastLogin();
+            $courses = $courseRepository->findBy(
+                array('adminId'  => $user->getUsername(0), 'archived' => 0)
+            );
+            $assignments = $assignmentRepository->findBy(
+                array('adminId'  => $user->getUsername(0))
+            );
+            $teachers[$i] = array(
+                'id'                => $user->getId(),
+                'username'          => $user->getUsername(),
+                'email'             => $user->getEmailCanonical(),
+                'last_login'        => $user->getLastLogin(),
+                'course_count'      => count($courses),
+                'assignment_count'  => count($assignments)
+            );
         }
 
         return array("users" => array_values($teachers));
