@@ -14,7 +14,7 @@ App.Course = DS.Model.extend({
     last_modified:       DS.attr('number'),
     created_at:          DS.attr('number'),
     archived:            DS.attr('boolean'),
-    device_ids:           DS.attr('string'),
+    device_ids:          DS.attr('string',  {defaultValue: "{}"}),
     assignments:         DS.hasMany('Assignment'),
     panelId: function(){
         return this.get('id')+"Panel";
@@ -23,6 +23,7 @@ App.Course = DS.Model.extend({
         var users = JSON.parse(this.get('device_ids'));
         return Object.keys(users).length;
     }.property('device_ids')
+
 });
 
 App.Assignment = DS.Model.extend({

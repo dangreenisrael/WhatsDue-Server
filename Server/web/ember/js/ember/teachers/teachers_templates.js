@@ -31,7 +31,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'value': ("due_date"),
     'id': ("datetime")
   },hashTypes:{'type': "STRING",'value': "ID",'id': "STRING"},hashContexts:{'type': depth0,'value': depth0,'id': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n                    <input type=\"text\" id=\"date\" class=\"form-control\" required=\"required\"  size=\"16\" placeholder=\"Due Date\"/>\n                </div>\n\n                <div class=\"form-group input-append bootstrap-timepicker\">\n                    <input id=\"time\" type=\"hidden\" class=\"input-small\">\n                    <span class=\"add-on\"><i class=\"icon-time\"></i></span>\n                </div>\n            </div>\n            <div class=\"col-md-7\">\n                ");
+  data.buffer.push("\n                    <input type=\"text\" id=\"date\" class=\"form-control\" required=\"required\"  size=\"16\" placeholder=\"Please close and try again\"/>\n                </div>\n\n                <div class=\"form-group input-append bootstrap-timepicker\">\n                    <input id=\"time\" type=\"hidden\" class=\"input-small\">\n                    <span class=\"add-on\"><i class=\"icon-time\"></i></span>\n                </div>\n            </div>\n            <div class=\"col-md-7\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("assignment_name"),

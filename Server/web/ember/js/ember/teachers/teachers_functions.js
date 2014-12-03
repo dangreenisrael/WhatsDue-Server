@@ -174,9 +174,12 @@ function courseUpdate(){
     });
 
     $.get('http://teachers.whatsdueapp.com/api/teacher/settings/order', function(order){
-        if (order) {
+        if (order.length > 1) {
+            console.log(order.length);
             $.each(order.split(','), function (i, id) {
-                $("#" + id).appendTo(panelList);
+                var item = "#"+id;
+                console.log(item);
+                $(item).appendTo(panelList);
             });
 
             var mainPanels = $('ul.courses');
