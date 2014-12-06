@@ -6,8 +6,8 @@ Ember.LinkView.reopen({
 
 var username;
 
-$.get('http://teachers.whatsdueapp.com/api/teacher/username', function(userid){
-    username = userid.username_canonical;
+$.get('http://teachers.whatsdueapp.com/api/teacher/user', function(user){
+    username = user.user.username_canonical;
     Ember.Handlebars.helper('userName', function() {
         return new Ember.Handlebars.SafeString(username)
     });

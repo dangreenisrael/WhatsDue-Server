@@ -6,12 +6,19 @@ Ember.LinkView.reopen({
 
 var username;
 
-$.get('http://teachers.whatsdueapp.com/api/teacher/username', function(userid){
-    username = userid.username_canonical;
+$.get('http://teachers.whatsdueapp.com/app_dev.php/api/teacher/user', function(data){
+    user = data.user;
+    var username  = user.username_canonical;
+    var first_name = user.first_name;
     trackEvent('Opened Site');
     Ember.Handlebars.helper('userName', function() {
         return new Ember.Handlebars.SafeString(username)
     });
+
+    Ember.Handlebars.helper('firstName', function() {
+        return new Ember.Handlebars.SafeString(first_name)
+    });
+
 
 });
 

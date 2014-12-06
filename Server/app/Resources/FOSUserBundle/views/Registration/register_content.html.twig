@@ -4,18 +4,60 @@
         {{ form_errors(form.plainPassword.second) }}
         {{ form_errors(form.username) }}
         {{ form_errors(form.email) }}
+        {{ form_errors(form.firstName) }}
+        {{ form_errors(form.lastName) }}
+        {{ form_errors(form.institutionName) }}
+
+
+
+        {{ form_widget(form.firstName, {'attr': {
+            'class': 'form-control',
+            'placeholder' : 'First Name',
+            'style'       : 'float:left; width:49%'
+        }}) }}
+
+        {{ form_widget(form.lastName, {'attr': {
+        'class': 'form-control',
+        'placeholder' : 'Last Name',
+        'style'       : 'float:right; width:49%'
+        }}) }}
+
+        {{ form_widget(form.institutionName, {'attr': {
+        'class': 'form-control',
+        'placeholder' : 'Select (or add) Institution',
+        'style'       : 'float:left; width:100%'
+
+        }}) }}
+
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'E-Mail'}}) }}
+
 
         {{ form_widget(form.username, {'attr': {
-            'class': 'form-control',
-            'placeholder' : 'Choose User ID (Letters or Numbers - No Spaces)',
-            'maxlength'   : 12,
-            'oninvalid'   : "setCustomValidity('Only Numbers and Letters Please (no spaces)')",
-            'onchange'    : "try{setCustomValidity('')}catch(e){}",
-            'pattern'     : "[a-zA-Z0-9]+"
+        'class': 'form-control',
+        'placeholder' : 'Choose User ID',
+        'maxlength'   : 12,
+        'oninvalid'   : "setCustomValidity('Only Numbers and Letters Please (no spaces or symbols)')",
+        'onchange'    : "try{setCustomValidity('')}catch(e){}",
+        'pattern'     : "[a-zA-Z0-9]+"
         }}) }}
-        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Choose Password'}}) }}
-        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Confirm Password'}}) }}
-        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'Your E-Mail'}}) }}
+
+        {{ form_widget(form.plainPassword.first, {
+            'attr': {
+                'class'       : 'form-control',
+                'placeholder' : 'Choose Password',
+                'style'       : 'float:left; width:49%'
+
+        }})
+        }}
+        {{ form_widget(form.plainPassword.second, {
+            'attr': {
+                'class': 'form-control',
+                'placeholder' : 'Confirm Password',
+                'style'       : 'float:right; width:49%'
+
+        }})
+        }}
+
 
         <button value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
             <i class="fa fa-check"></i>

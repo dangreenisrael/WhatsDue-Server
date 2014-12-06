@@ -3852,3 +3852,12 @@ img.corner-logo{
 .center{
     text-align: center;
 }
+
+
+.form-signin{
+    margin: 40px auto;
+}
+
+.login-wrap {
+    padding-top: 0;
+}

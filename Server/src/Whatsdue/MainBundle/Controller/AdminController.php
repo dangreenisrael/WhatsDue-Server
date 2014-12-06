@@ -44,18 +44,27 @@ class AdminController extends FOSRestController{
         foreach ($users as $user){
             $i++;
             $courses = $courseRepository->findBy(
-                array('adminId'  => $user->getUsername(0), 'archived' => 0)
+                array('adminId'  => $user->getUsername(), 'archived' => 0)
             );
+            /* Total Unique Users */
+            $deviceIds = [];
+            foreach ($courses as $course){
+                $currentDeviceIds = json_decode($course->getDeviceIds(), true);
+                $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+            }
+            $uniqueUsers = array_unique($deviceIds);
             $assignments = $assignmentRepository->findBy(
-                array('adminId'  => $user->getUsername(0))
+                array('adminId'  => $user->getUsername())
             );
+
             $teachers[$i] = array(
                 'id'                => $user->getId(),
                 'username'          => $user->getUsername(),
                 'email'             => $user->getEmailCanonical(),
                 'last_login'        => $user->getLastLogin(),
                 'course_count'      => count($courses),
-                'assignment_count'  => count($assignments)
+                'assignment_count'  => count($assignments),
+                'unique_users'      => count($uniqueUsers)
             );
         }
 

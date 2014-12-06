@@ -18,6 +18,7 @@ App.User = DS.Model.extend({
     email:              DS.attr('string'),
     course_count:       DS.attr('number'),
     assignment_count:   DS.attr('number'),
+    unique_users:       DS.attr('number'),
     last_login:         DS.attr('string'),
     last_login_t:       function(){
         var login = this.get('last_login');

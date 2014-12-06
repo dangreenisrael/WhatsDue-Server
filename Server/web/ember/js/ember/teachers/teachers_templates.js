@@ -347,10 +347,10 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">Welcome to WhatsDue</h4>\n</div>\n\n<div class=\"modal-body\">\n\n    <p>Hey, ");
-  stack1 = helpers._triageMustache.call(depth0, "userName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">Welcome to WhatsDue</h4>\n</div>\n\n<div class=\"modal-body\">\n\n    <p>Hey ");
+  stack1 = helpers._triageMustache.call(depth0, "firstName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</p>\n    <p>\n        Here's how to use WhatsDue. (Do the same thing for each course)\n    </p>\n    <ol>\n        <li>\n            Click <strong>\"Add a Course\"</strong> and fill in the details\n        </li>\n        <li>\n            Click <strong>\"Add an Assignment\"</strong> and do the same\n        </li>\n        <li>\n            Tell your students to search for <strong>");
+  data.buffer.push(", </p>\n    <p>\n        Here's how to use WhatsDue. (Do the same thing for each course)\n    </p>\n    <ol>\n        <li>\n            Click <strong>\"Add a Course\"</strong> and fill in the details\n        </li>\n        <li>\n            Click <strong>\"Add an Assignment\"</strong> and do the same\n        </li>\n        <li>\n            Tell your students to search for <strong>");
   stack1 = helpers._triageMustache.call(depth0, "userName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("</strong> in the app.\n        </li>\n    </ol>\n   <p>\n       If you have any questions, you can get a hold of us by email or Skype 24/7\n   </p>\n    <p>\n        Thanks for using WhatsDue\n    </p>\n    <p>\n        Dan & Aaron\n    </p>\n</div>\n\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");

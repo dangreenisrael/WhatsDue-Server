@@ -5,9 +5,12 @@
         <section class="panel">
             <header class="panel-heading">
                 Users
-                {{#link-to 'message.new' data-toggle="modal" href="#Picker" class="btn btn-info pull-right"}}
+                <!--
+                {#link-to 'message.new' data-toggle="modal" href="#Picker" class="btn btn-info pull-right"}}
                     Bulk Message
-                {{/link-to}}
+                {/link-to}}
+                -->
+
             </header>
             <div class="panel-body">
                 <div class="adv-table">
@@ -28,11 +31,15 @@
                                     Last Login
                                 </th>
                                 <th>
+                                    Users
+                                </th>
+                                <th >
                                     Courses
                                 </th>
                                 <th>
                                     Assignments
                                 </th>
+
                             </tr>
                             </thead>
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -48,6 +55,9 @@
                                             {{user.last_login_since}}
                                         </td>
                                         <td>
+                                            {{user.unique_users}}
+                                        </td>
+                                        <td >
                                             {{user.course_count}}
                                         </td>
                                         <td>

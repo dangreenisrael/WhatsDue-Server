@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Whatsdue\MainBundle\Entity\Courses;
 use Whatsdue\MainBundle\Entity\Assignments;
+use Whatsdue\MainBundle\Entity\User;
 use Whatsdue\MainBundle\Classes\PushNotifications;
 
 class LifecycleActions {
@@ -52,6 +53,15 @@ class LifecycleActions {
             $deviceIds = json_decode($course->getDeviceIds());
             $this->pushNotifications->sendNotifications($title, $message, $deviceIds);
         }
+
+        if ($entity instanceof User) {
+            $message = "A new user signed up - " .
+                        $entity -> getFirstName() . " " . $entity -> getLastName() .
+                        " from " . $entity->getInstitution();
+            $this->container->get('plivo')->sendSMS('+972549508856', $message);
+        }
+
+
     }
 
     public function preUpdate(LifeCycleEventArgs $args){

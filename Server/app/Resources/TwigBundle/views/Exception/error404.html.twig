@@ -36,28 +36,21 @@
 
 </head>
 
-<body class="login-body">
+<body class="error-page">
 
-<div class="container">
 
-    {% if app.user %}
-        <script type="text/javascript">
-            window.location.href = "{{ base }}/";
-        </script>
-    {% endif %}
-    <div class="form-signin">
-        <div class="form-signin-heading text-center">
-            <a href="/">
-                <img class="sign-in-logo" src="{{ asset("admin/images/whatsdue-logo.png")}}" alt="">
-            </a>
-        </div>
+<section>
+    <div class="container ">
 
-        {% block fos_user_content %}{% endblock %}
+        <section class="error-wrapper text-center">
+            <h1><img alt="" src="{{ asset("admin/images/404-error.png") }}"></h1>
+            <h2>page not found</h2>
+            <h3>We Couldn’t Find This Page</h3>
+            <a class="back-btn" href="/"> Back To Home</a>
+        </section>
 
     </div>
-
-</div>
-
+</section>
 
 
 <!-- Placed js at the end of the document so the pages load faster -->

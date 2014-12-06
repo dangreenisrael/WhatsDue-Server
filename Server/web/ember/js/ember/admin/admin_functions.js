@@ -18,28 +18,11 @@ function loadView(){
     $('#Picker').on('shown.bs.modal', function (e) {
         $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
 
-        $.ajax( "http://teachers.whatsdueapp.com/api/teacher/username" )
+        $.ajax( "http://teachers.whatsdueapp.com/api/teacher/user" )
             .fail(function() {
                 alert( "You've been logged out due to inactivity" );
                 window.location = '/logout';
             });
-        initChooser();
     });
-    courseUpdate();
     resizePage();
 }
-
-
-
-
-
-function scrollToId(id){
-    var target = ($('#'+id).offset().top)-105;
-    $('html,body').animate({
-        scrollTop: target
-    }, 500);
-}
-
-
-
-

@@ -79,6 +79,9 @@ fos_user:
         form:
             type: whatsdue_user_profile
             handler: whatsdue_user.form.handler.profile
+    registration:
+        form:
+            type: whatsdue_user_registration
     from_email:
         address:        accounts@whatsdueapp.com
         sender_name:    "WhatsDue Account Management"
@@ -134,8 +137,3 @@ rms_push_notifications:
         sandbox: false
         pem: certificates/ck.pem # can be absolute or relative path (from app directory)
         passphrase: Ezonics3228
-
-services:
-    push_notifications:
-        class: Whatsdue\MainBundle\Classes\PushNotifications
-        arguments: ['@service_container']

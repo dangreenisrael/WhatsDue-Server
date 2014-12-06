@@ -37,14 +37,21 @@ class TeacherController extends FOSRestController{
      * Courses Stuff
      */
 
+
+
     /**
      * @return array
      * @View()
      */
-    public function getUsernameAction(){
+    public function getUserAction(){
 
-	    $user = $this->container->get('security.context')->getToken()->getUser();
-        return $user;
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = array(
+            'id'                  => $user->getId(),
+            'username_canonical'  => $user->getUsernameCanonical(),
+            'first_name'          => $user->getFirstName()
+        );
+        return array("user" => $user);
     }
 
     /**
