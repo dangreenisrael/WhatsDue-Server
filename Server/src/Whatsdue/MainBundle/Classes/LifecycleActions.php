@@ -57,7 +57,7 @@ class LifecycleActions {
         if ($entity instanceof User) {
             $message = "A new user signed up - " .
                         $entity -> getFirstName() . " " . $entity -> getLastName() .
-                        " from " . $entity->getInstitution();
+                        " from " . $entity->getInstitutionName();
             $this->container->get('plivo')->sendSMS('+972549508856', $message);
         }
 

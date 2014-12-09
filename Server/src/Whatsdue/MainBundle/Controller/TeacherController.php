@@ -45,7 +45,8 @@ class TeacherController extends FOSRestController{
      */
     public function getUserAction(){
 
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
+        var_dump($user);
         $user = array(
             'id'                  => $user->getId(),
             'username_canonical'  => $user->getUsernameCanonical(),
