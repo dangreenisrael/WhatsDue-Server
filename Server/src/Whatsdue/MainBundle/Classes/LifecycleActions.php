@@ -58,7 +58,7 @@ class LifecycleActions {
             $message = "A new user signed up - " .
                         $entity -> getFirstName() . " " . $entity -> getLastName() .
                         " from " . $entity->getInstitutionName();
-            $this->container->get('plivo')->sendSMS('+972549508856', $message);
+            $this->container->get('plivo')->sendSMS('+972507275599', $message);
         }
 
 
