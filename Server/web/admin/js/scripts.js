@@ -168,10 +168,4 @@
     $('.popovers').popover();
 
 
-
-
-
-
-
-
 })(jQuery);

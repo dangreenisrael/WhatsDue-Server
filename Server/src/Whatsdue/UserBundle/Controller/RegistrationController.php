@@ -39,7 +39,7 @@ class RegistrationController extends BaseController
         }else{
             /* Send SMS to Aaron that a new user is on the registration page */
             $message = "Someone is on the signup page";
-            $this->container->get('plivo')->sendSMS('+972507275599', $message);
+            //$this->container->get('plivo')->sendSMS('+972507275599', $message);
         }
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
             'form' => $form->createView(),

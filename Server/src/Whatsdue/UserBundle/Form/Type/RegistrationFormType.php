@@ -20,7 +20,15 @@ class RegistrationFormType extends BaseType
 
         $builder->add('firstName');
         $builder->add('lastName');
-        $builder->add('institutionName');
+        $builder->add('institutionName', 'choice', array(
+            'choices'   => array(
+                '' => 'Choose a School (Type to Search)',
+                'IDC Herzliya'   => 'IDC Herzliya',
+                'Torah High (Toronto)',
+                'Torah High (Ottawa)'
+            ),
+            'multiple'  => false,
+        ));
         //$builder->add('institutionAbbreviation');
 
     }

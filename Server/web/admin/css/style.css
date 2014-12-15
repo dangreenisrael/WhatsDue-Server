@@ -3861,3 +3861,16 @@ img.corner-logo{
 .login-wrap {
     padding-top: 0;
 }
+
+.form-signin .combobox-container{
+    margin-bottom: 15px;
+}
+
+.form-signin .combobox-container input{
+    margin-bottom: 0;
+}
+
+.form-signin .combobox-container .input-group-addon{
+    background-color: #eaeaec;
+    border: none;
+}
