@@ -18,7 +18,7 @@ function loadView(){
     $('#Picker').on('shown.bs.modal', function (e) {
         $('.modal-backdrop').html("<i class='fa fa-spin fa-cog big-middle'></i>")
 
-        $.ajax( "http://teachers.whatsdueapp.com/api/teacher/user" )
+        $.ajax( "/api/teacher/user" )
             .fail(function() {
                 alert( "You've been logged out due to inactivity" );
                 window.location = '/logout';
@@ -158,7 +158,7 @@ function courseUpdate(){
         update: function(e,ui) {
             var order = panelList.sortable("toArray").join();
             $.ajax({
-                url: "http://teachers.whatsdueapp.com/api/teacher/settings/order-" + order,
+                url: "/api/teacher/settings/order-" + order,
                 type: 'PUT',
                 success: function (order) {
                     console.log(order)
@@ -173,7 +173,7 @@ function courseUpdate(){
         }
     });
 
-    $.get('http://teachers.whatsdueapp.com/api/teacher/settings/order', function(order){
+    $.get('/api/teacher/settings/order', function(order){
         if (order.length > 1) {
             console.log(order.length);
             $.each(order.split(','), function (i, id) {

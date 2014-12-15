@@ -6,7 +6,7 @@ Ember.LinkView.reopen({
 
 var username;
 
-$.get('http://teachers.whatsdueapp.com/app_dev.php/api/teacher/user', function(data){
+$.get('/api/teacher/user', function(data){
     user = data.user;
     var username  = user.username_canonical;
     var first_name = user.first_name;
