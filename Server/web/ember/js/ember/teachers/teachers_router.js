@@ -60,6 +60,7 @@ App.MainEditCourseRoute = Ember.Route.extend({
     },
     afterModel: function(){
         initChooser();
+
     },
     actions: {
     invalidateModel: function() {

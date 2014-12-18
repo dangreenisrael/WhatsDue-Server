@@ -8,7 +8,7 @@
 
 namespace Whatsdue\MainBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
+use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -27,328 +27,142 @@ class User extends BaseUser
     protected $id;
 
 
-    /** @ORM\Column(name="username", type="string", length=10, nullable=true) */
-    protected $username;
+    /** @ORM\Column(name="settings", type="string", nullable=true) */
+    protected $settings;
 
-    /** @ORM\Column(name="usernameCanonical", type="string", length=10, nullable=true) */
-    protected $usernameCanonical;
+    /** @ORM\Column(name="first_name", type="string") */
+    protected $firstName;
 
-    /** @ORM\Column(name="email", type="string", length=256, nullable=true) */
-    protected $email;
+    /** @ORM\Column(name="last_name", type="string") */
+    protected $lastName;
 
-    /** @ORM\Column(name="emailCanonical", type="string", length=256, nullable=true) */
-    protected $emailCanonical;
+    /** @ORM\Column(name="institution_name", type="string") */
+    protected $institutionName;
 
-    /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
-    protected $facebook_id;
+    /** @ORM\Column(name="institution_abbreviation", type="string", nullable=true) */
+    protected $institutionAbbreviation;
 
-    /** @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true) */
-    protected $facebook_access_token;
 
-    /** @ORM\Column(name="google_id", type="string", length=255, nullable=true) */
-    protected $google_id;
 
-    /** @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) */
-    protected $google_access_token;
+	public function __construct()
+	{
+		parent::__construct();
+		// your own logic
+	}
+
 
     /**
-     * The salt to use for hashing
+     * Set settings
      *
-     *  @ORM\Column(name="salt", type="string", length=255, nullable=true)
-     */
-    protected $salt;
-
-    /**
-     * Encrypted password. Must be persisted.
-     *
-     * @ORM\Column(name="password", type="string", length=255, nullable=true)
-     */
-    protected $password;
-
-    /**
-     * @ORM\Column(name="enabled", type="boolean")
-     */
-    protected $enabled;
-
-    /**
-     * Plain password. Used for model validation. Must not be persisted.
-     *
-     * @var string
-     */
-    protected $plainPassword;
-
-
-
-
-
-    public function __construct()
-    {
-        parent::__construct();
-
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-
-
-    /**
-     * Set facebook_id
-     *
-     * @param string $facebookId
+     * @param string $settings
      * @return User
      */
-    public function setFacebookId($facebookId)
+    public function setSettings($settings)
     {
-        $this->facebook_id = $facebookId;
+        $this->settings = $settings;
 
         return $this;
     }
 
     /**
-     * Get facebook_id
+     * Get settings
      *
-     * @return string 
+     * @return string
      */
-    public function getFacebookId()
+    public function getSettings()
     {
-        return $this->facebook_id;
+        return $this->settings;
     }
 
     /**
-     * Set facebook_access_token
+     * Set First Name
      *
-     * @param string $facebookAccessToken
+     * @param string $firstName
      * @return User
      */
-    public function setFacebookAccessToken($facebookAccessToken)
+    public function setFirstName($firstName)
     {
-        $this->facebook_access_token = $facebookAccessToken;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
     /**
-     * Get facebook_access_token
+     * Get firstName
      *
-     * @return string 
+     * @return string
      */
-    public function getFacebookAccessToken()
+    public function getFirstName()
     {
-        return $this->facebook_access_token;
+        return $this->firstName;
     }
 
     /**
-     * Set google_id
+     * Set Last Name
      *
-     * @param string $googleId
+     * @param string $lastName
      * @return User
      */
-    public function setGoogleId($googleId)
+    public function setLastName($lastName)
     {
-        $this->google_id = $googleId;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
     /**
-     * Get google_id
+     * Get Last Name
      *
-     * @return string 
+     * @return string
      */
-    public function getGoogleId()
+    public function getLastName()
     {
-        return $this->google_id;
+        return $this->lastName;
     }
 
     /**
-     * Set google_access_token
+     * Set Institution Name
      *
-     * @param string $googleAccessToken
+     * @param string $institutionName
      * @return User
      */
-    public function setGoogleAccessToken($googleAccessToken)
+    public function setInstitutionName($institutionName)
     {
-        $this->google_access_token = $googleAccessToken;
+        $this->institutionName = $institutionName;
 
         return $this;
     }
 
     /**
-     * Get google_access_token
+     * Get Institution Name
      *
-     * @return string 
+     * @return string
      */
-    public function getGoogleAccessToken()
+    public function getInstitutionName()
     {
-        return $this->google_access_token;
+        return $this->institutionName;
     }
 
     /**
-     * Set username
+     * Set Institution Abbreviation
      *
-     * @param string $username
+     * @param string $institutionAbbreviation
      * @return User
      */
-    public function setUsername($username)
+    public function setInstitutionAbbreviation($institutionAbbreviation)
     {
-        $this->username = $username;
+        $this->institutionAbbreviation = $institutionAbbreviation;
 
         return $this;
     }
 
     /**
-     * Get username
+     * Get Institution Abbreviation
      *
-     * @return string 
+     * @return string
      */
-    public function getUsername()
+    public function getInstitutionAbbreviation()
     {
-        return $this->username;
-    }
-
-    /**
-     * Set usernameCanonical
-     *
-     * @param string $usernameCanonical
-     * @return User
-     */
-    public function setUsernameCanonical($usernameCanonical)
-    {
-        $this->usernameCanonical = $usernameCanonical;
-
-        return $this;
-    }
-
-    /**
-     * Get usernameCanonical
-     *
-     * @return string 
-     */
-    public function getUsernameCanonical()
-    {
-        return $this->usernameCanonical;
-    }
-
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string 
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string 
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     * @return User
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Get enabled
-     *
-     * @return boolean 
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set emailCanonical
-     *
-     * @param string $emailCanonical
-     * @return User
-     */
-    public function setEmailCanonical($emailCanonical)
-    {
-        $this->emailCanonical = $emailCanonical;
-
-        return $this;
-    }
-
-    /**
-     * Get emailCanonical
-     *
-     * @return string 
-     */
-    public function getEmailCanonical()
-    {
-        return $this->emailCanonical;
+        return $this->institutionAbbreviation;
     }
 }

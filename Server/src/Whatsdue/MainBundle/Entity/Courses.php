@@ -56,6 +56,13 @@ class Courses
     private $deviceIds;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="schoolName", type="text")
+     */
+    private $schoolName;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="archived", type="boolean", nullable=true)
@@ -323,4 +330,27 @@ class Courses
     }
 
 
+
+    /**
+     * Set schoolName
+     *
+     * @param string $schoolName
+     * @return Courses
+     */
+    public function setSchoolName($schoolName)
+    {
+        $this->schoolName = $schoolName;
+
+        return $this;
+    }
+
+    /**
+     * Get schoolName
+     *
+     * @return string 
+     */
+    public function getSchoolName()
+    {
+        return $this->schoolName;
+    }
 }

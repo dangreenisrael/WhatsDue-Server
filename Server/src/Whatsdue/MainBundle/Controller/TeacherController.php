@@ -34,6 +34,8 @@ class TeacherController extends FOSRestController{
         return $request->headers->get($header);
     }
 
+
+
     /*
      * Courses Stuff
      */
@@ -79,13 +81,16 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function postCourseAction(Request $request ){
-        $username = $this->getUser()->getUsername();
+        $user = $this->getUser();
+        $username = $user->getUsername();
+        $school = $user->getInstitutionName();
         $data = json_decode($request->getContent());
         $course = new Courses();
         $course->setCourseName($data->course->course_name);
         $course->setInstructorName($data->course->instructor_name);
         $course->setAdminId($username);
         $course->setDeviceIds('{}');
+        $course->setSchoolName($school);
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
