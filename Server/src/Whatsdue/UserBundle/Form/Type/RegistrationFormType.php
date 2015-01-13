@@ -23,13 +23,12 @@ class RegistrationFormType extends BaseType
         $builder->add('institutionName', 'choice', array(
             'choices'   => array(
                 '' => 'Choose a School (Type to Search)',
-                'IDC Herzliya'   => 'IDC Herzliya',
-                'Torah High (Toronto)',
-                'Torah High (Ottawa)'
+                'IDC Herzliya'                  => 'IDC Herzliya',
+                'UMD (University of Maryland)'   => 'UMD (University of Maryland)',
+                'UNK (University of Nebraska Kearney)'   => 'UNK (University of Nebraska Kearney)',
             ),
             'multiple'  => false,
         ));
-        //$builder->add('institutionAbbreviation');
 
     }
 
