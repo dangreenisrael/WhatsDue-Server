@@ -14,6 +14,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Students;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Whatsdue\MainBundle\Entity\ForumMessages;
 
 header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp, sendAll");
 header("Access-Control-Allow-Method: GET, POST, OPTION");
@@ -226,4 +227,46 @@ class StudentController extends Controller{
         $em->flush();
         return "Removed Student";
     }
+
+
+    /**
+     * Forum Messages
+     * @return array
+     * @View()
+     */
+
+    public function getForumsAssignmentsMessagesAction(){
+        $currentTime = $this->timestamp();
+        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:ForumMessages');
+
+        $messages = $repo
+            ->findAll();
+        $messages = array_filter($messages, array($this, 'filterMessages'));
+
+        $data = array(
+            "message"=>$messages,
+            "meta"=>array(
+                "timestamp"=> $currentTime
+            )
+        );
+        return $data;
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function postForumsAssignmentsMessagesAction( Request $request ){
+        $data = json_decode($request->getContent());
+        $message = new ForumMessages();
+        $message->setUserId($data->forum_message->user_id);
+        $message->setType("assignment");
+        $message->setReferenceId($data->forum_message->assignment_id);
+        $message->setBody($data->forum_message->body);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($message);
+        $em->flush();
+        return array('forum_message'=>$message);
+    }
 }
+

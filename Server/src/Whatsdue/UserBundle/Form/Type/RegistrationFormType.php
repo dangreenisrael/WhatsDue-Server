@@ -26,10 +26,10 @@ class RegistrationFormType extends BaseType
                 'IDC Herzliya'                  => 'IDC Herzliya',
                 'UMD (University of Maryland)'   => 'UMD (University of Maryland)',
                 'UNK (University of Nebraska Kearney)'   => 'UNK (University of Nebraska Kearney)',
+                'KPU (Kwantlen Polytechnic University)'   => 'KPU (Kwantlen Polytechnic University)'
             ),
             'multiple'  => false,
         ));
-
     }
 
     public function getName()
