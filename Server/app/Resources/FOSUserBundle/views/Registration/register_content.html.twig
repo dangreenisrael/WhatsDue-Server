@@ -34,7 +34,7 @@
         {{ form_widget(form.username, {'attr': {
         'class': 'form-control',
         'placeholder' : 'Choose User ID',
-        'maxlength'   : 12,
+        'maxlength'   : 10,
         'oninvalid'   : "setCustomValidity('Only Numbers and Letters Please (no spaces or symbols)')",
         'onchange'    : "try{setCustomValidity('')}catch(e){}",
         'pattern'     : "[a-zA-Z0-9]+"
