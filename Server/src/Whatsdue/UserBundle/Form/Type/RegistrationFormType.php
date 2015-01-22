@@ -27,8 +27,8 @@ class RegistrationFormType extends BaseType
                 'UMD (University of Maryland)'   => 'UMD (University of Maryland)',
                 'UNK (University of Nebraska Kearney)'   => 'UNK (University of Nebraska Kearney)',
                 'KPU (Kwantlen Polytechnic University)'   => 'KPU (Kwantlen Polytechnic University)',
-                'Ryerson University'   => 'Ryerson University'
-
+                'Ryerson University'   => 'Ryerson University',
+                'UWO (University of Western Ontario)' => 'UWO (University of Western Ontario)'
             ),
             'multiple'  => false,
         ));
