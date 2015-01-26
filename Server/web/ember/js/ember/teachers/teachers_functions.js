@@ -188,7 +188,11 @@ function courseUpdate(){
                 $("#" + id).appendTo(mainPanels);
 
             });
-        }
+        };
+        /* Sort Table */
+        var $table = $("table").stupidtable();
+        var $th_to_sort = $table.find("th.due-date").eq(0);
+        $th_to_sort.stupidsort();
     });
 
 }
@@ -228,5 +232,3 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue){
 
     ll('tagEvent', event, options);
 }
-
-

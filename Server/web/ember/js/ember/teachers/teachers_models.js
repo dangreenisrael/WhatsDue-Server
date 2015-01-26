@@ -33,7 +33,10 @@ App.Assignment = DS.Model.extend({
     archived:            DS.attr('boolean'),
     course_id:           DS.belongsTo('course'),
     dueDate: function(){
-        return moment(this.get('due_date')).format('dddd MMM D h:mm A');
+        return moment(this.get('due_date')).format('MMM D h:mm A');
+    }.property('due_date'),
+    timestamp: function(){
+        return moment(this.get('due_date')).format('X');
     }.property('due_date'),
     hidden: function(){
         if (moment().isAfter(this.get('due_date')) == true){

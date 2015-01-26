@@ -65,17 +65,21 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>Due Date</th>
-                                <th>Name</th>
-                                <th>Description </th>
+                                <th data-sort="string" class="due-date">Due Date</th>
+                                <th data-sort="string">Name</th>
+                                <th data-sort="string">Description </th>
                             </tr>
                             </thead>
                             <tbody>
-
                             {{#each assignment in course.assignments}}
                                 {{#unless assignment.archived}}
                                     {{#link-to 'main.editAssignment' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
-                                        <td> {{assignment.dueDate}}</td>
+                                        <td>
+                                            <span class="hidden">
+                                                {{assignment.timestamp}}
+                                            </span>
+                                            {{assignment.dueDate}}
+                                        </td>
                                         <td> {{assignment.assignment_name}}</td>
                                         <td> {{assignment.description}} </td>
                                     {{/link-to}}
