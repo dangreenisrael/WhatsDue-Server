@@ -14,12 +14,9 @@
                <ul class="draggable">
                     {{#each course in model}}
                         {{#unless course.archived}}
-                        <li {{bind-attr id=course.panelId}}>
-                        <i class='fa fa-sort'></i>
-                            <span>
-                                {{course.course_name}}
-                            </span>
-                        </li>
+
+                            {{liScrollToId course}}
+
                         {{/unless}}
                     {{/each}}
                </ul>
@@ -37,7 +34,6 @@
                     <header class="panel-heading row">
                         <div class="col-md-6">
                             {{#link-to 'main.editCourse' course data-toggle="modal" href="#Picker"}}
-
                                 {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
                             {{/link-to}}
                             <br/>
@@ -62,27 +58,46 @@
 
                     </header>
                     <div class="panel-body">
+                        {{#link-to 'course.bulkChange' course tag="button" class="btn btn-primary col-md-3" data-toggle="modal" href="#Picker"}}
+                            Bulk
+                        {{/link-to}}
+                        <div class="col-md-1"></div>
+                        <button class="btn btn-warning col-md-3" {{action 'duplicate' course}}>
+                            Duplicate
+                        </button>
                         <table class="table table-hover">
                             <thead>
                             <tr>
+                                <th></th>
                                 <th data-sort="string" class="due-date">Due Date</th>
-                                <th data-sort="string">Name</th>
-                                <th data-sort="string">Description </th>
+                                <th data-sort="string" class="name">Name</th>
+                                <th data-sort="string" class="description">Description </th>
                             </tr>
                             </thead>
                             <tbody>
+
                             {{#each assignment in course.assignments}}
                                 {{#unless assignment.archived}}
-                                    {{#link-to 'main.editAssignment' assignment tagName="tr" class=assignment data-toggle="modal" href="#Picker"}}
+                                    <tr>
                                         <td>
+                                            {{input type="checkbox" checked=assignment.checked}}
+                                        </td>
+                                        {{#link-to 'main.editAssignment' assignment tagName="td" class=assignment data-toggle="modal" href="#Picker"}}
                                             <span class="hidden">
                                                 {{assignment.timestamp}}
                                             </span>
                                             {{assignment.dueDate}}
-                                        </td>
-                                        <td> {{assignment.assignment_name}}</td>
-                                        <td> {{assignment.description}} </td>
-                                    {{/link-to}}
+                                        {{/link-to}}
+
+                                        {{#link-to 'main.editAssignment' assignment tagName="td" class=assignment data-toggle="modal" href="#Picker"}}
+                                            {{assignment.assignment_name}}
+                                        {{/link-to}}
+
+                                        {{#link-to 'main.editAssignment' assignment tagName="td" class=assignment data-toggle="modal" href="#Picker"}}
+
+                                            {{assignment.description}}
+                                        {{/link-to}}
+                                    </tr>
                                 {{/unless}}
                             {{/each}}
                             </tbody>

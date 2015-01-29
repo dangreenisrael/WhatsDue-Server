@@ -12,7 +12,6 @@ App.MainView = Ember.View.extend({
 
 App.CourseNewAssignmentView = Ember.View.extend({
     didInsertElement: function() {
-        console.log('loaded');
         $('input, textarea').val('');
     }
 });

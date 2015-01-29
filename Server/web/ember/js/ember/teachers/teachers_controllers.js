@@ -15,8 +15,32 @@ function save(model, context){
 }
 
 App.MainController = Ember.ArrayController.extend({
-    model:[]
+    model:[],
+    actions:{
+        duplicate: function(oldCourse){
+            var newCourse = this.store.createRecord('course', {
+                course_name: oldCourse.get('course_name')+" COPY",
+                instructor_name: oldCourse.get('instructor_name')
+            });
+            var context = this;
+            newCourse.save().then(function(record){
+                oldCourse.get('assignments').forEach(function(oldAssignment) {
+                    console.log(oldAssignment);
+                    var assignment = context.store.createRecord('assignment', {
+                        course_id:          record,
+                        due_date:           oldAssignment.get('due_date'),
+                        assignment_name:    oldAssignment.get('assignment_name'),
+                        description:        oldAssignment.get('description'),
+                        admin_id:           username
+                    });
+                    assignment.save();
+                });
+            })
+
+        }
+    }
 });
+
 
 App.MainEditAssignmentController = Ember.ObjectController.extend({
     actions: {
@@ -73,7 +97,7 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
                     description:        data.description,
                     admin_id:           data._data.admin_id
                 });
-                save(assignment, this);
+                assignment.save();
                 localStorage.setItem('firstAssignmentAdded', 'true');
                 $('#add-first-assignment').hide();
                 save(this.get('model'));
@@ -85,6 +109,40 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
         },
         close: function(){
             this.get('model').rollback();
+            this.transitionToRoute('main');
+        }
+    }
+});
+
+App.CourseBulkChangeController = Ember.ObjectController.extend({
+    time: "10:00 AM",
+    actions: {
+        save: function () {
+            var data = this.get('model');
+            var time = this.time;
+            var day = $("input[name=day]:checked").val();
+            console.log(day);
+            var date;
+            var dueDate;
+            var week;
+            data.forEach(function(item) {
+                if(item.get('checked')==true){
+                    dueDate = item.get('due_date');
+                    if (day == "no-change"){
+                        date = moment(dueDate).format('dddd MMM Do YYYY');
+                    } else{
+                        week = moment(dueDate).startOf('week');
+                        date = moment(week).add(day, 'days').format('dddd MMM Do YYYY');
+                    }
+
+                    dueDate = date+" "+time;
+                    console.log(dueDate);
+                    dueDate = moment(dueDate, "dddd MMM Do YYYY h:mm A");
+                    item.set('due_date', dueDate);
+                    item.set('checked', false);
+                    save(item, this);
+                }
+            });
             this.transitionToRoute('main');
         }
     }

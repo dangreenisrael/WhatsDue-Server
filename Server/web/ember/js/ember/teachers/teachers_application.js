@@ -7,8 +7,9 @@ Ember.LinkView.reopen({
 var username;
 
 $.get('/api/teacher/user', function(data){
-    user = data.user;
-    var username  = user.username_canonical;
+
+    var user = data.user;
+    username  = user.username_canonical;
     var first_name = user.first_name;
     trackEvent('Opened Site');
     Ember.Handlebars.helper('userName', function() {
@@ -19,9 +20,10 @@ $.get('/api/teacher/user', function(data){
         return new Ember.Handlebars.SafeString(first_name)
     });
 
-
 });
 
-Ember.Handlebars.helper('liScrollToId', function(name, id) {
-    return new Ember.Handlebars.SafeString("<li id='"+id+"Panel'><i class='fa fa-sort'></i><span onclick='scrollToId("+id+")'>"+name+"</span></li>");
+Ember.Handlebars.helper('liScrollToId', function(course) {
+    var id = course.id;
+    var name = course.get('course_name');
+    return new Ember.Handlebars.SafeString("<li id='" +id+ "Panel'><i class='fa fa-sort'></i><span onclick='scrollToId("+id+")'>"+name+"</span></li>");
 });

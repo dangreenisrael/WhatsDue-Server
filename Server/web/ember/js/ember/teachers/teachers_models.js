@@ -3,7 +3,7 @@
  */
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    namespace: 'api/teacher'
+    namespace: 'app_dev.php/api/teacher'
 });
 
 App.Course = DS.Model.extend({
@@ -33,7 +33,7 @@ App.Assignment = DS.Model.extend({
     archived:            DS.attr('boolean'),
     course_id:           DS.belongsTo('course'),
     dueDate: function(){
-        return moment(this.get('due_date')).format('MMM D h:mm A');
+        return moment(this.get('due_date')).format('ddd M/D h:mm A');
     }.property('due_date'),
     timestamp: function(){
         return moment(this.get('due_date')).format('X');
@@ -44,7 +44,8 @@ App.Assignment = DS.Model.extend({
         }else{
             return " ";
         }
-    }.property('due_date')
+    }.property('due_date'),
+    checked:            DS.attr('boolean', {defaultValue: false})
 });
 
 App.Message = DS.Model.extend({

@@ -7,6 +7,7 @@ App.Router.map(function(){
         this.route('editAssignment', {path: 'edit-assignment/assignment/:id'});
         this.resource('course',{path: 'course/:id'}, function(){
             this.route('newAssignment');
+            this.route('bulkChange');
             this.resource('message', {path:'messages'}, function(){
                 this.route('new');
                 this.route('history');
@@ -70,9 +71,19 @@ App.MainEditCourseRoute = Ember.Route.extend({
 }
 });
 
-App.CourseNewAsignmentRoute = Ember.Route.extend({
-    model: function(params) {
-        return this.store.find('course', params.id);
+App.CourseBulkChangeRoute = Ember.Route.extend({
+    model: function() {
+        var course = this.modelFor('course');
+        return course.get('assignments');
+    },
+    afterModel: function(){
+        initChooser();
+    }
+});
+
+App.CourseNewAssignmentRoute = Ember.Route.extend({
+    model: function() {
+        return this.modelFor('course');
     },
     afterModel: function(){
         initChooser();

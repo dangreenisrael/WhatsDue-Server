@@ -40,7 +40,7 @@ function initChooser() {
         var newEntry = false;
 
         var datetimeValue = $('#datetime').val();
-        if (datetimeValue == ""){
+        if ( (datetimeValue == "" )){
             date.val('Click to choose date');
             newEntry = true;
         } else{
@@ -121,7 +121,11 @@ function initChooser() {
 
         });
         if(newEntry == true){
-            $('#time').timepicker('setTime', '9:30 AM');
+            $('#time').timepicker('setTime', '10:00 AM');
+        }
+
+        if($("input[name=day]:checked").val() == "no-change"){
+            $('#time').timepicker('setTime', '10:00 AM');
         }
 }
 
@@ -175,10 +179,8 @@ function courseUpdate(){
 
     $.get('/api/teacher/settings/order', function(order){
         if (order.length > 1) {
-            console.log(order.length);
             $.each(order.split(','), function (i, id) {
                 var item = "#"+id;
-                console.log(item);
                 $(item).appendTo(panelList);
             });
 
@@ -188,7 +190,7 @@ function courseUpdate(){
                 $("#" + id).appendTo(mainPanels);
 
             });
-        };
+        }
         /* Sort Table */
         var $table = $("table").stupidtable();
         var $th_to_sort = $table.find("th.due-date").eq(0);
