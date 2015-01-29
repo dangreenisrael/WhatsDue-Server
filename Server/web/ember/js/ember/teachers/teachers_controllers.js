@@ -25,15 +25,16 @@ App.MainController = Ember.ArrayController.extend({
             var context = this;
             newCourse.save().then(function(record){
                 oldCourse.get('assignments').forEach(function(oldAssignment) {
-                    console.log(oldAssignment);
-                    var assignment = context.store.createRecord('assignment', {
-                        course_id:          record,
-                        due_date:           oldAssignment.get('due_date'),
-                        assignment_name:    oldAssignment.get('assignment_name'),
-                        description:        oldAssignment.get('description'),
-                        admin_id:           username
-                    });
-                    assignment.save();
+                    if (oldAssignment.get('archived')==false){
+                        var assignment = context.store.createRecord('assignment', {
+                            course_id:          record,
+                            due_date:           oldAssignment.get('due_date'),
+                            assignment_name:    oldAssignment.get('assignment_name'),
+                            description:        oldAssignment.get('description'),
+                            admin_id:           username
+                        });
+                        assignment.save();
+                    }
                 });
             })
 
