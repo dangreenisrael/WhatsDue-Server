@@ -117,7 +117,9 @@ function initChooser() {
 
 
         time.timepicker('showWidget');
-
+        time.timepicker({
+            disableFocus: true
+        });
         time.timepicker().on('hide.timepicker', function(e) {
             setTimeout(function () {
                 $('.bootstrap-timepicker-widget').addClass('open')

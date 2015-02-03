@@ -87,7 +87,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'class': ("pull-left form-control"),
     'placeholder': ("Description")
   },hashTypes:{'id': "STRING",'value': "ID",'maxlength': "STRING",'class': "STRING",'placeholder': "STRING"},hashContexts:{'id': depth0,'value': depth0,'maxlength': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\n            </div>\n        </div>\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" type=\"button\" ");
+  data.buffer.push("\n            </div>\n        </div>\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary col-xs-12\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(" >Save</button>\n</div>\n");
   return buffer;

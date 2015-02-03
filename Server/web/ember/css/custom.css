@@ -231,4 +231,8 @@ ul.courses {
   .notification-menu li:first-child .dropdown-menu {
     margin-right: 0!important;
   }
+  .modal .modal-footer button {
+    height: 60px;
+    font-size: 20px;
+  }
 }
