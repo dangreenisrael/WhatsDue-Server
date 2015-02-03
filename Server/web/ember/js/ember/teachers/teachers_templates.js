@@ -70,7 +70,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'value': ("due_date"),
     'id': ("datetime")
   },hashTypes:{'type': "STRING",'value': "ID",'id': "STRING"},hashContexts:{'type': depth0,'value': depth0,'id': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n                    <input type=\"text\" id=\"date\" class=\"form-control\" required=\"required\"  size=\"16\" placeholder=\"Please close and try again\"/>\n                </div>\n\n                <div class=\"form-group input-append bootstrap-timepicker\">\n                    <input id=\"time\" type=\"hidden\" class=\"input-small\">\n                    <span class=\"add-on\"><i class=\"icon-time\"></i></span>\n                </div>\n            </div>\n            <div class=\"col-md-7\">\n                ");
+  data.buffer.push("\n                    <input type=\"text\" id=\"date\" class=\"form-control\" readonly=\"true\" required=\"required\"  size=\"16\" placeholder=\"Please close and try again\"/>\n                </div>\n\n                <div class=\"form-group input-append bootstrap-timepicker\">\n                    <input id=\"time\" type=\"hidden\" data-disable-focus=\"true\" readonly=\"true\" class=\"input-small\">\n                    <span class=\"add-on\"><i class=\"icon-time\"></i></span>\n                </div>\n            </div>\n            <div class=\"col-md-7\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("assignment_name"),
@@ -158,12 +158,12 @@ function program7(depth0,data) {
   data.buffer.push("\n                            <!--\n                            <div class=\"padded\">\n                                {#link-to 'message.new' course tag=\"button\"  class=\"col-md-7 btn btn-primary\" data-toggle=\"modal\" href=\"#Picker\"}}\n                                    <i class=\"fa fa-envelope\"></i> Send Message\n                                {/link-to}}\n\n                                {#link-to 'message.history' course tag=\"button\"  class=\"col-md-4 btn btn-primary pull-right\" data-toggle=\"modal\" href=\"#Picker\"}}\n                                    <i class=\"fa fa-archive\"></i>\n                                {/link-to}}\n                            </div>\n                            -->\n                        </div>\n\n                    </header>\n                    <div class=\"panel-body\">\n                        ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
-    'class': ("btn btn-primary col-xs-3"),
+    'class': ("btn btn-primary col-xs-5 col-sm-3"),
     'data-toggle': ("modal"),
     'href': ("#Picker")
   },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(12, program12, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "course.bulkChange", "course", options) : helperMissing.call(depth0, "link-to", "course.bulkChange", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                        <div class=\"col-xs-1\"></div>\n                        <button class=\"btn btn-warning col-xs-3\" ");
+  data.buffer.push("\n                        <div class=\"col-xs-1\"></div>\n                        <button class=\"btn btn-warning col-xs-5 col-sm-3\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "duplicate", "course", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0,depth0],types:["STRING","ID"],data:data})));
   data.buffer.push(">\n                            Duplicate\n                        </button>\n                        <table class=\"table table-hover\">\n                            <thead>\n                            <tr>\n                                <th></th>\n                                <th data-sort=\"string\" class=\"due-date\">Due Date</th>\n                                <th data-sort=\"string\" class=\"name\">Name</th>\n                                <th data-sort=\"string\" class=\"description\">Description </th>\n                            </tr>\n                            </thead>\n                            <tbody>\n\n                            ");
   stack1 = helpers.each.call(depth0, "assignment", "in", "course.assignments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});
@@ -314,7 +314,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'value': ("due_date"),
     'id': ("datetime")
   },hashTypes:{'type': "STRING",'value': "ID",'id': "STRING"},hashContexts:{'type': depth0,'value': depth0,'id': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n                    <input type=\"text\" id=\"date\" class=\"form-control\" required=\"required\"  size=\"16\" placeholder=\"Due Date\"/>\n                </div>\n\n                <div class=\"form-group input-append bootstrap-timepicker\">\n                    <input id=\"time\" type=\"hidden\" class=\"input-small\">\n                    <span class=\"add-on\"><i class=\"icon-time\"></i></span>\n                </div>\n            </div>\n            <div class=\"col-md-7\">\n                ");
+  data.buffer.push("\n                    <input type=\"text\" id=\"date\" class=\"form-control\" readonly=\"true\" required=\"required\"  size=\"16\" placeholder=\"Due Date\"/>\n                </div>\n\n                <div class=\"form-group input-append bootstrap-timepicker\">\n                    <input id=\"time\" type=\"hidden\" data-disable-focus=\"true\" readonly=\"true\" class=\"input-small\">\n                    <span class=\"add-on\"><i class=\"icon-time\"></i></span>\n                </div>\n            </div>\n            <div class=\"col-md-7\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("assignment_name"),

@@ -115,7 +115,9 @@ function initChooser() {
             $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
         });
 
+
         time.timepicker('showWidget');
+
         time.timepicker().on('hide.timepicker', function(e) {
             setTimeout(function () {
                 $('.bootstrap-timepicker-widget').addClass('open')
