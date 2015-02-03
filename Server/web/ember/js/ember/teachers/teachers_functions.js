@@ -2,6 +2,8 @@
  * Created by Dan on 9/23/14.
  */
 
+
+
 /* Extend jQuery */
 (function($){
     $.expr[':'].text = function(obj, index, meta, stack){
