@@ -138,7 +138,7 @@ function program7(depth0,data) {
   data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
     'id': ("course.id")
   },hashTypes:{'id': "ID"},hashContexts:{'id': depth0},contexts:[],types:[],data:data})));
-  data.buffer.push(">\n                    <header class=\"panel-heading row\">\n                        <div class=\"col-md-6\">\n                            ");
+  data.buffer.push(">\n                    <header class=\"panel-heading row\">\n                        <div class=\"col-sm-6\">\n                            ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'data-toggle': ("modal"),
     'href': ("#Picker")
@@ -147,7 +147,7 @@ function program7(depth0,data) {
   data.buffer.push("\n                            <br/>\n                            <span class=\"student-count\">");
   stack1 = helpers._triageMustache.call(depth0, "course.totalSubscribers", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(" students</span>\n                        </div>\n                        <div class=\"col-md-6 row\">\n                            ");
+  data.buffer.push(" students</span>\n                        </div>\n                        <div class=\"col-sm-6 row\">\n                            ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
     'class': ("btn btn-primary col-md-12"),
@@ -158,12 +158,12 @@ function program7(depth0,data) {
   data.buffer.push("\n                            <!--\n                            <div class=\"padded\">\n                                {#link-to 'message.new' course tag=\"button\"  class=\"col-md-7 btn btn-primary\" data-toggle=\"modal\" href=\"#Picker\"}}\n                                    <i class=\"fa fa-envelope\"></i> Send Message\n                                {/link-to}}\n\n                                {#link-to 'message.history' course tag=\"button\"  class=\"col-md-4 btn btn-primary pull-right\" data-toggle=\"modal\" href=\"#Picker\"}}\n                                    <i class=\"fa fa-archive\"></i>\n                                {/link-to}}\n                            </div>\n                            -->\n                        </div>\n\n                    </header>\n                    <div class=\"panel-body\">\n                        ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
-    'class': ("btn btn-primary col-md-3"),
+    'class': ("btn btn-primary col-xs-3"),
     'data-toggle': ("modal"),
     'href': ("#Picker")
   },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(12, program12, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "course.bulkChange", "course", options) : helperMissing.call(depth0, "link-to", "course.bulkChange", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                        <div class=\"col-md-1\"></div>\n                        <button class=\"btn btn-warning col-md-3\" ");
+  data.buffer.push("\n                        <div class=\"col-xs-1\"></div>\n                        <button class=\"btn btn-warning col-xs-3\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "duplicate", "course", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0,depth0],types:["STRING","ID"],data:data})));
   data.buffer.push(">\n                            Duplicate\n                        </button>\n                        <table class=\"table table-hover\">\n                            <thead>\n                            <tr>\n                                <th></th>\n                                <th data-sort=\"string\" class=\"due-date\">Due Date</th>\n                                <th data-sort=\"string\" class=\"name\">Name</th>\n                                <th data-sort=\"string\" class=\"description\">Description </th>\n                            </tr>\n                            </thead>\n                            <tbody>\n\n                            ");
   stack1 = helpers.each.call(depth0, "assignment", "in", "course.assignments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});

@@ -107,21 +107,6 @@ li{
 .notification-menu .dropdown-menu-usermenu{
   min-width: 150px;
 }
-@media (max-width: 600px) {
-  .wrapper .pull-left, .wrapper .pull-right{
-    float:none!important;
-  }
-  .modal-body .form-group div:not(:first-child){
-    margin-top: 20px;
-  }
-  .panel-heading button {
-    margin-top: 10px;
-    width: 100%;
-  }
-  .notification-menu li:first-child .dropdown-menu{
-    margin-right: 0!important;;
-  }
-}
 
 
 .panel-heading{
@@ -140,7 +125,7 @@ li{
   }
   @media (max-width:992px) {
     th:first-of-type{
-      width: 210px;
+      width: 20px;
     }
     th:nth-of-type(3), td:nth-of-type(3){
       display: none;
@@ -267,5 +252,38 @@ ul.courses{
     .btn{
       margin-top: -6px;
     }
+  }
+}
+
+@media all and (max-width: 991px){
+  .modal{
+    .modal-body{
+      max-height: 480px;
+      .form-group{
+        .col-md-7{
+          margin-top: 170px
+        }
+      }
+    }
+  }
+
+  .panel{
+    .panel-body{
+
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper .pull-left, .wrapper .pull-right{
+    float:none!important;
+  }
+
+  .panel-heading button {
+    margin-top: 10px;
+    width: 100%;
+  }
+  .notification-menu li:first-child .dropdown-menu{
+    margin-right: 0!important;;
   }
 }
