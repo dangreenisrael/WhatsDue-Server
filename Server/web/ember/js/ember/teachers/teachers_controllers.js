@@ -137,8 +137,9 @@ App.CourseBulkChangeController = Ember.ObjectController.extend({
                     }
 
                     dueDate = date+" "+time;
-                    console.log(dueDate);
                     dueDate = moment(dueDate, "dddd MMM Do YYYY h:mm A");
+                    dueDate = moment(dueDate).format('YYYY-MM-DD HH:mm');
+                    console.log(dueDate);
                     item.set('due_date', dueDate);
                     item.set('checked', false);
                     save(item, this);
