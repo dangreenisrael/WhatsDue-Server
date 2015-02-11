@@ -86,3 +86,34 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" >Send to ALL users</button>\n</div>");
   return buffer;
   });
+
+Ember.TEMPLATES["schools"] = Ember.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = '', stack1;
+  data.buffer.push("\n                                    <tr class=\"gradeX odd\">\n                                        <td class=\" \">");
+  stack1 = helpers._triageMustache.call(depth0, "school.school_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("</td>\n                                        <td class=\" \">");
+  stack1 = helpers._triageMustache.call(depth0, "school.total_users", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("</td>\n                                        <td class=\" \"> ");
+  stack1 = helpers._triageMustache.call(depth0, "school.total_courses", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push(" </td>\n                                    </tr>\n                                ");
+  return buffer;
+  }
+
+  data.buffer.push("\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <section class=\"panel\">\n            <header class=\"panel-heading\">\n                Schools\n                <!--\n                {#link-to 'message.new' data-toggle=\"modal\" href=\"#Picker\" class=\"btn btn-info pull-right\"}}\n                    Bulk Message\n                {/link-to}}\n                -->\n\n            </header>\n            <div class=\"panel-body\">\n                <div class=\"adv-table\">\n                    <div id=\"dynamic-table_wrapper\" class=\"dataTables_wrapper form-inline\" role=\"grid\">\n                        <table class=\"display table table-bordered table-striped dataTable\" id=\"dynamic-table\" aria-describedby=\"dynamic-table_info\">\n                            <thead>\n                            <tr role=\"row\">\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    School\n                                </th>\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    Total Users\n                                </th>\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    Total Courses\n                                </th>\n                            </tr>\n                            </thead>\n                            <tbody role=\"alert\" aria-live=\"polite\" aria-relevant=\"all\">\n                                ");
+  stack1 = helpers.each.call(depth0, "school", "in", "model", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n                            </tbody>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </section>\n    </div>\n</div>\n<div class=\"modal fade\" id=\"Picker\" data-backdrop=\"static\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\" style=\"display: none;\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            ");
+  stack1 = helpers._triageMustache.call(depth0, "outlet", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n        </div>\n    </div>\n</div>");
+  return buffer;
+  });

@@ -35,6 +35,12 @@ App.User = DS.Model.extend({
     }.property('last_login')
 });
 
+App.School = DS.Model.extend({
+    school_name:      DS.attr('string'),
+    total_courses:     DS.attr('number'),
+    total_users:     DS.attr('number')
+});
+
 App.Message = DS.Model.extend({
     title:  DS.attr('string'),
     body:   DS.attr('string')

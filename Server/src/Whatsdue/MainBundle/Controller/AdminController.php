@@ -71,6 +71,52 @@ class AdminController extends FOSRestController{
         return array("users" => array_values($teachers));
     }
 
+    /**
+     * @return array
+     * @View()
+     */
+    public function getSchoolsAction(){
+        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+
+        $courses = $courseRepository->findAll();
+
+        /* Get List of Schools (Shlemeil the Painter) */
+        foreach ($courses as $course){
+            $schools[] = $course->getSchoolName();
+
+        }
+        $schools = array_unique($schools);
+
+        $i = 0;
+
+        foreach ($schools as $school){
+            $i++;
+
+            if (!$school || ($school == "IDC Herzliya")){
+                continue;
+            }
+            $courses = $courseRepository->findBy(
+                array('schoolName'  => $school, 'archived' => 0)
+            );
+            /* Total Unique Users */
+            $deviceIds = [];
+            foreach ($courses as $course){
+                $currentDeviceIds = json_decode($course->getDeviceIds(), true);
+                $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+            }
+
+            $uniqueUsers = array_unique($deviceIds);
+
+            $SchoolInfo[$i] = array(
+                'id'                => $i,
+                'school_name'       => $school,
+                'total_courses'      => count($courses),
+                'total_users'      => count($uniqueUsers)
+            );
+        }
+
+        return array("schools" => array_values($SchoolInfo));
+    }
     /*
      * Messages Stuff
      */
