@@ -34,14 +34,9 @@ class TeacherController extends FOSRestController{
         return $request->headers->get($header);
     }
 
-
-
     /*
      * Courses Stuff
      */
-
-
-
     /**
      * @return array
      * @View()
