@@ -166,14 +166,17 @@ class StudentController extends Controller{
         $uuid = $_POST['uuid'];
         $platform = $_POST['platform'];
         $pushId = $_POST['pushId'];
+        $institutionName = $_POST['school'];
         $em = $this->getDoctrine()->getManager();
         if ($student = $em->getRepository('WhatsdueMainBundle:Students')->findOneBy(array('uuid' => $uuid))){
             $student->setPushId($pushId);
+            $student->setInstitutionName($institutionName);
         } else{
             $student = new Students;
             $student->setUuid($uuid);
             $student->setPlatform($platform);
             $student->setPushId($pushId);
+            $student->setInstitutionName($institutionName);
             $em->persist($student);
         }
         $em->flush();

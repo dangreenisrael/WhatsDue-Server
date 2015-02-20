@@ -10,6 +10,10 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+    whatsdue.last_route_event_listener:
+        class: Whatsdue\MainBundle\Classes\EventListeners
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: lastRoute, priority: 30 }
 
 # OAuth
     my_user_provider:
@@ -45,3 +49,8 @@ services:
 #SMS Service
     plivo:
         class: Whatsdue\MainBundle\Classes\Plivo
+
+#Helper Service
+    helper:
+        class: Whatsdue\MainBundle\Classes\Helpers
+        arguments: ['@service_container']

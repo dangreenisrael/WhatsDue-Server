@@ -31,6 +31,13 @@ class Students
     /**
      * @var string
      *
+     * @ORM\Column(name="institutionName", type="string", length=255)
+     */
+    private $institutionName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="platform", type="string", length=255)
      */
     private $platform;
@@ -120,5 +127,28 @@ class Students
     public function getPushId()
     {
         return $this->pushId;
+    }
+
+    /**
+     * Set institutionName
+     *
+     * @param string $institutionName
+     * @return Students
+     */
+    public function setInstitutionName($institutionName)
+    {
+        $this->institutionName = $institutionName;
+
+        return $this;
+    }
+
+    /**
+     * Get institutionName
+     *
+     * @return string 
+     */
+    public function getInstitutionName()
+    {
+        return $this->institutionName;
     }
 }
