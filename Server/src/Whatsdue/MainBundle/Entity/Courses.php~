@@ -330,4 +330,27 @@ class Courses
     }
 
 
+
+    /**
+     * Set schoolName
+     *
+     * @param string $schoolName
+     * @return Courses
+     */
+    public function setSchoolName($schoolName)
+    {
+        $this->schoolName = $schoolName;
+
+        return $this;
+    }
+
+    /**
+     * Get schoolName
+     *
+     * @return string 
+     */
+    public function getSchoolName()
+    {
+        return $this->schoolName;
+    }
 }

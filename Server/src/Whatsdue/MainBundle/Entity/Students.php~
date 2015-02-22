@@ -128,4 +128,27 @@ class Students
     {
         return $this->pushId;
     }
+
+    /**
+     * Set institutionName
+     *
+     * @param string $institutionName
+     * @return Students
+     */
+    public function setInstitutionName($institutionName)
+    {
+        $this->institutionName = $institutionName;
+
+        return $this;
+    }
+
+    /**
+     * Get institutionName
+     *
+     * @return string 
+     */
+    public function getInstitutionName()
+    {
+        return $this->institutionName;
+    }
 }

@@ -18,6 +18,7 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Whatsdue\MainBundle\Entity\Messages;
 use Whatsdue\MainBundle\Entity\Students;
+use Whatsdue\MainBundle\Entity\School;
 
 use Whatsdue\MainBundle\Classes\PushNotifications;
 
@@ -76,47 +77,85 @@ class AdminController extends FOSRestController{
      * @View()
      */
     public function getSchoolsAction(){
-        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
 
-        $courses = $courseRepository->findAll();
 
-        /* Get List of Schools (Shlemeil the Painter) */
-        foreach ($courses as $course){
-            $schools[] = $course->getSchoolName();
 
-        }
-        $schools = array_unique($schools);
-
+        $schoolRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:School');
+        $schools = $schoolRepository->findAll();
         $i = 0;
 
         foreach ($schools as $school){
             $i++;
-
-            if (!$school || ($school == "IDC Herzliya")){
-                continue;
-            }
-            $courses = $courseRepository->findBy(
-                array('schoolName'  => $school, 'archived' => 0)
-            );
-            /* Total Unique Users */
-            $deviceIds = [];
-            foreach ($courses as $course){
-                $currentDeviceIds = json_decode($course->getDeviceIds(), true);
-                $deviceIds = array_merge($deviceIds, $currentDeviceIds);
-            }
-
-            $uniqueUsers = array_unique($deviceIds);
-
-            $SchoolInfo[$i] = array(
-                'id'                => $i,
-                'school_name'       => $school,
-                'total_courses'      => count($courses),
-                'total_users'      => count($uniqueUsers)
-            );
+            $stats = $this->schoolStats($school);
+            $school->setTotalCourses($stats['courses']);
+            $school->setTotalUsers($stats['users']);
+            $SchoolInfo[$i] = $school;
         }
 
-        return array("schools" => array_values($SchoolInfo));
+        return array("school" => array_values($SchoolInfo));
     }
+
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function postSchoolAction(Request $request ){
+        $data = json_decode($request->getContent());
+        $school = new School();
+        $school->setName($data->school->name);
+        $school->setCity($data->school->city);
+        $school->setRegion($data->school->region);
+        $school->setCountry($data->school->country);
+        $school->setAddress($data->school->address);
+        $school->setContactName($data->school->contact_name);
+        $school->setContactEmail($data->school->contact_email);
+        $school->setContactPhone($data->school->contact_phone);
+        $school->setArchived(false);
+        $school->setTotalCourses(0);
+        $school->setTotalUsers(0);
+        $em = $this->getDoctrine($data->school->name)->getManager();
+        $em->persist($school);
+        $em->flush();
+        return array("school" => $school);
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function putSchoolAction($schoolId, Request $request){
+        $data = json_decode($request->getContent());
+        $em = $this->getDoctrine()->getManager();
+        $school = $em->getRepository('WhatsdueMainBundle:School')->find($schoolId);
+        $school->setCity($data->school->city);
+        $school->setRegion($data->school->region);
+        $school->setCountry($data->school->country);
+        $school->setAddress($data->school->address);
+        $school->setContactName($data->school->contact_name);
+        $school->setContactEmail($data->school->contact_email);
+        $school->setContactPhone($data->school->contact_phone);
+
+        $stats = $this->schoolStats($school);
+        $school->setTotalCourses($stats['courses']);
+        $school->setTotalUsers($stats['users']);
+
+        $em->flush();
+
+        return array("school"=>$school);
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function getSchoolsListAction(){
+        $schoolRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:School');
+        $school = $schoolRepository->findAll();
+        return array("school" => $school);
+    }
+
+
     /*
      * Messages Stuff
      */
@@ -160,5 +199,24 @@ class AdminController extends FOSRestController{
         //$pushNotifications->sendNotifications($title, $body, array('39cd2c28c433efca'));
 
         return array('message'=>$message);
+    }
+
+
+    /* Helper Methods */
+    private function schoolStats($school){
+        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+        $courses = $courseRepository->findBy(
+            array('schoolName'  => $school->getName(), 'archived' => 0)
+        );
+        /* Total Unique Users */
+        $deviceIds = [];
+        foreach ($courses as $course){
+            $currentDeviceIds = json_decode($course->getDeviceIds(), true);
+            $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+        }
+
+        $count['courses'] = count($courses);
+        $count['users']   = count(array_unique($deviceIds));
+        return $count;
     }
 }
