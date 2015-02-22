@@ -118,6 +118,8 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
+        /* Don't return device IDs*/
+        $course->setDeviceIds(null);
         return array('course'=>$course);
     }
 
@@ -128,22 +130,31 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
     public function putCourseAction($Id, Request $request){
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
-        $record->setCourseName($data->course->course_name);
-        $record->setInstructorName($data->course->instructor_name);
-        $record->setArchived($data->course->archived);
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
+        /*Authorize*/
+        $this->get('helper')->authorizeUser($course->getAdminId());
+
+        $course->setCourseName($data->course->course_name);
+        $course->setInstructorName($data->course->instructor_name);
+        $course->setArchived($data->course->archived);
         $em->flush();
-        return array("course"=>$record);
+        /* Don't return device IDs*/
+        $course->setDeviceIds(null);
+
+        return array("course"=>$course);
     }
 
     /**
      * @return array
      * @View()
      */
-    public function getCourseAction($Id, Request $request){
+    public function getCourseAction($courseId, Request $request){
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
-        return $record;
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+        $course->setDeviceIds(null);
+        /*Authorize*/
+        $this->get('helper')->authorizeUser($course->getAdminId());
+        return $course;
     }
 
     /**
@@ -152,11 +163,16 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      */
     public function getCourseAssignmentsAction($courseId, Request $request){
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Assignments')
+        $assignments = $em->getRepository('WhatsdueMainBundle:Assignments')
             ->findBy(
                 array('courseId' => $courseId)
             );
-        return $record;
+
+        /*Authorize*/
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+        $this->get('helper')->authorizeUser($course->getAdminId());
+
+        return $assignments;
     }
 
 
@@ -166,8 +182,11 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      */
     public function deleteCourseAction($Id){
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
-        $record->setArchived(true);
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
+        /*Authorize*/
+        $this->get('helper')->authorizeUser($course->getAdminId());
+
+        $course->setArchived(true);
         $em->flush();
         return $this->view('', 204);
     }
@@ -223,14 +242,16 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
     public function putAssignmentsAction($Id, Request $request){
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
-        $record->setDueDate($data->assignment->due_date);
-        $record->setDescription($data->assignment->description);
-        $record->setAssignmentName($data->assignment->assignment_name);
-        $record->setArchived($data->assignment->archived);
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        $assignment->setDueDate($data->assignment->due_date);
+        $assignment->setDescription($data->assignment->description);
+        $assignment->setAssignmentName($data->assignment->assignment_name);
+        $assignment->setArchived($data->assignment->archived);
+        /*Authorize*/
+        $this->get('helper')->authorizeUser($assignment->getAdminId());
 
         $em->flush();
-        return array('assignment' => $record);
+        return array('assignment' => $assignment);
     }
 
     /**
@@ -239,8 +260,11 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      */
     public function deleteAssignmentsAction($Id){
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
-        $record->setArchived(true);
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        /*Authorize*/
+        $this->get('helper')->authorizeUser($assignment->getAdminId());
+
+        $assignment->setArchived(true);
         $em->flush();
 
         return $this->view('', 204);
@@ -253,8 +277,11 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      */
     public function getAssignmentAction($Id){
         $em = $this->getDoctrine()->getManager();
-        $record = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
-        return array('assignment' => $record);
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        /*Authorize*/
+        $this->get('helper')->authorizeUser($assignment->getAdminId());
+
+        return array('assignment' => $assignment);
     }
 
 
@@ -295,8 +322,8 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $message->setBody($data->message->body);
         $message->setUsername($username);
         $em = $this->getDoctrine()->getManager();
-        $em->persist($message);
-        $em->flush();
+        //$em->persist($message);
+        //$em->flush();
         return array('message'=>$message);
     }
 

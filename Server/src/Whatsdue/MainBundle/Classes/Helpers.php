@@ -45,4 +45,13 @@ class Helpers {
         return $this->container->get('session')->get('last_url');
     }
 
+    public function authorizeUser($username){
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if ($username != $user->getUsername()){
+            http_response_code(400);
+            echo "Unauthorized";
+            exit;
+        }
+    }
+
 } 
