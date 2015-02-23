@@ -95,11 +95,11 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
   data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "close", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
-  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">New Course</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
+  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">New Course</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal school\">\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("name"),
-    'class': ("pull-left form-control"),
+    'class': ("pull-left form-control required"),
     'placeholder': ("School Name"),
     'disabled': ("Disabled")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'placeholder': "STRING",'disabled': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'placeholder': depth0,'disabled': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
@@ -107,7 +107,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("city"),
-    'class': ("form-control"),
+    'class': ("form-control required"),
     'size': ("16"),
     'placeholder': ("City")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
@@ -115,14 +115,14 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("region"),
-    'class': ("pull-left form-control"),
+    'class': ("pull-left form-control required"),
     'placeholder': ("Region")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("country"),
-    'class': ("form-control"),
+    'class': ("form-control required"),
     'size': ("16"),
     'placeholder': ("Country")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
@@ -130,7 +130,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("address"),
-    'class': ("pull-left form-control"),
+    'class': ("pull-left form-control required"),
     'placeholder': ("Address")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
@@ -156,7 +156,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'size': ("16"),
     'placeholder': ("Contact Phone")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n            </div>\n        </div>\n\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
+  data.buffer.push("\n            </div>\n        </div>\n\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(" >Save</button>\n</div>");
   return buffer;
@@ -227,42 +227,42 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
   data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "close", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
-  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">New Course</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
+  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">New Course</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal school\">\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("name"),
-    'class': ("pull-left form-control"),
-    'placeholder': ("School Name")
+    'class': ("pull-left form-control required"),
+    'placeholder': ("School Name*")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("city"),
-    'class': ("form-control"),
+    'class': ("form-control required"),
     'size': ("16"),
-    'placeholder': ("City")
+    'placeholder': ("City*")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n        </div>\n\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("region"),
-    'class': ("pull-left form-control"),
-    'placeholder': ("Region")
+    'class': ("pull-left form-control required"),
+    'placeholder': ("Region*")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("country"),
-    'class': ("form-control"),
+    'class': ("form-control required"),
     'size': ("16"),
-    'placeholder': ("Country")
+    'placeholder': ("Country*")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n        </div>\n\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("address"),
-    'class': ("pull-left form-control"),
-    'placeholder': ("Address")
+    'class': ("pull-left form-control required"),
+    'placeholder': ("Address*")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
@@ -287,7 +287,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'size': ("16"),
     'placeholder': ("Contact Phone")
   },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
+  data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(" >Save</button>\n</div>");
   return buffer;

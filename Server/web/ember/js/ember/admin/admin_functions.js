@@ -26,3 +26,15 @@ function loadView(){
     });
     resizePage();
 }
+
+function validateSchool (){
+    var inputs = $('.school .required');
+    var validated = true;
+    $.each(inputs, function(index, value){
+       if (!$(value).val()){
+           validated = false;
+           return false;
+       }
+    });
+    return validated;
+}

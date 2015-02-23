@@ -3,28 +3,28 @@
     <h4 class="modal-title">New Course</h4>
 </div>
 <div class="modal-body">
-    <form action="#" class="form-horizontal ">
+    <form action="#" class="form-horizontal school">
         <div class="form-group">
             <div class="col-md-6">
-                {{input type="text" value=name class="pull-left form-control" placeholder="School Name"}}
+                {{input type="text" value=name class="pull-left form-control required" placeholder="School Name*"}}
             </div>
             <div class="col-md-6">
-                {{input type="text" value=city  class="form-control" size="16" placeholder="City"}}
+                {{input type="text" value=city  class="form-control required" size="16" placeholder="City*"}}
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-6">
-                {{input type="text" value=region class="pull-left form-control" placeholder="Region"}}
+                {{input type="text" value=region class="pull-left form-control required" placeholder="Region*"}}
             </div>
             <div class="col-md-6">
-                {{input type="text" value=country  class="form-control" size="16" placeholder="Country"}}
+                {{input type="text" value=country  class="form-control required" size="16" placeholder="Country*"}}
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-6">
-                {{input type="text" value=address class="pull-left form-control" placeholder="Address"}}
+                {{input type="text" value=address class="pull-left form-control required" placeholder="Address*"}}
             </div>
             <div class="col-md-6">
                 {{input type="text" value=contact_name  class="form-control" size="16" placeholder="Contact Name"}}
@@ -43,5 +43,5 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button  data-dismiss="modal" class="btn btn-primary" type="button" {{action 'save'}} >Save</button>
+    <button class="btn btn-primary" type="button" {{action 'save'}} >Save</button>
 </div>
