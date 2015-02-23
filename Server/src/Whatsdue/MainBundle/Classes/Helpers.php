@@ -54,4 +54,16 @@ class Helpers {
         }
     }
 
+    public function getSchoolsList(){
+
+            $schoolRepository = $this->container->get('doctrine.orm.entity_manager')->getRepository('WhatsdueMainBundle:School');
+            $schools = $schoolRepository->findAll();
+            $schoolNames=array();
+            foreach ($schools as $school){
+                $schoolNames[$school->getName()] = $school->getName();
+            }
+        return $schoolNames;
+
+    }
+
 } 

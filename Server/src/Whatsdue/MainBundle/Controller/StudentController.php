@@ -232,44 +232,60 @@ class StudentController extends Controller{
     }
 
 
+//    /**
+//     * Forum Messages
+//     * @return array
+//     * @View()
+//     */
+//
+//    public function getForumsAssignmentsMessagesAction(){
+//        $currentTime = $this->timestamp();
+//        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:ForumMessages');
+//
+//        $messages = $repo
+//            ->findAll();
+//        $messages = array_filter($messages, array($this, 'filterMessages'));
+//
+//        $data = array(
+//            "message"=>$messages,
+//            "meta"=>array(
+//                "timestamp"=> $currentTime
+//            )
+//        );
+//        return $data;
+//    }
+
+//    /**
+//     * @return array
+//     * @View()
+//     */
+//    public function postForumsAssignmentsMessagesAction( Request $request ){
+//        $data = json_decode($request->getContent());
+//        $message = new ForumMessages();
+//        $message->setUserId($data->forum_message->user_id);
+//        $message->setType("assignment");
+//        $message->setReferenceId($data->forum_message->assignment_id);
+//        $message->setBody($data->forum_message->body);
+//        $em = $this->getDoctrine()->getManager();
+//        $em->persist($message);
+//        $em->flush();
+//        return array('forum_message'=>$message);
+//    }
+
     /**
-     * Forum Messages
      * @return array
      * @View()
      */
-
-    public function getForumsAssignmentsMessagesAction(){
-        $currentTime = $this->timestamp();
-        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:ForumMessages');
-
-        $messages = $repo
-            ->findAll();
-        $messages = array_filter($messages, array($this, 'filterMessages'));
-
-        $data = array(
-            "message"=>$messages,
-            "meta"=>array(
-                "timestamp"=> $currentTime
-            )
-        );
-        return $data;
-    }
-
-    /**
-     * @return array
-     * @View()
-     */
-    public function postForumsAssignmentsMessagesAction( Request $request ){
-        $data = json_decode($request->getContent());
-        $message = new ForumMessages();
-        $message->setUserId($data->forum_message->user_id);
-        $message->setType("assignment");
-        $message->setReferenceId($data->forum_message->assignment_id);
-        $message->setBody($data->forum_message->body);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($message);
-        $em->flush();
-        return array('forum_message'=>$message);
+    public function getSchoolsAction(){
+        $schoolRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:School');
+        $schools = $schoolRepository->findAll();
+        $i=0;
+        $schoolNames=array();
+        foreach ($schools as $school){
+            $i++;
+            $schoolNames[$i] = $school->getName();
+        }
+        return array("school" => array_values($schoolNames));
     }
 }
 

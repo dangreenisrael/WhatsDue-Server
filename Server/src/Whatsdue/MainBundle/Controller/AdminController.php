@@ -78,8 +78,6 @@ class AdminController extends FOSRestController{
      */
     public function getSchoolsAction(){
 
-
-
         $schoolRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:School');
         $schools = $schoolRepository->findAll();
         $i = 0;
