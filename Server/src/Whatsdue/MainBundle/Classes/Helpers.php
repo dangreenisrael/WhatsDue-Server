@@ -23,6 +23,10 @@ class Helpers {
 
     public function loginUser($username, $password){
 
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $securityContext->getToken()->getUser();
+        }
         /* Validate the User */
         $user_manager = $this->container->get('fos_user.user_manager');
         $factory = $this->container->get('security.encoder_factory');
@@ -41,8 +45,8 @@ class Helpers {
             $request = $this->container->get("request");
             $event = new InteractiveLoginEvent($request, $token);
             $this->container->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+            return $user;
         }
-        return $this->container->get('session')->get('last_url');
     }
 
     public function authorizeUser($username){

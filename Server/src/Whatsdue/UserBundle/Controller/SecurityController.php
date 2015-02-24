@@ -25,13 +25,6 @@ class SecurityController extends BaseController
     public function loginAction()
     {
 
-        $username = @$this->container->get('request')->headers->get("key");
-        $password = @$this->container->get('request')->headers->get("secret");
-        if ($username){
-            $lastUrl = $this->container->get('helper')->loginUser($username, $password);
-            return new RedirectResponse($lastUrl);
-        }
-
         $request = $this->container->get('request');
         /* @var $request \Symfony\Component\HttpFoundation\Request */
         $session = $request->getSession();

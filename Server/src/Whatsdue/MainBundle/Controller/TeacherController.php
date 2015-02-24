@@ -25,20 +25,22 @@ use Whatsdue\MainBundle\Classes\PushNotifications;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+
+class TeacherController extends FOSRestController{
 
 
-
-
-class TeacherController extends FOSRestController implements ContainerAwareInterface{
-
-    public function __construct(){
-
+    private function currentUser($context){
+        $username = @$context->container->get('request')->headers->get("key");
+        $password = @$context->container->get('request')->headers->get("secret");
+        return $this->container->get('helper')->loginUser($username, $password);
     }
 
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    private function authorizeUser($context, $username_check){
+        $username = @$context->container->get('request')->headers->get("key");
+        $password = @$context->container->get('request')->headers->get("secret");
+        $currentUser = $this->container->get('helper')->loginUser($username, $password);
+        if ($currentUser->getUsername() != $username_check) exit;
+        return true;
     }
 
     public function getHeader($header){
@@ -72,7 +74,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      */
     public function getUserAction(){
 
-        $user = $this->getUser();
+        $user = $this->currentUser($this);
         $user = array(
             'id'                  => $user->getId(),
             'username_canonical'  => $user->getUsernameCanonical(),
@@ -94,7 +96,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function getCoursesAction(){
-        $username = $this->getUser()->getUsername();
+        $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
         $courses = $repository->findByAdminId($username);
         return array("courses"=>$courses);
@@ -105,7 +107,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function postCourseAction(Request $request ){
-        $user = $this->getUser();
+        $user = $this->currentUser($this);
         $username = $user->getUsername();
         $school = $user->getInstitutionName();
         $data = json_decode($request->getContent());
@@ -132,7 +134,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
         /*Authorize*/
-        $this->get('helper')->authorizeUser($course->getAdminId());
+        $this->authorizeUser($this, $course->getAdminId());
 
         $course->setCourseName($data->course->course_name);
         $course->setInstructorName($data->course->instructor_name);
@@ -153,7 +155,8 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
         $course->setDeviceIds(null);
         /*Authorize*/
-        $this->get('helper')->authorizeUser($course->getAdminId());
+        $this->authorizeUser($this, $course->getAdminId());
+
         return $course;
     }
 
@@ -170,7 +173,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
 
         /*Authorize*/
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
-        $this->get('helper')->authorizeUser($course->getAdminId());
+        $this->authorizeUser($this, $course->getAdminId());
 
         return $assignments;
     }
@@ -184,7 +187,8 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
         /*Authorize*/
-        $this->get('helper')->authorizeUser($course->getAdminId());
+        $this->authorizeUser($this, $course->getAdminId());
+
 
         $course->setArchived(true);
         $em->flush();
@@ -209,7 +213,8 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function getAssignmentsAction(){
-        $username = $this->getUser()->getUsername();
+
+        $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
         $assignments = $repository->findByAdminId($username);
         return array("assignment" => $assignments);
@@ -220,7 +225,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function postAssignmentsAction( Request $request ){
-        $username = $this->getUser()->getUsername();
+        $username = $this->currentUser($this)->getUsername();
         $data = json_decode($request->getContent());
         $assignment = new Assignments();
         $assignment->setAssignmentName($data->assignment->assignment_name);
@@ -248,7 +253,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $assignment->setAssignmentName($data->assignment->assignment_name);
         $assignment->setArchived($data->assignment->archived);
         /*Authorize*/
-        $this->get('helper')->authorizeUser($assignment->getAdminId());
+        $this->authorizeUser($this, $assignment->getAdminId());
 
         $em->flush();
         return array('assignment' => $assignment);
@@ -262,7 +267,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $em = $this->getDoctrine()->getManager();
         $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         /*Authorize*/
-        $this->get('helper')->authorizeUser($assignment->getAdminId());
+        $this->authorizeUser($this, $assignment->getAdminId());
 
         $assignment->setArchived(true);
         $em->flush();
@@ -279,7 +284,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
         $em = $this->getDoctrine()->getManager();
         $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         /*Authorize*/
-        $this->get('helper')->authorizeUser($assignment->getAdminId());
+        $this->authorizeUser($this, $assignment->getAdminId());
 
         return array('assignment' => $assignment);
     }
@@ -303,7 +308,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function getMessagesAction(){
-        $username = $this->getUser()->getUsername();
+        $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Messages');
         $messages = $repository->findByUsername($username);
         return array("message" => $messages);
@@ -314,7 +319,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function postMessagesAction( Request $request ){
-        $username = $this->getUser()->getUsername();
+        $username = $this->currentUser($this)->getUsername();
         $data = json_decode($request->getContent());
         $message = new Messages();
         $message->setCourseId($data->message->course_id);
@@ -336,7 +341,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
      * @View()
      */
     public function getSettingsAction($setting){
-        $settingsSerialized = $this->getUser()->getSettings();
+        $settingsSerialized = $this->currentUser($this)->getSettings();
         $settings = json_decode(stripslashes($settingsSerialized),true);
         if (@$setting = $settings[$setting]){
             return $setting;
@@ -352,7 +357,7 @@ class TeacherController extends FOSRestController implements ContainerAwareInter
 
     public function putSettingsAction($settingPair){
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('WhatsdueMainBundle:User')->find($this->getUser()->getId());
+        $user = $em->getRepository('WhatsdueMainBundle:User')->find($this->currentUser($this)->getId());
         $settingsSerialized = $user->getSettings();
         $settings = json_decode(stripslashes($settingsSerialized),true);
         $settingPair = explode("-",$settingPair);
