@@ -51,16 +51,10 @@ teacher:
     type: rest
     prefix: /api/teacher
 
-
 admin_api:
     resource: Whatsdue\MainBundle\Controller\AdminController
     type: rest
     prefix: /api/admin
-
-api_login:
-    path:      /api/login
-    # uses a special syntax to point to the controller - see note below
-    defaults:  { _controller: WhatsdueMainBundle:Authentication:login }
 
 # Ember
 

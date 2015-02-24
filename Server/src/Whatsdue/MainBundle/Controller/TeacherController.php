@@ -25,19 +25,43 @@ use Whatsdue\MainBundle\Classes\PushNotifications;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 
 
 
-class TeacherController extends FOSRestController{
+class TeacherController extends FOSRestController implements ContainerAwareInterface{
 
+    public function __construct(){
 
+    }
+
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 
     public function getHeader($header){
         $request = Request::createFromGlobals();
         return $request->headers->get($header);
     }
 
+    /**
+     * @return array
+     * @View()
+     */
+    public function postLoginAction(){
+
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            echo "Authenticated";
+            // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+        }   else{
+            header("HTTP/1.1 403 Unauthorized");
+            echo "Not Authenticated";
+        }
+        return array();
+    }
 
     /*
      * Courses Stuff
@@ -70,18 +94,10 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getCoursesAction(){
-
-        $username = @$this->container->get('request')->headers->get("key");
-        $password = @$this->container->get('request')->headers->get("secret");
-        $this->container->get('helper')->loginUser($username, $password);
-//
-//        $username = $this->getUser()->getUsername();
-//        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
-//        $courses = $repository->findByAdminId($username);
-//        return array("courses"=>$courses);
-
-        echo "die";
-        exit;
+        $username = $this->getUser()->getUsername();
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+        $courses = $repository->findByAdminId($username);
+        return array("courses"=>$courses);
     }
 
     /**

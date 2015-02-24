@@ -31,7 +31,8 @@ class Helpers {
         $validated = $encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt());
         if (!$validated) {
             http_response_code(400);
-            return false;
+            echo "Validation Failed";
+            exit;
         } else {
             $token = new UsernamePasswordToken($user, null, "main", $user->getRoles());
             $this->container->get("security.context")->setToken($token); //now the user is logged in
@@ -40,8 +41,8 @@ class Helpers {
             $request = $this->container->get("request");
             $event = new InteractiveLoginEvent($request, $token);
             $this->container->get("event_dispatcher")->dispatch("security.interactive_login", $event);
-            return true;
         }
+        return $this->container->get('session')->get('last_url');
     }
 
     public function authorizeUser($username){
