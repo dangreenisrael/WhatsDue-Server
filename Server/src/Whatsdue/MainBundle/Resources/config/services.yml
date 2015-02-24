@@ -44,6 +44,13 @@ services:
             tags:
                 - { name: form.type, alias: whatsdue_user_registration }
 
+
+#FOS REST
+    whatsdue.teacher_controller:
+        class: Whatsdue\MainBundle\Controller\TeacherController
+        arguments: ['@service_container']
+
+
 #Push Notifications
     push_notifications:
         class: Whatsdue\MainBundle\Classes\PushNotifications

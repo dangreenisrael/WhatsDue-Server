@@ -30,7 +30,7 @@ Archiving Assignments
 
 All requests must contain 2 custom headers, `key` and `secret`.  The value of `key` should be the username of that installation, and the `secret` should be the password.
 
-The base URL for all requests should be `http://admin.whatsdueapp.com/api/teachers`.
+The base URL for all requests should be `http://stage.whatsdueapp.com/api/teachers`.
 
 All request bodies should be formatted as correct JSON, based on the following example:
 

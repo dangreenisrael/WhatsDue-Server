@@ -27,10 +27,11 @@ class SecurityController extends BaseController
 
         $username = @$this->container->get('request')->headers->get("key");
         $password = @$this->container->get('request')->headers->get("secret");
-        if ($username){
-            $lastUrl = $this->container->get('helper')->loginUser($username, $password);
-            return new RedirectResponse($lastUrl);
-        }
+//        if ($username){
+//            $lastUrl = $this->container->get('helper')->loginUser($username, $password);
+//            return new RedirectResponse($lastUrl);
+//        }
+        echo" no redirect"; exit;
 
         $request = $this->container->get('request');
         /* @var $request \Symfony\Component\HttpFoundation\Request */
