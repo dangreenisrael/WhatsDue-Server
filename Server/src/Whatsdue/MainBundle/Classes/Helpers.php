@@ -27,10 +27,11 @@ class Helpers {
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $securityContext->getToken()->getUser();
         }
+
+
         /* Validate the User */
-        $user_manager = $this->container->get('fos_user.user_manager');
+        $user = $this->container->get('fos_user.user_manager')->loadUserByUsername($username);;
         $factory = $this->container->get('security.encoder_factory');
-        $user = $user_manager->loadUserByUsername($username);
         $encoder = $factory->getEncoder($user);
         $validated = $encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt());
         if (!$validated) {
@@ -45,6 +46,7 @@ class Helpers {
             $request = $this->container->get("request");
             $event = new InteractiveLoginEvent($request, $token);
             $this->container->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+
             return $user;
         }
     }

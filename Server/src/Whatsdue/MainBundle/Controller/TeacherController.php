@@ -99,7 +99,12 @@ class TeacherController extends FOSRestController{
         $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
         $courses = $repository->findByAdminId($username);
-        return array("courses"=>$courses);
+        $cleanCourses = [];
+        foreach($courses as $course){
+            $course->setDeviceIds(null);
+            $cleanCourses[] = $course;
+        }
+        return array("courses"=>$cleanCourses);
     }
 
     /**

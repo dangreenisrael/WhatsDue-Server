@@ -30,7 +30,7 @@ Archiving Assignments
 
 All requests must contain 2 custom headers, `key` and `secret`.  The value of `key` should be the username of that installation, and the `secret` should be the password.
 
-The base URL for all requests should be `http://admin.whatsdueapp.com/api/teachers`.
+The base URL for all requests should be `http://stage.whatsdueapp.com/api/teacher`.
 
 All request bodies should be formatted as correct JSON, based on the following example:
 
@@ -39,7 +39,7 @@ All request bodies should be formatted as correct JSON, based on the following e
 	"assignment":{
   		"assignment_name":"Exercise 1",
  	 	"description":"Do the first exercise"
- 	 	"due_date":"2015-02-27 10:00",
+ 	 	"due_date":"2015-02-27 19:00",
   		"course_id":"209"
  	}
 }
@@ -157,7 +157,7 @@ In response you will receive:
         "admin_id": "dangreen",
         "assignment_name": "asdf",
         "description": "asdfasdf",
-        "due_date": "Fri Mar 20 2015 12:00:00 GMT+0200",
+        "due_date": "Fri Mar 20 2015 18:00",
         "archived": false,
         "created_at": 1422973593,
         "last_modified": 1422973593
@@ -193,7 +193,7 @@ To create a assignment, a `POST` request should be made to `/assignments` in the
 	"assignment":{
   		"assignment_name":"First Assignment",
    		"description":"Write Hello World",
-   		"due_date":"2015-02-27 10:00",
+   		"due_date":"2015-02-27 17:00",
    		"course_id":"215"
  	}
 }
@@ -209,7 +209,7 @@ In response you will receive:
         "admin_id": "dangreen",
         "assignment_name": "First Assignment",
         "description": "Write Hello World",
-        "due_date": "2015-02-27 10:00",
+        "due_date": "2015-02-27 17:00",
         "archived": false,
         "created_at": 1424596262,
         "last_modified": 1424596262
@@ -231,7 +231,7 @@ In response you will receive:
         "admin_id": "dangreen",
         "assignment_name": "First Assignment",
         "description": "Write Hello World",
-        "due_date": "2015-02-27 10:00",
+        "due_date": "2015-02-27 17:00",
         "archived": false,
         "created_at": 1424596262,
         "last_modified": 1424596262
@@ -273,6 +273,7 @@ In response, you will receive:
     }
 }
 ```
+
 
 <a name="archiveassignment"></a>
 ### Archiving an Assignment
