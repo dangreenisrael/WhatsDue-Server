@@ -39,7 +39,7 @@ class AdminController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $records = $em
             ->getRepository('WhatsdueMainBundle:Courses')
-            ->findBy(array("courseCode"=>""));
+            ->findBy(array("courseCode"=>null));
 
         foreach ($records as $record){
             $courseCode = $this->container->get('helper')->createCourseCode();
