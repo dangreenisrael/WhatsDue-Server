@@ -394,4 +394,50 @@ class School
     }
 
 
+
+    /**
+     * Set createdAt
+     *
+     * @param integer $createdAt
+     * @return School
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return integer 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set lastModified
+     *
+     * @param integer $lastModified
+     * @return School
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
+
+        return $this;
+    }
+
+    /**
+     * Get lastModified
+     *
+     * @return integer 
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
 }

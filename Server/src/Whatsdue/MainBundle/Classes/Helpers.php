@@ -72,4 +72,23 @@ class Helpers {
 
     }
 
+    public function createCourseCode(){
+        $length = 6;
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        /*
+         * We are using a loop to 5 because anything greater that that would likely be an error
+         */
+        for ($i=0; $i<5; $i++ ){
+            $courseCode = '';
+            for ($i = 0; $i < $length; $i++) {
+                $courseCode .= $characters[rand(0, $charactersLength - 1)];
+            }
+            $courseRepository = $this->container->get('doctrine.orm.entity_manager')->getRepository('WhatsdueMainBundle:Courses');
+            if(! $courseRepository->findOneBy(array('courseCode' => $courseCode))){
+                return $courseCode;
+            }
+        }
+    }
+
 } 

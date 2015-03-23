@@ -48,6 +48,10 @@ class TeacherController extends FOSRestController{
         return $request->headers->get($header);
     }
 
+    public function createCourseCode(){
+        return $courseCode = $this->container->get('helper')->createCourseCode();
+    }
+
     /**
      * @return array
      * @View()
@@ -96,6 +100,7 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getCoursesAction(){
+
         $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
         $courses = $repository->findByAdminId($username);
@@ -121,6 +126,7 @@ class TeacherController extends FOSRestController{
         $course->setInstructorName($data->course->instructor_name);
         $course->setAdminId($username);
         $course->setDeviceIds('{}');
+        $course->setCourseCode($this->createCourseCode());
         $course->setSchoolName($school);
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
@@ -147,7 +153,6 @@ class TeacherController extends FOSRestController{
         $em->flush();
         /* Don't return device IDs*/
         $course->setDeviceIds(null);
-
         return array("course"=>$course);
     }
 

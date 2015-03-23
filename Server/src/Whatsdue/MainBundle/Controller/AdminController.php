@@ -30,6 +30,27 @@ class AdminController extends FOSRestController{
         return $request->headers->get($header);
     }
 
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function getGenerateCodesAction(){
+        $em = $this->getDoctrine()->getManager();
+        $records = $em
+            ->getRepository('WhatsdueMainBundle:Courses')
+            ->findBy(array("courseCode"=>""));
+
+        foreach ($records as $record){
+            $courseCode = $this->container->get('helper')->createCourseCode();
+            $record->setCourseCode($courseCode);
+        }
+        $em->flush();
+
+        return $records;
+    }
+
+
     /**
      * @return array
      * @View()

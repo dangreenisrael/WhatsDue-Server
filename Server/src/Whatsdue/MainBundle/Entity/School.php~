@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\SchoolRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class School
 {
@@ -83,6 +84,45 @@ class School
      * @ORM\Column(name="archived", type="boolean")
      */
     private $archived;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="createdAt", type="integer", length=255)
+     */
+    private $createdAt;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lastModified", type="integer", length=255)
+     */
+    private $lastModified;
+
+    private function timestamp(){
+        $date = new \DateTime();
+        return $date->format('U');
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = $this->timestamp();
+        $this->lastModified = $this->timestamp();
+    }
+
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setLastUpdatedValue()
+    {
+        $this->lastModified = $this->timestamp();
+    }
 
 
 
@@ -279,4 +319,79 @@ class School
     {
         return $this->contactPhone;
     }
+
+    /**
+     * Set archived
+     *
+     * @param boolean $archived
+     * @return School
+     */
+    public function setArchived($archived)
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * Get archived
+     *
+     * @return boolean 
+     */
+    public function getArchived()
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @var integer
+     */
+    private $totalUsers;
+
+    /**
+     * Set Total Users
+     *
+     * @param integer $totalUsers
+     * @return School
+     */
+    public function setTotalUsers($totalUsers)
+    {
+        return $this->totalUsers = $totalUsers;
+    }
+
+    /**
+     * Get Total Users
+     *
+     * @return integer
+     */
+    public function getTotalUsers(){
+        return $this->totalUsers;
+    }
+
+    /**
+     * @var integer
+     */
+    private $totalCourses;
+
+    /**
+     * Set Total Courses
+     *
+     * @param integer $totalCourses
+     * @return School
+     */
+    public function setTotalCourses($totalCourses)
+    {
+        return $this->totalCourses = $totalCourses;
+    }
+
+    /**
+     * Get Total Courses
+     *
+     * @return integer
+     */
+    public function getTotalCourses(){
+        return $this->totalCourses;
+    }
+
+
 }

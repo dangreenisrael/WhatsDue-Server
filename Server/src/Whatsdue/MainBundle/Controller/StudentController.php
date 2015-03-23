@@ -50,17 +50,23 @@ class StudentController extends Controller{
         $sendAll = $this->getHeader('sendAll');
         $timestamp = json_decode($this->getHeader('timestamp'));
         if ($sendAll == true){
-            $products = $courses->findAll();
+            $courses = $courses->findAll();
         } else{
             $query = $courses->createQueryBuilder('p')
                 ->where('p.lastModified >= :timestamp')
                 ->setParameter('timestamp', $timestamp)
                 ->getQuery();
-            $products = $query->getResult();
+            $courses = $query->getResult();
+        }
+
+        $cleanCourses = [];
+        foreach($courses as $course){
+            $course->setDeviceIds(null);
+            $cleanCourses[] = $course;
         }
 
         $data = array(
-            "course"=>$products,
+            "course"=>$cleanCourses,
             "meta"=>array(
                 "timestamp"=> $this->timestamp()
             )
