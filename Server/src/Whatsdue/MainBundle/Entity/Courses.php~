@@ -35,6 +35,13 @@ class Courses
     /**
      * @var string
      *
+     * @ORM\Column(name="courseCode", type="string", length=10)
+     */
+    private $courseCode;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="instructorName", type="string", length=50)
      */
     private $instructorName;
@@ -330,4 +337,27 @@ class Courses
     }
 
 
+
+    /**
+     * Set schoolName
+     *
+     * @param string $schoolName
+     * @return Courses
+     */
+    public function setSchoolName($schoolName)
+    {
+        $this->schoolName = $schoolName;
+
+        return $this;
+    }
+
+    /**
+     * Get schoolName
+     *
+     * @return string 
+     */
+    public function getSchoolName()
+    {
+        return $this->schoolName;
+    }
 }

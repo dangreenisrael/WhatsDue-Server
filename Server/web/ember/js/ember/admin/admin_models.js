@@ -4,7 +4,7 @@
 
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    namespace: 'api/admin'
+    namespace: 'app_dev.php/api/admin'
 });
 
 
@@ -35,8 +35,22 @@ App.User = DS.Model.extend({
     }.property('last_login')
 });
 
-App.School = DS.Model.extend({
+App.Usage = DS.Model.extend({
     school_name:      DS.attr('string'),
+    total_courses:     DS.attr('number'),
+    total_users:     DS.attr('number')
+});
+
+
+App.School = DS.Model.extend({
+    name:               DS.attr('string'),
+    city:               DS.attr('string'),
+    region:             DS.attr('string'),
+    address:            DS.attr('string'),
+    country:            DS.attr('string'),
+    contact_name:        DS.attr('string'),
+    contact_email:       DS.attr('string'),
+    contact_phone:       DS.attr('string'),
     total_courses:     DS.attr('number'),
     total_users:     DS.attr('number')
 });

@@ -4,11 +4,9 @@
         <section class="panel">
             <header class="panel-heading">
                 Schools
-                <!--
-                {#link-to 'message.new' data-toggle="modal" href="#Picker" class="btn btn-info pull-right"}}
-                    Bulk Message
-                {/link-to}}
-                -->
+                {{#link-to 'schools.new' data-toggle="modal" href="#Picker" class="btn btn-info pull-right"}}
+                    New School
+                {{/link-to}}
 
             </header>
             <div class="panel-body">
@@ -31,7 +29,9 @@
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
                                 {{#each school in model}}
                                     <tr class="gradeX odd">
-                                        <td class=" ">{{school.school_name}}</td>
+                                        {{#link-to 'school.edit' school tag="td" data-toggle="modal" href="#Picker"}}
+                                            {{school.name}}
+                                        {{/link-to}}
                                         <td class=" ">{{school.total_users}}</td>
                                         <td class=" "> {{school.total_courses}} </td>
                                     </tr>

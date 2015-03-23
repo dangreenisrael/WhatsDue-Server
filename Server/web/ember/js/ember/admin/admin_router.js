@@ -8,7 +8,12 @@ App.Router.map(function(){
             this.route('new');
         });
     });
-    this.resource('schools');
+    this.resource('schools', function() {
+        this.route('new');
+        this.resource('school', {path: ':id'}, function () {
+            this.route('edit');
+        })
+    });
 });
 
 
@@ -39,4 +44,3 @@ App.SchoolsRoute = Ember.Route.extend({
         )
     }
 });
-

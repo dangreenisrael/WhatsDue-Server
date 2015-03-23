@@ -144,7 +144,10 @@ function program7(depth0,data) {
     'href': ("#Picker")
   },hashTypes:{'data-toggle': "STRING",'href': "STRING"},hashContexts:{'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(8, program8, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "main.editCourse", "course", options) : helperMissing.call(depth0, "link-to", "main.editCourse", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                            <br/>\n                            <span class=\"student-count\">");
+  data.buffer.push("\n                            <br/>\n                            ");
+  stack1 = helpers._triageMustache.call(depth0, "course.course_code", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push(" -\n                            <span class=\"student-count\">");
   stack1 = helpers._triageMustache.call(depth0, "course.totalSubscribers", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push(" students</span>\n                        </div>\n                        <div class=\"col-sm-6 row\">\n                            ");

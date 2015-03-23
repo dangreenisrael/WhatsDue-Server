@@ -41,7 +41,7 @@ class Assignments
     /**
      * @var string
      *
-     * @ORM\Column(name="assignmentName", type="string", length=500)
+     * @ORM\Column(name="assignmentName", type="string", length=50)
      */
     private $assignmentName;
 

@@ -10,6 +10,10 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+    whatsdue.last_route_event_listener:
+        class: Whatsdue\MainBundle\Classes\EventListeners
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: lastRoute, priority: 30 }
 
 # OAuth
     my_user_provider:
@@ -22,18 +26,21 @@ services:
         class: Whatsdue\MainBundle\Handler\AuthenticationSuccessHandler
         public: false
         arguments:  [@router, @security.context]
+
     whatsdue_user.profile.form.type:
             class: Whatsdue\UserBundle\Form\Type\ProfileFormType
             tags:
                 - { name: form.type, alias: whatsdue_user_profile }
+
     whatsdue_user.form.handler.profile:
             class: Whatsdue\UserBundle\Form\Handler\ProfileFormHandler
             arguments: ["@fos_user.profile.form", "@request", "@fos_user.user_manager", "@fos_user.mailer"]
             scope: request
             public: false
+
     whatsdue_user.registration.form.type:
             class: Whatsdue\UserBundle\Form\Type\RegistrationFormType
-            arguments: [%fos_user.model.user.class%]
+            arguments: ['@service_container']
             tags:
                 - { name: form.type, alias: whatsdue_user_registration }
 
@@ -45,3 +52,8 @@ services:
 #SMS Service
     plivo:
         class: Whatsdue\MainBundle\Classes\Plivo
+
+#Helper Service
+    helper:
+        class: Whatsdue\MainBundle\Classes\Helpers
+        arguments: ['@service_container']
