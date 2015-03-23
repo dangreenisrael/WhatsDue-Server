@@ -35,6 +35,7 @@ class AdminController extends FOSRestController{
      * @return array
      * @View()
      */
+    
     public function getGenerateCodesAction(){
         $em = $this->getDoctrine()->getManager();
         $records = $em
