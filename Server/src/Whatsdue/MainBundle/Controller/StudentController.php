@@ -74,6 +74,29 @@ class StudentController extends Controller{
         return $data;
     }
 
+    /**
+     * @return array
+     * @View()
+     */
+    public function getCourseAction($courseCode){
+        $course = $this->getDoctrine()
+                ->getRepository('WhatsdueMainBundle:Courses')
+                ->findOneBy(array('courseCode'=> $courseCode));
+        if($course){
+            $course->setDeviceIds(null);
+            $data = array(
+                "course"=>$course,
+            );
+            return $data;
+        }
+        else{
+            header("HTTP/1.1 404 Course Not Found");
+            echo "Course not found";
+            exit;
+        }
+
+    }
+
 
 
     /******* Get Assignments by ID: json array of course IDs ********/
