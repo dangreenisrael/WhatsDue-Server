@@ -1,3 +1,8 @@
+/*
+ * Colors
+ */
+
+@dark-blue: #374152;
 
 
 body{
@@ -120,6 +125,17 @@ li{
   }
 }
 
+.datepicker{
+  @media (max-width: 767px){
+    th.switch{
+      font-size: 22px;
+    }
+    td, th{
+      font-size: 20px;
+      padding: 8px!important;
+    }
+  }
+}
 .panel-body {
   th.due-date{
       width: 150px;
@@ -127,6 +143,7 @@ li{
   th.name {
       width: 150px;
   }
+
   @media (max-width:992px) {
     th:first-of-type{
       width: 20px;
@@ -145,6 +162,12 @@ li{
 .modal-body {
   textarea{
     height: 152px;
+  }
+  #date{
+    @media (max-width: 600px) {
+      width: 96%;
+    }
+    width:96%!important;
   }
   .col-md-5 .form-group{
     margin-left: 0;
@@ -225,6 +248,16 @@ li{
   }
 }
 
+
+.header-section{
+  .add-course{
+    font-size: 18px;
+    margin: 15px;
+    @media (min-width: 767px) {
+      display: none;
+    }
+  }
+}
 ul.courses{
   margin-top:20px;
   @media (max-width: 767px) {
@@ -278,6 +311,7 @@ ul.courses{
   }
 }
 
+
 @media (max-width: 600px) {
   .wrapper .pull-left, .wrapper .pull-right{
     float:none!important;
@@ -298,5 +332,17 @@ ul.courses{
         font-size: 20px;
       }
     }
+  }
+
+  .notification-menu{
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 767px) {
+  .zopim{
+    display: none!important;
   }
 }

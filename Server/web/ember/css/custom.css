@@ -1,3 +1,6 @@
+/*
+ * Colors
+ */
 body {
   background-color: #eff0f4;
 }
@@ -89,6 +92,16 @@ li {
   font-weight: 200;
   font-size: 12px;
 }
+@media (max-width: 767px) {
+  .datepicker th.switch {
+    font-size: 22px;
+  }
+  .datepicker td,
+  .datepicker th {
+    font-size: 20px;
+    padding: 8px!important;
+  }
+}
 .panel-body th.due-date {
   width: 150px;
 }
@@ -110,6 +123,14 @@ li {
 }
 .modal-body textarea {
   height: 152px;
+}
+.modal-body #date {
+  width: 96%!important;
+}
+@media (max-width: 600px) {
+  .modal-body #date {
+    width: 96%;
+  }
 }
 .modal-body .col-md-5 .form-group {
   margin-left: 0;
@@ -184,6 +205,15 @@ li {
   background-color: #0075b0;
   visibility: visible!important;
 }
+.header-section .add-course {
+  font-size: 18px;
+  margin: 15px;
+}
+@media (min-width: 767px) {
+  .header-section .add-course {
+    display: none;
+  }
+}
 ul.courses {
   margin-top: 20px;
 }
@@ -234,5 +264,13 @@ ul.courses {
   .modal .modal-footer button {
     height: 60px;
     font-size: 20px;
+  }
+  .notification-menu {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .zopim {
+    display: none!important;
   }
 }

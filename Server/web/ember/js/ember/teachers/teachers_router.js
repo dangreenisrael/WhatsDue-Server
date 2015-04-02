@@ -11,6 +11,9 @@ App.Router.map(function(){
             this.resource('message', {path:'messages'}, function(){
                 this.route('new');
                 this.route('history');
+            });
+            this.resource('email', {path:'email'}, function(){
+                this.route('invite');
             })
         });
         this.route('editCourse', {path: 'edit-course/:id'});
@@ -107,7 +110,6 @@ App.MessageNewRoute = Ember.Route.extend({
 App.MessageHistoryRoute = Ember.Route.extend({
     model: function() {
         var id = this.modelFor('course').id;
-        console.log(this.store.find('message', {course_id:id}))
         return this.store.find('message', {course_id:id});
     }
 });

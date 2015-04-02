@@ -6,13 +6,12 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
     namespace: 'app_dev.php/api/teacher'
 });
 
+
 App.Course = DS.Model.extend({
     course_name:         DS.attr('string'),
     instructor_name:     DS.attr('string'),
     admin_id:            DS.attr('string'),
     course_code:         DS.attr('string'),
-    last_modified:       DS.attr('number'),
-    created_at:          DS.attr('number'),
     archived:            DS.attr('boolean'),
     device_ids:          DS.attr('string',  {defaultValue: "{}"}),
     assignments:         DS.hasMany('Assignment'),
@@ -50,8 +49,8 @@ App.Assignment = DS.Model.extend({
 });
 
 App.Message = DS.Model.extend({
-    username:           DS.attr('string'),
     body:               DS.attr('string'),
+    title:              DS.attr('string'),
     updated_at:         DS.attr('number'),
     course_id:          DS.belongsTo('course', {async:true}),
     date: function(){

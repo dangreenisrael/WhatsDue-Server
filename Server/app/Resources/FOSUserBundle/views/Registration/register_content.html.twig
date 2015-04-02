@@ -22,22 +22,19 @@
         'style'       : 'float:right; width:49%'
         }}) }}
 
-        {{ form_widget(form.institutionName, {'attr': {
-        'class': 'combobox form-control',
-        'placeholder' : 'School or Institution'
-        }}) }}
-
-
         {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'E-Mail'}}) }}
 
 
+        {{ form_widget(form.institutionName, {'attr': {
+        'class': ' form-control',
+        'placeholder' : 'School Name'
+        }}) }}
+
+
         {{ form_widget(form.username, {'attr': {
-        'class': 'form-control',
-        'placeholder' : 'Choose User ID',
-        'maxlength'   : 10,
-        'oninvalid'   : "setCustomValidity('Only Numbers and Letters Please (no spaces or symbols)')",
-        'onchange'    : "try{setCustomValidity('')}catch(e){}",
-        'pattern'     : "[a-zA-Z0-9]+"
+            'maxlength'     : 10,
+            'class'          : 'hidden',
+            'value'         : '123456789'
         }}) }}
 
         {{ form_widget(form.plainPassword.first, {
@@ -59,7 +56,7 @@
 
 
         <button value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
-            <i class="fa fa-check"></i>
+            <i class="fa fa-check"></i> Sign Up`
         </button>
     {{ form_widget(form) }}
     </div>

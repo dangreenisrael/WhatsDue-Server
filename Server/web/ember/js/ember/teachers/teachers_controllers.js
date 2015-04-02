@@ -1,6 +1,6 @@
 /**
- * Created by Dan on 9/22/14.
- */
+* Created by Dan on 9/22/14.
+*/
 function save(model, context){
     model.save().then(function (e) {
         $('#Picker').modal('hide');
@@ -89,6 +89,8 @@ App.MainEditCourseController = Ember.ObjectController.extend({
 App.CourseNewAssignmentController = Ember.ObjectController.extend({
     actions: {
         save: function() {
+
+            console.log(this.get('model'));
             if (validateAssignment() == true) {
                 var data = this.get('model');
                 var assignment = this.store.createRecord('assignment', {
@@ -153,10 +155,11 @@ App.MainNewCourseController = Ember.ObjectController.extend({
     needs:['main'],
     actions: {
         save: function() {
+            var userName = user.salutation + " " + user.first_name + " " + user.last_name;
             var data = this.get('model');
             var course = this.store.createRecord('course', {
                 course_name: data.course_name,
-                instructor_name: data.instructor_name
+                instructor_name: userName
             });
             save(course, this);
             $('#add-first-course').hide();
@@ -180,7 +183,8 @@ App.MessageNewController = Ember.ObjectController.extend({
                 var data = this.get('model');
                 var message = this.store.createRecord('message', {
                     course_id:          data,
-                    body:               data.body
+                    body:               data.body,
+                    title:              data.title
                 });
                 save(message, this);
                 save(this.get('model'));
@@ -198,7 +202,59 @@ App.MessageNewController = Ember.ObjectController.extend({
 });
 
 App.MessageHistoryController = Ember.ArrayController.extend({
-    sortProperties: ['updated_at'],
-    sortAscending: false,
     needs: ['course']
+});
+
+App.EmailInviteController = Ember.ObjectController.extend({
+
+    emailMessage: function(){
+        var message =
+        "Hi Class, \nI am now putting all of your assignments on the WhatsDue app.\n" +
+        "All the information you need to get started can be found in this email\n" +
+        "Cheers, ";
+        return message + " " + user.first_name + " " + user.last_name;
+    }.property(),
+    actions: {
+        send: function() {
+            var data = this.get('model');
+            var payload =
+            {email:
+                {
+                    course_code: 	data.get('course_code'),
+                    course_name:	data.get('course_name'),
+                    email_list:     this.get('emailAddresses'),
+                    message:	    this.get('emailMessage')
+                }
+            };
+
+            var context = this;
+            $.ajax({
+                type: "POST",
+                url: "/app_dev.php/api/teacher/emails/invites",
+                data: JSON.stringify(payload),
+                dataType: "json",
+                contentType: 'application/json; charset=UTF-8',
+                success: function(response){
+                    /*
+                     * Display bad emails
+                     */
+                    var invalidEmails = response.emails_invalid;
+                    console.log(invalidEmails);
+                    if (invalidEmails.length > 0 ){
+                        alert("The following email addresses aren't valid:\n" + invalidEmails.join(","))
+                    }
+                    else{
+                        trackEvent("Invitation Email Sent");
+                        context.transitionToRoute('main');
+                        $('#Picker').modal('hide')
+                    }
+                }
+            });
+
+        },
+        close: function(){
+            this.get('model').rollback();
+            this.transitionToRoute('main');
+        }
+    }
 });

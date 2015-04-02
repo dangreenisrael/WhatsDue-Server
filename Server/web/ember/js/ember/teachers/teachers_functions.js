@@ -71,8 +71,16 @@ function initChooser() {
         var dayMonth = moment($('#datetime').val()).format('D');
         $(".day:not('.new, .old'):text("+dayMonth+")").addClass('active')
         */
+        date.on('click', function(){
+            hideKeyboard();
+        });
+        $('.bootstrap-timepicker-widget').on('click', function(){
+            hideKeyboard();
+        });
+
         date.datepicker({
             onRender: function(date) {
+                hideKeyboard();
                 return date.valueOf() < today.valueOf() ? 'disabled' : '';
             }
             }).on('changeDate', function(ev){
@@ -230,7 +238,7 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue){
     secondValue = secondValue || null;
 
     var options = {};
-    options['username'] = username;
+    options['username'] = user.email;
     if (firstOption != null) {
         options[firstOption] = firstValue;
         if (secondOption != null) {
@@ -240,3 +248,11 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue){
 
     ll('tagEvent', event, options);
 }
+
+var hideKeyboard = function() {
+    document.activeElement.blur();
+    var inputs = document.querySelectorAll('input');
+    for(var i=0; i < inputs.length; i++) {
+        inputs[i].blur();
+    }
+};

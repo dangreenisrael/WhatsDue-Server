@@ -1,13 +1,26 @@
 Ember.TEMPLATES["application"] = Ember.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1;
+  var buffer = '', stack1, helper, options, self=this, helperMissing=helpers.helperMissing;
 
+function program1(depth0,data) {
+  
+  
+  data.buffer.push("\n                Add Courses\n            ");
+  }
 
-  data.buffer.push("<section>\n\n    <!-- main content start-->\n    <div class=\"main-content\" >\n\n    <!-- header section start-->\n    <div class=\"header-section\">\n\n        <!--notification menu start -->\n        <div class=\"pull-left\">\n            <img id=\"logo\" src=\"/ember/images/whatsdue-logo.png\"/>\n        </div>\n        <div class=\"menu-right\">\n            <ul class=\"notification-menu\">\n                <li>\n                    <a href=\"#\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">\n                        <i class=\"fa fa-info-circle\"></i> <strong>");
-  stack1 = helpers._triageMustache.call(depth0, "userName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  data.buffer.push("<section>\n\n    <!-- main content start-->\n    <div class=\"main-content\" >\n\n    <!-- header section start-->\n    <div class=\"header-section\">\n\n        <!--notification menu start -->\n        <div class=\"pull-left\">\n            <img id=\"logo\" src=\"/ember/images/whatsdue-logo.png\"/>\n\n\n        </div>\n        <div class=\"menu-right\">\n            ");
+  stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
+    'tag': ("i"),
+    'class': ("fa fa-plus-square-o pointer add-course btn btn-primary"),
+    'data-toggle': ("modal"),
+    'href': ("#Picker")
+  },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "main.newCourse", options) : helperMissing.call(depth0, "link-to", "main.newCourse", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</strong>\n                        <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-usermenu pull-right\">\n                        <li><a href=\"mailto:aaron@whatsdueapp.com\"><i class=\"fa fa-envelope\"></i>Email Aaron</a></li>\n                        <li><a href=\"skype:aarontaylor613?call\"><i class=\"fa fa-phone\"></i>Skype Aaron</a></li>\n                        <li><a href=\"/logout\"><i class=\"fa fa-sign-out\"></i> Log Out</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n        <!--notification menu end -->\n    </div>\n    <!-- header section end-->\n\n\n\n    <!--body wrapper start-->\n    <div class=\"wrapper\">\n        ");
+  data.buffer.push("\n            <ul class=\"notification-menu\">\n                <li>\n                    <a href=\"#\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">\n                        ");
+  stack1 = helpers._triageMustache.call(depth0, "email", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n                        <i class=\"fa fa-info-circle\"></i>\n                        <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-usermenu pull-right\">\n                        <li><a href=\"mailto:aaron@whatsdueapp.com\"><i class=\"fa fa-envelope\"></i>Email Aaron</a></li>\n                        <li><a href=\"skype:aarontaylor613?call\"><i class=\"fa fa-phone\"></i>Skype Aaron</a></li>\n                        <li><a href=\"/logout\"><i class=\"fa fa-sign-out\"></i> Log Out</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n        <!--notification menu end -->\n    </div>\n    <!-- header section end-->\n\n\n\n    <!--body wrapper start-->\n    <div class=\"wrapper\">\n        ");
   stack1 = helpers._triageMustache.call(depth0, "outlet", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n\n    </div>\n    <!--body wrapper end-->\n\n\n\n    </div>\n    <!-- main content end-->\n</section>\n<!--footer section start-->\n<footer id=\"mainFooter\">\n    2014 &copy; WhatsDue\n</footer>\n<!--footer section end-->\n\n\n<div class=\"overlay\" style=\"display: none\">\n    \n</div>");
@@ -64,7 +77,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">");
   stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(" - New Assignment</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-5\">\n\n                <div class=\"form-group\">\n                    ");
+  data.buffer.push(" - New Assignment</h4>\n</div>\n\n<div class=\"modal-body\">\n        <div class=\"form-group\">\n            <div class=\"col-md-5\">\n\n                <div class=\"form-group\">\n                    ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("due_date"),
@@ -87,9 +100,38 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'class': ("pull-left form-control"),
     'placeholder': ("Description")
   },hashTypes:{'id': "STRING",'value': "ID",'maxlength': "STRING",'class': "STRING",'placeholder': "STRING"},hashContexts:{'id': depth0,'value': depth0,'maxlength': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\n            </div>\n        </div>\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary col-xs-12\" type=\"button\" ");
+  data.buffer.push("\n            </div>\n        </div>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary col-xs-12\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(" >Save</button>\n</div>\n");
+  return buffer;
+  });
+
+Ember.TEMPLATES["email/invite"] = Ember.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, helper, options, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
+
+
+  data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "close", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">");
+  stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push(": New Message</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n\n            <div class=\"col-md-12\">\n                <h4>\n                    Feel free to change this message\n                </h4>\n                ");
+  data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
+    'value': ("emailMessage"),
+    'class': ("form-control padded"),
+    'placeholder': ("Message to your students")
+  },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
+  data.buffer.push("\n            </div>\n\n            <div class=\"col-md-12\">\n                <h4>\n                    Please enter a list of all your students' email addresses\n                </h4>\n                ");
+  data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
+    'value': ("emailAddresses"),
+    'class': ("form-control padded"),
+    'placeholder': ("List of emails seperated by commas, spaces, or new lines")
+  },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
+  data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" type=\"button\" ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "send", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(" >Save</button>\n</div>");
   return buffer;
   });
 
@@ -153,22 +195,22 @@ function program7(depth0,data) {
   data.buffer.push(" students</span>\n                        </div>\n                        <div class=\"col-sm-6 row\">\n                            ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
-    'class': ("btn btn-primary col-md-12"),
+    'class': ("btn btn-primary col-md-6"),
     'data-toggle': ("modal"),
     'href': ("#Picker")
   },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(10, program10, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "course.newAssignment", "course", options) : helperMissing.call(depth0, "link-to", "course.newAssignment", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                            <!--\n                            <div class=\"padded\">\n                                {#link-to 'message.new' course tag=\"button\"  class=\"col-md-7 btn btn-primary\" data-toggle=\"modal\" href=\"#Picker\"}}\n                                    <i class=\"fa fa-envelope\"></i> Send Message\n                                {/link-to}}\n\n                                {#link-to 'message.history' course tag=\"button\"  class=\"col-md-4 btn btn-primary pull-right\" data-toggle=\"modal\" href=\"#Picker\"}}\n                                    <i class=\"fa fa-archive\"></i>\n                                {/link-to}}\n                            </div>\n                            -->\n                        </div>\n\n                    </header>\n                    <div class=\"panel-body\">\n                        ");
+  data.buffer.push("\n\n                            <!--<div class=\"padded\">-->\n                                <!--{#link-to 'message.new' course tag=\"button\"  class=\"col-md-7 btn btn-primary\" data-toggle=\"modal\" href=\"#Picker\"}}-->\n                                    <!--<i class=\"fa fa-envelope\"></i> Send Message-->\n                                <!--{/link-to}}-->\n\n                                <!--{#link-to 'message.history' course tag=\"button\"  class=\"col-md-4 btn btn-primary pull-right\" data-toggle=\"modal\" href=\"#Picker\"}}-->\n                                    <!--<i class=\"fa fa-archive\"></i>-->\n                                <!--{/link-to}}-->\n                            <!--</div>-->\n\n                                ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
-    'class': ("btn btn-primary col-xs-5 col-sm-3"),
+    'class': ("btn btn-primary col-md-5 pull-right"),
     'data-toggle': ("modal"),
     'href': ("#Picker")
-  },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(12, program12, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "course.bulkChange", "course", options) : helperMissing.call(depth0, "link-to", "course.bulkChange", "course", options));
+  },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(12, program12, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "email.invite", "course", options) : helperMissing.call(depth0, "link-to", "email.invite", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                        <div class=\"col-xs-1\"></div>\n                        <!--<button class=\"btn btn-warning col-xs-5 col-sm-3\" ");
+  data.buffer.push("\n\n                        </div>\n\n                    </header>\n                    <div class=\"panel-body\">\n\n                        <!--{#link-to 'course.bulkChange' course tag=\"button\" class=\"btn btn-primary col-xs-5 col-sm-3\" data-toggle=\"modal\" href=\"#Picker\"}}-->\n                            <!--Bulk-->\n                        <!--{/link-to}}-->\n\n                        <div class=\"col-xs-1\"></div>\n                        <!--<button class=\"btn btn-warning col-xs-5 col-sm-3\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "duplicate", "course", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0,depth0],types:["STRING","ID"],data:data})));
-  data.buffer.push(">-->\n                            <!--Duplicate-->\n                        <!--</button>-->\n                        <table class=\"table table-hover\">\n                            <thead>\n                            <tr>\n                                <th></th>\n                                <th data-sort=\"string\" class=\"due-date\">Due Date</th>\n                                <th data-sort=\"string\" class=\"name\">Name</th>\n                                <th data-sort=\"string\" class=\"description\">Description </th>\n                            </tr>\n                            </thead>\n                            <tbody>\n\n                            ");
+  data.buffer.push(">-->\n                            <!--Duplicate-->\n                        <!--</button>-->\n                        <table class=\"table table-hover\">\n                            <thead>\n                            <tr>\n                                <!--<th></th>-->\n                                <th data-sort=\"string\" class=\"due-date\">Due Date</th>\n                                <th data-sort=\"string\" class=\"name\">Name</th>\n                                <th data-sort=\"string\" class=\"description\">Description </th>\n                            </tr>\n                            </thead>\n                            <tbody>\n\n                            ");
   stack1 = helpers.each.call(depth0, "assignment", "in", "course.assignments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n                            </tbody>\n                        </table>\n                    </div>\n                </li>\n            ");
@@ -196,7 +238,7 @@ function program10(depth0,data) {
 function program12(depth0,data) {
   
   
-  data.buffer.push("\n                            Bulk\n                        ");
+  data.buffer.push("\n                                    <i class=\"fa fa-users\"></i> Invite Users\n                                ");
   }
 
 function program14(depth0,data) {
@@ -211,12 +253,7 @@ function program14(depth0,data) {
 function program15(depth0,data) {
   
   var buffer = '', stack1, helper, options;
-  data.buffer.push("\n                                    <tr>\n                                        <td>\n                                            ");
-  data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
-    'type': ("checkbox"),
-    'checked': ("assignment.checked")
-  },hashTypes:{'type': "STRING",'checked': "ID"},hashContexts:{'type': depth0,'checked': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n                                        </td>\n                                        ");
+  data.buffer.push("\n                                    <tr>\n                                        <!--<td>-->\n                                            <!--{input type=\"checkbox\" checked=assignment.checked}}-->\n                                        <!--</td>-->\n                                        ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tagName': ("td"),
     'class': ("assignment"),
@@ -353,7 +390,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">");
   stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
+  data.buffer.push("</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-12\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("course_name"),
@@ -361,15 +398,6 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'class': ("form-control"),
     'size': ("16"),
     'placeholder': ("Course Name")
-  },hashTypes:{'type': "STRING",'value': "ID",'maxlength': "STRING",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'maxlength': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
-  data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
-    'type': ("text"),
-    'value': ("instructor_name"),
-    'maxlength': ("20"),
-    'class': ("form-control"),
-    'size': ("16"),
-    'placeholder': ("Instructor Name")
   },hashTypes:{'type': "STRING",'value': "ID",'maxlength': "STRING",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'maxlength': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
@@ -410,7 +438,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
   data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "close", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
-  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">New Course</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-6\">\n                ");
+  data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">New Course</h4>\n</div>\n<div class=\"modal-body\">\n        <div class=\"form-group\">\n            <div class=\"col-md-12\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
     'type': ("text"),
     'value': ("course_name"),
@@ -418,15 +446,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'class': ("pull-left form-control"),
     'placeholder': ("Course Name")
   },hashTypes:{'type': "STRING",'value': "ID",'maxlength': "STRING",'class': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'maxlength': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n            </div>\n            <div class=\"col-md-6\">\n                ");
-  data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
-    'type': ("text"),
-    'value': ("instructor_name"),
-    'class': ("form-control"),
-    'size': ("16"),
-    'placeholder': ("Instructor Name")
-  },hashTypes:{'type': "STRING",'value': "ID",'class': "STRING",'size': "STRING",'placeholder': "STRING"},hashContexts:{'type': depth0,'value': depth0,'class': depth0,'size': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
+  data.buffer.push("\n            </div>\n        </div>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(" >Save</button>\n</div>");
   return buffer;
@@ -441,7 +461,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">Welcome to WhatsDue</h4>\n</div>\n\n<div class=\"modal-body\">\n\n    <p>Hey ");
   stack1 = helpers._triageMustache.call(depth0, "firstName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(", </p>\n    <p>\n        Here's how to use WhatsDue. (Do the same thing for each course)\n    </p>\n    <ol>\n        <li>\n            Click <strong>\"Add a Course\"</strong> and fill in the details\n        </li>\n        <li>\n            Click <strong>\"Add an Assignment\"</strong> and do the same\n        </li>\n        <li>\n            Tell your students to search for <strong>");
+  data.buffer.push(", </p>\n    <p>\n        Here's how to use WhatsDue. (Do the same thing for each course)\n    </p>\n    <ol>\n        <li>\n            Click <strong>\"Add a Course\"</strong> and fill in the details\n        </li>\n        <li>\n            Click <strong>\"Add an Assignment\"</strong> and do the same.\n        </li>\n        <li>\n            Tell your students to search for <strong>");
   stack1 = helpers._triageMustache.call(depth0, "userName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("</strong> in the app.\n        </li>\n    </ol>\n   <p>\n       If you have any questions, you can get a hold of us by email or Skype 24/7\n   </p>\n    <p>\n        Thanks for using WhatsDue\n    </p>\n    <p>\n        Dan & Aaron\n    </p>\n</div>\n\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
@@ -472,7 +492,7 @@ function program1(depth0,data) {
   stack1 = helpers._triageMustache.call(depth0, "controllers.course.course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push(": Message History</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-12\">\n                <div class=\"panel-body\">\n                    <table class=\"table table-striped\">\n                        <thead>\n                        <tr>\n                            <th>Date</th>\n                            <th>Message</th>\n                        </tr>\n                        </thead>\n                        <tbody>\n                            ");
-  stack1 = helpers.each.call(depth0, "message", "in", "model", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});
+  stack1 = helpers.each.call(depth0, "message", "in", "controller", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" >Close</button>\n</div>");
   return buffer;
@@ -489,10 +509,16 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">");
   stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(": New Message</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n            <div class=\"col-md-12\">\n                ");
+  data.buffer.push(": New Message</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n\n            <div class=\"col-md-12 row\">\n                ");
+  data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
+    'value': ("title"),
+    'class': (" form-control"),
+    'placeholder': ("Title")
+  },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\n            </div>\n            <div class=\"col-md-12\">\n                ");
   data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
     'value': ("body"),
-    'class': ("pull-left form-control"),
+    'class': ("form-control"),
     'placeholder': ("Type message to class")
   },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
   data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");

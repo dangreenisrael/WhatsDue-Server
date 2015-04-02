@@ -4,20 +4,32 @@ Ember.LinkView.reopen({
     attributeBindings: ['data-toggle']
 });
 
-var username;
+var user;
 
 $.get('/api/teacher/user', function(data){
 
-    var user = data.user;
-    username  = user.username_canonical;
-    var first_name = user.first_name;
+    user        = data.user;
+    var lastName    = user.last_name;
+    var firstName   = user.first_name;
+    var salutation  = user.salutation;
+    var email       = user.email;
+
     trackEvent('Opened Site');
-    Ember.Handlebars.helper('userName', function() {
-        return new Ember.Handlebars.SafeString(username)
+
+    Ember.Handlebars.helper('lastName', function() {
+        return new Ember.Handlebars.SafeString(lastName)
     });
 
     Ember.Handlebars.helper('firstName', function() {
-        return new Ember.Handlebars.SafeString(first_name)
+        return new Ember.Handlebars.SafeString(firstName)
+    });
+
+    Ember.Handlebars.helper('salutation', function() {
+        return new Ember.Handlebars.SafeString(salutation)
+    });
+
+    Ember.Handlebars.helper('email', function() {
+        return new Ember.Handlebars.SafeString(email)
     });
 
 });

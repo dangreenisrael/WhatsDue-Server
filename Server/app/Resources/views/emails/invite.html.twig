@@ -3,7 +3,7 @@
 <head>
 </head>
 <body style="font-family: 'Veranda', sans-serif;">
-<div style="padding: 20px;">
+<div style="padding: 20px; font-size: 15px; line-height: 16px">
     <!-- Start Header -->
     <div style="border-bottom: 5px solid #333; height: 60px; padding-bottom: 10px">
         <img src="http://test.whatsdueapp.com/public-assets/email-header.png" height="60"style="height: 60px; float: left;" alt="WhatsDue">
@@ -17,29 +17,21 @@
 		</span>
 
         <h3 style="font-weight: 400;">
-            Hey Class,
+            Please add {{ courseName }} on WhatsDue
         </h3>
         <div style="font-weight: 100;">
             <p>
-                Your teacher, {{ user.salutation }} {{ user.first }} {{ user.last }}, has just started using WhatsDue.
+                {{ message | raw}}
             </p>
-            <p>
-                WhatsDue is a new app for keeping track of your class assignments.
+            <p style="padding-top: 10px">
+                <i>
+                    Add {{ courseName }} using the course code <strong>{{ courseCode }}</strong>
+                </i>
             </p>
-            <p>
-                To start using it, just download the app from the iOS App Store or Google Play.
-            </p>
-            <p>
-                The unique course code for {{ course.name }} is <strong>{{ course.code }}</strong>.
-            </p>
-            <p>
-                <a href="http://whatsdueapp.com">Click here for more info</a>
-            </p>
-
             <a href="http://whatsdueapp.com">
                 <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#teacherModal" style="
                   padding: 10px 20px;
-                  font-size: 20px;
+                  font-size: 25px;
                   font-weight: 300;
                   margin-bottom: 20px;
                   display: inline-block;
@@ -60,6 +52,13 @@
                     Get It Here <br>
                 </button>
             </a>
+            <p>
+                FYI, WhatsDue is an easy to use to-do list app for
+                <strong>{{ courseName }} </strong> and many of your other classes.
+            </p>
+            <p>
+                All of your assignments are already here, all you need to do is install the app.
+            </p>
 
         </div>
         <div style="width: 50px; border-bottom: 3px solid #333; padding: 10px 0;"></div>

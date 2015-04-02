@@ -22,12 +22,6 @@ class Messages
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=255)
-     */
-    private $username;
 
     /**
      * @var integer
@@ -53,14 +47,14 @@ class Messages
     /**
      * @var string
      *
-     * @ORM\Column(name="createdAt", type="string", length=255)
+     * @ORM\Column(name="createdAt", type="integer", length=255)
      */
     private $createdAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="updatedAt", type="string", length=255)
+     * @ORM\Column(name="updatedAt", type="integer", length=255)
      */
     private $updatedAt;
 
@@ -75,28 +69,6 @@ class Messages
         return $this->id;
     }
 
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return Messages
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string 
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
 
     /**
      * Set courseId

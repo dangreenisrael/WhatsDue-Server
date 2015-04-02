@@ -3874,3 +3874,9 @@ img.corner-logo{
     background-color: #eaeaec;
     border: none;
 }
+
+@media (max-width: 767px) {
+    .zopim{
+        display: none!important;
+    }
+}

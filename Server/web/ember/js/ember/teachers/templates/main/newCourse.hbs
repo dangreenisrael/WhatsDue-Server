@@ -3,17 +3,11 @@
     <h4 class="modal-title">New Course</h4>
 </div>
 <div class="modal-body">
-    <form action="#" class="form-horizontal ">
         <div class="form-group">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 {{input type="text" value=course_name maxlength="20" class="pull-left form-control" placeholder="Course Name"}}
             </div>
-            <div class="col-md-6">
-                {{input type="text" value=instructor_name  class="form-control" size="16" placeholder="Instructor Name"}}
-            </div>
         </div>
-
-    </form>
 </div>
 <div class="modal-footer">
     <button  data-dismiss="modal" class="btn btn-primary" type="button" {{action 'save'}} >Save</button>
