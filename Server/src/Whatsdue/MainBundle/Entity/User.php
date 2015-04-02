@@ -17,6 +17,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  */
+
+/*
+ * Note: email is set to username in lifecycle actions
+ */
+
 class User extends BaseUser
 {
     /**
@@ -29,6 +34,9 @@ class User extends BaseUser
 
     /** @ORM\Column(name="settings", type="string", nullable=true) */
     protected $settings;
+
+    /** @ORM\Column(name="salutation", type="string") */
+    protected $salutation;
 
     /** @ORM\Column(name="first_name", type="string") */
     protected $firstName;
@@ -73,6 +81,30 @@ class User extends BaseUser
     {
         return $this->settings;
     }
+
+    /**
+     * Set salutation
+     *
+     * @param string $salutation
+     * @return User
+     */
+    public function setSalutation($salutation)
+    {
+        $this->salutation = $salutation;
+
+        return $this;
+    }
+
+    /**
+     * Get salutation
+     *
+     * @return string
+     */
+    public function getSalutation()
+    {
+        return $this->salutation;
+    }
+
 
     /**
      * Set First Name

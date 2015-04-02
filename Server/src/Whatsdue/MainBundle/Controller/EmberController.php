@@ -19,7 +19,18 @@ class EmberController extends Controller
     }
 
     public function testAction(){
-        return $this->render('WhatsdueMainBundle:Ember:test.html.twig');
+
+        $user['first']      = "Dan";
+        $user['last']       = "Green";
+        $user['salutation'] = "Mr.";
+
+        $course['name']     = "English 10";
+        $course['code']     = "COURSE";
+
+        return $this->container->get('templating')->renderResponse('WhatsdueMainBundle:Ember:test.html.twig', array(
+            'user'      => $user,
+            'course'    => $course
+        ));
     }
 
 }

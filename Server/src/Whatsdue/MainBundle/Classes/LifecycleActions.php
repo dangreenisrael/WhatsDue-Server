@@ -54,14 +54,28 @@ class LifecycleActions {
             $this->pushNotifications->sendNotifications($title, $message, $deviceIds);
         }
 
+    }
+
+    public function postPersist(LifeCycleEventArgs $args){
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
+
         if ($entity instanceof User) {
             $message = "A new user signed up - " .
-                        $entity -> getFirstName() . " " . $entity -> getLastName() .
-                        " from " . $entity->getInstitutionName();
+                $entity -> getFirstName() . " " . $entity -> getLastName() .
+                " from " . $entity->getInstitutionName();
             $this->container->get('plivo')->sendSMS('+972507275599', $message);
+
+            /*
+             * Make set username as Id
+             */
+
+            $userId = $entity->getId();
+            $entity->setUsername($userId);
+            $entity->setUsernameCanonical($userId);
+            $em->persist($entity);
+            $em->flush();
         }
-
-
     }
 
     public function preUpdate(LifeCycleEventArgs $args){

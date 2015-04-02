@@ -10,6 +10,13 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+
+    whatsdue.courses.post_persist:
+        class: Whatsdue\MainBundle\Classes\LifecycleActions
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
     whatsdue.last_route_event_listener:
         class: Whatsdue\MainBundle\Classes\EventListeners
         tags:
@@ -28,21 +35,26 @@ services:
         arguments:  [@router, @security.context]
 
     whatsdue_user.profile.form.type:
-            class: Whatsdue\UserBundle\Form\Type\ProfileFormType
-            tags:
-                - { name: form.type, alias: whatsdue_user_profile }
+        class: Whatsdue\UserBundle\Form\Type\ProfileFormType
+        tags:
+            - { name: form.type, alias: whatsdue_user_profile }
 
     whatsdue_user.form.handler.profile:
-            class: Whatsdue\UserBundle\Form\Handler\ProfileFormHandler
-            arguments: ["@fos_user.profile.form", "@request", "@fos_user.user_manager", "@fos_user.mailer"]
-            scope: request
-            public: false
+        class: Whatsdue\UserBundle\Form\Handler\ProfileFormHandler
+        arguments: ["@fos_user.profile.form", "@request", "@fos_user.user_manager", "@fos_user.mailer"]
+        scope: request
+        public: false
 
     whatsdue_user.registration.form.type:
-            class: Whatsdue\UserBundle\Form\Type\RegistrationFormType
-            arguments: ['@service_container']
-            tags:
-                - { name: form.type, alias: whatsdue_user_registration }
+        class: Whatsdue\UserBundle\Form\Type\RegistrationFormType
+        arguments: ['@service_container']
+        tags:
+            - { name: form.type, alias: whatsdue_user_registration }
+
+    whatsdue_user.login.email_provider:
+        class: Whatsdue\UserBundle\Security\Provider\EmailProvider
+        public: false
+        arguments: ["@fos_user.user_manager"]
 
 #Push Notifications
     push_notifications:

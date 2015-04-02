@@ -28,28 +28,7 @@ class RegistrationFormType extends AbstractType
 
         $builder->add('firstName');
         $builder->add('lastName');
-        $builder->add('institutionName',
-            'choice',
-            array(
-                'choices' => $this->container->get('helper')->getSchoolsList()
-            )
-        );
-//        $builder->add('institutionName', 'choice', array(
-//            'choices'   => array(
-//                ''                                       => 'Choose a School (Type to Search)',
-//                'IDC Herzliya'                           => 'IDC Herzliya',
-//                'Front Range Community College'          => 'Front Range Community College',
-//                'UMD (University of Maryland)'           => 'UMD (University of Maryland)',
-//                'UNK (University of Nebraska Kearney)'   => 'UNK (University of Nebraska Kearney)',
-//                'KPU (Kwantlen Polytechnic University)'  => 'KPU (Kwantlen Polytechnic University)',
-//                'Ryerson University'                     => 'Ryerson University',
-//                'UWO (University of Western Ontario)'    => 'UWO (University of Western Ontario)',
-//                'UBC (University of British Columbia)'   => 'UBC (University of British Columbia)',
-//                'RYNJ' => 'RYNJ'
-//
-//            ),
-//            'multiple'  => false,
-//        ));
+        $builder->add('institutionName');
     }
 
     public function getName()

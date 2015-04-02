@@ -77,15 +77,18 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getUserAction(){
-
         $user = $this->currentUser($this);
         $user = array(
-            'id'                  => $user->getId(),
-            'username_canonical'  => $user->getUsernameCanonical(),
-            'first_name'          => $user->getFirstName()
+            'id'                    => $user->getId(),
+            'first_name'            => $user->getFirstName(),
+            'last_name'             => $user->getLastName(),
+            'email'                 => $user->getEmailCanonical(),
+            'salutation'            => "Mr."
         );
         return array("user" => $user);
     }
+
+
 
     /**
      * @return array
@@ -318,9 +321,9 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getMessagesAction(){
-        $username = $this->currentUser($this)->getUsername();
+        $course = $_GET['course_id'];
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Messages');
-        $messages = $repository->findByUsername($username);
+        $messages = $repository->findBy(array('courseId'=>$course));
         return array("message" => $messages);
     }
 
@@ -329,17 +332,96 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function postMessagesAction( Request $request ){
-        $username = $this->currentUser($this)->getUsername();
         $data = json_decode($request->getContent());
         $message = new Messages();
-        $message->setCourseId($data->message->course_id);
-        $message->setTitle('');
-        $message->setBody($data->message->body);
-        $message->setUsername($username);
+        $message->setCourseId(  $data->message->course_id);
+        $message->setTitle(     $data->message->title);
+        $message->setBody(      $data->message->body);
         $em = $this->getDoctrine()->getManager();
-        //$em->persist($message);
-        //$em->flush();
+        $em->persist($message);
+        $em->flush();
         return array('message'=>$message);
+    }
+
+    /**
+     * @return array
+     * @View
+     */
+
+    public function postEmailInviteAction(Request $request){
+        $data       = json_decode($request->getContent());
+        $mailer     = $this->get('mailer');
+
+        // Setting sender name as username:
+        $user= $this->get('security.context')->getToken()->getUser();
+        $firstName  = $user->getFirstName();
+        $lastName   = $user->getLastName();
+        $salutation = $user->getSalutation();
+        $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
+
+        $message        = $data->email->message;
+        $courseName     = $data->email->course_name;
+        $courseCode     = $data->email->course_code;
+        $subject        = "Please add $courseName on WhatsDue";
+
+        // Fix formatting
+
+        $message = str_replace("\n", "</p><p>", $message);
+
+        /*
+         * Handle Emails
+         */
+        $emailsRaw     = preg_split( "/\n|,| /", $data->email->email_list );
+        $emailsDirty   = array_values( array_filter($emailsRaw) );
+        $emailsValid   = [];
+        $emailsInvalid     = [];
+        foreach ($emailsDirty as $email){
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+                // Email is valid
+                $emailsValid[]=$email;
+            } else{
+                // Email is invalid
+                $emailsInvalid[]=$email;
+            }
+        }
+
+        /*
+         * Send Emails
+         */
+        $message = $mailer->createMessage()
+            ->setSubject($subject)
+            ->setFrom($from)
+            ->setTo($emailsValid)
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/email/invite.html.twig
+                    'emails/invite.html.twig',
+                    array(
+                        'message'       => $message,
+                        'courseName'    => $courseName,
+                        'courseCode'    => $courseCode,
+                        'teacherName'   => $salutation
+                    )
+                ),
+                'text/html'
+            )
+            /*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'Emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+        $mailer->send($message);
+
+        return array(
+            "emails_valid"      =>$emailsValid,
+            "emails_invalid"    => $emailsInvalid
+            );
     }
 
     /*
