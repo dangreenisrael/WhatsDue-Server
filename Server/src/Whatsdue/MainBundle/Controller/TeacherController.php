@@ -353,7 +353,7 @@ class TeacherController extends FOSRestController{
         $mailer     = $this->get('mailer');
 
         // Setting sender name as username:
-        $user= $this->get('security.context')->getToken()->getUser();
+        $user= $this->currentUser($this);
         $firstName  = $user->getFirstName();
         $lastName   = $user->getLastName();
         $salutation = $user->getSalutation();
