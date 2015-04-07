@@ -3,23 +3,30 @@
         {{ form_errors(form.plainPassword.first) }}
         {{ form_errors(form.plainPassword.second) }}
         {{ form_errors(form.username) }}
+
         {{ form_errors(form.email) }}
+        {{ form_errors(form.salutation) }}
         {{ form_errors(form.firstName) }}
         {{ form_errors(form.lastName) }}
         {{ form_errors(form.institutionName) }}
 
 
+        {{ form_widget(form.salutation, {'attr': {
+            'class': 'form-control',
+            'style'       : 'float:left; width:19%; height: 40px; margin-right: 1%; font-size: 12px'
+            }})
+        }}
 
         {{ form_widget(form.firstName, {'attr': {
             'class': 'form-control',
             'placeholder' : 'First Name',
-            'style'       : 'float:left; width:49%'
+            'style'       : 'float:left; width:40%'
         }}) }}
 
         {{ form_widget(form.lastName, {'attr': {
         'class': 'form-control',
         'placeholder' : 'Last Name',
-        'style'       : 'float:right; width:49%'
+        'style'       : 'float:right; width:39%'
         }}) }}
 
         {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'E-Mail'}}) }}
@@ -33,8 +40,7 @@
 
         {{ form_widget(form.username, {'attr': {
             'maxlength'     : 10,
-            'class'          : 'hidden',
-            'value'         : '123456789'
+            'class'          : 'hidden'
         }}) }}
 
         {{ form_widget(form.plainPassword.first, {
@@ -56,7 +62,7 @@
 
 
         <button value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-lg btn-login btn-block" type="submit">
-            <i class="fa fa-check"></i> Sign Up`
+            <i class="fa fa-check"></i> Sign Up
         </button>
     {{ form_widget(form) }}
     </div>

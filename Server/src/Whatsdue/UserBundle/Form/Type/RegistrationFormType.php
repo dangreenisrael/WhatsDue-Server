@@ -29,6 +29,24 @@ class RegistrationFormType extends AbstractType
         $builder->add('firstName');
         $builder->add('lastName');
         $builder->add('institutionName');
+        $builder->add('salutation', 'choice', array(
+            'choices' => array(
+                'Mr.'       => 'Mr.',
+                'Ms.'       => 'Ms.',
+                'Mrs.'      => 'Mrs.',
+                'Miss'      => 'Miss',
+                'Dr.'       => 'Dr.',
+                'Prof.'     => 'Prof.'
+            ),
+            'multiple' => false,
+        ));
+
+        $randomCode = $this->container->get('helper')->createCourseCode();
+        $builder->add('username', 'text', array(
+            'data' => $randomCode
+        ));
+
+
     }
 
     public function getName()

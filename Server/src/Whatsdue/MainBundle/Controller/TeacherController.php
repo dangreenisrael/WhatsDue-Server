@@ -83,7 +83,7 @@ class TeacherController extends FOSRestController{
             'first_name'            => $user->getFirstName(),
             'last_name'             => $user->getLastName(),
             'email'                 => $user->getEmailCanonical(),
-            'salutation'            => "Mr."
+            'salutation'            => $user->getSalutation()
         );
         return array("user" => $user);
     }

@@ -455,16 +455,10 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 Ember.TEMPLATES["main/welcome"] = Ember.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, escapeExpression=this.escapeExpression;
+  var buffer = '', escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">Welcome to WhatsDue</h4>\n</div>\n\n<div class=\"modal-body\">\n\n    <p>Hey ");
-  stack1 = helpers._triageMustache.call(depth0, "firstName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(", </p>\n    <p>\n        Here's how to use WhatsDue. (Do the same thing for each course)\n    </p>\n    <ol>\n        <li>\n            Click <strong>\"Add a Course\"</strong> and fill in the details\n        </li>\n        <li>\n            Click <strong>\"Add an Assignment\"</strong> and do the same.\n        </li>\n        <li>\n            Tell your students to search for <strong>");
-  stack1 = helpers._triageMustache.call(depth0, "userName", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</strong> in the app.\n        </li>\n    </ol>\n   <p>\n       If you have any questions, you can get a hold of us by email or Skype 24/7\n   </p>\n    <p>\n        Thanks for using WhatsDue\n    </p>\n    <p>\n        Dan & Aaron\n    </p>\n</div>\n\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
+  data.buffer.push("<div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">Welcome to WhatsDue</h4>\n</div>\n\n<div class=\"modal-body\">\n\n    <p>Welcome to WhatsDue!</p>\n    <p>\n        We know you want to see your students succeed so we built WhatsDue to help you do that.\n    </p>\n    <p>\n        Here’s how you can make the most of the app:\n    </p>\n    <ol>\n        <li>\n            Add the courses you teach\n        </li>\n        <li>\n            Add as many upcoming assignments as you can. The more you add, the more your students and/or parents will know in advance.\n        </li>\n        <li>\n            Invite students and/or parents to use WhatsDue. Just hit the “Invite” button and enter the email addresses of everyone you think should know what assignments are coming up. The email will contain the course code that the students and/or parents will need in order to join the class.\n        </li>\n    </ol>\n   <p>\n       Also, every time you add, update, or delete an assignment, everyone who joined your class will get a push notification. Keep this in mind before you make changes.   </p>\n    <p>\n        If you need any help at any time, just head to the top right or bottom right corner to get in touch with Aaron.\n    </p>\n    <p>\n        Thanks again for using WhatsDue!\n    </p>\n</div>\n\n<div class=\"modal-footer\">\n    <button  data-dismiss=\"modal\" class=\"btn btn-primary\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "addCourse", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(" >Add a Course</button>\n</div>");
   return buffer;

@@ -78,7 +78,7 @@ td.disabled {
   line-height: 50px;
   color: #49586e;
 }
-li {
+ul li {
   list-style: none;
 }
 .notification-menu .dropdown-toggle {
