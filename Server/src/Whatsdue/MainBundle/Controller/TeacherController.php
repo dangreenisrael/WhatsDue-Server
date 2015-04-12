@@ -112,7 +112,7 @@ class TeacherController extends FOSRestController{
             $course->setDeviceIds(null);
             $cleanCourses[] = $course;
         }
-        return array("courses"=>$cleanCourses);
+        return array("courses"=>$courses);
     }
 
     /**
