@@ -1,22 +1,32 @@
 <div class="modal-header">
     <button type="button" {{action 'close'}} class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">{{course_name}}: New Message</h4>
+    <h4 class="modal-title">{{course_name}}: Invite Students and Parents</h4>
 </div>
 <div class="modal-body">
     <form action="#" class="form-horizontal ">
         <div class="form-group">
 
             <div class="col-md-12">
-                <h4>
-                    Feel free to change this message
-                </h4>
+                <h5>
+                    We will send an email to whomever you wish, instructing them how to set up WhatsDue and add this course.
+                </h5>
+                <h5>
+                    The email will be sent from us, and <strong>your email address will be hidden</strong>
+                </h5>
+                <h5>
+                    <strong><i>Note: The course code is automatically sent in the email.</i></strong>
+                </h5>
+
+                <h5>
+                    Please feel free to change this text:
+                </h5>
                 {{textarea value=emailMessage class="form-control padded" placeholder="Message to your students"}}
             </div>
 
             <div class="col-md-12">
-                <h4>
-                    Please enter a list of all your students' email addresses
-                </h4>
+                <h5>
+                    Please enter a list of email addresses.
+                </h5>
                 {{textarea value=emailAddresses class="form-control padded" placeholder="List of emails seperated by commas, spaces, or new lines"}}
             </div>
         </div>
@@ -24,5 +34,5 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" {{action 'send'}} >Save</button>
+    <button class="btn btn-primary" type="button" {{action 'send'}} >Send Email</button>
 </div>

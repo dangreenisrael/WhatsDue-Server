@@ -6,7 +6,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   
-  data.buffer.push("\n                Add Courses\n            ");
+  data.buffer.push("\n                Add Course\n            ");
   }
 
   data.buffer.push("<section>\n\n    <!-- main content start-->\n    <div class=\"main-content\" >\n\n    <!-- header section start-->\n    <div class=\"header-section\">\n\n        <!--notification menu start -->\n        <div class=\"pull-left\">\n            <img id=\"logo\" src=\"/ember/images/whatsdue-logo.png\"/>\n\n\n        </div>\n        <div class=\"menu-right\">\n            ");
@@ -117,13 +117,13 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">");
   stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(": New Message</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n\n            <div class=\"col-md-12\">\n                <h4>\n                    Feel free to change this message\n                </h4>\n                ");
+  data.buffer.push(": Invite Students and Parents</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n\n            <div class=\"col-md-12\">\n                <h5>\n                    We will send an email to whomever you wish, instructing them how to set up WhatsDue and add this course.\n                </h5>\n                <h5>\n                    The email will be sent from us, and <strong>your email address will be hidden</strong>\n                </h5>\n                <h5>\n                    <strong><i>Note: The course code is automatically sent in the email.</i></strong>\n                </h5>\n\n                <h5>\n                    Please feel free to change this text:\n                </h5>\n                ");
   data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
     'value': ("emailMessage"),
     'class': ("form-control padded"),
     'placeholder': ("Message to your students")
   },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\n            </div>\n\n            <div class=\"col-md-12\">\n                <h4>\n                    Please enter a list of all your students' email addresses\n                </h4>\n                ");
+  data.buffer.push("\n            </div>\n\n            <div class=\"col-md-12\">\n                <h5>\n                    Please enter a list of email addresses.\n                </h5>\n                ");
   data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
     'value': ("emailAddresses"),
     'class': ("form-control padded"),
@@ -131,7 +131,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
   data.buffer.push("\n            </div>\n        </div>\n\n    </form>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" type=\"button\" ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "send", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
-  data.buffer.push(" >Save</button>\n</div>");
+  data.buffer.push(" >Send Email</button>\n</div>");
   return buffer;
   });
 
@@ -143,7 +143,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   
-  data.buffer.push("\n                        Add Courses\n                    ");
+  data.buffer.push("\n                        Add Course\n                    ");
   }
 
 function program3(depth0,data) {
@@ -186,7 +186,7 @@ function program7(depth0,data) {
     'href': ("#Picker")
   },hashTypes:{'data-toggle': "STRING",'href': "STRING"},hashContexts:{'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(8, program8, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "main.editCourse", "course", options) : helperMissing.call(depth0, "link-to", "main.editCourse", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                            <br/>\n                            ");
+  data.buffer.push("\n                            <br/>\n                            <i data-original-title=\"This is the unique course code. Your students and parents need this code in order to join the course\" class=\"fa fa-info-circle tooltips\" data-toggle=\"tooltip\" data-placement=\"bottom\" ></i>\n                            ");
   stack1 = helpers._triageMustache.call(depth0, "course.course_code", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push(" -\n                            <span class=\"student-count\">");

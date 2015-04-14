@@ -6,7 +6,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     {{#link-to 'main.newCourse' tag="i" class="fa fa-plus-square-o pointer" data-toggle="modal" href="#Picker"}}
-                        Add Courses
+                        Add Course
                     {{/link-to}}
                 </h3>
             </div>
@@ -37,6 +37,7 @@
                                 {{course.course_name}} <small><i>{{course.instructor_name}}</i></small>
                             {{/link-to}}
                             <br/>
+                            <i data-original-title="This is the unique course code. Your students and parents need this code in order to join the course" class="fa fa-info-circle tooltips" data-toggle="tooltip" data-placement="bottom" ></i>
                             {{course.course_code}} -
                             <span class="student-count">{{course.totalSubscribers}} students</span>
                         </div>

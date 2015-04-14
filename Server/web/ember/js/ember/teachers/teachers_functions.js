@@ -29,6 +29,8 @@ function loadView(){
     });
     courseUpdate();
     resizePage();
+    $('.tooltips').tooltip();
+
 }
 
 
