@@ -72,6 +72,7 @@ class TeacherController extends FOSRestController{
     /*
      * Courses Stuff
      */
+
     /**
      * @return array
      * @View()

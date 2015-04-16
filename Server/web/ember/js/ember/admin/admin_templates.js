@@ -22,7 +22,10 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', stack1, helper, options;
-  data.buffer.push("\n                                    <tr class=\"gradeX odd\">\n                                        ");
+  data.buffer.push("\n                                    <tr class=\"gradeX odd\">\n                                        <td class=\" \">");
+  stack1 = helpers._triageMustache.call(depth0, "email.id", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("</td>\n                                        ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("td"),
     'data-toggle': ("modal"),
@@ -45,7 +48,7 @@ function program2(depth0,data) {
   return buffer;
   }
 
-  data.buffer.push("\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <section class=\"panel\">\n            <header class=\"panel-heading\">\n\n\n            </header>\n            <div class=\"panel-body\">\n                <div class=\"adv-table\">\n                    <div id=\"dynamic-table_wrapper\" class=\"dataTables_wrapper form-inline\" role=\"grid\">\n                        <table class=\"display table table-bordered table-striped dataTable\" id=\"dynamic-table\" aria-describedby=\"dynamic-table_info\">\n                            <thead>\n                            <tr role=\"row\">\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    User\n                                </th>\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    Total Invites\n                                </th>\n\n                            </tr>\n                            </thead>\n                            <tbody role=\"alert\" aria-live=\"polite\" aria-relevant=\"all\">\n                                ");
+  data.buffer.push("\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <section class=\"panel\">\n            <header class=\"panel-heading\">\n\n\n            </header>\n            <div class=\"panel-body\">\n                <div class=\"adv-table\">\n                    <div id=\"dynamic-table_wrapper\" class=\"dataTables_wrapper form-inline\" role=\"grid\">\n                        <table class=\"display table table-bordered table-striped dataTable\" id=\"dynamic-table\" aria-describedby=\"dynamic-table_info\">\n                            <thead>\n                            <tr role=\"row\">\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    ID\n                                </th>\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    User\n                                </th>\n                                <th class=\"sorting\" role=\"columnheader\" aria-controls=\"dynamic-table\" >\n                                    Total Invites\n                                </th>\n\n                            </tr>\n                            </thead>\n                            <tbody role=\"alert\" aria-live=\"polite\" aria-relevant=\"all\">\n                                ");
   stack1 = helpers.each.call(depth0, "email", "in", "model", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n                            </tbody>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </section>\n    </div>\n</div>");

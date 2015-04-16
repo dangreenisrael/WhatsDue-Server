@@ -13,6 +13,9 @@
                             <thead>
                             <tr role="row">
                                 <th class="sorting" role="columnheader" aria-controls="dynamic-table" >
+                                    ID
+                                </th>
+                                <th class="sorting" role="columnheader" aria-controls="dynamic-table" >
                                     User
                                 </th>
                                 <th class="sorting" role="columnheader" aria-controls="dynamic-table" >
@@ -24,6 +27,7 @@
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
                                 {{#each email in model}}
                                     <tr class="gradeX odd">
+                                        <td class=" ">{{email.id}}</td>
                                         {{#link-to 'school.edit' school tag="td" data-toggle="modal" href="#Picker"}}
                                             {{email.user.email}}
                                         {{/link-to}}

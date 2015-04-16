@@ -93,43 +93,44 @@ class AdminController extends FOSRestController{
         return array("users" => array_values($teachers));
     }
 
-    /**
-     * @return array
-     * @View()
-     */
-    public function getUserAction($id){
-        $userRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:User');
-        $assignmentRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
-        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
-
-        $user = $userRepository->find($id);
-
-        $courses = $courseRepository->findBy(
-            array('adminId'  => $user->getUsername(), 'archived' => 0)
-        );
-        /* Total Unique Users */
-        $deviceIds = [];
-        foreach ($courses as $course){
-            $currentDeviceIds = json_decode($course->getDeviceIds(), true);
-            $deviceIds = array_merge($deviceIds, $currentDeviceIds);
-        }
-        $uniqueUsers = array_unique($deviceIds);
-        $assignments = $assignmentRepository->findBy(
-            array('adminId'  => $user->getUsername())
-        );
-
-        $user = array(
-            'id'                => $user->getId(),
-            'username'          => $user->getUsername(),
-            'email'             => $user->getEmailCanonical(),
-            'last_login'        => $user->getLastLogin(),
-            'course_count'      => count($courses),
-            'assignment_count'  => count($assignments),
-            'unique_users'      => count($uniqueUsers)
-        );
-
-        return array("users" => $user);
-    }
+//    /**
+//     * @return array
+//     * @View()
+//     */
+//    public function getUserAction($id){
+//        $userRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:User');
+//        $assignmentRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+//        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+//
+//        $user = $userRepository->find($id);
+//
+//        $courses = $courseRepository->findBy(
+//            array('adminId'  => $user->getUsername(), 'archived' => 0)
+//        );
+//
+//        /* Total Unique Users */
+//        $deviceIds = [];
+//        foreach ($courses as $course){
+//            $currentDeviceIds = json_decode($course->getDeviceIds(), true);
+//            $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+//        }
+//        $uniqueUsers = array_unique($deviceIds);
+//        $assignments = $assignmentRepository->findBy(
+//            array('adminId'  => $user->getUsername())
+//        );
+//
+//        $user = array(
+//            'id'                => $user->getId(),
+//            'username'          => $user->getUsername(),
+//            'email'             => $user->getEmailCanonical(),
+//            'last_login'        => $user->getLastLogin(),
+//            'course_count'      => count($courses),
+//            'assignment_count'  => count($assignments),
+//            'unique_users'      => count($uniqueUsers)
+//        );
+//
+//        return array("users" => $user);
+//    }
 
     /**
      * @return array
