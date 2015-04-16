@@ -75,6 +75,46 @@ class LifecycleActions {
             $entity->setUsernameCanonical($userId);
             $em->persist($entity);
             $em->flush();
+
+            /*
+             * Send the user an email letting them know they are in the system
+             */
+
+            $subject    = "Welcome to WhatsDue";
+            $from       = "aaron@whatsdueapp.com";
+            $recipients = $entity->getEmail();
+            $firstName = $entity->getFirstName();
+            $body = "
+Hi $firstName,
+
+I really appreciate you signing up for WhatsDue.
+
+I hope it helps you and your students.
+
+If you wouldn’t mind, I’d love it if you answered one, quick question: Why did you sign up for WhatsDue?
+
+I’m asking because knowing why you signed up will help us make sure we’re delivering what our users want.
+
+Just hit “reply” and let me know!
+
+Thanks
+Aaron
+
+--
+Aaron Taylor
+Co-founder, WhatsDue
++972-50-7275599
+whatsdueapp.com
+            ";
+            $mailer = $this->container->get('mailer');
+            /* Send Email */
+            $message = $mailer->createMessage()
+                ->setSubject($subject)
+                ->setFrom($from)
+                ->setTo($recipients)
+                ->setBody($body)
+            ;
+            $mailer->send($message);
         }
     }
 
