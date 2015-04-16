@@ -69,3 +69,8 @@ services:
     helper:
         class: Whatsdue\MainBundle\Classes\Helpers
         arguments: ['@service_container']
+
+#Email Service
+    email:
+        class: Whatsdue\MainBundle\Classes\Email
+        arguments: ['@service_container']

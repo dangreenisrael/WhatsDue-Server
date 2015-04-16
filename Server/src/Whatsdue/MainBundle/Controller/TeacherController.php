@@ -388,13 +388,38 @@ class TeacherController extends FOSRestController{
         /*
          * Send Emails
          */
-        $message = $mailer->createMessage()
-            ->setSubject($subject)
-            ->setFrom($from)
-            ->setTo($emailsValid)
-            ->setBody(
-                $this->renderView(
-                // app/Resources/views/email/invite.html.twig
+//        $message = $mailer->createMessage()
+//            ->setSubject($subject)
+//            ->setFrom($from)
+//            ->setTo($emailsValid)
+//            ->setBody(
+//                $this->renderView(
+//                // app/Resources/views/email/invite.html.twig
+//                    'emails/invite.html.twig',
+//                    array(
+//                        'message'       => $message,
+//                        'courseName'    => $courseName,
+//                        'courseCode'    => $courseCode,
+//                        'teacherName'   => $salutation
+//                    )
+//                ),
+//                'text/html'
+//            )
+//            /*
+//             * If you also want to include a plaintext version of the message
+//            ->addPart(
+//                $this->renderView(
+//                    'Emails/registration.txt.twig',
+//                    array('name' => $name)
+//                ),
+//                'text/plain'
+//            )
+//            */
+//        ;
+//        $mailer->send($message);
+
+        $htmlBody = $this->renderView(
+                 //app/Resources/views/email/invite.html.twig
                     'emails/invite.html.twig',
                     array(
                         'message'       => $message,
@@ -402,21 +427,10 @@ class TeacherController extends FOSRestController{
                         'courseCode'    => $courseCode,
                         'teacherName'   => $salutation
                     )
-                ),
-                'text/html'
-            )
-            /*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'Emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
-        ;
-        $mailer->send($message);
+                );
+        $meta = array("courseName"=>$courseCode);
+        $tag = "Invite Users";
+        $this->get('email')->send($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
 
         return array(
             "emails_valid"      =>$emailsValid,

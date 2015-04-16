@@ -180,22 +180,22 @@ function program7(depth0,data) {
   data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
     'id': ("course.id")
   },hashTypes:{'id': "ID"},hashContexts:{'id': depth0},contexts:[],types:[],data:data})));
-  data.buffer.push(">\n                    <header class=\"panel-heading row\">\n                        <div class=\"col-sm-6\">\n                            ");
+  data.buffer.push(">\n                    <header class=\"panel-heading row\">\n                        <div class=\"col-sm-4\">\n                            ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'data-toggle': ("modal"),
     'href': ("#Picker")
   },hashTypes:{'data-toggle': "STRING",'href': "STRING"},hashContexts:{'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(8, program8, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "main.editCourse", "course", options) : helperMissing.call(depth0, "link-to", "main.editCourse", "course", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n                            <br/>\n                            <i data-original-title=\"This is the unique course code. Your students and parents need this code in order to join the course\" class=\"fa fa-info-circle tooltips\" data-toggle=\"tooltip\" data-placement=\"bottom\" ></i>\n                            ");
+  data.buffer.push("\n                            <br/>\n                            <i data-original-title=\"This is the unique course code. Your students and parents need this code in order to join the course\" class=\"fa fa-question-circle tooltips\" data-toggle=\"tooltip\" data-placement=\"bottom\" ></i>\n                            ");
   stack1 = helpers._triageMustache.call(depth0, "course.course_code", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push(" -\n                            <span class=\"student-count\">");
   stack1 = helpers._triageMustache.call(depth0, "course.totalSubscribers", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(" students</span>\n                        </div>\n                        <div class=\"col-sm-6 row\">\n                            ");
+  data.buffer.push(" students</span>\n                        </div>\n                        <div class=\"col-sm-8 row\">\n                            ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
-    'class': ("btn btn-primary col-md-6"),
+    'class': ("btn btn-primary col-md-4"),
     'data-toggle': ("modal"),
     'href': ("#Picker")
   },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(10, program10, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "course.newAssignment", "course", options) : helperMissing.call(depth0, "link-to", "course.newAssignment", "course", options));
@@ -203,7 +203,7 @@ function program7(depth0,data) {
   data.buffer.push("\n\n                            <!--<div class=\"padded\">-->\n                                <!--{#link-to 'message.new' course tag=\"button\"  class=\"col-md-7 btn btn-primary\" data-toggle=\"modal\" href=\"#Picker\"}}-->\n                                    <!--<i class=\"fa fa-envelope\"></i> Send Message-->\n                                <!--{/link-to}}-->\n\n                                <!--{#link-to 'message.history' course tag=\"button\"  class=\"col-md-4 btn btn-primary pull-right\" data-toggle=\"modal\" href=\"#Picker\"}}-->\n                                    <!--<i class=\"fa fa-archive\"></i>-->\n                                <!--{/link-to}}-->\n                            <!--</div>-->\n\n                                ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'tag': ("button"),
-    'class': ("btn btn-primary col-md-5 pull-right"),
+    'class': ("btn btn-primary col-md-7 pull-right"),
     'data-toggle': ("modal"),
     'href': ("#Picker")
   },hashTypes:{'tag': "STRING",'class': "STRING",'data-toggle': "STRING",'href': "STRING"},hashContexts:{'tag': depth0,'class': depth0,'data-toggle': depth0,'href': depth0},inverse:self.noop,fn:self.program(12, program12, data),contexts:[depth0,depth0],types:["STRING","ID"],data:data},helper ? helper.call(depth0, "email.invite", "course", options) : helperMissing.call(depth0, "link-to", "email.invite", "course", options));
@@ -222,23 +222,20 @@ function program8(depth0,data) {
   data.buffer.push("\n                                ");
   stack1 = helpers._triageMustache.call(depth0, "course.course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(" <small><i>");
-  stack1 = helpers._triageMustache.call(depth0, "course.instructor_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</i></small>\n                            ");
+  data.buffer.push("\n                            ");
   return buffer;
   }
 
 function program10(depth0,data) {
   
   
-  data.buffer.push("\n                                <i class=\"fa fa-plus\"></i> Add Assignment\n                            ");
+  data.buffer.push("\n                                <!--<i class=\"fa fa-plus\"></i>--> Add Assignment\n                            ");
   }
 
 function program12(depth0,data) {
   
   
-  data.buffer.push("\n                                    <i class=\"fa fa-users\"></i> Invite Users\n                                ");
+  data.buffer.push("\n                                    <!--<i class=\"fa fa-users\"></i> -->Invite Parents & Students\n                                ");
   }
 
 function program14(depth0,data) {

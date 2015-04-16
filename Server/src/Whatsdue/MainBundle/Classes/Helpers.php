@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Unirest;
 
 class Helpers {
 
@@ -89,6 +90,32 @@ class Helpers {
                 return $courseCode;
             }
         }
+    }
+
+    public function getUserDateTime(){
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if ($ip == "127.0.0.1"){
+            $ip = "212.179.28.34";
+        }
+
+        /* Get the timezone from the IP */
+        $response = Unirest\Request::get("https://worldtimeiodeveloper.p.mashape.com/ip?ipaddress=$ip",
+            array(
+                "X-Mashape-Key" => "0LFdQKu0owmsh00j6X6BfBg1h9mvp1qWbXyjsnVinhfmyPrBWm",
+                "Accept" => "application/json"
+            )
+        );
+
+        /* Get the user's time in JavaScript format*/
+        $ISO8601 = 'Y-m-d\TH:i:sP';
+        $timezone = timezone_name_from_abbr($response->body->current->abbreviation);
+
+        $date = new \DateTime();
+
+        $date->setTimezone(new \DateTimeZone($timezone));
+        return $date->format($ISO8601);
+
     }
 
 } 
