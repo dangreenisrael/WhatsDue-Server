@@ -14,6 +14,9 @@ App.Router.map(function(){
             this.route('edit');
         })
     });
+    this.resource('logs', function() {
+        this.route('emails')
+    });
 });
 
 
@@ -44,3 +47,18 @@ App.SchoolsRoute = Ember.Route.extend({
         )
     }
 });
+
+App.LogsEmailsRoute = Ember.Route.extend({
+    model: function() {
+        return this.store.find('email');
+    },
+    afterModel: function(){
+        setTimeout(
+            function(){
+                initTable();
+            },
+            1
+        )
+    }
+});
+

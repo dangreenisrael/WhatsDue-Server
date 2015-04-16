@@ -28,7 +28,6 @@ class Email {
             ->setFrom($from)
             ->setTo($recipients)
             ->setBody($htmlBody, 'text/html')
-            //->addPart($txtBody, 'text/plain')
         ;
         $mailer->send($message);
 

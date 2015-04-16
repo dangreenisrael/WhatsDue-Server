@@ -366,7 +366,7 @@ class TeacherController extends FOSRestController{
 
         // Fix formatting
 
-        $message = str_replace("\n", "</p><p>", $message);
+        $messageHTML = str_replace("\n", "</p><p>", $message);
 
         /*
          * Handle Emails
@@ -386,43 +386,14 @@ class TeacherController extends FOSRestController{
         }
 
         /*
-         * Send Emails
+         * Prepare and Send Emails
          */
-//        $message = $mailer->createMessage()
-//            ->setSubject($subject)
-//            ->setFrom($from)
-//            ->setTo($emailsValid)
-//            ->setBody(
-//                $this->renderView(
-//                // app/Resources/views/email/invite.html.twig
-//                    'emails/invite.html.twig',
-//                    array(
-//                        'message'       => $message,
-//                        'courseName'    => $courseName,
-//                        'courseCode'    => $courseCode,
-//                        'teacherName'   => $salutation
-//                    )
-//                ),
-//                'text/html'
-//            )
-//            /*
-//             * If you also want to include a plaintext version of the message
-//            ->addPart(
-//                $this->renderView(
-//                    'Emails/registration.txt.twig',
-//                    array('name' => $name)
-//                ),
-//                'text/plain'
-//            )
-//            */
-//        ;
-//        $mailer->send($message);
 
         $htmlBody = $this->renderView(
                  //app/Resources/views/email/invite.html.twig
                     'emails/invite.html.twig',
                     array(
-                        'message'       => $message,
+                        'message'       => $messageHTML,
                         'courseName'    => $courseName,
                         'courseCode'    => $courseCode,
                         'teacherName'   => $salutation

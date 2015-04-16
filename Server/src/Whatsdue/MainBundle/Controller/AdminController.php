@@ -97,6 +97,44 @@ class AdminController extends FOSRestController{
      * @return array
      * @View()
      */
+    public function getUserAction($id){
+        $userRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:User');
+        $assignmentRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+        $courseRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
+
+        $user = $userRepository->find($id);
+
+        $courses = $courseRepository->findBy(
+            array('adminId'  => $user->getUsername(), 'archived' => 0)
+        );
+        /* Total Unique Users */
+        $deviceIds = [];
+        foreach ($courses as $course){
+            $currentDeviceIds = json_decode($course->getDeviceIds(), true);
+            $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+        }
+        $uniqueUsers = array_unique($deviceIds);
+        $assignments = $assignmentRepository->findBy(
+            array('adminId'  => $user->getUsername())
+        );
+
+        $user = array(
+            'id'                => $user->getId(),
+            'username'          => $user->getUsername(),
+            'email'             => $user->getEmailCanonical(),
+            'last_login'        => $user->getLastLogin(),
+            'course_count'      => count($courses),
+            'assignment_count'  => count($assignments),
+            'unique_users'      => count($uniqueUsers)
+        );
+
+        return array("users" => $user);
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
     public function getSchoolsAction(){
 
         $schoolRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:School');
@@ -219,6 +257,20 @@ class AdminController extends FOSRestController{
 
         return array('message'=>$message);
     }
+
+
+    /**
+     * @return array
+     * @View()
+     * Get list of logged emails
+     */
+
+    public function getEmailsAction(){
+        $emailRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:EmailLog');
+        $emails = $emailRepository->findAll();
+        return array('email'=>$emails);
+    }
+
 
 
     /* Helper Methods */

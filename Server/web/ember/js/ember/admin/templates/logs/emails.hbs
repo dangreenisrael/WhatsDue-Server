@@ -1,0 +1,40 @@
+
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+
+
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                        <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
+                            <thead>
+                            <tr role="row">
+                                <th class="sorting" role="columnheader" aria-controls="dynamic-table" >
+                                    User
+                                </th>
+                                <th class="sorting" role="columnheader" aria-controls="dynamic-table" >
+                                    Total Invites
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                {{#each email in model}}
+                                    <tr class="gradeX odd">
+                                        {{#link-to 'school.edit' school tag="td" data-toggle="modal" href="#Picker"}}
+                                            {{email.user.email}}
+                                        {{/link-to}}
+                                        <td class=" ">{{email.sent_count}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

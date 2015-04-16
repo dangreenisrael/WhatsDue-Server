@@ -16,6 +16,7 @@ App.User = DS.Model.extend({
     assignment_count:   DS.attr('number'),
     unique_users:       DS.attr('number'),
     last_login:         DS.attr('string'),
+    institution_name:   DS.attr('string'),
     last_login_t:       function(){
         var login = this.get('last_login');
         if (typeof login !== 'undefined') {
@@ -48,23 +49,30 @@ App.School = DS.Model.extend({
     region:             DS.attr('string'),
     address:            DS.attr('string'),
     country:            DS.attr('string'),
-    contact_name:        DS.attr('string'),
-    contact_email:       DS.attr('string'),
-    contact_phone:       DS.attr('string'),
-    total_courses:     DS.attr('number'),
-    total_users:     DS.attr('number')
+    contact_name:       DS.attr('string'),
+    contact_email:      DS.attr('string'),
+    contact_phone:      DS.attr('string'),
+    total_courses:      DS.attr('number'),
+    total_users:        DS.attr('number')
 });
 
 App.Message = DS.Model.extend({
-    title:  DS.attr('string'),
-    body:   DS.attr('string')
+    title:      DS.attr('string'),
+    body:       DS.attr('string')
 });
 
-/*
-App.User.reopenClass({
-    FIXTURES: [
-        { id: 34, username: "dangreen", email: "dan@tlvwebdevelopment.com", last_login: "2014-12-01T16:33:53+0200", assignment_count: "2", course_count: "4"},
-        { id: 35, username: "angreen", email: "dan@tlvwebdevelopment.com", last_login: "2014-12-01T16:33:53+0200", assignment_count: "2", course_count: "4"}
-    ]
+App.Email = DS.Model.extend({
+    user:       DS.belongsTo('user', {async:true}),
+    subject:    DS.attr('string'),
+    body:       DS.attr('string'),
+    tag:        DS.attr('string'),
+    date:       DS.attr('date'),
+    recipients: DS.attr(),
+    sent_count:    function(){
+        var recipients = this.get('recipients');
+        recipients = JSON.parse(recipients);
+        return recipients.length;
+    }.property('recipients')
+
 });
-    */
+
