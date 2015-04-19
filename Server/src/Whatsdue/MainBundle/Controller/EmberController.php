@@ -20,17 +20,12 @@ class EmberController extends Controller
 
     public function testAction(){
 
-        $user['first']      = "Dan";
-        $user['last']       = "Green";
-        $user['salutation'] = "Mr.";
+        $user = $this->getUser();
 
-        $course['name']     = "English 10";
-        $course['code']     = "COURSE";
 
-        return $this->container->get('templating')->renderResponse('WhatsdueMainBundle:Ember:test.html.twig', array(
-            'user'      => $user,
-            'course'    => $course
-        ));
+        $this->container->get('pipedrive')->migrate();
+
+        return new Response("<br> success");
     }
 
 }

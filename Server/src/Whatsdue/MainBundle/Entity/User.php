@@ -47,8 +47,20 @@ class User extends BaseUser
     /** @ORM\Column(name="institution_name", type="string") */
     protected $institutionName;
 
+    /** @ORM\Column(name="has_users", type="boolean", nullable=true) */
+    protected $hasUsers;
+
     /** @ORM\Column(name="institution_abbreviation", type="string", nullable=true) */
     protected $institutionAbbreviation;
+
+    /** @ORM\Column(name="pipedrive_deal", type="integer", nullable=true) */
+    protected $pipedriveDeal;
+
+    /** @ORM\Column(name="pipedrive_person", type="integer", nullable=true) */
+    protected $pipedrivePerson;
+
+    /** @ORM\Column(name="pipedrive_organization", type="integer", nullable=true) */
+    protected $pipedriveOrganization;
 
 
 
@@ -175,6 +187,8 @@ class User extends BaseUser
         return $this->institutionName;
     }
 
+
+
     /**
      * Set Institution Abbreviation
      *
@@ -197,6 +211,101 @@ class User extends BaseUser
     {
         return $this->institutionAbbreviation;
     }
+
+    /**
+     * Set Has Users
+     *
+     * @param string $hasUsers
+     * @return User
+     */
+    public function setHasUsers($hasUsers)
+    {
+        $this->hasUsers = $hasUsers;
+
+        return $this;
+    }
+
+    /**
+     * Get Has Users
+     *
+     * @return boolean
+     */
+    public function getHasUsers()
+    {
+        return $this->hasUsers;
+    }
+
+    /**
+     * Set Pipedrive Deal ID
+     *
+     * @param string $pipedriveDeal
+     * @return User
+     */
+    public function setPipedriveDeal($pipedriveDeal)
+    {
+        $this->pipedriveDeal = $pipedriveDeal;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Deal ID
+     *
+     * @return integer
+     */
+    public function getPipedriveDeal()
+    {
+        return $this->pipedriveDeal;
+    }
+
+    /**
+     * Set Pipedrive Person ID
+     *
+     * @param string $pipedrivePerson
+     * @return User
+     */
+    public function setPipedrivePerson($pipedrivePerson)
+    {
+        $this->pipedrivePerson = $pipedrivePerson;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Person ID
+     *
+     * @return integer
+     */
+    public function getPipedrivePerson()
+    {
+        return $this->pipedrivePerson;
+    }
+
+    /**
+     * Set Pipedrive Organization ID
+     *
+     * @param string $pipedriveOrganization
+     * @return User
+     */
+    public function setPipedriveOrganization($pipedriveOrganization)
+    {
+        $this->pipedriveOrganization = $pipedriveOrganization;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Person ID
+     *
+     * @return integer
+     */
+    public function getPipedriveOrganization()
+    {
+        return $this->pipedriveOrganization;
+    }
+
+
+
 
     /**
      * Get id

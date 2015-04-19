@@ -37,6 +37,7 @@ class Email {
         $emailLog->setSubject($subject);
         $emailLog->setBody($txtBody);
         $emailLog->setRecipients(json_encode($recipients));
+        $emailLog->setRecipientCount(count($recipients));
         $emailLog->setTag($tag);
         $emailLog->setUser($user->getId());
         $emailLog->setMeta(json_encode($meta));

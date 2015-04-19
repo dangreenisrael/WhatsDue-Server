@@ -89,7 +89,6 @@ App.MainEditCourseController = Ember.ObjectController.extend({
 App.CourseNewAssignmentController = Ember.ObjectController.extend({
     actions: {
         save: function() {
-
             console.log(this.get('model'));
             if (validateAssignment() == true) {
                 var data = this.get('model');
@@ -243,11 +242,9 @@ App.EmailInviteController = Ember.ObjectController.extend({
                     if (invalidEmails.length > 0 ){
                         alert("The following email addresses aren't valid:\n" + invalidEmails.join(","))
                     }
-                    else{
-                        trackEvent("Invitation Email Sent");
-                        context.transitionToRoute('main');
-                        $('#Picker').modal('hide')
-                    }
+                    $('#Picker').modal('hide');
+                    trackEvent("Invitation Email Sent");
+                    context.transitionToRoute('main');
                 }
             });
 

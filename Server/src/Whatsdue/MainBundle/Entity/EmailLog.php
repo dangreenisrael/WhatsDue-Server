@@ -36,6 +36,14 @@ class EmailLog
     private $recipients;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="recipient_count", type="integer", nullable=true)
+     */
+    private $recipientCount;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255)
@@ -148,12 +156,39 @@ class EmailLog
     /**
      * Get recipients
      *
-     * @return string 
+     * @return string
      */
     public function getRecipients()
     {
         return $this->recipients;
     }
+
+    /**
+     * Set recipient count
+     *
+     * @param string $recipientCount
+     * @return EmailLog
+     */
+    public function setRecipientCount($recipientCount)
+    {
+        $this->recipientCount = $recipientCount;
+
+        return $this;
+    }
+
+    /**
+     * Get recipient count
+     *
+     * @return string 
+     */
+    public function getRecipientCount()
+    {
+        return $this->recipientCount;
+    }
+
+
+
+
 
     /**
      * Set subject

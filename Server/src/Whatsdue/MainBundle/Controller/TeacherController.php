@@ -10,6 +10,7 @@ namespace Whatsdue\MainBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Common\Collections;
 use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Students;
 use Whatsdue\MainBundle\Entity\Assignments;
@@ -137,6 +138,14 @@ class TeacherController extends FOSRestController{
         $em->flush();
         /* Don't return device IDs*/
         $course->setDeviceIds(null);
+
+        /* Check if assignments already exist */
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+        $existingAssignments = $repository->findOneByAdminId($username);
+        if (!$existingAssignments){
+            $this->container->get('pipedrive')->updateDeal($user->getPipedriveDeal(), 2);
+        }
+
         return array('course'=>$course);
     }
 
@@ -239,7 +248,16 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function postAssignmentsAction( Request $request ){
-        $username = $this->currentUser($this)->getUsername();
+        $user = $this->currentUser($this);
+        $username = $user->getUsername();
+
+        /* Check if assignments already exist */
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+        $existingAssignments = $repository->findOneByAdminId($username);
+        if (!$existingAssignments){
+            $this->container->get('pipedrive')->updateDeal($user->getPipedriveDeal(), 3);
+        }
+
         $data = json_decode($request->getContent());
         $assignment = new Assignments();
         $assignment->setAssignmentName($data->assignment->assignment_name);
@@ -250,6 +268,8 @@ class TeacherController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $em->persist($assignment);
         $em->flush();
+
+
 
         return array('assignment'=>$assignment);
     }
@@ -386,6 +406,25 @@ class TeacherController extends FOSRestController{
             }
         }
 
+
+        /*
+         * Pipedrive:
+         * Check if emails already sent (more than 2 recipients)
+         * Move pipedrive stage if not
+         */
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:EmailLog');
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.recipient_count > 2 and ')
+            ->andWhere('p.user = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery();
+
+        $loggedEmails = $query->getResult();
+        if (!$loggedEmails){
+            $this->container->get('pipedrive')->updateDeal($user->getPipedriveDeal(), 4);
+        }
+
+
         /*
          * Prepare and Send Emails
          */
@@ -403,6 +442,7 @@ class TeacherController extends FOSRestController{
         $meta = array("courseName"=>$courseCode);
         $tag = "Invite Users";
         $this->get('email')->send($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
+
 
         return array(
             "emails_valid"      =>$emailsValid,
