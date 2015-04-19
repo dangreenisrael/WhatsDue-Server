@@ -139,12 +139,7 @@ class TeacherController extends FOSRestController{
         /* Don't return device IDs*/
         $course->setDeviceIds(null);
 
-        /* Check if assignments already exist */
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
-        $existingAssignments = $repository->findOneByAdminId($username);
-        if (!$existingAssignments){
-            $this->container->get('pipedrive')->updateDeal($user->getPipedriveDeal(), 2);
-        }
+        $this->container->get('pipedrive')->updateDeal($user, 2);
 
         return array('course'=>$course);
     }
@@ -251,12 +246,7 @@ class TeacherController extends FOSRestController{
         $user = $this->currentUser($this);
         $username = $user->getUsername();
 
-        /* Check if assignments already exist */
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
-        $existingAssignments = $repository->findOneByAdminId($username);
-        if (!$existingAssignments){
-            $this->container->get('pipedrive')->updateDeal($user->getPipedriveDeal(), 3);
-        }
+        $this->container->get('pipedrive')->updateDeal($user, 3);
 
         $data = json_decode($request->getContent());
         $assignment = new Assignments();
@@ -407,23 +397,6 @@ class TeacherController extends FOSRestController{
         }
 
 
-        /*
-         * Pipedrive:
-         * Check if emails already sent (more than 2 recipients)
-         * Move pipedrive stage if not
-         */
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:EmailLog');
-        $query = $repository->createQueryBuilder('p')
-            ->where('p.recipient_count > 2 and ')
-            ->andWhere('p.user = :userId')
-            ->setParameter('userId', $user->getId())
-            ->getQuery();
-
-        $loggedEmails = $query->getResult();
-        if (!$loggedEmails){
-            $this->container->get('pipedrive')->updateDeal($user->getPipedriveDeal(), 4);
-        }
-
 
         /*
          * Prepare and Send Emails
@@ -444,6 +417,10 @@ class TeacherController extends FOSRestController{
         $this->get('email')->send($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
 
 
+        /* If its more than 5, update pipedrive */
+        if (count($emailsValid) >= 5){
+            $this->container->get('pipedrive')->updateDeal($user, 4);
+        }
         return array(
             "emails_valid"      =>$emailsValid,
             "emails_invalid"    => $emailsInvalid

@@ -47,8 +47,8 @@ class User extends BaseUser
     /** @ORM\Column(name="institution_name", type="string") */
     protected $institutionName;
 
-    /** @ORM\Column(name="has_users", type="boolean", nullable=true) */
-    protected $hasUsers;
+    /** @ORM\Column(name="pipedrive_stage", type="integer", nullable=true) */
+    protected $pipedriveStage;
 
     /** @ORM\Column(name="institution_abbreviation", type="string", nullable=true) */
     protected $institutionAbbreviation;
@@ -213,26 +213,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set Has Users
+     * Set Pipedrive Stage
      *
-     * @param string $hasUsers
+     * @param integer $pipedriveStage
      * @return User
      */
-    public function setHasUsers($hasUsers)
+    public function setPipedriveStage($pipedriveStage)
     {
-        $this->hasUsers = $hasUsers;
+        $this->pipedriveStage = $pipedriveStage;
 
         return $this;
     }
 
     /**
-     * Get Has Users
+     * Get Pipedrive Stage
      *
-     * @return boolean
+     * @return integer
      */
-    public function getHasUsers()
+    public function getPipedriveStage()
     {
-        return $this->hasUsers;
+        return $this->pipedriveStage;
     }
 
     /**

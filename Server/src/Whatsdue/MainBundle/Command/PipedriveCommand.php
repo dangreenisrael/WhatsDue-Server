@@ -46,13 +46,11 @@ class PipedriveCommand extends ContainerAwareCommand
                 $userCount = count(json_decode($course->getDeviceIds(), true));
                 $dealId  = $teacher->getPipedriveDeal();
                 if ($userCount >= 3){
-                    $container->get('pipedrive')->updateDeal($dealId, 5);
-                    $teacher->setHasUsers(true);
+                    $container->get('pipedrive')->updateDeal($teacher, 5);
                     echo $teacher->getUsername()."\n";
                     break;
                 }
             }
-            //$user->setHasUsers(null);
         }
         $em->flush();
         $text = "Sorting Complete";

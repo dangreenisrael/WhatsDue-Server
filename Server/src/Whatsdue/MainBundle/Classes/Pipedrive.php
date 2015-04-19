@@ -27,11 +27,11 @@ class Pipedrive {
     public function __construct(ContainerInterface $container){
         $this->container     = $container;
             $this->apiBase   = "https://api.pipedrive.com/v1";
-        $this->apiToken      = "c2ab9570e052f2410957809a02d104236862c6ba";
+        $this->apiToken      = "eadb95831eb4d720be4d9b5da55175a6825dc0eb";
         $this->urlAppend     = "?api_token=".$this->apiToken;
         $this->userID        = 585841;
-        $this->salutationKey = "387c7b573c619e43aab6637f5a969a2f658ebcdc";
-        $this->systemIdKey   = "b19bf90d8622a54ebf0160f3109db038c2af7b78";
+        $this->salutationKey = "753d90582477b1bbdb1ebc30f17fb5ff5adc1b14";
+        $this->systemIdKey   = "a0d46c35bcefaf966def1fb69902940fb626dd4b";
         $this->headers = array(
             "Content-Type" => "application/json"
         );
@@ -81,15 +81,30 @@ class Pipedrive {
 
     }
 
-    public function updateDeal($dealId, $stageId){
-        $body = json_encode(array(
-            "id"     =>  $dealId,
-            "stage_id" =>  $stageId
-        ));
+    public function updateDeal($user, $stageId){
+        $dealId = $user->getPipedriveDeal();
+        $currentStage = $user->getPipedriveStage();
 
-        $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
-        $response = Unirest\Request::put($target, $this->headers, $body);
-        return $response->body->data->id;
+        if ($currentStage < $stageId){
+            /* Update User*/
+            $userManager = $this->container->get('fos_user.user_manager');
+            $user->setPipedriveStage($stageId);
+            $userManager->updateUser($user);
+
+            /* Update Pipedrive */
+            $body = json_encode(array(
+                "id"     =>  $dealId,
+                "stage_id" =>  $stageId
+            ));
+
+            $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
+            $response = Unirest\Request::put($target, $this->headers, $body);
+
+            return $response;
+        } else{
+            return "not updated";
+        }
+
     }
 
     public function newTeacher($user){
@@ -106,6 +121,8 @@ class Pipedrive {
         $user->setPipedriveOrganization($organizationId);
         $user->setPipedrivePerson($personId);
         $user->setPipedriveDeal($dealId);
+        $user->setPipedriveStage(1);
+
         $userManager = $this->container->get('fos_user.user_manager');
         $userManager->updateUser($user);
         return $user;
