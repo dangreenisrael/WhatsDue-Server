@@ -32,10 +32,15 @@ class PipedriveCommand extends ContainerAwareCommand
         $userRepository = $em->getRepository('WhatsdueMainBundle:User');
         $courseRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Courses');
 
-        /* Get a list of teachers aren't flagged as having users yet */
-        $teachers = $userRepository->findBy(array(
-            'hasUsers'=>null
-        ));
+        /* Get a list of teachers who's pipedrive stage is less than 5 */
+        $qb = $em->createQueryBuilder();
+
+        $q  = $qb->select(array('p'))
+            ->from('WhatsdueMainBundle:User', 'p')
+            ->where($qb->expr()->lt('p.pipedriveStage', 5))
+            ->getQuery();
+        $teachers = $q->getResult();
+
 
         /* Check if they have users now, and if they do - update them to pipedrive */
         foreach($teachers as $teacher){
