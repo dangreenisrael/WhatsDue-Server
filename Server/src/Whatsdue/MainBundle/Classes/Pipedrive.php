@@ -73,12 +73,12 @@ class Pipedrive {
         $body = json_encode(array(
             "title"     =>  $title,
             "person_id" =>  $personId,
-            "user_id"   =>  $this->userID,
             "org_id"    =>  $organizationId
         ));
 
         $target = $this->apiBase."/deals".$this->urlAppend;
         $response = Unirest\Request::post($target, $this->headers, $body);
+        var_dump($response);
         return $response->body->data->id;
 
     }
