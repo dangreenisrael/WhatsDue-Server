@@ -29,11 +29,11 @@ class Pipedrive {
         //Dan's ID: 585841
         $this->container     = $container;
             $this->apiBase   = "https://api.pipedrive.com/v1";
-        $this->apiToken      = "e2c23da592a5e67f263929a55c0b266582e15e2e";
+        $this->apiToken      = "745b6d4c6dcdd6ff030e7ae33ff841001621d8f1";
         $this->urlAppend     = "?api_token=".$this->apiToken;
         $this->userID        = 586943;
-        $this->salutationKey = "51a82da4b93cdadaae22cfc879b7562a6814ab8a";
-        $this->systemIdKey   = "29f60b6b0c1b9266437fd5b8544312b34e4b2e53";
+        $this->salutationKey = "45e811b003c82ef43712dc9745bee4636fa56d43";
+        $this->systemIdKey   = "a3ac50dd8951e24cf95cba07602a3d5b593f600b";
         $this->headers = array(
             "Content-Type" => "application/json"
         );
