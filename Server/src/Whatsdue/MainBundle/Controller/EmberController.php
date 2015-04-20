@@ -21,9 +21,6 @@ class EmberController extends Controller
     public function testAction(){
         echo "Test Passed";
         exit;
-        //$user = $this->getUser();
-        // $this->container->get('pipedrive')->migrate();
-        //return new Response("<br> success");
     }
 
 }
