@@ -396,8 +396,6 @@ class TeacherController extends FOSRestController{
             }
         }
 
-
-
         /*
          * Prepare and Send Emails
          */
@@ -414,7 +412,7 @@ class TeacherController extends FOSRestController{
                 );
         $meta = array("courseName"=>$courseCode);
         $tag = "Invite Users";
-        $this->get('email')->send($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
+        $this->get('email')->sendBulk($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
 
 
         /* If its more than 5, update pipedrive */

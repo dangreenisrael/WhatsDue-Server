@@ -19,14 +19,16 @@ class Email {
         $this->container = $container;
     }
 
-    public function send($from, $user, $htmlBody, $txtBody, $subject, $recipients, $tag, $meta){
+    public function sendBulk($from, $user, $htmlBody, $txtBody, $subject, $recipients, $tag, $meta){
         $mailer = $this->container->get('mailer');
+        $to = array("aaron@whatsdueapp.com" => "Undisclosed Recipients");
 
         /* Send Email */
         $message = $mailer->createMessage()
             ->setSubject($subject)
             ->setFrom($from)
-            ->setTo($recipients)
+            ->setTo($to)
+            ->setBCC($recipients)
             ->setBody($htmlBody, 'text/html')
         ;
         $mailer->send($message);
