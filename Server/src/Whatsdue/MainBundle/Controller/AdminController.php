@@ -72,9 +72,9 @@ class AdminController extends FOSRestController{
             $deviceIds = [];
             foreach ($courses as $course){
                 $currentDeviceIds = json_decode($course->getDeviceIds(), true);
-                $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+                $deviceIds = @array_merge($deviceIds, $currentDeviceIds);
             }
-            $uniqueUsers = array_unique($deviceIds);
+            $uniqueUsers = @array_unique($deviceIds);
             $assignments = $assignmentRepository->findBy(
                 array('adminId'  => $user->getUsername())
             );
@@ -284,11 +284,11 @@ class AdminController extends FOSRestController{
         $deviceIds = [];
         foreach ($courses as $course){
             $currentDeviceIds = json_decode($course->getDeviceIds(), true);
-            $deviceIds = array_merge($deviceIds, $currentDeviceIds);
+            $deviceIds = @array_merge($deviceIds, $currentDeviceIds);
         }
 
         $count['courses'] = count($courses);
-        $count['users']   = count(array_unique($deviceIds));
+        $count['users']   = count(@array_unique($deviceIds));
         return $count;
     }
 }
