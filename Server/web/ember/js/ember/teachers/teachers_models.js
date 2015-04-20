@@ -45,6 +45,9 @@ App.Assignment = DS.Model.extend({
             return " ";
         }
     }.property('due_date'),
+    changed: function(){
+        // Changed
+    }.observes('description').on('init'),
     checked:            DS.attr('boolean', {defaultValue: false})
 });
 

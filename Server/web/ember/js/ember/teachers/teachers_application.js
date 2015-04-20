@@ -39,3 +39,7 @@ Ember.Handlebars.helper('liScrollToId', function(course) {
     var name = course.get('course_name');
     return new Ember.Handlebars.SafeString("<li id='" +id+ "Panel'><i class='fa fa-sort'></i><span onclick='scrollToId("+id+")'>"+name+"</span></li>");
 });
+
+Ember.Handlebars.helper('linkify', function(text) {
+    return Ember.String.htmlSafe(linkify(text));
+});

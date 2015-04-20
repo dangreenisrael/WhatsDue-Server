@@ -302,10 +302,9 @@ function program18(depth0,data) {
 
 function program20(depth0,data) {
   
-  var buffer = '', stack1;
+  var buffer = '', helper, options;
   data.buffer.push("\n\n                                            ");
-  stack1 = helpers._triageMustache.call(depth0, "assignment.description", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push(escapeExpression((helper = helpers.linkify || (depth0 && depth0.linkify),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data},helper ? helper.call(depth0, "assignment.description", options) : helperMissing.call(depth0, "linkify", "assignment.description", options))));
   data.buffer.push("\n                                        ");
   return buffer;
   }
