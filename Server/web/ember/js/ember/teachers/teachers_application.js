@@ -41,6 +41,9 @@ Ember.Handlebars.helper('liScrollToId', function(course) {
 });
 
 Ember.Handlebars.helper('linkify', function(text) {
-    console.log(text);
-    return Ember.String.htmlSafe(linkify(text));
+    if (typeof text === "undefined") {
+        return Ember.String.htmlSafe("");
+    } else{
+        return Ember.String.htmlSafe(linkify(text));
+    }
 });
