@@ -79,7 +79,6 @@ function initChooser() {
         $('.bootstrap-timepicker-widget').on('click', function(){
             hideKeyboard();
         });
-
         date.datepicker({
             onRender: function(date) {
                 hideKeyboard();
@@ -94,9 +93,16 @@ function initChooser() {
                 }
             }).on('hide', function(ev){
                 if (moment(ev.date).isAfter(now)){
+                    var currentDate = date.val();
                     var pretty = moment(ev.date).format('dddd MMM Do YYYY');
-                    date.val(pretty);
-                    time.click();
+                    /* Prevent putting the date to today by accident */
+                    if (currentDate != "Click to choose date"){
+                        var n = currentDate.indexOf("/");
+                        if (n > -1){
+                            date.val(pretty);
+                            time.click();
+                        }
+                    }
                 }else{
                     date.val('Date has passed');
                     date.datepicker('show');
@@ -121,8 +127,8 @@ function initChooser() {
 
         time.on('change',  function() {
             var datetime = $(date).val()+" "+$(time).val();
-            datetime = moment(datetime, "dddd MMM Do YYYY h:mm A");
-            $('#datetime').val(datetime.format('YYYY-MM-DD HH:mm')).focus();
+            datetime = (moment(datetime, "dddd MMM Do YYYY h:mm A")).format('YYYY-MM-DD HH:mm');
+            $('#datetime').val(datetime).focus();
         });
 
 
@@ -148,11 +154,11 @@ function initChooser() {
 function validateAssignment (){
     var date = $('#date').val();
     var name = $('#assignment-name').val();
-    console.log(date);
     if (
         (date != 'Date has passed') &&
         (date != 'Invalid date') &&
         (date != 'Enter Date') &&
+        (date != 'Click to choose date') &&
         (name != '')
         ){
         return true;
