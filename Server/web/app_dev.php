@@ -11,10 +11,10 @@ use Symfony\Component\Debug\Debug;
 // Feel free to remove this, extend it, or make something more sophisticated.
 if (isset($_SERVER['HTTP_CLIENT_IP'])
     || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-    || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '84.111.20.225', 'fe80::1', '::1'))
+    || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '84.111.20.225'))
 ) {
-    //header('HTTP/1.0 403 Forbidden');
-    //exit("You shouldn't be here - Your IP has been logged");
+    header('HTTP/1.0 403 Forbidden');
+    exit("You shouldn't be here - Your IP has been logged");
 }
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';

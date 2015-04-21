@@ -36,6 +36,11 @@ class LifecycleActions {
         return $this->getContainer()->get('security.context')->getToken()->getUser();
     }
 
+    private function getDatetime(){
+        $date = new \DateTime();
+        return $date->format('Y-m-d\TH:i:sP');
+    }
+
 
     public function prePersist(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
@@ -70,9 +75,11 @@ class LifecycleActions {
              * Make set username as Id
              */
 
+
             $userId = $entity->getId();
             $entity->setUsername($userId);
             $entity->setUsernameCanonical($userId);
+            $entity->setSignupDate($this->getDatetime());
             $em->persist($entity);
             $em->flush();
 

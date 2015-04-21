@@ -3,7 +3,7 @@
  */
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    namespace: 'app_dev.php/api/teacher'
+    namespace: 'api/teacher'
 });
 
 

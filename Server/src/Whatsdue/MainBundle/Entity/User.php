@@ -32,6 +32,9 @@ class User extends BaseUser
     protected $id;
 
 
+    /** @ORM\Column(name="signup_date", type="string", nullable=true) */
+    protected $signupDate;
+
     /** @ORM\Column(name="settings", type="string", nullable=true) */
     protected $settings;
 
@@ -64,12 +67,39 @@ class User extends BaseUser
 
 
 
+
+
 	public function __construct()
 	{
 		parent::__construct();
 		// your own logic
 	}
 
+
+
+
+    /**
+     * Set Signup Date
+     *
+     * @param string $signupDate
+     * @return User
+     */
+    public function setSignupDate($signupDate)
+    {
+        $this->signupDate = $signupDate;
+
+        return $this;
+    }
+
+    /**
+     * Get Signup Dates
+     *
+     * @return string
+     */
+    public function getSignupDate()
+    {
+        return $this->signupDate;
+    }
 
     /**
      * Set settings
