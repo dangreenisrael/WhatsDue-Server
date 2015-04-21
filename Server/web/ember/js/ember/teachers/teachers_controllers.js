@@ -229,7 +229,7 @@ App.EmailInviteController = Ember.ObjectController.extend({
             var context = this;
             $.ajax({
                 type: "POST",
-                url: "/app_dev.php/api/teacher/emails/invites",
+                url: "/api/teacher/emails/invites",
                 data: JSON.stringify(payload),
                 dataType: "json",
                 contentType: 'application/json; charset=UTF-8',
