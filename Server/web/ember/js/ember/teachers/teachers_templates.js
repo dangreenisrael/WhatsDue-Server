@@ -117,7 +117,13 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n    <h4 class=\"modal-title\">");
   stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(": Invite Students and Parents</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n\n            <div class=\"col-md-12\">\n                <h5>\n                    We will send an email to whomever you wish, instructing them how to set up WhatsDue and add this course.\n                </h5>\n                <h5>\n                    The email will be sent from us, and <strong>your email address will be hidden</strong>\n                </h5>\n                <h5>\n                    <strong><i>Note: The course code is automatically sent in the email.</i></strong>\n                </h5>\n\n                <h5>\n                    Please feel free to change this text:\n                </h5>\n                ");
+  data.buffer.push(": Invite Students and Parents</h4>\n</div>\n<div class=\"modal-body\">\n    <form action=\"#\" class=\"form-horizontal \">\n        <div class=\"form-group\">\n\n            <div class=\"col-md-12\">\n\n                <h5>\n                    In order for a parent or student to add <i>");
+  stack1 = helpers._triageMustache.call(depth0, "course_name", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("</i> to WhatsDue, all they have to\n                    do is enter this course code into the app: <strong>");
+  stack1 = helpers._triageMustache.call(depth0, "course_code", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("</strong>\n                </h5>\n                <h5>\n                    If you would like, we will send an email to whomever you wish, instructing them how to set up\n                    WhatsDue and add this course.\n                </h5>\n                <h5>\n                    The email will be sent from us, and <strong>your email address will be hidden</strong>\n                </h5>\n                <h5>\n                    <strong><i>Note: The course code is automatically sent in the email.</i></strong>\n                </h5>\n\n                <h5>\n                    Please feel free to change this text:\n                </h5>\n                ");
   data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
     'value': ("emailMessage"),
     'class': ("form-control padded"),
