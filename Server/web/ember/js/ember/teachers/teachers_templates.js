@@ -129,7 +129,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'class': ("form-control padded"),
     'placeholder': ("Message to your students")
   },hashTypes:{'value': "ID",'class': "STRING",'placeholder': "STRING"},hashContexts:{'value': depth0,'class': depth0,'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\n            </div>\n\n            <div class=\"col-md-12\">\n                <h5>\n                    Please enter a list of email addresses.\n                </h5>\n                ");
+  data.buffer.push("\n            </div>\n\n            <div class=\"col-md-12\">\n                <h5>\n                    Please enter a list of email addresses. <i><strong>Recipients cannot see other email addresses</strong></i>\n                </h5>\n                ");
   data.buffer.push(escapeExpression((helper = helpers.textarea || (depth0 && depth0.textarea),options={hash:{
     'value': ("emailAddresses"),
     'class': ("form-control padded"),
