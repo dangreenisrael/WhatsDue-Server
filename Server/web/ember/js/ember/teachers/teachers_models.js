@@ -2,8 +2,16 @@
  * Created by Dan on 9/20/14.
  */
 
+var path = window.location.pathname;
+var baseUrl;
+if (path.indexOf("app_dev.php") > -1){
+    baseUrl = "app_dev.php/";
+} else{
+    baseUrl = "";
+}
+
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-    namespace: 'api/teacher'
+    namespace: baseUrl+'api/teacher'
 });
 
 

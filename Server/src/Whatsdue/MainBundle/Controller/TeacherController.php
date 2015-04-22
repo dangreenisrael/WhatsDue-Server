@@ -160,7 +160,7 @@ class TeacherController extends FOSRestController{
         $course->setArchived($data->course->archived);
         $em->flush();
         /* Don't return device IDs*/
-        $course->setDeviceIds(null);
+        //$course->setDeviceIds(null);
         return array("course"=>$course);
     }
 

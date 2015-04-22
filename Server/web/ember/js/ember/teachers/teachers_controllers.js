@@ -4,7 +4,7 @@
 function save(model, context){
     model.save().then(function (e) {
         $('#Picker').modal('hide');
-        $('.modal-body input').val('');
+        //$('.modal-body input').val('');
         context.transitionToRoute('main');
 
     }).catch(function(reason){
@@ -67,6 +67,7 @@ App.MainEditAssignmentController = Ember.ObjectController.extend({
 });
 
 App.MainEditCourseController = Ember.ObjectController.extend({
+    needs:['main'],
     actions: {
         save: function() {
             save(this.get('model'), this);
@@ -74,10 +75,11 @@ App.MainEditCourseController = Ember.ObjectController.extend({
         },
         remove: function(){
             var model = this.get('model');
-            //model.set('archived',true);
             model.deleteRecord();
             save(model);
             this.transitionToRoute('main');
+            //this.get('controllers.main').send('change');
+            //location.reload();
         },
         close: function(){
             this.get('model').rollback();
@@ -87,11 +89,11 @@ App.MainEditCourseController = Ember.ObjectController.extend({
 });
 
 App.CourseNewAssignmentController = Ember.ObjectController.extend({
+
     actions: {
         save: function() {
-            console.log(this.get('model'));
+            var data = this.get('model');
             if (validateAssignment() == true) {
-                var data = this.get('model');
                 var assignment = this.store.createRecord('assignment', {
                     course_id:          data,
                     due_date:           data.due_date,
@@ -103,6 +105,10 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
                 localStorage.setItem('firstAssignmentAdded', 'true');
                 $('#add-first-assignment').hide();
                 save(this.get('model'));
+                data.set('due_date', "");
+                data.set('assignment_name', "");
+                data.set('description', "");
+
                 trackEvent("Added Assignment");
                 this.transitionToRoute('main');
             } else{
@@ -163,10 +169,9 @@ App.MainNewCourseController = Ember.ObjectController.extend({
             save(course, this);
             $('#add-first-course').hide();
             trackEvent("Added Course");
-            //this.modelFor('main').reload()
+            data.set('course_name', "");
             this.get('controllers.main').send('change');
             this.transitionToRoute('main');
-            //location.reload(false);
         },
         close: function(){
             this.transitionToRoute('main');
@@ -229,7 +234,7 @@ App.EmailInviteController = Ember.ObjectController.extend({
             var context = this;
             $.ajax({
                 type: "POST",
-                url: "/api/teacher/emails/invites",
+                url: "api/teacher/emails/invites",
                 data: JSON.stringify(payload),
                 dataType: "json",
                 contentType: 'application/json; charset=UTF-8',
