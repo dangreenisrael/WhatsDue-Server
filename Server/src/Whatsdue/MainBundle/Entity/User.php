@@ -50,6 +50,18 @@ class User extends BaseUser
     /** @ORM\Column(name="institution_name", type="string") */
     protected $institutionName;
 
+    /** @ORM\Column(name="unique_followers", type="integer", nullable=true) */
+    protected $uniqueFollowers;
+
+    /** @ORM\Column(name="unique_invitations", type="integer", nullable=true) */
+    protected $uniqueInvitations;
+
+    /** @ORM\Column(name="total_courses", type="integer", nullable=true) */
+    protected $totalCourses;
+
+    /** @ORM\Column(name="total_assignments", type="integer", nullable=true) */
+    protected $totalAssignments;
+
     /** @ORM\Column(name="pipedrive_stage", type="integer", nullable=true) */
     protected $pipedriveStage;
 
@@ -345,5 +357,101 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set uniqueFollowers
+     *
+     * @param integer $uniqueFollowers
+     *
+     * @return User
+     */
+    public function setUniqueFollowers($uniqueFollowers)
+    {
+        $this->uniqueFollowers = $uniqueFollowers;
+
+        return $this;
+    }
+
+    /**
+     * Get uniqueFollowers
+     *
+     * @return integer
+     */
+    public function getUniqueFollowers()
+    {
+        return $this->uniqueFollowers;
+    }
+
+    /**
+     * Set uniqueInvitations
+     *
+     * @param integer $uniqueInvitations
+     *
+     * @return User
+     */
+    public function setUniqueInvitations($uniqueInvitations)
+    {
+        $this->uniqueInvitations = $uniqueInvitations;
+
+        return $this;
+    }
+
+    /**
+     * Get uniqueInvitations
+     *
+     * @return integer
+     */
+    public function getUniqueInvitations()
+    {
+        return $this->uniqueInvitations;
+    }
+
+    /**
+     * Set totalCourses
+     *
+     * @param integer $totalCourses
+     *
+     * @return User
+     */
+    public function setTotalCourses($totalCourses)
+    {
+        $this->totalCourses = $totalCourses;
+
+        return $this;
+    }
+
+    /**
+     * Get totalCourses
+     *
+     * @return integer
+     */
+    public function getTotalCourses()
+    {
+        return $this->totalCourses;
+    }
+
+    /**
+     * Set totalAssignments
+     *
+     * @param integer $totalAssignments
+     *
+     * @return User
+     */
+    public function setTotalAssignments($totalAssignments)
+    {
+        $this->totalAssignments = $totalAssignments;
+
+        return $this;
+    }
+
+    /**
+     * Get totalAssignments
+     *
+     * @return integer
+     */
+    public function getTotalAssignments()
+    {
+        return $this->totalAssignments;
     }
 }

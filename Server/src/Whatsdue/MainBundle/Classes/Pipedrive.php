@@ -29,11 +29,12 @@ class Pipedrive {
         //Dan's ID: 585841
         $this->container     = $container;
             $this->apiBase   = "https://api.pipedrive.com/v1";
-        $this->apiToken      = $container->getParameter('pipedrive.apiToken');;
+        $this->apiToken      = $container->getParameter('pipedrive.apiToken');
         $this->urlAppend     = "?api_token=".$this->apiToken;
         $this->userID        = 586943;
-        $this->salutationKey = $container->getParameter('pipedrive.salutationKey');;
+        $this->salutationKey = $container->getParameter('pipedrive.salutationKey');
         $this->systemIdKey   = $container->getParameter('pipedrive.systemIdKey');
+
         $this->headers = array(
             "Content-Type" => "application/json"
         );
@@ -67,6 +68,20 @@ class Pipedrive {
         $id = $response->body->data->id;
 
         return $id;
+    }
+
+    public function updatePerson($user){
+
+        $body = json_encode(array(
+            $this->container->getParameter('pipedrive.InvitesKey') => $user->getUniqueInvitations(),
+            $this->container->getParameter('pipedrive.UsersKey') => $user->getUniqueFollowers(),
+            $this->container->getParameter('pipedrive.CoursesKey') => $user->getTotalCourses(),
+            $this->container->getParameter('pipedrive.AssignmentsKey') => $user->getTotalAssignments()
+        ));
+
+        $personId = $user->getPipedrivePerson();
+        $target = $this->apiBase."/persons/$personId".$this->urlAppend;
+        Unirest\Request::put($target, $this->headers, $body);
     }
 
     public function createDeal($title, $organizationId, $personId){

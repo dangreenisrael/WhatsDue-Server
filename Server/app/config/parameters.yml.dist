@@ -17,4 +17,8 @@ parameters:
     pipedrive.apiToken:         745b6d4c6dcdd6ff030e7ae33ff841001621d8f1
     pipedrive.salutationKey:    45e811b003c82ef43712dc9745bee4636fa56d43
     pipedrive.systemIdKey:      a3ac50dd8951e24cf95cba07602a3d5b593f600b
+    pipedrive.InvitesKey:      5d8bb06f12897475b10b313da3cb7aeee1b52975
+    pipedrive.UsersKey:      ccbf85f64a25b845ab2edf687aff09fb606368e2
+    pipedrive.CoursesKey:      869c5955f6ff0db08474ecf3addb1c03a71620d6
+    pipedrive.AssignmentsKey:      0a9b637cc5c8b843eeafeea6e736103457145639
 

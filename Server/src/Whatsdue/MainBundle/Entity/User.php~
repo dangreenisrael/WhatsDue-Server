@@ -17,6 +17,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  */
+
+/*
+ * Note: email is set to username in lifecycle actions
+ */
+
 class User extends BaseUser
 {
     /**
@@ -27,8 +32,14 @@ class User extends BaseUser
     protected $id;
 
 
+    /** @ORM\Column(name="signup_date", type="string", nullable=true) */
+    protected $signupDate;
+
     /** @ORM\Column(name="settings", type="string", nullable=true) */
     protected $settings;
+
+    /** @ORM\Column(name="salutation", type="string") */
+    protected $salutation;
 
     /** @ORM\Column(name="first_name", type="string") */
     protected $firstName;
@@ -39,8 +50,34 @@ class User extends BaseUser
     /** @ORM\Column(name="institution_name", type="string") */
     protected $institutionName;
 
+    /** @ORM\Column(name="unique_followers", type="integer", nullable=true) */
+    protected $uniqueFollowers;
+
+    /** @ORM\Column(name="unique_invitations", type="integer", nullable=true) */
+    protected $uniqueInvitations;
+
+    /** @ORM\Column(name="total_courses", type="integer", nullable=true) */
+    protected $totalCourses;
+
+    /** @ORM\Column(name="total_assignments", type="integer", nullable=true) */
+    protected $totalAssignments;
+
+    /** @ORM\Column(name="pipedrive_stage", type="integer", nullable=true) */
+    protected $pipedriveStage;
+
     /** @ORM\Column(name="institution_abbreviation", type="string", nullable=true) */
     protected $institutionAbbreviation;
+
+    /** @ORM\Column(name="pipedrive_deal", type="integer", nullable=true) */
+    protected $pipedriveDeal;
+
+    /** @ORM\Column(name="pipedrive_person", type="integer", nullable=true) */
+    protected $pipedrivePerson;
+
+    /** @ORM\Column(name="pipedrive_organization", type="integer", nullable=true) */
+    protected $pipedriveOrganization;
+
+
 
 
 
@@ -50,6 +87,31 @@ class User extends BaseUser
 		// your own logic
 	}
 
+
+
+
+    /**
+     * Set Signup Date
+     *
+     * @param string $signupDate
+     * @return User
+     */
+    public function setSignupDate($signupDate)
+    {
+        $this->signupDate = $signupDate;
+
+        return $this;
+    }
+
+    /**
+     * Get Signup Dates
+     *
+     * @return string
+     */
+    public function getSignupDate()
+    {
+        return $this->signupDate;
+    }
 
     /**
      * Set settings
@@ -73,6 +135,30 @@ class User extends BaseUser
     {
         return $this->settings;
     }
+
+    /**
+     * Set salutation
+     *
+     * @param string $salutation
+     * @return User
+     */
+    public function setSalutation($salutation)
+    {
+        $this->salutation = $salutation;
+
+        return $this;
+    }
+
+    /**
+     * Get salutation
+     *
+     * @return string
+     */
+    public function getSalutation()
+    {
+        return $this->salutation;
+    }
+
 
     /**
      * Set First Name
@@ -143,6 +229,8 @@ class User extends BaseUser
         return $this->institutionName;
     }
 
+
+
     /**
      * Set Institution Abbreviation
      *
@@ -167,6 +255,101 @@ class User extends BaseUser
     }
 
     /**
+     * Set Pipedrive Stage
+     *
+     * @param integer $pipedriveStage
+     * @return User
+     */
+    public function setPipedriveStage($pipedriveStage)
+    {
+        $this->pipedriveStage = $pipedriveStage;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Stage
+     *
+     * @return integer
+     */
+    public function getPipedriveStage()
+    {
+        return $this->pipedriveStage;
+    }
+
+    /**
+     * Set Pipedrive Deal ID
+     *
+     * @param string $pipedriveDeal
+     * @return User
+     */
+    public function setPipedriveDeal($pipedriveDeal)
+    {
+        $this->pipedriveDeal = $pipedriveDeal;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Deal ID
+     *
+     * @return integer
+     */
+    public function getPipedriveDeal()
+    {
+        return $this->pipedriveDeal;
+    }
+
+    /**
+     * Set Pipedrive Person ID
+     *
+     * @param string $pipedrivePerson
+     * @return User
+     */
+    public function setPipedrivePerson($pipedrivePerson)
+    {
+        $this->pipedrivePerson = $pipedrivePerson;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Person ID
+     *
+     * @return integer
+     */
+    public function getPipedrivePerson()
+    {
+        return $this->pipedrivePerson;
+    }
+
+    /**
+     * Set Pipedrive Organization ID
+     *
+     * @param string $pipedriveOrganization
+     * @return User
+     */
+    public function setPipedriveOrganization($pipedriveOrganization)
+    {
+        $this->pipedriveOrganization = $pipedriveOrganization;
+
+        return $this;
+    }
+
+    /**
+     * Get Pipedrive Person ID
+     *
+     * @return integer
+     */
+    public function getPipedriveOrganization()
+    {
+        return $this->pipedriveOrganization;
+    }
+
+
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -174,5 +357,53 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set uniqueFollowers
+     *
+     * @param integer $uniqueFollowers
+     *
+     * @return User
+     */
+    public function setUniqueFollowers($uniqueFollowers)
+    {
+        $this->uniqueFollowers = $uniqueFollowers;
+
+        return $this;
+    }
+
+    /**
+     * Get uniqueFollowers
+     *
+     * @return integer
+     */
+    public function getUniqueFollowers()
+    {
+        return $this->uniqueFollowers;
+    }
+
+    /**
+     * Set uniqueInvitations
+     *
+     * @param integer $uniqueInvitations
+     *
+     * @return User
+     */
+    public function setUniqueInvitations($uniqueInvitations)
+    {
+        $this->uniqueInvitations = $uniqueInvitations;
+
+        return $this;
+    }
+
+    /**
+     * Get uniqueInvitations
+     *
+     * @return integer
+     */
+    public function getUniqueInvitations()
+    {
+        return $this->uniqueInvitations;
     }
 }
