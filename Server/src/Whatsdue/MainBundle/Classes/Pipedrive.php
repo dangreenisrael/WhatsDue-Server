@@ -113,7 +113,7 @@ class Pipedrive {
         /* Update Pipedrive */
         $body = json_encode(array(
             "id"     =>  $dealId,
-            "stage_id" =>  $user->getPipeDriveStage
+            "stage_id" =>  $user->getPipeDriveStage()
         ));
 
         $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
