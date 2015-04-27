@@ -73,10 +73,10 @@ class Pipedrive {
     public function updatePerson($user){
 
         $body = json_encode(array(
-            $this->container->getParameter('pipedrive.InvitesKey') => $user->getUniqueInvitations(),
-            $this->container->getParameter('pipedrive.UsersKey') => $user->getUniqueFollowers(),
-            $this->container->getParameter('pipedrive.CoursesKey') => $user->getTotalCourses(),
-            $this->container->getParameter('pipedrive.AssignmentsKey') => $user->getTotalAssignments(),
+            $this->container->getParameter('pipedrive.PersonInvitesKey') => $user->getUniqueInvitations(),
+            $this->container->getParameter('pipedrive.PersonUsersKey') => $user->getUniqueFollowers(),
+            $this->container->getParameter('pipedrive.PersonCoursesKey') => $user->getTotalCourses(),
+            $this->container->getParameter('pipedrive.PersonAssignmentsKey') => $user->getTotalAssignments()
         ));
 
         $personId = $user->getPipedrivePerson();
@@ -100,24 +100,30 @@ class Pipedrive {
         $dealId = $user->getPipedriveDeal();
         $currentStage = $user->getPipedriveStage();
 
-        if ($currentStage < $stageId){
+        if ($currentStage != $stageId){
             /* Update User*/
             $userManager = $this->container->get('fos_user.user_manager');
             $user->setPipedriveStage($stageId);
             $userManager->updateUser($user);
-            $status = "Updated";
+            $status = "Stage Changed";
         } else{
-            $status = "not updated";
+            $status = "Stage Not Changed";
         }
 
         /* Update Pipedrive */
         $body = json_encode(array(
             "id"     =>  $dealId,
-            "stage_id" =>  $user->getPipeDriveStage()
+            "stage_id" =>  $user->getPipeDriveStage(),
+            $this->container->getParameter('pipedrive.DealUsersKey') => $user->getUniqueFollowers(),
+            $this->container->getParameter('pipedrive.DealCoursesKey') => $user->getTotalCourses(),
+            $this->container->getParameter('pipedrive.DealAssignmentsKey') => $user->getTotalAssignments(),
+            $this->container->getParameter('pipedrive.DealInvitesKey') => $user->getTotalAssignments()
+
         ));
 
         $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
         $response = Unirest\Request::put($target, $this->headers, $body);
+        var_dump($response->body->success);
         return $status;
 
     }

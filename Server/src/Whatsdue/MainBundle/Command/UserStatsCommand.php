@@ -32,6 +32,7 @@ class UserStatsCommand extends ContainerAwareCommand
         $userRepository = $em->getRepository('WhatsdueMainBundle:User');
         $courseRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Courses');
         $assignmentRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Assignments');
+        $emailLogRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:EmailLog');
         $users = $userRepository->findAll();
         $i=0;
 
@@ -51,6 +52,22 @@ class UserStatsCommand extends ContainerAwareCommand
                 array('adminId'  => $user->getUsername())
             );
 
+            /* Total Unique Email Recipients */
+            $emailLogs = $emailLogRepository->findBy(array(
+                "user"=>$user->getId()
+            ));
+            if (!$emailLogs) {
+                $uniqueRecipients = 0;
+            } else{
+                unset($recipients);
+                $recipients = array();
+                foreach ($emailLogs as $emailLog){
+                    $recipients = array_merge($recipients, json_decode($emailLog->getRecipients()));
+                }
+                $uniqueRecipients = count(array_unique($recipients));
+            }
+
+
             $totalCourses       = count($courses);
             $totalAssignments   = count($assignments);
             $totalUniqueFollowers   = count($uniqueUsers);
@@ -58,23 +75,25 @@ class UserStatsCommand extends ContainerAwareCommand
             $user->setUniqueFollowers($totalUniqueFollowers);
             $user->setTotalCourses($totalCourses);
             $user->setTotalAssignments($totalAssignments);
+            $user->setUniqueInvitations($uniqueRecipients);
 
             $dealId  = $user->getPipedriveDeal();
             if ($totalUniqueFollowers >= 3){
                 $container->get('pipedrive')->updateDeal($user, 5);
-                echo $user->getUsername()."\n";
+            } elseif($uniqueRecipients >= 5){
+                $container->get('pipedrive')->updateDeal($user, 4);
+            } elseif($totalAssignments > 0){
+                $container->get('pipedrive')->updateDeal($user, 3);
+            } elseif($totalCourses > 0){
+                $container->get('pipedrive')->updateDeal($user, 2);
             }
-        }
-        echo "Processed Stats\n\nBeginning Pipedrive:\n\n";
-        $em->flush();
-
-        foreach ($users as $user){
             $container->get('pipedrive')->updatePerson($user);
-            $response = $container->get('pipedrive')->updateDeal($user, $user->getPipedriveStage());
-            echo $user->getId()." $response \n";
+            echo $user->getId() ." ".$user->getFirstName()." ".$user->getLastName(). " Stage: ".$user->getPipedriveStage()."\n";
         }
+        echo "Processed Stats";
 
 
+        $em->flush();
         $text = "Sorting Complete";
         $output->writeln($text);
     }
