@@ -76,7 +76,7 @@ class Pipedrive {
             $this->container->getParameter('pipedrive.InvitesKey') => $user->getUniqueInvitations(),
             $this->container->getParameter('pipedrive.UsersKey') => $user->getUniqueFollowers(),
             $this->container->getParameter('pipedrive.CoursesKey') => $user->getTotalCourses(),
-            $this->container->getParameter('pipedrive.AssignmentsKey') => $user->getTotalAssignments()
+            $this->container->getParameter('pipedrive.AssignmentsKey') => $user->getTotalAssignments(),
         ));
 
         $personId = $user->getPipedrivePerson();
