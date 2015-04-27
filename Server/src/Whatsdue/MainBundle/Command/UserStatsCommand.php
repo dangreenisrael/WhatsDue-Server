@@ -71,8 +71,7 @@ class UserStatsCommand extends ContainerAwareCommand
         foreach ($users as $user){
             $container->get('pipedrive')->updatePerson($user);
             $response = $container->get('pipedrive')->updateDeal($user, $user->getPipedriveStage());
-            var_dump($response);
-            echo $user->getId()."\n";
+            echo $user->getId()." $response \n";
         }
 
 

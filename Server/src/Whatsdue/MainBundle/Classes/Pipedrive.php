@@ -105,20 +105,20 @@ class Pipedrive {
             $userManager = $this->container->get('fos_user.user_manager');
             $user->setPipedriveStage($stageId);
             $userManager->updateUser($user);
-
-            /* Update Pipedrive */
-            $body = json_encode(array(
-                "id"     =>  $dealId,
-                "stage_id" =>  $stageId
-            ));
-
-            $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
-            $response = Unirest\Request::put($target, $this->headers, $body);
-
-            return $response;
+            $status = "Updated";
         } else{
-            return "not updated";
+            $status = "not updated";
         }
+
+        /* Update Pipedrive */
+        $body = json_encode(array(
+            "id"     =>  $dealId,
+            "stage_id" =>  $user->getPipeDriveStage
+        ));
+
+        $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
+        $response = Unirest\Request::put($target, $this->headers, $body);
+        return $status;
 
     }
 
