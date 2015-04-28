@@ -68,16 +68,19 @@ class PushNotifications {
         $repository = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Students');
         $androidUsers = [];
         $iosUsers = [];
-        foreach ($deviceIds as $uuid){
-            $student = $repository->findOneBy(
-                array('uuid' => $uuid)
-            );
-            if ($student->getPlatform() == "Android"){
-                $androidUsers[] = $student->getPushId();
-            } else{
-                $iosUsers[] = $student->getPushId();
+        if ($deviceIds){
+            foreach ($deviceIds as $uuid){
+                $student = $repository->findOneBy(
+                    array('uuid' => $uuid)
+                );
+                if ($student->getPlatform() == "Android"){
+                    $androidUsers[] = $student->getPushId();
+                } else{
+                    $iosUsers[] = $student->getPushId();
+                }
             }
         }
+
         /*
          * Send the Notifications
          */
