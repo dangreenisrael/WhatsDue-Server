@@ -25,4 +25,6 @@ parameters:
     pipedrive.DealUsersKey:         a026dc5e533f1b5df3b486cf2a7b008469df3f0f
     pipedrive.DealCoursesKey:       5d3af02d8b5bd0aac9f0f37a9d81620769e0038b
     pipedrive.DealAssignmentsKey:   ce443b080b3cfca21d3a9d34a40d70cf7320e2e7
+    pipedrive.DealEmailKey:         ea8c30eca9c4d265b010af81d8522c602440ee24
+
 

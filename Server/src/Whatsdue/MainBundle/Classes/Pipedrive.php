@@ -84,11 +84,12 @@ class Pipedrive {
         Unirest\Request::put($target, $this->headers, $body);
     }
 
-    public function createDeal($title, $organizationId, $personId){
+    public function createDeal($title, $organizationId, $personId, $user){
         $body = json_encode(array(
             "title"     =>  $title,
             "person_id" =>  $personId,
-            "org_id"    =>  $organizationId
+            "org_id"    =>  $organizationId,
+            $this->container->getParameter('pipedrive.DealEmailKey') => $user->getEmail()
         ));
 
         $target = $this->apiBase."/deals".$this->urlAppend;
@@ -114,16 +115,17 @@ class Pipedrive {
         $body = json_encode(array(
             "id"     =>  $dealId,
             "stage_id" =>  $user->getPipeDriveStage(),
-            $this->container->getParameter('pipedrive.DealUsersKey') => $user->getUniqueFollowers(),
-            $this->container->getParameter('pipedrive.DealCoursesKey') => $user->getTotalCourses(),
-            $this->container->getParameter('pipedrive.DealAssignmentsKey') => $user->getTotalAssignments(),
-            $this->container->getParameter('pipedrive.DealInvitesKey') => $user->getTotalAssignments()
+            $this->container->getParameter('pipedrive.DealUsersKey')        => $user->getUniqueFollowers(),
+            $this->container->getParameter('pipedrive.DealCoursesKey')      => $user->getTotalCourses(),
+            $this->container->getParameter('pipedrive.DealAssignmentsKey')  => $user->getTotalAssignments(),
+            $this->container->getParameter('pipedrive.DealInvitesKey')      => $user->getTotalAssignments(),
+            $this->container->getParameter('pipedrive.DealEmailKey')        => $user->getEmail()
 
         ));
 
         $target = $this->apiBase."/deals/$dealId".$this->urlAppend;
         $response = Unirest\Request::put($target, $this->headers, $body);
-        var_dump($response->body->success);
+
         return $status;
 
     }
@@ -137,7 +139,7 @@ class Pipedrive {
         $email = $user->getEmail();
         $organizationId = $this->createOrganization($organization);
         $personId = $this->createPerson($id, $name, $salutation, $email, $organizationId);
-        $dealId = $this->createDeal($name, $organizationId, $personId);
+        $dealId = $this->createDeal($name, $organizationId, $personId, $user);
 
         $user->setPipedriveOrganization($organizationId);
         $user->setPipedrivePerson($personId);
