@@ -14,6 +14,15 @@ body{
   max-width: 960px;
 }
 
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .pointer{
   cursor: pointer;
 }
@@ -68,11 +77,11 @@ input:read-only {
   left: -1000px;
 }
 
-.sorting-asc:after{
+.sorting.asc:after{
   font-family: FontAwesome, sans-serif;
   content: " \f0de";
 }
-.sorting-desc:after{
+.sorting.desc:after{
   font-family: FontAwesome, sans-serif;
   content: " \f0dd";}
 

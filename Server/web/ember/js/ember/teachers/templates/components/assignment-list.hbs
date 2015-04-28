@@ -1,0 +1,37 @@
+{{#render "assignments" assignments}}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <!--<th></th>-->
+            <th {{action 'sortBy' 'timestamp'}} {{bind-attr class=":due-date :noselect :pointer time sort"}}>Due Date</th>
+            <th {{action 'sortBy' 'assignment_name' }} {{bind-attr class=":due-date :noselect :pointer name sort"}}>Name</th>
+            <th class="description noselect pointer">Description </th>
+        </tr>
+        </thead>
+        <tbody>
+
+            {{#each assignment in controller}}
+                {{#unless assignment.archived}}
+                    <tr {{bind-attr class=assignment.id}}>
+                        <!--<td>-->
+                        <!--{input type="checkbox" checked=assignment.checked}}-->
+                        <!--</td>-->
+                        {{#link-to 'main.editAssignment' assignment tagName="td" class='due' data-toggle="modal" href="#Picker"}}
+                            <span class="hidden"> {{assignment.timestamp}} </span>
+                            {{assignment.dueDate}}
+                        {{/link-to}}
+
+                        {{#link-to 'main.editAssignment' assignment tagName="td" class='name' data-toggle="modal" href="#Picker"}}
+                            {{assignment.assignment_name}}
+                        {{/link-to}}
+
+                        {{#link-to 'main.editAssignment' assignment tagName="td" class='description' data-toggle="modal" href="#Picker"}}
+
+                            {{linkify assignment.description}}
+                        {{/link-to}}
+                    </tr>
+                {{/unless}}
+            {{/each}}
+        </tbody>
+    </table>
+{{/render}}

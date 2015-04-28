@@ -4,7 +4,6 @@
 function save(model, context){
     model.save().then(function (e) {
         $('#Picker').modal('hide');
-        //$('.modal-body input').val('');
         context.transitionToRoute('main');
 
     }).catch(function(reason){
@@ -13,6 +12,7 @@ function save(model, context){
         }
     });
 }
+
 
 App.MainController = Ember.ArrayController.extend({
     model:[],
@@ -42,15 +42,27 @@ App.MainController = Ember.ArrayController.extend({
     }
 });
 
+/*
+ * Route Controllers
+ */
 
 App.MainEditAssignmentController = Ember.ObjectController.extend({
     actions: {
         save: function() {
             if (validateAssignment() == true) {
                 save(this.get('model'));
+                this.send("dataChanged");
                 this.transitionToRoute('main');
+
+                /* Update the table (stupid table)*/
+                //var row = $('.'+String(this.get('id')));
+                //row.find('.due').eq(0).updateSortVal(String(this.get('timestamp')));
+                //row.find('.title').eq(0).updateSortVal(this.get('assignment_name'));
+                //row.find('.description').eq(0).updateSortVal(this.get('assignment_description'));
+                //$('.sorting-asc').stupidsort('asc');
+                //$('.sorting-desc').stupidsort('desc');
             }else{
-                alert("Woops, Did you select a valid date?")
+                alert("Please double check that everything is filled out")
             }
         },
         remove: function(){
@@ -89,7 +101,6 @@ App.MainEditCourseController = Ember.ObjectController.extend({
 });
 
 App.CourseNewAssignmentController = Ember.ObjectController.extend({
-
     actions: {
         save: function() {
             var data = this.get('model');
@@ -108,8 +119,12 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
                 data.set('due_date', "");
                 data.set('assignment_name', "");
                 data.set('description', "");
-
                 trackEvent("Added Assignment");
+
+                /* Deal with updating the table sorting*/
+                $('.sorting-asc').stupidsort('asc');
+                $('.sorting-desc').stupidsort('desc');
+
                 this.transitionToRoute('main');
             } else{
                 alert ('Please fill everything out');
@@ -179,7 +194,6 @@ App.MainNewCourseController = Ember.ObjectController.extend({
     }
 });
 
-
 App.MessageNewController = Ember.ObjectController.extend({
     actions: {
         save: function() {
@@ -232,6 +246,9 @@ App.EmailInviteController = Ember.ObjectController.extend({
             };
 
             var context = this;
+            $('#Picker').modal('hide');
+            trackEvent("Invitation Email Sent");
+            context.transitionToRoute('main');
             $.ajax({
                 type: "POST",
                 url: "api/teacher/emails/invites",
@@ -247,9 +264,10 @@ App.EmailInviteController = Ember.ObjectController.extend({
                     if (invalidEmails.length > 0 ){
                         alert("The following email addresses aren't valid:\n" + invalidEmails.join(","))
                     }
-                    $('#Picker').modal('hide');
-                    trackEvent("Invitation Email Sent");
-                    context.transitionToRoute('main');
+                },
+                error: function(){
+                    alert("Woops, There seems to have been some sort of error.")
+                    location.reload();
                 }
             });
 
@@ -257,6 +275,47 @@ App.EmailInviteController = Ember.ObjectController.extend({
         close: function(){
             this.get('model').rollback();
             this.transitionToRoute('main');
+        }
+    }
+});
+
+
+/*
+ * Component Render Controllers
+ */
+
+App.AssignmentsController = Ember.ArrayController.extend(Ember.SortableMixin, {
+    sortProperties: ['assignment_name'],
+    sortAscending: true,
+    time: "sorting",
+    name: "",
+    sort: "asc",
+    actions: {
+        sortBy: function(property) {
+            this.set('sortProperties', [property]);
+            if (property == "assignment_name"){
+                this.set('name', "sorting");
+                this.set('time', "");
+
+            } else{
+                this.set('name',"");
+                this.set('time',"sorting");
+            }
+            if (this.get('sortAscending') == true){
+                this.set('sortAscending', false);
+                this.set('sort', "desc");
+            } else{
+                this.set('sortAscending', true);
+                this.set('sort', "asc");
+
+            }
+            /*
+             * Set CSS class
+             */
+
+
+
+
         }
     }
 });

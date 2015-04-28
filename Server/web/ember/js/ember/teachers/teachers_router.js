@@ -53,6 +53,11 @@ App.MainEditAssignmentRoute = Ember.Route.extend({
     },
     afterModel: function(){
         initChooser();
+    },
+    actions: {
+        dataChanged: function() {
+            this.refresh();
+        }
     }
 });
 

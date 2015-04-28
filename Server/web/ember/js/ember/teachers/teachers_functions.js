@@ -213,10 +213,6 @@ function courseUpdate(){
 
             });
         }
-        /* Sort Table */
-        var $table = $("table").stupidtable();
-        var $th_to_sort = $table.find("th.due-date").eq(0);
-        $th_to_sort.stupidsort();
     });
 
 }

@@ -1,0 +1,47 @@
+<li class="col-md-12 panel ui-state-default" {{bind-attr id=course.id}}>
+    <header class="panel-heading row">
+        <div class="col-sm-4">
+            {{#link-to 'main.editCourse' course data-toggle="modal" href="#Picker"}}
+                {{course.course_name}}
+            {{/link-to}}
+            <br/>
+            <i data-original-title="This is the unique course code. Your students and parents need this code in order to join the course" class="fa fa-question-circle tooltips" data-toggle="tooltip" data-placement="bottom" ></i>
+            {{course.course_code}} -
+            <span class="student-count">{{course.totalSubscribers}} students</span>
+        </div>
+        <div class="col-sm-8 row">
+            {{#link-to 'course.newAssignment' course tag="button" class="btn btn-primary col-md-4" data-toggle="modal" href="#Picker"}}
+                <!--<i class="fa fa-plus"></i>--> Add Assignment
+            {{/link-to}}
+
+            <!--<div class="padded">-->
+            <!--{#link-to 'message.new' course tag="button"  class="col-md-7 btn btn-primary" data-toggle="modal" href="#Picker"}}-->
+            <!--<i class="fa fa-envelope"></i> Send Message-->
+            <!--{/link-to}}-->
+
+            <!--{#link-to 'message.history' course tag="button"  class="col-md-4 btn btn-primary pull-right" data-toggle="modal" href="#Picker"}}-->
+            <!--<i class="fa fa-archive"></i>-->
+            <!--{/link-to}}-->
+            <!--</div>-->
+
+            {{#link-to 'email.invite' course tag="button" class="btn btn-primary col-md-7 pull-right" data-toggle="modal" href="#Picker"}}
+                <!--<i class="fa fa-users"></i> -->Invite Parents & Students
+            {{/link-to}}
+
+        </div>
+
+    </header>
+    <div class="panel-body">
+
+        <!--{#link-to 'course.bulkChange' course tag="button" class="btn btn-primary col-xs-5 col-sm-3" data-toggle="modal" href="#Picker"}}-->
+        <!--Bulk-->
+        <!--{/link-to}}-->
+
+        <div class="col-xs-1"></div>
+        <!--<button class="btn btn-warning col-xs-5 col-sm-3" {action 'duplicate' course}}>-->
+        <!--Duplicate-->
+        <!--</button>-->
+        {{assignment-list assignments=course.assignments}}
+
+    </div>
+</li>
