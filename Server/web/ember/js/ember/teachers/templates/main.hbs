@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-sm-4 col-md-3">
+        <!-- page heading start-->
+        <div class="sidebar panel panel-default">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{#link-to 'main.newCourse' tag="i" class="fa fa-plus-square-o pointer" data-toggle="modal" href="#Picker"}}
+                        Add Course
+                    {{/link-to}}
+                </h3>
+            </div>
+            <div class="panel-body">
+               <ul class="draggable">
+                    {{#each course in model}}
+                        {{#unless course.archived}}
+                            {{liScrollToId course}}
+                        {{/unless}}
+                    {{/each}}
+               </ul>
+            </div>
+        </div>
+        <!-- page heading end-->
+
+    </div>
+    <div class="col-sm-8 col-md-9">
+        <ul class="courses">
+
+        {{#each course in model}}
+            {{#unless course.archived}}
+                {{course-panes course=course}}
+            {{/unless}}
+        {{/each}}
+        </ul>
+    </div>
+</div>
+<div class="modal fade" id="Picker" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {{outlet}}
+        </div>
+    </div>
+</div>
