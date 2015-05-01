@@ -122,8 +122,8 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
                 trackEvent("Added Assignment");
 
                 /* Deal with updating the table sorting*/
-                $('.sorting-asc').stupidsort('asc');
-                $('.sorting-desc').stupidsort('desc');
+                //$('.sorting-asc').stupidsort('asc');
+                //$('.sorting-desc').stupidsort('desc');
 
                 this.transitionToRoute('main');
             } else{
