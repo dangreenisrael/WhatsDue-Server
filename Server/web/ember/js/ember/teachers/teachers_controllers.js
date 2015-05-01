@@ -113,6 +113,7 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
                     admin_id:           data._data.admin_id
                 });
                 assignment.save();
+                $('#Picker').modal('hide');
                 localStorage.setItem('firstAssignmentAdded', 'true');
                 $('#add-first-assignment').hide();
                 save(this.get('model'));
@@ -120,6 +121,7 @@ App.CourseNewAssignmentController = Ember.ObjectController.extend({
                 data.set('assignment_name', "");
                 data.set('description', "");
                 trackEvent("Added Assignment");
+                this.transitionToRoute('main');
 
                 /* Deal with updating the table sorting*/
                 //$('.sorting-asc').stupidsort('asc');
