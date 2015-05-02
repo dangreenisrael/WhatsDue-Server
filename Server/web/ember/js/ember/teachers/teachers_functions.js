@@ -85,12 +85,11 @@ function initChooser() {
                 return date.valueOf() < today.valueOf() ? 'disabled' : '';
             }
             }).on('changeDate', function(ev){
-
-                if (moment(ev.date).isAfter(now)){
-                    date.datepicker('hide');
-                }else{
-                    date.val('Date has passed');
-                }
+                date.datepicker('hide');
+                //if (moment(ev.date).isAfter(now)){
+                //}else{
+                //    date.val('Date has passed');
+                //}
             }).on('hide', function(ev){
                 if (moment(ev.date).isAfter(now)){
                     var currentDate = date.val();
