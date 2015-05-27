@@ -132,23 +132,25 @@ class Pipedrive {
 
     public function newTeacher($user){
 
-        $name = $user->getFirstName()." ".$user->getLastName();
-        $id = $user->getId();
-        $salutation = $user->getSalutation();
-        $organization = $user->getInstitutionName();
-        $email = $user->getEmail();
-        $organizationId = $this->createOrganization($organization);
-        $personId = $this->createPerson($id, $name, $salutation, $email, $organizationId);
-        $dealId = $this->createDeal($name, $organizationId, $personId, $user);
+        if ( $this->container->getParameter('environment') != "dev") {
+            $name = $user->getFirstName() . " " . $user->getLastName();
+            $id = $user->getId();
+            $salutation = $user->getSalutation();
+            $organization = $user->getInstitutionName();
+            $email = $user->getEmail();
+            $organizationId = $this->createOrganization($organization);
+            $personId = $this->createPerson($id, $name, $salutation, $email, $organizationId);
+            $dealId = $this->createDeal($name, $organizationId, $personId, $user);
 
-        $user->setPipedriveOrganization($organizationId);
-        $user->setPipedrivePerson($personId);
-        $user->setPipedriveDeal($dealId);
-        $user->setPipedriveStage(1);
+            $user->setPipedriveOrganization($organizationId);
+            $user->setPipedrivePerson($personId);
+            $user->setPipedriveDeal($dealId);
+            $user->setPipedriveStage(1);
 
-        $userManager = $this->container->get('fos_user.user_manager');
-        $userManager->updateUser($user);
-        return $user;
+            $userManager = $this->container->get('fos_user.user_manager');
+            $userManager->updateUser($user);
+            return $user;
+        }
     }
 
     public function migrate(){

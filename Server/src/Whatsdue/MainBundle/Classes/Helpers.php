@@ -29,12 +29,18 @@ class Helpers {
             return $securityContext->getToken()->getUser();
         }
 
-
         /* Validate the User */
-        $user = $this->container->get('fos_user.user_manager')->loadUserByUsername($username);;
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
         $factory = $this->container->get('security.encoder_factory');
+        if (!$user){
+            http_response_code(400);
+            echo "Validation Failed";
+            exit;
+        }
+
         $encoder = $factory->getEncoder($user);
         $validated = $encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt());
+
         if (!$validated) {
             http_response_code(400);
             echo "Validation Failed";
