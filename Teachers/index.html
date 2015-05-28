@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+
+    <title>WhatsDue Admin</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href='/ember/css/style.css' rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href='/ember/js/template/bootstrap-datepicker/css/datepicker-custom.css' />
+    <link href="/ember/vendors/css/bootstrap-timepicker.min.css" rel="stylesheet"/>
+    <link href='/ember/css/style-responsive.css' rel="stylesheet">
+    <link href='/ember/css/custom.css' rel="stylesheet">
+    <!-- WSYIWYG-->
+    <link rel="stylesheet" href="http://hbrysiewicz.github.io/assets/css/summernote.css">
+
+    <!-- Radio -->
+    <link href="/ember/js/template/iCheck/skins/flat/blue.css" rel="stylesheet"/>
+
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src='/ember/js/template/html5shiv.js'></script>
+    <script src='/ember/js/template/respond.min.js'></script>
+    <![endif]-->
+
+    <!--[if IE]>
+    <script>
+        alert("UH OH, you seem to be using Internet Explorer (IE) \nDue to security issues with IE, we don't support it as a platform. \nWe highly recommend Google Chrome, but any browser will work. ")
+        window.location="https://www.google.ca/chrome/browser/?platform=win"
+    </script>
+    <![endif]-->
+
+    <!-- Mobile Check -->
+
+    <script>
+        var mobile = false;
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            mobile = true;
+        }
+    </script>
+    <!-- Localytics -->
+
+    <script>
+        +function(l,y,t,i,c,s) {
+            l['LocalyticsGlobal'] = i;
+            l[i] = function() { (l[i].q = l[i].q || []).push(arguments) };
+            l[i].t = +new Date;
+            (s = y.createElement(t)).type = 'text/javascript';
+            s.src = '//web.localytics.com/v3/localytics.min.js';
+            (c = y.getElementsByTagName(t)[0]).parentNode.insertBefore(s, c);
+
+            ll('init', 'c9a543b3c75d6a18b4d1baf-d9b507d6-6825-11e4-a72c-009c5fda0a25', {trackPageView: true, domain: 'localytics.com'});
+
+        }(window, document, 'script', 'll');
+    </script>
+
+    <!-- End Localytics -->
+
+    <!--Start of Zopim Live Chat Script-->
+    <script type="text/javascript">
+
+        if (mobile == false){
+            window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+                    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+                    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+                $.src='//v2.zopim.com/?2cNYEojBfOTKQSTbKcu0XusKJk9DgG2p';z.t=+new Date;$.
+                        type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+            $zopim(function() {
+                $zopim.livechat.setOnUnreadMsgs(function(){
+                    $zopim.livechat.window.show();
+                });
+                $zopim.livechat.window.hide();
+            });
+        }
+
+    </script>
+    <!--End of Zopim Live Chat Script-->
+</head>
+
+<body class="sticky-header">
+<script src='/ember/js/libs/jquery-1.10.2.js'></script>
+
+<script src='/ember/js/libs/handlebars-v1.3.0.js'></script>
+<script src='/ember/js/libs/ember.js'></script>
+<script src='/ember/js/libs/ember-data.js'></script>
+<script src='/teachers/teachers_application.js'></script>
+<script src='/teachers/teachers_templates.js'></script>
+<script src='/teachers/teachers_functions.js'></script>
+<script src='/teachers/teachers_models.js'></script>
+<script src='/teachers/teachers_router.js'></script>
+<script src='/teachers/teachers_controllers.js'></script>
+<script src='/teachers/teachers_views.js'></script>
+
+
+
+<script src='/ember/vendors/moment.min.js'></script>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<!--script src='ember/js/template/jquery-ui-1.9.2.custom.min.js'></script-->
+<script src='/ember/js/libs/jquery-ui-1.10.4.custom.min.js'></script>
+<script src='/ember/js/template/jquery-migrate-1.2.1.min.js'></script>
+<script src='/ember/js/template/bootstrap.min.js'></script>
+<script src='/ember/js/template/modernizr.min.js'></script>
+<!--script src='ember/js/template/jquery.nicescroll.js'></script>
+
+<!--common scripts for all pages-->
+<script src='/ember/js/template/scripts.js'></script>
+
+<!--pickers plugins-->
+<script src='/ember/js/template/bootstrap-datepicker/js/bootstrap-datepicker.js'></script>
+<script src='/ember/vendors/js/bootstrap-timepicker.js'></script>
+<script src='/libraries/placeholders.min.js'></script>
+
+<!-- Linkify Plugin -->
+<script src='/ember/js/libs/ba-linkify.min.js'></script>
+
+<!--radio buttons -->
+<script src='/ember/js/template/iCheck/jquery.icheck.js'></script>
+<script src='/ember/js/template/icheck-init.js'></script>
+
+
+
+</body>
+</html>

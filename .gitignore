@@ -9,3 +9,12 @@
 /Server/.idea/*
 /Server/web/ember/.idea
 /Server/web/ember/.idea/*
+/Server/web/ember/.idea/*
+/Server/web/teachers/*
+/Server/web/ember/js/ember/teachers-old/*
+/Server/web/ember/js/ember/teachers/*
+Server/web/ember/js/ember/teachers/node_modules/*
+Server/web/ember/js/ember/admin/node_modules/*
+/Teachers/node_modules/*
+/Teachers/.idea
+/Teachers/.idea/*

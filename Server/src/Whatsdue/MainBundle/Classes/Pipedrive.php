@@ -133,6 +133,7 @@ class Pipedrive {
     public function newTeacher($user){
 
         if ( $this->container->getParameter('environment') != "dev") {
+
             $name = $user->getFirstName() . " " . $user->getLastName();
             $id = $user->getId();
             $salutation = $user->getSalutation();
