@@ -10,7 +10,7 @@ class EmberController extends Controller
 {
     public function indexAction()
     {
-        $index = file_get_contents('../../Teachers/index.html');
+        $index = file_get_contents('teachers/index.html');
         $response = new Response();
         $response->setContent($index);
         return $response;
