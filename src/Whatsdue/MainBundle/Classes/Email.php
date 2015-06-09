@@ -49,6 +49,4 @@ class Email {
         $em->persist($emailLog);
         $em->flush();
     }
-
-
 }
