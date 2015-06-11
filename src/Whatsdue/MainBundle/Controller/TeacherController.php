@@ -85,7 +85,8 @@ class TeacherController extends FOSRestController{
             'first_name'            => $user->getFirstName(),
             'last_name'             => $user->getLastName(),
             'email'                 => $user->getEmailCanonical(),
-            'salutation'            => $user->getSalutation()
+            'salutation'            => $user->getSalutation(),
+            'settings'              => $user->getSettings()
         );
         return array("user" => $user);
     }
@@ -254,6 +255,8 @@ class TeacherController extends FOSRestController{
         $assignment->setDescription($data->assignment->description);
         $assignment->setAdminId($username);
         $assignment->setDueDate($data->assignment->due_date);
+        $assignment->setTimeVisible($data->assignment->time_visible);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($assignment);
         $em->flush();
@@ -275,6 +278,8 @@ class TeacherController extends FOSRestController{
         $assignment->setDescription($data->assignment->description);
         $assignment->setAssignmentName($data->assignment->assignment_name);
         $assignment->setArchived($data->assignment->archived);
+        $assignment->setTimeVisible($data->assignment->time_visible);
+
         /*Authorize*/
         $this->authorizeUser($this, $assignment->getAdminId());
 
@@ -432,13 +437,13 @@ class TeacherController extends FOSRestController{
      * @return array
      * @View()
      */
-    public function getSettingsAction($setting){
+    public function getSettingsAction($settingName){
         $settingsSerialized = $this->currentUser($this)->getSettings();
         $settings = json_decode(stripslashes($settingsSerialized),true);
-        if (@$setting = $settings[$setting]){
+        if (@$setting = $settings[$settingName]){
             return $setting;
         }else{
-            return " ";
+            return "";
         }
     }
 
@@ -447,15 +452,14 @@ class TeacherController extends FOSRestController{
      * @View()
      */
 
-    public function putSettingsAction($settingPair){
+    public function putSettingsAction($settingName, Request $request){
         $em = $this->getDoctrine()->getManager();
+        $settingValue = $request->getContent();
         $user = $em->getRepository('WhatsdueMainBundle:User')->find($this->currentUser($this)->getId());
         $settingsSerialized = $user->getSettings();
         $settings = json_decode(stripslashes($settingsSerialized),true);
-        $settingPair = explode("-",$settingPair);
-        $settingName = $settingPair[0];
-        $settingValue = $settingPair[1];
         $settings[$settingName] = $settingValue;
+        var_dump($settings);
         $settingsSerialized = json_encode($settings);
         $user->setSettings($settingsSerialized);
         $em->flush();

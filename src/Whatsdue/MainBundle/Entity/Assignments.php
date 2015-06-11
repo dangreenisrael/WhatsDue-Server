@@ -67,6 +67,13 @@ class Assignments
     private $archived;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="time_visible", type="boolean", nullable=true)
+     */
+    private $timeVisible;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)
@@ -334,6 +341,29 @@ class Assignments
     public function getArchived()
     {
         return $this->archived;
+    }
+
+    /**
+     * Set Time Visible
+     *
+     * @param boolean $timeVisible
+     * @return Assignments
+     */
+    public function setTimeVisible($timeVisible)
+    {
+        $this->timeVisible = $timeVisible;
+
+        return $this;
+    }
+
+    /**
+     * Get Time Visible
+     *
+     * @return boolean
+     */
+    public function getTimeVisible()
+    {
+        return $this->timeVisible;
     }
 
     /**
