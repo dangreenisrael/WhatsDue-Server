@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Students
  *
- * @ORM\Table()
+ * @ORM\Table(name="Devices")
  * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\StudentsRepository")
  */
 class Students
@@ -28,12 +28,6 @@ class Students
      */
     private $uuid;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="institutionName", type="string", length=255)
-     */
-    private $institutionName;
 
     /**
      * @var string
@@ -129,26 +123,4 @@ class Students
         return $this->pushId;
     }
 
-    /**
-     * Set institutionName
-     *
-     * @param string $institutionName
-     * @return Students
-     */
-    public function setInstitutionName($institutionName)
-    {
-        $this->institutionName = $institutionName;
-
-        return $this;
-    }
-
-    /**
-     * Get institutionName
-     *
-     * @return string 
-     */
-    public function getInstitutionName()
-    {
-        return $this->institutionName;
-    }
 }

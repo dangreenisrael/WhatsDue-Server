@@ -19,24 +19,6 @@ fos_user_change_password:
     prefix: /profile
 
 
-#HWIOAuthBundle routes
-hwi_oauth_security:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix: /auth
-
-hwi_oauth_connect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
-    prefix: /auth
-
-hwi_oauth_redirect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /auth
-
-facebook_login:
-    pattern: /auth/check-facebook
-
-google_login:
-    pattern: /auth/check-google
 
 
 # REST
