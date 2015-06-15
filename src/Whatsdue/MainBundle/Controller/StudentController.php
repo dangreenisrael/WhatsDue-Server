@@ -11,13 +11,15 @@ namespace Whatsdue\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
-use Whatsdue\MainBundle\Entity\Students;
+use Whatsdue\MainBundle\Entity\Device;
+use Whatsdue\MainBundle\Entity\Consumer;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Whatsdue\MainBundle\Entity\ForumMessages;
 
 header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp, sendAll");
-header("Access-Control-Allow-Method: GET, POST, OPTION");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Origin: *");
 
 class StudentController extends Controller{
@@ -94,7 +96,6 @@ class StudentController extends Controller{
             echo "Course not found";
             exit;
         }
-
     }
 
 
@@ -195,17 +196,14 @@ class StudentController extends Controller{
         $uuid = $_POST['uuid'];
         $platform = $_POST['platform'];
         $pushId = $_POST['pushId'];
-        $institutionName = $_POST['school'];
         $em = $this->getDoctrine()->getManager();
-        if ($student = $em->getRepository('WhatsdueMainBundle:Students')->findOneBy(array('uuid' => $uuid))){
+        if ($student = $em->getRepository('WhatsdueMainBundle:Device')->findOneBy(array('uuid' => $uuid))){
             $student->setPushId($pushId);
-            $student->setInstitutionName($institutionName);
         } else{
-            $student = new Students;
+            $student = new Device;
             $student->setUuid($uuid);
             $student->setPlatform($platform);
             $student->setPushId($pushId);
-            $student->setInstitutionName($institutionName);
             $em->persist($student);
         }
         $em->flush();
@@ -213,16 +211,20 @@ class StudentController extends Controller{
         return array("primaryKey"=>$student->getId());
     }
 
+
+
     /**
      * @return array
      * @View()
+     *
+     * Depreciated August 2015
      */
 
     public function postCourseEnrollAction($courseId){
         $primaryKey = $_POST['primaryKey'];
         if ($primaryKey == "") return "No UUID";
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
+        $student = $em->getRepository('WhatsdueMainBundle:Device')->find($primaryKey);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
         $uuid = $student->getUuid();
 
@@ -238,6 +240,8 @@ class StudentController extends Controller{
     /**
      * @return array
      * @View()
+     *
+     * Depreciated August 2015
      */
 
     public function postCourseUnenrollAction($courseId){
@@ -245,7 +249,7 @@ class StudentController extends Controller{
         $primaryKey = $_POST['primaryKey'];
         if ($primaryKey =="") return "No Push";
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Students')->find($primaryKey);
+        $student = $em->getRepository('WhatsdueMainBundle:Device')->find($primaryKey);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
         $uuid = $student->getUuid();
 
@@ -260,61 +264,134 @@ class StudentController extends Controller{
         return "Removed Student";
     }
 
+    /**
+     * @return array
+     * @View()
+     */
 
-//    /**
-//     * Forum Messages
-//     * @return array
-//     * @View()
-//     */
-//
-//    public function getForumsAssignmentsMessagesAction(){
-//        $currentTime = $this->timestamp();
-//        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:ForumMessages');
-//
-//        $messages = $repo
-//            ->findAll();
-//        $messages = array_filter($messages, array($this, 'filterMessages'));
-//
-//        $data = array(
-//            "message"=>$messages,
-//            "meta"=>array(
-//                "timestamp"=> $currentTime
-//            )
-//        );
-//        return $data;
-//    }
+    public function postConsumerAction(){
+        $uuid = $_POST['uuid'];
+        $platform = $_POST['platform'];
+        $pushId = $_POST['pushId'];
+        $em = $this->getDoctrine()->getManager();
+        $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
 
-//    /**
-//     * @return array
-//     * @View()
-//     */
-//    public function postForumsAssignmentsMessagesAction( Request $request ){
-//        $data = json_decode($request->getContent());
-//        $message = new ForumMessages();
-//        $message->setUserId($data->forum_message->user_id);
-//        $message->setType("assignment");
-//        $message->setReferenceId($data->forum_message->assignment_id);
-//        $message->setBody($data->forum_message->body);
-//        $em = $this->getDoctrine()->getManager();
-//        $em->persist($message);
-//        $em->flush();
-//        return array('forum_message'=>$message);
-//    }
+        /* Check if device exists in records*/
+        $deviceByPushId = $deviceRepo->findOneBy(array('pushId'=> $pushId));
+        $deviceByUuid = $deviceRepo->findOneBy(array('uuid'=> $uuid));
+
+        if (!$deviceByUuid && !$deviceByPushId){
+            /* Create new Device and Consumer Record*/
+            $device = new Device();
+            $device->setUuid($uuid);
+            $device->setPlatform($platform);
+            $device->setPushId($pushId);
+            $em->persist($device);
+            $em->flush();
+
+            $consumer = new Consumer();
+            $consumer->setDevices(json_encode($device->getId()));
+            $consumer->setCourses('[]');
+            $consumer->setNotifications(true);
+            $consumer->setNotificationUpdates(true);
+            $consumer->setNotificationTime("19:00");
+            $em->persist($consumer);
+            $em->flush();
+        } else{
+            /* Return existing Consumer record */
+            if ($deviceByPushId){
+                $device = $deviceByPushId;
+                $device->setUuid($uuid);
+            } else{
+                $device = $deviceByUuid;
+                $device->setPushId($pushId);
+            }
+            $em->flush();
+            $consumer = $em->getRepository('WhatsdueMainBundle:Consumer')->find($device->getConsumerId());
+        }
+
+
+        return array("consumer"=>$consumer);
+    }
+
+
+
+    /**
+     * @return array
+     * @View()
+     *
+     */
+
+    public function postConsumersCoursesAction($consumerId){
+        $courseCode = $_POST['courseCode'];
+        $em = $this->getDoctrine()->getManager();
+        $course = $em
+            ->getRepository('WhatsdueMainBundle:Courses')
+            ->findOneBy(array('courseCode'=> $courseCode));
+        if($course){
+            $consumer = $em->getRepository('WhatsdueMainBundle:Consumer')->find($consumerId);
+            $courseList = json_decode($consumer->getCourses(), true);
+            $courseList[] = $course->getId();
+            $courseList = array_unique($courseList);
+            $consumer->setCourses(json_encode($courseList));
+
+            $consumerList = json_decode($course->getConsumerIds(), true);
+            $consumerList[] = intval($consumerId);
+            $consumerList = array_unique($consumerList);
+            $course->setConsumerIds(json_encode($consumerList));
+            $em->flush();
+            $course->setDeviceIds(null);
+//            $course->setConsumerIds(null);
+            $data = array(
+                "course"   => $course,
+                "consumer" => $consumer
+            );
+            return $data;
+        }
+        else{
+            header("HTTP/1.1 404 Course Not Found");
+            echo "Course not found";
+            exit;
+        }
+    }
 
     /**
      * @return array
      * @View()
      */
-    public function getSchoolsAction(){
-        $schoolRepository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:School');
-        $schools = $schoolRepository->findAll();
-        $i=0;
-        $schoolNames=array();
-        foreach ($schools as $school){
-            $i++;
-            $schoolNames[$i] = $school->getName();
+    public function optionsConsumerCoursesAction($consumerId, $courseId){
+        return null;
+    }
+
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function deleteConsumersCoursesAction($consumerId, $courseId){
+        $em = $this->getDoctrine()->getManager();
+        $consumer = $em->getRepository('WhatsdueMainBundle:Consumer')->find($consumerId);
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+
+        /* Update Course */
+        if ( $consumerList = json_decode($course->getConsumerIds(), true) ){
+            /* Courses added with the new System */
+            if (($key = array_search($consumerId, $consumerList)) !== false) {
+                unset($consumerList[$key]);
+            }
+            $course->setConsumerIds(json_encode($consumerList));
+
+            /* Update Consumer */
+            $courseList = json_decode($consumer->getCourses(), true);
+            if (($key = array_search($courseId, $courseList)) !== false) {
+                unset($courseList[$key]);
+            }
+            $consumer->setCourses(json_encode($courseList));
         }
-        return array("school" => array_values($schoolNames));
+
+        $em->flush();
+        return "Removed Student";
     }
 }
 

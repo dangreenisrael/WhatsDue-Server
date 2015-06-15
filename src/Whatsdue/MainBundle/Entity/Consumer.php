@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Consumers
  *
- * @ORM\Table()
+ * @ORM\Table(name="Consumers"))
  * @ORM\Entity
  */
-class Consumers
+class Consumer
 {
     /**
      * @var integer
@@ -73,7 +73,7 @@ class Consumers
      *
      * @param string $devices
      *
-     * @return Consumers
+     * @return Consumer
      */
     public function setDevices($devices)
     {
@@ -97,7 +97,7 @@ class Consumers
      *
      * @param string $courses
      *
-     * @return Consumers
+     * @return Consumer
      */
     public function setCourses($courses)
     {
@@ -121,7 +121,7 @@ class Consumers
      *
      * @param boolean $notifications
      *
-     * @return Consumers
+     * @return Consumer
      */
     public function setNotifications($notifications)
     {
@@ -145,7 +145,7 @@ class Consumers
      *
      * @param string $notificationTime
      *
-     * @return Consumers
+     * @return Consumer
      */
     public function setNotificationTime($notificationTime)
     {
@@ -169,11 +169,11 @@ class Consumers
      *
      * @param boolean $notificationUpdates
      *
-     * @return Consumers
+     * @return Consumer
      */
     public function setNotificationUpdates($notificationUpdates)
     {
-        $this->updates = $notificationUpdates;
+        $this->notificationUpdates = $notificationUpdates;
 
         return $this;
     }

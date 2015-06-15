@@ -65,6 +65,13 @@ class Courses
     /**
      * @var string
      *
+     * @ORM\Column(name="consumerIds", type="text", nullable=true)
+     */
+    private $consumerIds;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="schoolName", type="text")
      */
     private $schoolName;
@@ -382,5 +389,29 @@ class Courses
     public function getCourseCode()
     {
         return $this->courseCode;
+    }
+
+    /**
+     * Set consumerIds
+     *
+     * @param string $consumerIds
+     *
+     * @return Courses
+     */
+    public function setConsumerIds($consumerIds)
+    {
+        $this->consumerIds = $consumerIds;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerIds
+     *
+     * @return string
+     */
+    public function getConsumerIds()
+    {
+        return $this->consumerIds;
     }
 }

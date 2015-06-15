@@ -5,12 +5,12 @@ namespace Whatsdue\MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Students
+ * Devices
  *
  * @ORM\Table(name="Devices")
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\StudentsRepository")
+ * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\DeviceRepository")
  */
-class Students
+class Device
 {
     /**
      * @var integer
@@ -43,6 +43,13 @@ class Students
      */
     private $pushId;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="consumerId", type="string", length=255)
+     */
+    private $consumerId;
+
 
     /**
      * Get id
@@ -58,7 +65,7 @@ class Students
      * Set uuid
      *
      * @param string $uuid
-     * @return Students
+     * @return Device
      */
     public function setUuid($uuid)
     {
@@ -81,7 +88,7 @@ class Students
      * Set platform
      *
      * @param string $platform
-     * @return Students
+     * @return Device
      */
     public function setPlatform($platform)
     {
@@ -104,7 +111,7 @@ class Students
      * Set pushId
      *
      * @param string $pushId
-     * @return Students
+     * @return Device
      */
     public function setPushId($pushId)
     {
@@ -123,4 +130,28 @@ class Students
         return $this->pushId;
     }
 
+
+    /**
+     * Set consumerId
+     *
+     * @param string $consumerId
+     *
+     * @return Device
+     */
+    public function setConsumerId($consumerId)
+    {
+        $this->consumerId = $consumerId;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerId
+     *
+     * @return string
+     */
+    public function getConsumerId()
+    {
+        return $this->consumerId;
+    }
 }

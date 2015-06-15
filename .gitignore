@@ -11,6 +11,7 @@
 /web/ember/.idea/*
 /web/ember/.idea/*
 /web/teachers/*
+/web/app_dev.php
 /web/ember/js/ember/teachers-old/*
 /web/ember/js/ember/teachers/*
 /web/ember/js/ember/teachers/node_modules/*

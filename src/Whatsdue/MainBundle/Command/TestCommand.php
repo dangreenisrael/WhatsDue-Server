@@ -36,6 +36,8 @@ class TestCommand extends ContainerAwareCommand
         if ($input->getOption('params')) {
              $this->testParameters();
         }
+
+        var_dump(getdate());
         $output->writeln("Finished");
         return "this is unnecessary";
     }
