@@ -16,6 +16,9 @@ use Whatsdue\MainBundle\Entity\Assignments;
 use Whatsdue\MainBundle\Entity\User;
 use Whatsdue\MainBundle\Classes\PushNotifications;
 
+/*
+ * Push notifications are dealt with here
+ */
 class LifecycleActions {
 
     protected $container;
@@ -55,8 +58,8 @@ class LifecycleActions {
             $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($entity->getCourseId());
             $title = $course->getCourseName();
             $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
-            $deviceIds = json_decode($course->getDeviceIds());
-            $this->pushNotifications->sendNotifications($title, $message, $deviceIds);
+            $consumerIDs = json_decode($course->getConsumerIds(), true);
+            $this->pushNotifications->sendNotifications($title, $message, $consumerIDs);
         }
 
     }
@@ -92,8 +95,11 @@ class LifecycleActions {
     public function preUpdate(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
         if ($entity instanceof Assignments) {
+
             $id = $entity->getCourseId();
+
             $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($id);
+
             /* Send Push Notifications */
             $assignment_id = $entity->getId();
             if ($entity->getArchived() == true){
@@ -104,8 +110,8 @@ class LifecycleActions {
                 $title = 'Assignment Updated';
                 $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
             }
-            $deviceIds = json_decode($course->getDeviceIds());
-            $this->pushNotifications->sendNotifications($title, $message, $deviceIds);
+            $consumerIDs = json_decode($course->getConsumerIds(), true);
+            $this->pushNotifications->sendNotifications($title, $message, $consumerIDs);
         }
     }
 }

@@ -26,20 +26,21 @@ security:
                 default_target_path: ember
                 always_use_default_target_path: true
 
-
             logout:
                 path:   /logout
                 target: /login
             anonymous:    true
-
-        login:
-            pattern:  ^/login$
-            security: false
             remember_me:
                 key: "%secret%"
                 lifetime: 31536000 # 365 days in seconds
                 path: /
+                always_remember_me: true
                 domain: ~ # Defaults to the current domain from $_SERVER
+
+        login:
+            pattern:  ^/login$
+            security: false
+
 
     access_control:
         - { path: ^/secure, role: [ROLE_USER], requires_channel: https  }

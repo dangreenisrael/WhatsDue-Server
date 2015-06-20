@@ -9,7 +9,6 @@
 namespace Whatsdue\MainBundle\Classes;
 use RMS\PushNotificationsBundle\Message\iOSMessage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Whatsdue\MainBundle\Entity\Students;
 
 define( 'API_ACCESS_KEY', "AIzaSyDbUaBlRrYZpg2GPLqZTls-SAGIX1cBDek" );
 class PushNotifications {
@@ -21,7 +20,7 @@ class PushNotifications {
         }
 
     private function androidNotifications($title, $message, $pushIds){
-        // prep the bundle
+        /* prep the bundle */
         $msg = array
         (
             'title'			=> $title,
@@ -64,20 +63,26 @@ class PushNotifications {
 
     }
 
-    public function sendNotifications($title, $message, $deviceIds){
-        $repository = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Students');
+    public function sendNotifications($title, $message, $consumerIds){
+        $consumers = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Consumer')->findById($consumerIds);
         $androidUsers = [];
         $iosUsers = [];
-        if ($deviceIds){
-            foreach ($deviceIds as $uuid){
-                $student = $repository->findOneBy(
-                    array('uuid' => $uuid)
-                );
-                if ($student->getPlatform() == "Android"){
-                    $androidUsers[] = $student->getPushId();
-                } else{
-                    $iosUsers[] = $student->getPushId();
-                }
+        $deviceIds = [];
+        if ($consumers){
+            foreach($consumers as $consumer){
+                $timePreference = $consumer->getNotificationTimeUTC();
+                $timeCurrent    = date('Hi'); // 'Hi' is a date format
+               // if ($timeCurrent > $timePreference){
+                $deviceIds = array_merge($deviceIds,json_decode($consumer->getDevices(), true));
+                //}
+            }
+        }
+        $devices = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Device')->findById($deviceIds);
+        foreach($devices as $device){
+            if ($device->getPlatform() == "Android"){
+                $androidUsers[] = $device->getPushId();
+            } else{
+                $iosUsers[] = $device->getPushId();
             }
         }
 
@@ -87,5 +92,4 @@ class PushNotifications {
         $this->androidNotifications($title, $message, $androidUsers);
         $this->iosNotifications($message, $iosUsers);
     }
-
 } 

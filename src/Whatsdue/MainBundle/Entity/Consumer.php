@@ -51,9 +51,16 @@ class Consumer
     /**
      * @var string
      *
-     * @ORM\Column(name="notificationTime", type="string", length=255)
+     * @ORM\Column(name="notificationTimeLocal", type="string", length=255)
      */
-    private $notificationTime;
+    private $notificationTimeLocal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="notificationTimeUTC", type="string", length=255)
+     */
+    private $notificationTimeUtc;
 
 
 
@@ -141,27 +148,51 @@ class Consumer
     }
 
     /**
-     * Set notificationTime
+     * Set notificationTimeLocal
      *
-     * @param string $notificationTime
+     * @param string $notificationTimeLocal
      *
      * @return Consumer
      */
-    public function setNotificationTime($notificationTime)
+    public function setNotificationTimeLocal($notificationTimeLocal)
     {
-        $this->notificationTime = $notificationTime;
+        $this->notificationTimeLocal = $notificationTimeLocal;
 
         return $this;
     }
 
     /**
-     * Get notificationTime
+     * Get notificationTimeLocal
      *
      * @return string
      */
-    public function getNotificationTime()
+    public function getNotificationTimeLocal()
     {
-        return $this->notificationTime;
+        return $this->notificationTimeLocal;
+    }
+
+    /**
+     * Set notificationTimeUtc
+     *
+     * @param string $notificationTimeUtc
+     *
+     * @return Consumer
+     */
+    public function setNotificationTimeUtc($notificationTimeUtc)
+    {
+        $this->notificationTimeUtc = $notificationTimeUtc;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationTimeUtc
+     *
+     * @return string
+     */
+    public function getNotificationTimeUtc()
+    {
+        return $this->notificationTimeUtc;
     }
 
     /**

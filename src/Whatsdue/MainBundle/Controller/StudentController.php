@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Whatsdue\MainBundle\Entity\ForumMessages;
 
 header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp, sendAll");
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Origin: *");
 
 class StudentController extends Controller{
@@ -221,19 +221,10 @@ class StudentController extends Controller{
      */
 
     public function postCourseEnrollAction($courseId){
-        $primaryKey = $_POST['primaryKey'];
-        if ($primaryKey == "") return "No UUID";
+        $consumerId = $_POST['primaryKey'];
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Device')->find($primaryKey);
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
-        $uuid = $student->getUuid();
-
-        $subscribers   = $course->getDeviceIds();
-        $subscribers   = json_decode($subscribers, true);
-        if (@!in_array($uuid, $subscribers)) $subscribers[] = $uuid;
-        $course ->setDeviceIds(json_encode($subscribers));
-
-        $em->flush();
+        $courseCode = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId)->getCourseCode();
+        $this->putConsumersCoursesEnrollAction($consumerId, $courseCode);
         return "Added Student";
     }
 
@@ -245,22 +236,10 @@ class StudentController extends Controller{
      */
 
     public function postCourseUnenrollAction($courseId){
-
-        $primaryKey = $_POST['primaryKey'];
-        if ($primaryKey =="") return "No Push";
+        $consumerId = $_POST['primaryKey'];
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Device')->find($primaryKey);
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
-        $uuid = $student->getUuid();
-
-        $subscribers   = $course->getDeviceIds();
-        $subscribers   = json_decode($subscribers, true);
-
-        if(($key = array_search($uuid, $subscribers)) !== false) {
-            unset($subscribers[$key]);
-        }
-        $course ->setDeviceIds(json_encode($subscribers));
-        $em->flush();
+        $courseCode = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId)->getCourseCode();
+        $this->putConsumersCoursesUnenrollAction($consumerId, $courseCode);
         return "Removed Student";
     }
 
@@ -294,7 +273,9 @@ class StudentController extends Controller{
             $consumer->setCourses('[]');
             $consumer->setNotifications(true);
             $consumer->setNotificationUpdates(true);
-            $consumer->setNotificationTime("19:00");
+            $consumer->setNotificationTimeLocal("0000");
+            $consumer->setNotificationTimeUtc("0000");
+
             $em->persist($consumer);
             $em->flush();
         } else{
@@ -322,8 +303,7 @@ class StudentController extends Controller{
      *
      */
 
-    public function postConsumersCoursesAction($consumerId){
-        $courseCode = $_POST['courseCode'];
+    public function putConsumersCoursesEnrollAction($consumerId, $courseCode){
         $em = $this->getDoctrine()->getManager();
         $course = $em
             ->getRepository('WhatsdueMainBundle:Courses')
@@ -340,7 +320,7 @@ class StudentController extends Controller{
             $consumerList = array_unique($consumerList);
             $course->setConsumerIds(json_encode($consumerList));
             $em->flush();
-            $course->setDeviceIds(null);
+//            $course->setDeviceIds(null);
 //            $course->setConsumerIds(null);
             $data = array(
                 "course"   => $course,
@@ -359,7 +339,23 @@ class StudentController extends Controller{
      * @return array
      * @View()
      */
-    public function optionsConsumerCoursesAction($consumerId, $courseId){
+    public function optionsConsumerCoursesEnrollAction($consumerId, $courseId){
+        return null;
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function optionsConsumerCoursesUnenrollAction($consumerId, $courseId){
+        return null;
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function optionsConsumersAction($consumerId){
         return null;
     }
 
@@ -369,7 +365,7 @@ class StudentController extends Controller{
      * @View()
      */
 
-    public function deleteConsumersCoursesAction($consumerId, $courseId){
+    public function putConsumersCoursesUnenrollAction($consumerId, $courseId){
         $em = $this->getDoctrine()->getManager();
         $consumer = $em->getRepository('WhatsdueMainBundle:Consumer')->find($consumerId);
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
@@ -392,6 +388,34 @@ class StudentController extends Controller{
 
         $em->flush();
         return "Removed Student";
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function putConsumersAction($consumerId, Request $request){
+        $data = json_decode($request->getContent())->consumer;
+        $em = $this->getDoctrine()->getManager();
+        $consumer = $em->getRepository('WhatsdueMainBundle:Consumer')->find($consumerId);
+        $consumer->setNotifications($data->notifications);
+        $consumer->setNotificationUpdates($data->notification_updates);
+        $consumer->setNotificationTimeLocal($data->notification_time_local);
+        $consumer->setNotificationTimeUtc($data->notification_time_utc);
+        $em->flush();
+        return array("consumer"=> $consumer);
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getConsumersAction($consumerId){
+        $em = $this->getDoctrine()->getManager();
+        $consumer = $em->getRepository('WhatsdueMainBundle:Consumer')->find($consumerId);
+        return array("consumer"=> $consumer);
     }
 }
 

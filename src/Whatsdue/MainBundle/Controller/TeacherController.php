@@ -12,7 +12,6 @@ namespace Whatsdue\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Collections;
 use FOS\RestBundle\Controller\Annotations\View;
-use Whatsdue\MainBundle\Entity\Students;
 use Whatsdue\MainBundle\Entity\Assignments;
 use Whatsdue\MainBundle\Entity\Courses;
 use Whatsdue\MainBundle\Entity\Messages;
@@ -271,6 +270,7 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function putAssignmentsAction($Id, Request $request){
+
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
         $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
