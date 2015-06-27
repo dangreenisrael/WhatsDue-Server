@@ -42,12 +42,12 @@ class UserStatsCommand extends ContainerAwareCommand
                 array('adminId'  => $user->getUsername(), 'archived' => 0)
             );
             /* Total Unique Users */
-            $deviceIds = [];
+            $totalFollowers = [];
             foreach ($courses as $course){
-                $currentDeviceIds = json_decode($course->getDeviceIds(), true);
-                $deviceIds = @array_merge($deviceIds, $currentDeviceIds);
+                $followers = json_decode($course->getConsumerIds(), true);
+                $totalFollowers = @array_merge($totalFollowers, $followers);
             }
-            $uniqueUsers = @array_unique($deviceIds);
+            $uniqueFollowers = @array_unique($totalFollowers);
             $assignments = $assignmentRepository->findBy(
                 array('adminId'  => $user->getUsername())
             );
@@ -70,29 +70,30 @@ class UserStatsCommand extends ContainerAwareCommand
 
             $totalCourses       = count($courses);
             $totalAssignments   = count($assignments);
-            $totalUniqueFollowers   = count($uniqueUsers);
+            $totalUniqueFollowers   = count($uniqueFollowers);
 
             $user->setUniqueFollowers($totalUniqueFollowers);
             $user->setTotalCourses($totalCourses);
             $user->setTotalAssignments($totalAssignments);
             $user->setUniqueInvitations($uniqueRecipients);
 
-            $dealId  = $user->getPipedriveDeal();
-            if ($totalUniqueFollowers >= 3){
-                $container->get('pipedrive')->updateDeal($user, 5);
-            } elseif($uniqueRecipients >= 5){
-                $container->get('pipedrive')->updateDeal($user, 4);
-            } elseif($totalAssignments > 0){
-                $container->get('pipedrive')->updateDeal($user, 3);
-            } elseif($totalCourses > 0){
-                $container->get('pipedrive')->updateDeal($user, 2);
+            if ($container->getParameter('environment')=="prod"){
+                $dealId  = $user->getPipedriveDeal();
+                if ($totalUniqueFollowers >= 3){
+                    $container->get('pipedrive')->updateDeal($user, 5);
+                } elseif($uniqueRecipients >= 5){
+                    $container->get('pipedrive')->updateDeal($user, 4);
+                } elseif($totalAssignments > 0){
+                    $container->get('pipedrive')->updateDeal($user, 3);
+                } elseif($totalCourses > 0){
+                    $container->get('pipedrive')->updateDeal($user, 2);
+                }
+                $container->get('pipedrive')->updatePerson($user);
             }
-            $container->get('pipedrive')->updatePerson($user);
+
             echo $user->getId() ." ".$user->getFirstName()." ".$user->getLastName(). " Stage: ".$user->getPipedriveStage()."\n";
         }
         echo "Processed Stats";
-
-
         $em->flush();
         $text = "Sorting Complete";
         $output->writeln($text);

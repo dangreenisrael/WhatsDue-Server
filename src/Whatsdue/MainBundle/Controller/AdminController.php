@@ -11,15 +11,13 @@ namespace Whatsdue\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Whatsdue\MainBundle\Entity\Messages;
-use Whatsdue\MainBundle\Entity\Students;
 use Whatsdue\MainBundle\Entity\School;
-
+use Moment\Moment;
 use Whatsdue\MainBundle\Classes\PushNotifications;
 
 
@@ -272,7 +270,55 @@ class AdminController extends FOSRestController{
         return array('email'=>$emails);
     }
 
+    /**
+     * @return array
+     * @View()
+     * Get All the stats for Aaron
+     *
+     * * Total Teacher Signups
+     * * Total Teachers with min 5 users
+     * * Total schools with multiple teachers signed up
+     *
+     * * Starting from first blog post - user 144
+     */
+    public function getStatsAction(){
+        define ("firstUser", 0);
+        $minUsers = $_GET["minUsers"];
+        $loggedInWeeksAgo = $_GET["loggedInWeeksAgo"];
+        $moment = new Moment();
+        $moment->subtractWeeks($loggedInWeeksAgo);
+        $afterDate = $moment->format('Y-m-d H:i:s');
 
+        $doctrine = $this->getDoctrine();
+        $teachersRepo = $doctrine->getRepository('WhatsdueMainBundle:User');
+
+        /* Get all teachers with min users */
+        $query = $teachersRepo->createQueryBuilder('teacher')
+            ->where('teacher.id >= :firstUser')
+            ->andWhere('teacher.uniqueFollowers >= :minUsers')
+            ->andWhere('teacher.lastLogin >= :afterDate')
+            ->setParameter('firstUser', firstUser)
+            ->setParameter('minUsers', $minUsers)
+            ->setParameter('afterDate', $afterDate)
+            ->getQuery();
+        $allTeachers = $query->getResult();
+
+        /* Array of user counts (for averages */
+        $userCounts = [];
+        foreach($allTeachers as $teacher){
+            $userCounts[] = $teacher->getUniqueFollowers();
+        };
+
+
+
+
+        return array("stats" => array(
+            "total" => count($allTeachers),
+            "median users" => $this->calculate_median($userCounts),
+            "mean users" => $this->calculate_average($userCounts)
+        ));
+
+    }
 
     /* Helper Methods */
     private function schoolStats($school){
@@ -291,4 +337,29 @@ class AdminController extends FOSRestController{
         $count['users']   = count(@array_unique($deviceIds));
         return $count;
     }
+
+    private function calculate_median($arr) {
+        sort($arr);
+        $count = count($arr); //total numbers in array
+        $middleval = floor(($count-1)/2); // find the middle value, or the lowest middle value
+        if($count % 2) { // odd number, middle is the median
+            $median = $arr[$middleval];
+        } else { // even number, calculate avg of 2 medians
+            $low = $arr[$middleval];
+            $high = $arr[$middleval+1];
+            $median = (($low+$high)/2);
+        }
+        return $median;
+    }
+
+    private function calculate_average($arr) {
+        $count = count($arr); //total numbers in array
+        $total = 0;
+        foreach ($arr as $value) {
+            $total = $total + $value; // total value of array numbers
+        }
+        $average = ($total/$count); // get average value
+        return $average;
+    }
+
 }

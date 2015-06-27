@@ -33,7 +33,9 @@
         "richsage/rms-push-notifications-bundle": "0.1.2",
 
         "plivo/plivo-php": "dev-master",
-        "mashape/unirest-php": "~2.6"
+        "mashape/unirest-php": "~2.6",
+
+        "fightbulc/moment": "*"
     },
     "scripts": {
         "post-install-cmd": [

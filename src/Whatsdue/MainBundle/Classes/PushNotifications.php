@@ -63,18 +63,28 @@ class PushNotifications {
 
     }
 
-    public function sendNotifications($title, $message, $consumerIds){
+    public function sendChangeNotifications($title, $message, $consumerIds){
         $consumers = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Consumer')->findById($consumerIds);
+        $consumersToNotify = [];
+        if ($consumers){
+            foreach($consumers as $consumer){
+                $timePreference = $consumer->getNotificationTimeUTC();
+                $timeCurrent    = date('Hi'); // 'Hi' is a date format
+                if ($timeCurrent > $timePreference){
+                    $consumersToNotify[] = $consumer;
+                }
+            }
+        }
+        $this->sendChangeNotifications($title, $message, $consumersToNotify);
+    }
+
+    public function sendNotifications($title, $message, $consumers){
         $androidUsers = [];
         $iosUsers = [];
         $deviceIds = [];
         if ($consumers){
             foreach($consumers as $consumer){
-                $timePreference = $consumer->getNotificationTimeUTC();
-                $timeCurrent    = date('Hi'); // 'Hi' is a date format
-               // if ($timeCurrent > $timePreference){
                 $deviceIds = array_merge($deviceIds,json_decode($consumer->getDevices(), true));
-                //}
             }
         }
         $devices = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Device')->findById($deviceIds);

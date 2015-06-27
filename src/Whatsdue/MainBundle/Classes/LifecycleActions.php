@@ -54,19 +54,21 @@ class LifecycleActions {
             $entity->setAdminId($adminId);
         }
 
-        if ($entity instanceof Assignments) {
-            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($entity->getCourseId());
-            $title = $course->getCourseName();
-            $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
-            $consumerIDs = json_decode($course->getConsumerIds(), true);
-            $this->pushNotifications->sendNotifications($title, $message, $consumerIDs);
-        }
+
 
     }
 
     public function postPersist(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
+
+        if ($entity instanceof Assignments) {
+            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($entity->getCourseId());
+            $title = $course->getCourseName();
+            $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
+            $consumerIDs = json_decode($course->getConsumerIds(), true);
+            $this->pushNotifications->sendChangeNotifications($title, $message, $consumerIDs);
+        }
 
         if ($entity instanceof User) {
             $message = "A new user signed up - " .
