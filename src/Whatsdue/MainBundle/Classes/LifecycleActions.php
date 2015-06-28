@@ -46,15 +46,6 @@ class LifecycleActions {
 
 
     public function prePersist(LifeCycleEventArgs $args){
-        $entity = $args->getEntity();
-
-        if (($entity instanceof Assignments) || ($entity instanceof Courses)){
-            /** UserId is recorded for ALL entries **/
-            $adminId = $this->getAdminID();
-            $entity->setAdminId($adminId);
-        }
-
-
 
     }
 

@@ -255,13 +255,10 @@ class TeacherController extends FOSRestController{
         $assignment->setAdminId($username);
         $assignment->setDueDate($data->assignment->due_date);
         $assignment->setTimeVisible($data->assignment->time_visible);
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($assignment);
+
         $em->flush();
-
-
-
         return array('assignment'=>$assignment);
     }
 

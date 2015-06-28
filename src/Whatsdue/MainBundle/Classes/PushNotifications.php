@@ -75,7 +75,7 @@ class PushNotifications {
                 }
             }
         }
-        $this->sendChangeNotifications($title, $message, $consumersToNotify);
+        $this->sendNotifications($title, $message, $consumersToNotify);
     }
 
     public function sendNotifications($title, $message, $consumers){
