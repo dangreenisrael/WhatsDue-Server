@@ -22,13 +22,14 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-
             new Whatsdue\MainBundle\WhatsdueMainBundle(),
 
             new FOS\UserBundle\FOSUserBundle(),
             new Whatsdue\UserBundle\WhatsdueUserBundle(),
 
             new FOS\RestBundle\FOSRestBundle(),
+            new Whatsdue\RestBundle\WhatsdueRestBundle(),
+
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 

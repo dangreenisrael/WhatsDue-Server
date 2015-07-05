@@ -84,7 +84,7 @@ class PushNotifications {
         $deviceIds = [];
         if ($consumers){
             foreach($consumers as $consumer){
-                $deviceIds = array_merge($deviceIds,json_decode($consumer->getDevices(), true));
+                $deviceIds = array_merge($deviceIds, json_decode($consumer->getDevices(), true));
             }
         }
         $devices = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Device')->findById($deviceIds);

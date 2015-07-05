@@ -3,16 +3,25 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Whatsdue\MainBundle\Entity\Courses;
 
 /**
  * Assignments
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\AssignmentsRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
 class Assignments
 {
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Courses", inversedBy="assignments")
+     * @ORM\JoinColumn(name="courseId", referencedColumnName="id")
+     **/
+    private $course;
+
+
     /**
      * @var integer
      *
@@ -372,5 +381,33 @@ class Assignments
     public function setArchivedValue()
     {
         $this->archived = 0;
+    }
+
+    /**
+     * Set course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Courses $course
+     *
+     * @return Assignments
+     */
+    public function setCourse(Courses $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \Whatsdue\MainBundle\Entity\Courses
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    public function cleanObject(){
+        $this->course = null;
     }
 }

@@ -454,4 +454,7 @@ class User extends BaseUser
     {
         return $this->totalAssignments;
     }
+
+    public function cleanObject(){
+    }
 }

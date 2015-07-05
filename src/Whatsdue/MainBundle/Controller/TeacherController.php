@@ -9,19 +9,16 @@
 namespace Whatsdue\MainBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Collections;
+use Doctrine\Common\Util\Debug;
 use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Assignments;
 use Whatsdue\MainBundle\Entity\Courses;
 use Whatsdue\MainBundle\Entity\Messages;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
-
-use Whatsdue\MainBundle\Classes\PushNotifications;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -51,6 +48,8 @@ class TeacherController extends FOSRestController{
     public function createCourseCode(){
         return $courseCode = $this->container->get('helper')->createCourseCode();
     }
+
+
 
     /**
      * @return array
@@ -108,11 +107,7 @@ class TeacherController extends FOSRestController{
         $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
         $courses = $repository->findByAdminId($username);
-        $cleanCourses = [];
-//        foreach($courses as $course){
-//            $course->setDeviceIds(null);
-//            $cleanCourses[] = $course;
-//        }
+
         return array("courses"=>$courses);
     }
 
@@ -135,8 +130,6 @@ class TeacherController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
-        /* Don't return device IDs*/
-        $course->setDeviceIds(null);
 
         $this->container->get('pipedrive')->updateDeal($user, 2);
 
@@ -158,8 +151,7 @@ class TeacherController extends FOSRestController{
         $course->setInstructorName($data->course->instructor_name);
         $course->setArchived($data->course->archived);
         $em->flush();
-        /* Don't return device IDs*/
-        //$course->setDeviceIds(null);
+
         return array("course"=>$course);
     }
 
@@ -173,8 +165,7 @@ class TeacherController extends FOSRestController{
         $course->setDeviceIds(null);
         /*Authorize*/
         $this->authorizeUser($this, $course->getAdminId());
-
-        return $course;
+        return array("course" => $course);
     }
 
     /**
@@ -192,7 +183,7 @@ class TeacherController extends FOSRestController{
         $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
         $this->authorizeUser($this, $course->getAdminId());
 
-        return $assignments;
+        return array("assignment" => $assignments);
     }
 
 
@@ -234,6 +225,9 @@ class TeacherController extends FOSRestController{
         $username = $this->currentUser($this)->getUsername();
         $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
         $assignments = $repository->findByAdminId($username);
+        foreach ($assignments as $assignment){
+            //$assignment->setCourse(null);
+        }
         return array("assignment" => $assignments);
     }
 
@@ -244,21 +238,26 @@ class TeacherController extends FOSRestController{
     public function postAssignmentsAction( Request $request ){
         $user = $this->currentUser($this);
         $username = $user->getUsername();
+        $em = $this->getDoctrine()->getManager();
+        $data = json_decode($request->getContent());
 
         $this->container->get('pipedrive')->updateDeal($user, 3);
 
-        $data = json_decode($request->getContent());
+        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($data->assignment->course_id);
+        $this->authorizeUser($this, $course->getAdminId());
+
         $assignment = new Assignments();
         $assignment->setAssignmentName($data->assignment->assignment_name);
+        $assignment->setCourse($course);
         $assignment->setCourseId($data->assignment->course_id);
         $assignment->setDescription($data->assignment->description);
         $assignment->setAdminId($username);
         $assignment->setDueDate($data->assignment->due_date);
         $assignment->setTimeVisible($data->assignment->time_visible);
-        $em = $this->getDoctrine()->getManager();
         $em->persist($assignment);
-
+        //debug::dump($assignment);
         $em->flush();
+        $assignment->setCourse(null);
         return array('assignment'=>$assignment);
     }
 
@@ -306,11 +305,11 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getAssignmentAction($Id){
+
         $em = $this->getDoctrine()->getManager();
         $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
         /*Authorize*/
         $this->authorizeUser($this, $assignment->getAdminId());
-
         return array('assignment' => $assignment);
     }
 

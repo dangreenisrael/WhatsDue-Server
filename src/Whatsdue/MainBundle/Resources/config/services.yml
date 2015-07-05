@@ -22,12 +22,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: lastRoute, priority: 30 }
 
-# OAuth
-    my_user_provider:
-        class: Whatsdue\MainBundle\Security\Core\User\FOSUBUserProvider
-        arguments: [@fos_user.user_manager,{facebook: facebook_id, google: google_id, yahoo: yahoo_id}]
-
-
 #FOS User
     security.authentication.customized_success_handler:
         class: Whatsdue\MainBundle\Handler\AuthenticationSuccessHandler
@@ -55,6 +49,17 @@ services:
         class: Whatsdue\UserBundle\Security\Provider\EmailProvider
         public: false
         arguments: ["@fos_user.user_manager"]
+
+#FOS REST
+    api.clean_view:
+        class: Whatsdue\RestBundle\View\EmberHandler
+        arguments: ['@service_container']
+
+
+    api.clean_view_handler:
+        parent: fos_rest.view_handler.default
+        calls:
+        - ['registerHandler', [ 'json', ["@api.clean_view", 'createResponse'] ] ]
 
 #Push Notifications
     push_notifications:

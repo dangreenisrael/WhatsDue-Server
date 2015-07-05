@@ -63,8 +63,7 @@ class LifecycleActions {
 
         if ($entity instanceof User) {
             $message = "A new user signed up - " .
-                $entity -> getFirstName() . " " . $entity -> getLastName() .
-                " from " . $entity->getInstitutionName();
+                $entity -> getFirstName() . " " . $entity -> getLastName();
             $this->container->get('plivo')->sendSMS('+972507275599', $message);
 
             /*
@@ -104,7 +103,7 @@ class LifecycleActions {
                 $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
             }
             $consumerIDs = json_decode($course->getConsumerIds(), true);
-            $this->pushNotifications->sendNotifications($title, $message, $consumerIDs);
+            $this->pushNotifications->sendChangeNotifications($title, $message, $consumerIDs);
         }
     }
 }

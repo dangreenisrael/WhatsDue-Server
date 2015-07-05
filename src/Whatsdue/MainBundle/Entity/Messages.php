@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Messages
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\MessagesRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
 class Messages
@@ -208,5 +208,8 @@ class Messages
     {
         $this->updatedAt = $this->timestamp();
 
+    }
+
+    public function cleanObject(){
     }
 }

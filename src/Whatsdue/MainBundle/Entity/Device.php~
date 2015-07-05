@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Devices
  *
  * @ORM\Table(name="Devices")
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\DeviceRepository")
+ * @ORM\Entity
  */
 class Device
 {
@@ -130,4 +130,28 @@ class Device
         return $this->pushId;
     }
 
+
+    /**
+     * Set consumerId
+     *
+     * @param string $consumerId
+     *
+     * @return Device
+     */
+    public function setConsumerId($consumerId)
+    {
+        $this->consumerId = $consumerId;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerId
+     *
+     * @return string
+     */
+    public function getConsumerId()
+    {
+        return $this->consumerId;
+    }
 }

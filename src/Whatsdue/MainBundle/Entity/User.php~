@@ -406,4 +406,52 @@ class User extends BaseUser
     {
         return $this->uniqueInvitations;
     }
+
+    /**
+     * Set totalCourses
+     *
+     * @param integer $totalCourses
+     *
+     * @return User
+     */
+    public function setTotalCourses($totalCourses)
+    {
+        $this->totalCourses = $totalCourses;
+
+        return $this;
+    }
+
+    /**
+     * Get totalCourses
+     *
+     * @return integer
+     */
+    public function getTotalCourses()
+    {
+        return $this->totalCourses;
+    }
+
+    /**
+     * Set totalAssignments
+     *
+     * @param integer $totalAssignments
+     *
+     * @return User
+     */
+    public function setTotalAssignments($totalAssignments)
+    {
+        $this->totalAssignments = $totalAssignments;
+
+        return $this;
+    }
+
+    /**
+     * Get totalAssignments
+     *
+     * @return integer
+     */
+    public function getTotalAssignments()
+    {
+        return $this->totalAssignments;
+    }
 }

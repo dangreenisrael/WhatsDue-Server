@@ -4,6 +4,8 @@ namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Whatsdue\MainBundle\Entity\Assignments;
 
 
 
@@ -11,11 +13,26 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Courses
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\CoursesRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
 class Courses
 {
+
+    /**
+     * @ORM\OneToMany(targetEntity="Assignments", mappedBy="course", fetch="EXTRA_LAZY")
+     **/
+    private $assignment;
+    private $userCount;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->assignment = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *
@@ -305,7 +322,7 @@ class Courses
     /**
      * Get deviceIds
      *
-     * @return string 
+     * @return string
      */
     public function getDeviceIds()
     {
@@ -316,7 +333,7 @@ class Courses
      * Set archived
      *
      * @param boolean $archived
-     * @return Assignments
+     * @return Courses
      */
     public function setArchived($archived)
     {
@@ -413,5 +430,50 @@ class Courses
     public function getConsumerIds()
     {
         return $this->consumerIds;
+    }
+
+
+
+
+
+
+
+    /**
+     * Add assignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
+     *
+     * @return Courses
+     */
+    public function addAssignment(Assignments $assignment)
+    {
+        $this->assignment[] = $assignment;
+
+        return $this;
+    }
+
+    /**
+     * Remove assignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
+     */
+    public function removeAssignment(Assignments $assignment)
+    {
+        $this->assignment->removeElement($assignment);
+    }
+
+    /**
+     * Get assignments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssignments()
+    {
+        return $this->assignment;
+    }
+
+    public function cleanObject(){
+        $this->assignment = null;
+        $this->deviceIds = null;
     }
 }

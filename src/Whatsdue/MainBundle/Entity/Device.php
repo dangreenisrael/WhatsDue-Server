@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Devices
  *
  * @ORM\Table(name="Devices")
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\DeviceRepository")
+ * @ORM\Entity
  */
 class Device
 {
@@ -153,5 +153,8 @@ class Device
     public function getConsumerId()
     {
         return $this->consumerId;
+    }
+
+    public function cleanObject(){
     }
 }

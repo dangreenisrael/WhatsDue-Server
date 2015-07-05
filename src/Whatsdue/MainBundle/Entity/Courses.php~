@@ -4,6 +4,8 @@ namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Whatsdue\MainBundle\Entity\Assignments;
 
 
 
@@ -11,11 +13,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Courses
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\CoursesRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
 class Courses
 {
+
+    /**
+     * @ORM\OneToMany(targetEntity="Assignments", mappedBy="course", fetch="EXTRA_LAZY")
+     **/
+    private $assignment;
+
+
+
     /**
      * @var integer
      *
@@ -305,7 +315,7 @@ class Courses
     /**
      * Get deviceIds
      *
-     * @return string 
+     * @return string
      */
     public function getDeviceIds()
     {
@@ -390,4 +400,33 @@ class Courses
     {
         return $this->courseCode;
     }
+
+    /**
+     * Set consumerIds
+     *
+     * @param string $consumerIds
+     *
+     * @return Courses
+     */
+    public function setConsumerIds($consumerIds)
+    {
+        $this->consumerIds = $consumerIds;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerIds
+     *
+     * @return string
+     */
+    public function getConsumerIds()
+    {
+        return $this->consumerIds;
+    }
+
+
+
+
+
 }
