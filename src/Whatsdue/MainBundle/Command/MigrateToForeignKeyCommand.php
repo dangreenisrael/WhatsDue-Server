@@ -32,7 +32,7 @@ class MigrateToForeignKeyCommand extends ContainerAwareCommand
         $courseRepo = $em->getRepository('WhatsdueMainBundle:Courses');
         foreach($assignments as $assignment){
             $parentCourse = $courseRepo->find($assignment->getCourseId());
-            //var_dump($parentCourse);
+            //var_dump($parentCourse->getId());
 
             if (!$parentCourse){
                 echo  $assignment->getCourseId()."\n";

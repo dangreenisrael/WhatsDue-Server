@@ -28,7 +28,9 @@ class EmberHandler
                 $data->cleanObject();
             } elseif(is_array($data)){
                 foreach ($data as $eachObject){
-                    $eachObject->cleanObject();
+                    if (is_object($eachObject)){
+                        $eachObject->cleanObject();
+                    }
                 }
             }
         }
