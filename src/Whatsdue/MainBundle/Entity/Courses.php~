@@ -3,9 +3,10 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+//use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Whatsdue\MainBundle\Entity\Assignments;
+use Whatsdue\MainBundle\Entity\Student;
 
 
 
@@ -20,11 +21,33 @@ class Courses
 {
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="courses")
+     * @ORM\JoinColumn(name="adminId", referencedColumnName="id")
+     **/
+    private $course;
+
+    /**
      * @ORM\OneToMany(targetEntity="Assignments", mappedBy="course", fetch="EXTRA_LAZY")
      **/
-    private $assignment;
+    private $assignments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="courses", cascade={"all"})
+     * @ORM\JoinTable(name="courses_students",
+     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")})
+     **/
+    private $students;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->students = new ArrayCollection();
+        $this->assignments = new ArrayCollection();
+    }
 
     /**
      * @var integer
@@ -65,19 +88,6 @@ class Courses
     private $adminId;
 
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="deviceIds", type="text", nullable=true)
-     */
-    private $deviceIds;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="consumerIds", type="text", nullable=true)
-     */
-    private $consumerIds;
 
     /**
      * @var string
@@ -114,6 +124,24 @@ class Courses
      * @ORM\Column(name="lastModified", type="integer", length=255)
      */
     private $lastModified;
+
+    /* Remove after big migrations */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="deviceIds", type="text", nullable=true)
+     */
+    private $deviceIds;
+
+    /**
+     * Get deviceIds
+     *
+     * @return string
+     */
+    public function getDeviceIds()
+    {
+        return $this->deviceIds;
+    }
 
 
 
@@ -300,33 +328,10 @@ class Courses
 
 
     /**
-     * Set deviceIds
-     *
-     * @param string $deviceIds
-     * @return Courses
-     */
-    public function setDeviceIds($deviceIds)
-    {
-        $this->deviceIds = $deviceIds;
-
-        return $this;
-    }
-
-    /**
-     * Get deviceIds
-     *
-     * @return string
-     */
-    public function getDeviceIds()
-    {
-        return $this->deviceIds;
-    }
-
-    /**
      * Set archived
      *
      * @param boolean $archived
-     * @return Assignments
+     * @return Courses
      */
     public function setArchived($archived)
     {
@@ -401,32 +406,97 @@ class Courses
         return $this->courseCode;
     }
 
+
+
     /**
-     * Set consumerIds
+     * Add assignment
      *
-     * @param string $consumerIds
+     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
      *
      * @return Courses
      */
-    public function setConsumerIds($consumerIds)
+    public function addAssignment(Assignments $assignment)
     {
-        $this->consumerIds = $consumerIds;
+        $this->assignments[] = $assignment;
 
         return $this;
     }
 
     /**
-     * Get consumerIds
+     * Remove assignment
      *
-     * @return string
+     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
      */
-    public function getConsumerIds()
+    public function removeAssignment(Assignments $assignment)
     {
-        return $this->consumerIds;
+        $this->assignments->removeElement($assignment);
+    }
+
+    /**
+     * Get assignments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssignments()
+    {
+        return $this->assignments;
+    }
+
+    public function cleanObject(){
+        $this->students = null;
+        $this->assignments= null;
     }
 
 
 
+    /**
+     * Add student
+     *
+     * @param \Whatsdue\MainBundle\Entity\Student $student
+     *
+     * @return Courses
+     */
+    public function addStudent(Student $student)
+    {
 
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+        }
 
+        return $this;
+    }
+
+    /**
+     * Remove student
+     *
+     * @param \Whatsdue\MainBundle\Entity\Student $student
+     */
+    public function removeStudent(Student $student)
+    {
+        $this->students->removeElement($student);
+    }
+
+    /**
+     * Get students
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStudents()
+    {
+        return $this->students;
+    }
+
+    /**
+     * Set deviceIds
+     *
+     * @param string $deviceIds
+     *
+     * @return Courses
+     */
+    public function setDeviceIds($deviceIds)
+    {
+        $this->deviceIds = $deviceIds;
+
+        return $this;
+    }
 }

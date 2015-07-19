@@ -20,7 +20,7 @@ class MigrateToForeignKeyCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('WhatsDue:Migrate:ForeignKey')
+            ->setName('WhatsDue:PopulateStudentCourses')
             ->setDescription('Clean out foreign key issues')
         ;
     }
@@ -28,17 +28,21 @@ class MigrateToForeignKeyCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $assignments = $em->getRepository('WhatsdueMainBundle:Assignments')->findAll();
-        $courseRepo = $em->getRepository('WhatsdueMainBundle:Courses');
-        foreach($assignments as $assignment){
-            $parentCourse = $courseRepo->find($assignment->getCourseId());
-            //var_dump($parentCourse->getId());
-
-            if (!$parentCourse){
-                echo  $assignment->getCourseId()."\n";
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->findAll();
+        $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
+        $studentRepo = $em->getRepository('WhatsdueMainBundle:Student');
+        foreach($course as $course){
+            $uuids = @json_decode($course->getDeviceIds(), true);
+            if ($uuids){
+                foreach($uuids as $uuid){
+                    $device = $deviceRepo->findOneBy(array("uuid"=>$uuid));
+                    $student = $studentRepo->find($device->getId());
+                    $course->addStudent($student);
+                }
             }
         }
-        $output->writeln("Finished");
+        echo "\nMigrated Device to Consumer \n";
+        $em->flush();
     }
 
     protected function testParameters(){

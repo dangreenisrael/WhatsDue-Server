@@ -398,4 +398,7 @@ class EmailLog
     {
         return $this->failed;
     }
+
+    public function cleanObject(){
+    }
 }

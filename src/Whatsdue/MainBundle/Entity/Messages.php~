@@ -209,4 +209,7 @@ class Messages
         $this->updatedAt = $this->timestamp();
 
     }
+
+    public function cleanObject(){
+    }
 }

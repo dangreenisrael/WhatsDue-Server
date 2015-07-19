@@ -12,33 +12,21 @@ namespace Whatsdue\MainBundle\Controller;
 use Doctrine\Common\Collections;
 use Doctrine\Common\Util\Debug;
 use FOS\RestBundle\Controller\Annotations\View;
-use Whatsdue\MainBundle\Entity\Assignments;
-use Whatsdue\MainBundle\Entity\Courses;
-use Whatsdue\MainBundle\Entity\Messages;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Whatsdue\MainBundle\Entity\Assignment;
+use Whatsdue\MainBundle\Entity\Course;
 use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
-class TeacherController extends FOSRestController{
+class TeacherController extends FOSRestController {
 
 
-    private function currentUser($context){
-        $username = @$context->container->get('request')->headers->get("key");
-        $password = @$context->container->get('request')->headers->get("secret");
-        return $this->container->get('helper')->loginUser($username, $password);
+    public function __construct(){
+        $username = $this->container->get('request')->headers->get("key");
+        $password = $this->container->get('request')->headers->get("secret");
+        $this->container->get('helper')->loginUser($username, $password);
     }
 
-    private function authorizeUser($context, $username_check){
-        $username = @$context->container->get('request')->headers->get("key");
-        $password = @$context->container->get('request')->headers->get("secret");
-        $currentUser = $this->container->get('helper')->loginUser($username, $password);
-        if ($currentUser->getUsername() != $username_check) exit;
-        return true;
-    }
 
     public function getHeader($header){
         $request = Request::createFromGlobals();
@@ -78,14 +66,6 @@ class TeacherController extends FOSRestController{
      */
     public function getUserAction(){
         $user = $this->currentUser($this);
-        $user = array(
-            'id'                    => $user->getId(),
-            'first_name'            => $user->getFirstName(),
-            'last_name'             => $user->getLastName(),
-            'email'                 => $user->getEmailCanonical(),
-            'salutation'            => $user->getSalutation(),
-            'settings'              => $user->getSettings()
-        );
         return array("user" => $user);
     }
 
@@ -103,11 +83,7 @@ class TeacherController extends FOSRestController{
      * @View()
      */
     public function getCoursesAction(){
-
-        $username = $this->currentUser($this)->getUsername();
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Courses');
-        $courses = $repository->findByAdminId($username);
-
+        $courses = $this->currentUser($this)->getCourses();
         return array("courses"=>$courses);
     }
 
@@ -120,7 +96,7 @@ class TeacherController extends FOSRestController{
         $username = $user->getUsername();
         $school = $user->getInstitutionName();
         $data = json_decode($request->getContent());
-        $course = new Courses();
+        $course = new Course();
         $course->setCourseName($data->course->course_name);
         $course->setInstructorName($data->course->instructor_name);
         $course->setAdminId($username);
@@ -130,6 +106,7 @@ class TeacherController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
+
 
         $this->container->get('pipedrive')->updateDeal($user, 2);
 
@@ -143,7 +120,7 @@ class TeacherController extends FOSRestController{
     public function putCourseAction($Id, Request $request){
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($Id);
         /*Authorize*/
         $this->authorizeUser($this, $course->getAdminId());
 
@@ -159,12 +136,12 @@ class TeacherController extends FOSRestController{
      * @return array
      * @View()
      */
-    public function getCourseAction($courseId, Request $request){
+    public function getCourseAction($courseId){
         $em = $this->getDoctrine()->getManager();
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
-        $course->setDeviceIds(null);
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
+
         /*Authorize*/
-        $this->authorizeUser($this, $course->getAdminId());
+        if($this->currentUser($this)->getId() != $course->getUser()->getId()) exit;
         return array("course" => $course);
     }
 
@@ -172,15 +149,15 @@ class TeacherController extends FOSRestController{
      * @return array
      * @View()
      */
-    public function getCourseAssignmentsAction($courseId, Request $request){
+    public function getCourseAssignmentsAction($courseId){
         $em = $this->getDoctrine()->getManager();
-        $assignments = $em->getRepository('WhatsdueMainBundle:Assignments')
+        $assignments = $em->getRepository('WhatsdueMainBundle:Assignment')
             ->findBy(
                 array('courseId' => $courseId)
             );
 
         /*Authorize*/
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($courseId);
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
         $this->authorizeUser($this, $course->getAdminId());
 
         return array("assignment" => $assignments);
@@ -193,7 +170,7 @@ class TeacherController extends FOSRestController{
      */
     public function deleteCourseAction($Id){
         $em = $this->getDoctrine()->getManager();
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($Id);
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($Id);
         /*Authorize*/
         $this->authorizeUser($this, $course->getAdminId());
 
@@ -223,7 +200,7 @@ class TeacherController extends FOSRestController{
     public function getAssignmentsAction(){
 
         $username = $this->currentUser($this)->getUsername();
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignments');
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignment');
         $assignments = $repository->findByAdminId($username);
         foreach ($assignments as $assignment){
             //$assignment->setCourse(null);
@@ -243,10 +220,10 @@ class TeacherController extends FOSRestController{
 
         $this->container->get('pipedrive')->updateDeal($user, 3);
 
-        $course = $em->getRepository('WhatsdueMainBundle:Courses')->find($data->assignment->course_id);
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($data->assignment->course_id);
         $this->authorizeUser($this, $course->getAdminId());
 
-        $assignment = new Assignments();
+        $assignment = new Assignment();
         $assignment->setAssignmentName($data->assignment->assignment_name);
         $assignment->setCourse($course);
         $assignment->setCourseId($data->assignment->course_id);
@@ -269,7 +246,7 @@ class TeacherController extends FOSRestController{
 
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
-        $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($Id);
         $assignment->setDueDate($data->assignment->due_date);
         $assignment->setDescription($data->assignment->description);
         $assignment->setAssignmentName($data->assignment->assignment_name);
@@ -289,7 +266,7 @@ class TeacherController extends FOSRestController{
      */
     public function deleteAssignmentsAction($Id){
         $em = $this->getDoctrine()->getManager();
-        $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($Id);
         /*Authorize*/
         $this->authorizeUser($this, $assignment->getAdminId());
 
@@ -307,9 +284,9 @@ class TeacherController extends FOSRestController{
     public function getAssignmentAction($Id){
 
         $em = $this->getDoctrine()->getManager();
-        $assignment = $em->getRepository('WhatsdueMainBundle:Assignments')->find($Id);
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($Id);
         /*Authorize*/
-        $this->authorizeUser($this, $assignment->getAdminId());
+        if($this->currentUser($this)->getId() != $assignment->getCourse()->getUser()->getId()) exit;
         return array('assignment' => $assignment);
     }
 
@@ -333,7 +310,7 @@ class TeacherController extends FOSRestController{
      */
     public function getMessagesAction(){
         $course = $_GET['course_id'];
-        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Messages');
+        $repository = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Message');
         $messages = $repository->findBy(array('courseId'=>$course));
         return array("message" => $messages);
     }

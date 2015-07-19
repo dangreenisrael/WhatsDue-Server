@@ -50,16 +50,6 @@ services:
         public: false
         arguments: ["@fos_user.user_manager"]
 
-#FOS REST
-    api.clean_view:
-        class: Whatsdue\RestBundle\View\EmberHandler
-        arguments: ['@service_container']
-
-
-    api.clean_view_handler:
-        parent: fos_rest.view_handler.default
-        calls:
-        - ['registerHandler', [ 'json', ["@api.clean_view", 'createResponse'] ] ]
 
 #Push Notifications
     push_notifications:

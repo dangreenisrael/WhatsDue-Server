@@ -3,23 +3,38 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Whatsdue\MainBundle\Entity\Courses;
+use Doctrine\Common\Collections\ArrayCollection;
+use Whatsdue\MainBundle\Entity\Course;
+use Whatsdue\MainBundle\Entity\StudentAssignment;
 
 /**
- * Assignments
+ * Assignment
  *
- * @ORM\Table()
+ * @ORM\Table(name="assignment")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Assignments
+class Assignment
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="Courses", inversedBy="assignments")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="assignments")
      * @ORM\JoinColumn(name="courseId", referencedColumnName="id")
      **/
     private $course;
+
+    /**
+     * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="assignment", fetch="EXTRA_LAZY")
+     **/
+    private $studentAssignments;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->studentAssignments = new ArrayCollection();
+    }
 
 
     /**
@@ -177,7 +192,7 @@ class Assignments
      * Set courseId
      *
      * @param integer $courseId
-     * @return Assignments
+     * @return Assignment
      */
     public function setCourseId($courseId)
     {
@@ -200,7 +215,7 @@ class Assignments
      * Set adminId
      *
      * @param string $adminId
-     * @return Assignments
+     * @return Assignment
      */
     public function setAdminId($adminId)
     {
@@ -223,7 +238,7 @@ class Assignments
      * Set assignmentName
      *
      * @param string $assignmentName
-     * @return Assignments
+     * @return Assignment
      */
     public function setAssignmentName($assignmentName)
     {
@@ -246,7 +261,7 @@ class Assignments
      * Set description
      *
      * @param string $description
-     * @return Assignments
+     * @return Assignment
      */
     public function setDescription($description)
     {
@@ -269,7 +284,7 @@ class Assignments
      * Set dueDate
      *
      * @param string $dueDate
-     * @return Assignments
+     * @return Assignment
      */
     public function setDueDate($dueDate)
     {
@@ -294,7 +309,7 @@ class Assignments
      * Set createdAt
      *
      * @param integer $createdAt
-     * @return Assignments
+     * @return Assignment
      */
     public function setCreatedAt($createdAt)
     {
@@ -307,7 +322,7 @@ class Assignments
      * Set lastUpdated
      *
      * @param integer $lastUpdated
-     * @return Assignments
+     * @return Assignment
      */
     public function setLastUpdated($lastUpdated)
     {
@@ -320,7 +335,7 @@ class Assignments
      * Set lastModified
      *
      * @param integer $lastModified
-     * @return Assignments
+     * @return Assignment
      */
     public function setLastModified($lastModified)
     {
@@ -333,7 +348,7 @@ class Assignments
      * Set archived
      *
      * @param boolean $archived
-     * @return Assignments
+     * @return Assignment
      */
     public function setArchived($archived)
     {
@@ -356,7 +371,7 @@ class Assignments
      * Set Time Visible
      *
      * @param boolean $timeVisible
-     * @return Assignments
+     * @return Assignment
      */
     public function setTimeVisible($timeVisible)
     {
@@ -386,11 +401,11 @@ class Assignments
     /**
      * Set course
      *
-     * @param \Whatsdue\MainBundle\Entity\Courses $course
+     * @param \Whatsdue\MainBundle\Entity\Course $course
      *
-     * @return Assignments
+     * @return Assignment
      */
-    public function setCourse(Courses $course = null)
+    public function setCourse(Course $course = null)
     {
         $this->course = $course;
 
@@ -400,7 +415,7 @@ class Assignments
     /**
      * Get course
      *
-     * @return \Whatsdue\MainBundle\Entity\Courses
+     * @return \Whatsdue\MainBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -409,5 +424,40 @@ class Assignments
 
     public function cleanObject(){
         $this->course = null;
+    }
+
+
+    /**
+     * Add studentAssignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
+     *
+     * @return Assignment
+     */
+    public function addStudentAssignment(StudentAssignment $studentAssignment)
+    {
+        $this->studentAssignments[] = $studentAssignment;
+
+        return $this;
+    }
+
+    /**
+     * Remove studentAssignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
+     */
+    public function removeStudentAssignment(StudentAssignment $studentAssignment)
+    {
+        $this->studentAssignments->removeElement($studentAssignment);
+    }
+
+    /**
+     * Get studentAssignments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStudentAssignments()
+    {
+        return $this->studentAssignments;
     }
 }

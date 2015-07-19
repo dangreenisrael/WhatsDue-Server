@@ -28,7 +28,7 @@ class MigrateDeviceToConsumerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $courses = $em->getRepository('WhatsdueMainBundle:Courses')->findAll();
+        $courses = $em->getRepository('WhatsdueMainBundle:Course')->findAll();
         $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
         foreach($courses as $course){
             $uuids = @json_decode($course->getDeviceIds(), true);

@@ -91,7 +91,7 @@ class Helpers {
             for ($i = 0; $i < $length; $i++) {
                 $courseCode .= $characters[rand(0, $charactersLength - 1)];
             }
-            $courseRepository = $this->container->get('doctrine.orm.entity_manager')->getRepository('WhatsdueMainBundle:Courses');
+            $courseRepository = $this->container->get('doctrine.orm.entity_manager')->getRepository('WhatsdueMainBundle:Course');
             if(! $courseRepository->findOneBy(array('courseCode' => $courseCode))){
                 return $courseCode;
             }

@@ -3,7 +3,9 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Whatsdue\MainBundle\Entity\Courses;
+use Whatsdue\MainBundle\Entity\StudentAssignment;
 
 /**
  * Assignments
@@ -20,6 +22,19 @@ class Assignments
      * @ORM\JoinColumn(name="courseId", referencedColumnName="id")
      **/
     private $course;
+
+    /**
+     * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="assignment", fetch="EXTRA_LAZY")
+     **/
+    private $studentAssignments;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->studentAssignments = new ArrayCollection();
+    }
 
 
     /**
@@ -405,5 +420,44 @@ class Assignments
     public function getCourse()
     {
         return $this->course;
+    }
+
+    public function cleanObject(){
+        $this->course = null;
+    }
+
+
+    /**
+     * Add studentAssignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
+     *
+     * @return Assignments
+     */
+    public function addStudentAssignment(StudentAssignment $studentAssignment)
+    {
+        $this->studentAssignments[] = $studentAssignment;
+
+        return $this;
+    }
+
+    /**
+     * Remove studentAssignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
+     */
+    public function removeStudentAssignment(StudentAssignment $studentAssignment)
+    {
+        $this->studentAssignments->removeElement($studentAssignment);
+    }
+
+    /**
+     * Get studentAssignments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStudentAssignments()
+    {
+        return $this->studentAssignments;
     }
 }

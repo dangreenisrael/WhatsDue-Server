@@ -30,8 +30,8 @@ class UserStatsCommand extends ContainerAwareCommand
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $userRepository = $em->getRepository('WhatsdueMainBundle:User');
-        $courseRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Courses');
-        $assignmentRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Assignments');
+        $courseRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Course');
+        $assignmentRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:Assignment');
         $emailLogRepository = $container->get('doctrine')->getRepository('WhatsdueMainBundle:EmailLog');
         $users = $userRepository->findAll();
         $i=0;

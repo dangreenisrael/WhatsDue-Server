@@ -11,8 +11,8 @@ namespace Whatsdue\MainBundle\Classes;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Whatsdue\MainBundle\Entity\Courses;
-use Whatsdue\MainBundle\Entity\Assignments;
+use Whatsdue\MainBundle\Entity\Course;
+use Whatsdue\MainBundle\Entity\Assignment;
 use Whatsdue\MainBundle\Entity\User;
 use Whatsdue\MainBundle\Classes\PushNotifications;
 
@@ -53,8 +53,8 @@ class LifecycleActions {
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
 
-        if ($entity instanceof Assignments) {
-            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($entity->getCourseId());
+        if ($entity instanceof Assignment) {
+            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Course')->find($entity->getCourseId());
             $title = $course->getCourseName();
             $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
             $consumerIDs = json_decode($course->getConsumerIds(), true);
@@ -90,7 +90,7 @@ class LifecycleActions {
 
             $id = $entity->getCourseId();
 
-            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Courses')->find($id);
+            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Course')->find($id);
 
             /* Send Push Notifications */
             $assignment_id = $entity->getId();

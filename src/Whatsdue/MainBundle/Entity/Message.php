@@ -3,28 +3,35 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+
 
 /**
- * Messages
+ * Message
  *
- * @ORM\Table()
+ * @ORM\Table(name="message")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @ExclusionPolicy("all")
  */
-class Messages
+class Message
 {
     /**
      * @var integer
+     * @Expose
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
 
 
     /**
      * @var integer
+     * @Expose
      *
      * @ORM\Column(name="course_id", type="integer")
      */
@@ -32,6 +39,7 @@ class Messages
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
@@ -39,6 +47,7 @@ class Messages
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="body", type="string", length=255)
      */
@@ -46,6 +55,7 @@ class Messages
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)
      */
@@ -53,6 +63,7 @@ class Messages
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="updatedAt", type="integer", length=255)
      */
@@ -62,7 +73,7 @@ class Messages
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +85,7 @@ class Messages
      * Set courseId
      *
      * @param integer $courseId
-     * @return Messages
+     * @return Message
      */
     public function setCourseId($courseId)
     {
@@ -97,7 +108,7 @@ class Messages
      * Set title
      *
      * @param string $title
-     * @return Messages
+     * @return Message
      */
     public function setTitle($title)
     {
@@ -120,7 +131,7 @@ class Messages
      * Set body
      *
      * @param string $body
-     * @return Messages
+     * @return Message
      */
     public function setBody($body)
     {
@@ -143,7 +154,7 @@ class Messages
      * Set createdAt
      *
      * @param string $createdAt
-     * @return Messages
+     * @return Message
      */
     public function setCreatedAt($createdAt)
     {
@@ -166,7 +177,7 @@ class Messages
      * Set updatedAt
      *
      * @param string $updatedAt
-     * @return Messages
+     * @return Message
      */
     public function setUpdatedAt($updatedAt)
     {

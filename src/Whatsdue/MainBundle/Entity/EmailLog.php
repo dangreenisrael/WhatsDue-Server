@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Email
  *
- * @ORM\Table()
+ * @ORM\Table(name="email_log")
  * @ORM\Entity
  */
 class EmailLog

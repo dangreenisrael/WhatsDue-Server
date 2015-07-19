@@ -4,25 +4,40 @@ namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Whatsdue\MainBundle\Entity\Courses;
+use Whatsdue\MainBundle\Entity\Course;
+use Whatsdue\MainBundle\Entity\Device;
+use Whatsdue\MainBundle\Entity\StudentAssignment;
 
 
 /**
- * Consumers
+ * Students
  *
- * @ORM\Table(name="Consumers"))
+ * @ORM\Table(name="student")
  * @ORM\Entity
  */
-class Consumer
+class Student
 {
 
     /**
-     * @ORM\ManyToMany(targetEntity="Courses", mappedBy="consumers")
+     * @ORM\ManyToOne(targetEntity="StudentAssignment", inversedBy="student")
+     * @ORM\JoinColumn(name="student", referencedColumnName="id")
      **/
-    private $consumers;
+    private $studentAssignments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Device", mappedBy="student")
+     **/
+    private $devices;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="students")
+     **/
+    private $courses;
 
     public function __construct() {
-        $this->consumers = new ArrayCollection();
+        $this->devices = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     /**
@@ -33,20 +48,6 @@ class Consumer
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="devices", type="string", length=1000)
-     */
-    private $devices;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="courses", type="string", length=1000)
-     */
-    private $courses;
 
     /**
      * @var boolean
@@ -89,59 +90,11 @@ class Consumer
     }
 
     /**
-     * Set devices
-     *
-     * @param string $devices
-     *
-     * @return Consumer
-     */
-    public function setDevices($devices)
-    {
-        $this->devices = $devices;
-
-        return $this;
-    }
-
-    /**
-     * Get devices
-     *
-     * @return string
-     */
-    public function getDevices()
-    {
-        return $this->devices;
-    }
-
-    /**
-     * Set courses
-     *
-     * @param string $courses
-     *
-     * @return Consumer
-     */
-    public function setCourses($courses)
-    {
-        $this->courses = $courses;
-
-        return $this;
-    }
-
-    /**
-     * Get courses
-     *
-     * @return string
-     */
-    public function getCourses()
-    {
-        return $this->courses;
-    }
-
-    /**
      * Set notifications
      *
      * @param boolean $notifications
      *
-     * @return Consumer
+     * @return Student
      */
     public function setNotifications($notifications)
     {
@@ -165,7 +118,7 @@ class Consumer
      *
      * @param string $notificationTimeLocal
      *
-     * @return Consumer
+     * @return Student
      */
     public function setNotificationTimeLocal($notificationTimeLocal)
     {
@@ -189,7 +142,7 @@ class Consumer
      *
      * @param string $notificationTimeUtc
      *
-     * @return Consumer
+     * @return Student
      */
     public function setNotificationTimeUtc($notificationTimeUtc)
     {
@@ -213,7 +166,7 @@ class Consumer
      *
      * @param boolean $notificationUpdates
      *
-     * @return Consumer
+     * @return Student
      */
     public function setNotificationUpdates($notificationUpdates)
     {
@@ -233,5 +186,97 @@ class Consumer
     }
 
     public function cleanObject(){
+    }
+
+    /**
+     * Add course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     *
+     * @return Student
+     */
+    public function addCourse(Course $course)
+    {
+        $this->courses[] = $course;
+
+        return $this;
+    }
+
+    /**
+     * Remove course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     */
+    public function removeCourse(Course $course)
+    {
+        $this->courses->removeElement($course);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourses()
+    {
+        return $this->courses;
+    }
+
+    /**
+     * Add device
+     *
+     * @param \Whatsdue\MainBundle\Entity\Device $device
+     *
+     * @return Student
+     */
+    public function addDevice(Device $device)
+    {
+        $this->devices[] = $device;
+
+        return $this;
+    }
+
+    /**
+     * Remove device
+     *
+     * @param \Whatsdue\MainBundle\Entity\Device $device
+     */
+    public function removeDevice(Device $device)
+    {
+        $this->devices->removeElement($device);
+    }
+
+    /**
+     * Get devices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDevices()
+    {
+        return $this->devices;
+    }
+
+    /**
+     * Set studentAssignments
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignments
+     *
+     * @return Student
+     */
+    public function setStudentAssignments(StudentAssignment $studentAssignments = null)
+    {
+        $this->studentAssignments = $studentAssignments;
+
+        return $this;
+    }
+
+    /**
+     * Get studentAssignments
+     *
+     * @return \Whatsdue\MainBundle\Entity\StudentAssignment
+     */
+    public function getStudentAssignments()
+    {
+        return $this->studentAssignments;
     }
 }

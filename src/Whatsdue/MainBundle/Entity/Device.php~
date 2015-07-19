@@ -3,6 +3,9 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Whatsdue\MainBundle\Entity\Student;
+
 
 /**
  * Devices
@@ -12,6 +15,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Device
 {
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Student", inversedBy="devices")
+     * @ORM\JoinColumn(name="studentId", referencedColumnName="id")
+     **/
+    private $student;
+
+
+    public function __construct() {
+        $this->student = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *
@@ -46,10 +61,9 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(name="consumerId", type="string", length=255)
+     * @ORM\Column(name="studentId", type="integer", length=11)
      */
-    private $consumerId;
-
+    private $studentId;
 
     /**
      * Get id
@@ -131,27 +145,70 @@ class Device
     }
 
 
+
+
+    public function cleanObject(){
+    }
+
     /**
-     * Set consumerId
+     * Set studentId
      *
-     * @param string $consumerId
+     * @param string $studentId
      *
      * @return Device
      */
-    public function setConsumerId($consumerId)
+    public function setStudentId($studentId)
     {
-        $this->consumerId = $consumerId;
+        $this->studentId = $studentId;
 
         return $this;
     }
 
     /**
-     * Get consumerId
+     * Get studentId
      *
      * @return string
      */
-    public function getConsumerId()
+    public function getStudentId()
     {
-        return $this->consumerId;
+        return $this->studentId;
+    }
+
+    /**
+     * Set course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Student $student
+     *
+     * @return Device
+     */
+    public function setCourse(Student $student = null)
+    {
+        $this->student = $student;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \Whatsdue\MainBundle\Entity\Student
+     */
+    public function getStudent()
+    {
+        return $this->student;
+    }
+
+    /**
+     * Set student
+     *
+     * @param \Whatsdue\MainBundle\Entity\Student $student
+     *
+     * @return Device
+     */
+    public function setStudent(\Whatsdue\MainBundle\Entity\Student $student = null)
+    {
+        $this->student = $student;
+
+        return $this;
     }
 }

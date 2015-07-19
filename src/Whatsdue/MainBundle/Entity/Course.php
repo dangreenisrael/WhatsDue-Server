@@ -3,38 +3,58 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+//use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Whatsdue\MainBundle\Entity\Assignments;
-
+use Whatsdue\MainBundle\Entity\Assignment;
+use Whatsdue\MainBundle\Entity\Student;
+use Whatsdue\MainBundle\Entity\User;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 
 /**
- * Courses
+ * Course
  *
- * @ORM\Table()
+ * @ORM\Table(name="course")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @ExclusionPolicy("all")
  */
-class Courses
+class Course
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="Assignments", mappedBy="course", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="course")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      **/
-    private $assignment;
-    private $userCount;
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Assignment", mappedBy="course", fetch="EXTRA_LAZY")
+     **/
+    private $assignments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="course", cascade={"all"})
+     * @ORM\JoinTable(name="course_student",
+     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")})
+     **/
+    private $students;
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->assignment = new ArrayCollection();
+        $this->students = new ArrayCollection();
+        $this->assignments = new ArrayCollection();
     }
 
     /**
      * @var integer
+     * @Expose
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\id
@@ -44,6 +64,7 @@ class Courses
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="courseName", type="string", length=50)
      */
@@ -51,6 +72,7 @@ class Courses
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="courseCode", type="string", length=10, nullable=true)
      */
@@ -58,6 +80,7 @@ class Courses
 
     /**
      * @var string
+     * @Expose
      *
      * @ORM\Column(name="instructorName", type="string", length=50)
      */
@@ -66,28 +89,17 @@ class Courses
 
     /**
      * @var string
+     * @Expose
      *
-     * @ORM\Column(name="adminId", type="string", length=255)
+     * @ORM\Column(name="userId", type="integer", length=11)
      */
-    private $adminId;
+    private $userId;
+
 
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="deviceIds", type="text", nullable=true)
-     */
-    private $deviceIds;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="consumerIds", type="text", nullable=true)
-     */
-    private $consumerIds;
-
-    /**
-     * @var string
+     * @Expose
      *
      * @ORM\Column(name="schoolName", type="text")
      */
@@ -95,6 +107,7 @@ class Courses
 
     /**
      * @var boolean
+     * @Expose
      *
      * @ORM\Column(name="archived", type="boolean", nullable=true)
      */
@@ -103,6 +116,7 @@ class Courses
 
     /**
      * @var integer
+     * @Expose
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)
      */
@@ -110,6 +124,7 @@ class Courses
 
     /**
      * @var integer
+     * @Expose
      *
      * @ORM\Column(name="lastUpdated", type="integer", length=255, nullable=true)
      */
@@ -117,10 +132,30 @@ class Courses
 
     /**
      * @var integer
+     * @Expose
      *
      * @ORM\Column(name="lastModified", type="integer", length=255)
      */
     private $lastModified;
+
+    /* Remove after big migrations */
+    /**
+     * @var string
+     * @Expose
+     *
+     * @ORM\Column(name="deviceIds", type="text", nullable=true)
+     */
+    private $deviceIds;
+
+    /**
+     * Get deviceIds
+     *
+     * @return string
+     */
+    public function getDeviceIds()
+    {
+        return $this->deviceIds;
+    }
 
 
 
@@ -197,7 +232,7 @@ class Courses
      * Set courseName
      *
      * @param string $courseName
-     * @return Courses
+     * @return Course
      */
     public function setCourseName($courseName)
     {
@@ -217,26 +252,26 @@ class Courses
     }
 
     /**
-     * Set adminId
+     * Set userId
      *
-     * @param string $adminId
-     * @return Courses
+     * @param integer $userId
+     * @return Course
      */
-    public function setAdminId($adminId)
+    public function setUserId($userId)
     {
-        $this->adminId = $adminId;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get adminId
+     * Get userId
      *
-     * @return string 
+     * @return integer
      */
-    public function getAdminId()
+    public function getUserId()
     {
-        return $this->adminId;
+        return $this->userId;
     }
 
 
@@ -246,7 +281,7 @@ class Courses
      * Set instructorName
      *
      * @param string $instructorName
-     * @return Courses
+     * @return Course
      */
     public function setInstructorName($instructorName)
     {
@@ -269,7 +304,7 @@ class Courses
      * Set createdAt
      *
      * @param integer $createdAt
-     * @return Courses
+     * @return Course
      */
     public function setCreatedAt($createdAt)
     {
@@ -282,7 +317,7 @@ class Courses
      * Set lastUpdated
      *
      * @param integer $lastUpdated
-     * @return Courses
+     * @return Course
      */
     public function setLastUpdated($lastUpdated)
     {
@@ -295,7 +330,7 @@ class Courses
      * Set lastModified
      *
      * @param integer $lastModified
-     * @return Courses
+     * @return Course
      */
     public function setLastModified($lastModified)
     {
@@ -307,33 +342,10 @@ class Courses
 
 
     /**
-     * Set deviceIds
-     *
-     * @param string $deviceIds
-     * @return Courses
-     */
-    public function setDeviceIds($deviceIds)
-    {
-        $this->deviceIds = $deviceIds;
-
-        return $this;
-    }
-
-    /**
-     * Get deviceIds
-     *
-     * @return string
-     */
-    public function getDeviceIds()
-    {
-        return $this->deviceIds;
-    }
-
-    /**
      * Set archived
      *
      * @param boolean $archived
-     * @return Courses
+     * @return Course
      */
     public function setArchived($archived)
     {
@@ -366,7 +378,7 @@ class Courses
      * Set schoolName
      *
      * @param string $schoolName
-     * @return Courses
+     * @return Course
      */
     public function setSchoolName($schoolName)
     {
@@ -389,7 +401,7 @@ class Courses
      * Set courseCode
      *
      * @param string $courseCode
-     * @return Courses
+     * @return Course
      */
     public function setCourseCode($courseCode)
     {
@@ -408,46 +420,18 @@ class Courses
         return $this->courseCode;
     }
 
-    /**
-     * Set consumerIds
-     *
-     * @param string $consumerIds
-     *
-     * @return Courses
-     */
-    public function setConsumerIds($consumerIds)
-    {
-        $this->consumerIds = $consumerIds;
-
-        return $this;
-    }
-
-    /**
-     * Get consumerIds
-     *
-     * @return string
-     */
-    public function getConsumerIds()
-    {
-        return $this->consumerIds;
-    }
-
-
-
-
-
 
 
     /**
      * Add assignment
      *
-     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
+     * @param \Whatsdue\MainBundle\Entity\Assignment $assignment
      *
-     * @return Courses
+     * @return Course
      */
-    public function addAssignment(Assignments $assignment)
+    public function addAssignment(Assignment $assignment)
     {
-        $this->assignment[] = $assignment;
+        $this->assignments[] = $assignment;
 
         return $this;
     }
@@ -455,11 +439,11 @@ class Courses
     /**
      * Remove assignment
      *
-     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
+     * @param \Whatsdue\MainBundle\Entity\Assignment $assignment
      */
-    public function removeAssignment(Assignments $assignment)
+    public function removeAssignment(Assignment $assignment)
     {
-        $this->assignment->removeElement($assignment);
+        $this->assignments->removeElement($assignment);
     }
 
     /**
@@ -469,11 +453,74 @@ class Courses
      */
     public function getAssignments()
     {
-        return $this->assignment;
+        return $this->assignments;
     }
 
     public function cleanObject(){
-        $this->assignment = null;
-        $this->deviceIds = null;
+        $this->students = null;
+        $this->assignments= null;
+    }
+
+
+
+    /**
+     * Add student
+     *
+     * @param \Whatsdue\MainBundle\Entity\Student $student
+     *
+     * @return Course
+     */
+    public function addStudent(Student $student)
+    {
+
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove student
+     *
+     * @param \Whatsdue\MainBundle\Entity\Student $student
+     */
+    public function removeStudent(Student $student)
+    {
+        $this->students->removeElement($student);
+    }
+
+    /**
+     * Get students
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStudents()
+    {
+        return $this->students;
+    }
+
+    /**
+     * Set deviceIds
+     *
+     * @param string $deviceIds
+     *
+     * @return Course
+     */
+    public function setDeviceIds($deviceIds)
+    {
+        $this->deviceIds = $deviceIds;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Whatsdue\MainBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

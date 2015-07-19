@@ -14,37 +14,40 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Whatsdue\MainBundle\Entity\StudentAssignment;
 
 class TestCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('test')
-            ->setDescription('Play with something new')
-            ->addOption(
-                'params',
-                null,
-                InputOption::VALUE_NONE,
-                'If set, we will test parameters'
-            )
-        ;
+            ->setName('task')
+            ->setDescription('random tasks');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('params')) {
-             $this->testParameters();
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $assignments = $this->getContainer()->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Assignment')->findAll();
+        $i=0;
+        $ii=0;
+        foreach ($assignments as $assignment){
+            $students = $assignment->getCourse()->getStudents();
+            foreach ($students as $student){
+                $i++;
+                $ii++;
+                $studentAssignment = new StudentAssignment();
+                $studentAssignment->setStudent($student);
+                $studentAssignment->setAssignment($assignment);
+                $em->merge($studentAssignment);
+            }
+            if ($i>=1000){
+                $i=0;
+                $em->flush();
+                $em->clear();
+                echo "Flushed $ii\n";
+            }
         }
-
-        var_dump(getdate());
         $output->writeln("Finished");
-        return "this is unnecessary";
-    }
-
-    protected function testParameters(){
-        echo $this->getContainer()->getParameter('pipedrive.apiKey');
-        echo "\n";
-        return null;
     }
 }

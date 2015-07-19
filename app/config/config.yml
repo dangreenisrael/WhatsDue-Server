@@ -108,12 +108,17 @@ fos_rest:
     format_listener: false
     view:
         view_response_listener: true
-       ## view: Whatsdue\RestBundle\View\View
     routing_loader:
         default_format: json
-    service:
-        view_handler: api.clean_view_handler
 
+
+
+jms_serializer:
+    metadata:
+        directories:
+            FOSUserBundle:
+                path: "%kernel.root_dir%/Resources/FOSUserBundle/serializer"
+                namespace_prefix: "FOS\\UserBundle"
 
 rms_push_notifications:
     android:

@@ -41,7 +41,7 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
         }
         $em = $this->getContainer()->get('doctrine')->getManager();
         $consumersRepo = $em->getRepository('WhatsdueMainBundle:Consumer');
-        $assignmentsRepo = $em->getRepository('WhatsdueMainBundle:Assignments');
+        $assignmentsRepo = $em->getRepository('WhatsdueMainBundle:Assignment');
         $tomorrow = $moment = new Moment();
         $tomorrow->addDays(1)->format('Y-m-d');
         $dayAfterTomorrow = $moment = new Moment();

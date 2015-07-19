@@ -28,7 +28,6 @@ class AppKernel extends Kernel
             new Whatsdue\UserBundle\WhatsdueUserBundle(),
 
             new FOS\RestBundle\FOSRestBundle(),
-            new Whatsdue\RestBundle\WhatsdueRestBundle(),
 
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
