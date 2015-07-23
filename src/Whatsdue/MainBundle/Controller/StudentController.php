@@ -43,7 +43,7 @@ class StudentController extends FOSRestController{
         } elseif ( $this->getHeader('X-Student-Id') ){
             $student = $studentRepo->find($this->getHeader('X-Student-Id'));
         } else{
-            $student = $studentRepo->find(515);
+            $student = 515;
         }
         $_SESSION['student'] = $student;
         return $student;
@@ -196,7 +196,6 @@ class StudentController extends FOSRestController{
         /* Check if device exists in records*/
         $deviceByPushId = $deviceRepo->findOneBy(array('pushId'=> $pushId));
         $deviceByUuid = $deviceRepo->findOneBy(array('uuid'=> $uuid));
-
         if (!$deviceByUuid && !$deviceByPushId){
             /* Create new Device and Student Record*/
             $student = new Student();
@@ -223,9 +222,12 @@ class StudentController extends FOSRestController{
                 $device = $deviceByUuid;
                 $device->setPushId($pushId);
             }
+            $student = $device->getStudent();
             $em->flush();
         }
-        return array("student"=>$this->getStudent());
+        $_SESSION['student'] = $student;
+
+        return array("student"=>$student);
     }
 
 
@@ -314,6 +316,13 @@ class StudentController extends FOSRestController{
         $student->setNotificationUpdates($data->notification_updates);
         $student->setNotificationTimeLocal($data->notification_time_local);
         $student->setNotificationTimeUtc($data->notification_time_utc);
+        $student->setFirstName($data->first_name);
+        $student->setLastName($data->first_name);
+        $student->setOver12($data->over12);
+        $student->setParentEmail($data->parent_email);
+        $student->setRole($data->role);
+        $student->setSignupDate($data->signup_date);
+
         $em->flush();
         return array("student"=> $student);
     }
