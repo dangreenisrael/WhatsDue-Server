@@ -9,25 +9,44 @@
 namespace Whatsdue\MainBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\FOSRestController;
+
 use FOS\RestBundle\Controller\Annotations\View;
 use Whatsdue\MainBundle\Entity\Device;
 use Whatsdue\MainBundle\Entity\Student;
 use Doctrine\Common\Util\Debug;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use Whatsdue\MainBundle\Entity\ForumMessages;
 
-header("Access-Control-Allow-Headers: courses, accept, content-type, timestamp, sendAll");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Origin: *");
 
-class StudentController extends Controller{
+class StudentController extends FOSRestController{
+
+    public function __construct(){
+
+        /*
+         * Prevent unauthorized users
+         */
+      //  if($this->getHeader("X-Requested-With") != "com.whatsdue.app") exit;
+    }
 
     public function getHeader($header){
         $request = Request::createFromGlobals();
         return $request->headers->get($header);
+    }
+
+    public function getStudent(){
+        $studentRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Student');
+        if (@$_SESSION['student']){
+            $student = $_SESSION['student'];
+        } elseif (@$_POST['primaryKey']){
+            $student = $studentRepo->find($_POST['primaryKey']);
+        } elseif ( $this->getHeader('X-Student-Id') ){
+            $student = $studentRepo->find($this->getHeader('X-Student-Id'));
+        } else{
+            $student = $studentRepo->find(515);
+        }
+        $_SESSION['student'] = $student;
+        return $student;
     }
 
     public function timestamp(){
@@ -36,15 +55,6 @@ class StudentController extends Controller{
     }
 
     /******* Get a list of Courses ********/
-    /**
-     * @return array
-     * @View()
-     */
-    public function optionsAllCoursesAction(){
-        return null;
-    }
-
-
 
     /**
      * @return array
@@ -71,13 +81,6 @@ class StudentController extends Controller{
 
     /******* Get Assignments by ID: json array of course IDs ********/
 
-    /**
-     * @return array
-     * @View()
-     */
-    public function optionsAssignmentsAction(){
-        return null;
-    }
 
     public function filterAssignments($assignment){
         if ($this->getHeader('sendAll') == true){
@@ -96,13 +99,11 @@ class StudentController extends Controller{
         $courses = json_decode($this->getHeader('courses'));
         $currentTime = $this->timestamp();
         $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Assignment');
-
         $assignments = $repo
             ->findBy( array(
                 'courseId' => $courses
             ));
         $assignments = array_filter($assignments, array($this, 'filterAssignments'));
-
         $data = array(
             "assignment"=>$assignments,
             "meta"=>array(
@@ -112,16 +113,12 @@ class StudentController extends Controller{
         return $data;
     }
 
+    public function putAssignmentCompleteAction($assignmentId){
+
+    }
+
 
     /******* Get Messages by ID: json array of course IDs ********/
-
-    /**
-     * @return array
-     * @View()
-     */
-    public function optionsMessagesAction(){
-        return null;
-    }
 
     public function filterMessages($message){
         if ($this->getHeader('sendAll') == true){
@@ -156,11 +153,11 @@ class StudentController extends Controller{
         return $data;
     }
 
-    /**
-     * @return array
-     * @View()
-     */
-
+//    /**
+//     * @return array
+//     * @View()
+//     */
+//
 //    public function postStudentAction(){
 //        $uuid = $_POST['uuid'];
 //        $platform = $_POST['platform'];
@@ -176,7 +173,7 @@ class StudentController extends Controller{
 //            $em->persist($student);
 //        }
 //        $em->flush();
-//
+//        $_SESSION['studentId'] = $student->getId();
 //        return array("primaryKey"=>$student->getId());
 //    }
 
@@ -202,22 +199,20 @@ class StudentController extends Controller{
 
         if (!$deviceByUuid && !$deviceByPushId){
             /* Create new Device and Student Record*/
-            $device = new Device();
-            $device->setUuid($uuid);
-            $device->setPlatform($platform);
-            $device->setPushId($pushId);
-            $em->persist($device);
-            $em->flush();
-
             $student = new Student();
-            $student->setDevices(json_encode($device->getId()));
-            //$student->setCourses('[]');
             $student->setNotifications(true);
             $student->setNotificationUpdates(true);
             $student->setNotificationTimeLocal("0000");
             $student->setNotificationTimeUtc("0000");
-
             $em->persist($student);
+
+            $device = new Device();
+            $device->setUuid($uuid);
+            $device->setPlatform($platform);
+            $device->setPushId($pushId);
+            $device->setStudent($student);
+            $em->persist($device);
+
             $em->flush();
         } else{
             /* Return existing Student record */
@@ -229,14 +224,24 @@ class StudentController extends Controller{
                 $device->setPushId($pushId);
             }
             $em->flush();
-            $student = $em->getRepository('WhatsdueMainBundle:Student')->find($device->getStudentId());
         }
-
-
-        return array("student"=>$student);
+        return array("student"=>$this->getStudent());
     }
 
 
+    /**
+     * @return array
+     * @View()
+     *
+     * Depreciated August 2015
+     */
+
+    public function postCourseEnrollAction($courseId){
+        $em = $this->getDoctrine()->getManager();
+        $courseCode = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId)->getCourseCode();
+        $this->putCoursesEnrollAction($courseCode);
+        return "Added Student";
+    }
 
     /**
      * @return array
@@ -244,14 +249,13 @@ class StudentController extends Controller{
      *
      */
 
-    public function putStudentsCoursesEnrollAction($studentId, $courseCode){
+    public function putCoursesEnrollAction($courseCode){
         $em = $this->getDoctrine()->getManager();
         $course = $em
             ->getRepository('WhatsdueMainBundle:Course')
             ->findOneBy(array('courseCode'=> $courseCode));
         if($course){
-            $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
-            $course->addStudent($student);
+            $course->addStudent($this->getStudent());
             $em->flush();
             return array(
                 "course" => $course,
@@ -266,47 +270,36 @@ class StudentController extends Controller{
     }
 
 
+    /**
+     * @return array
+     * @View()
+     *
+     * Depreciated August 2015
+     */
+
+    public function postCourseUnenrollAction($courseId){
+        $em = $this->getDoctrine()->getManager();
+        $courseCode = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId)->getCourseCode();
+        $this->putCourseUnenrollAction($courseId);
+        return "Removed Student";
+    }
 
     /**
      * @return array
      * @View()
      */
 
-    public function putStudentsCoursesUnenrollAction($studentId, $courseId){
+    public function putCourseUnenrollAction($courseId){
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
+        $student = $this->getStudent();
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
         $student->removeCourse($course);
         $course->removeStudent($student);
         $em->flush();
-
         return array("student"=> $course);
     }
 
 
-    /**
-     * @return array
-     * @View()
-     */
-    public function optionsStudentCoursesEnrollAction($studentId, $courseId){
-        return null;
-    }
-
-    /**
-     * @return array
-     * @View()
-     */
-    public function optionsStudentCoursesUnenrollAction($studentId, $courseId){
-        return null;
-    }
-
-    /**
-     * @return array
-     * @View()
-     */
-    public function optionsStudentsAction($studentId){
-        return null;
-    }
 
     /**
      * @return array
@@ -314,9 +307,9 @@ class StudentController extends Controller{
      */
 
     public function putStudentsAction($studentId, Request $request){
+        $student = $this->getStudent();
         $data = json_decode($request->getContent())->student;
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
         $student->setNotifications($data->notifications);
         $student->setNotificationUpdates($data->notification_updates);
         $student->setNotificationTimeLocal($data->notification_time_local);
@@ -328,13 +321,14 @@ class StudentController extends Controller{
     /**
      * @return array
      * @View()
+     *
+     * Note: As an ember hack we need to make student in an array
      */
 
-    public function getStudentsAction($studentId){
-        $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
-        return array("student"=> $student);
+    public function getStudentsAction(){
+        return array("student"=> array($this->getStudent()));
     }
+
 
 
 
@@ -343,65 +337,34 @@ class StudentController extends Controller{
     /**
      * @return array
      * @View()
-     *
      * Depreciated August 2015
      */
+    public function getAllCoursesAction(){
+        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Course');
+        $sendAll = $this->getHeader('sendAll');
+        $timestamp = json_decode($this->getHeader('timestamp'));
+        if ($sendAll == true){
+            $courses = $courses->findAll();
+        } else{
+            $query = $courses->createQueryBuilder('p')
+                ->where('p.lastModified >= :timestamp')
+                ->setParameter('timestamp', $timestamp)
+                ->getQuery();
+            $courses = $query->getResult();
+        }
 
-    public function postCourseEnrollAction($courseId){
-        $studentId = $_POST['primaryKey'];
-        $em = $this->getDoctrine()->getManager();
-        $courseCode = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId)->getCourseCode();
-        $this->putStudentsCoursesEnrollAction($studentId, $courseCode);
-        return "Added Student";
+        $cleanCourses = [];
+        foreach($courses as $course){
+            $course->setDeviceIds(null);
+            $cleanCourses[] = $course;
+        }
+
+        $data = array(
+            "course"=>$cleanCourses,
+            "meta"=>array(
+                "timestamp"=> $this->timestamp()
+            )
+        );
+        return $data;
     }
-
-    /**
-     * @return array
-     * @View()
-     *
-     * Depreciated August 2015
-     */
-
-    public function postCourseUnenrollAction($courseId){
-        $studentId = $_POST['primaryKey'];
-        $em = $this->getDoctrine()->getManager();
-        $courseCode = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId)->getCourseCode();
-        $this->putStudentsCoursesUnenrollAction($studentId, $courseCode);
-        return "Removed Student";
-    }
-
-//    /**
-//     * @return array
-//     * @View()
-//     * Depreciated August 2015
-//     */
-//    public function getAllCoursesAction(){
-//        $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Course');
-//        $sendAll = $this->getHeader('sendAll');
-//        $timestamp = json_decode($this->getHeader('timestamp'));
-//        if ($sendAll == true){
-//            $courses = $courses->findAll();
-//        } else{
-//            $query = $courses->createQueryBuilder('p')
-//                ->where('p.lastModified >= :timestamp')
-//                ->setParameter('timestamp', $timestamp)
-//                ->getQuery();
-//            $courses = $query->getResult();
-//        }
-//
-//        $cleanCourses = [];
-//        foreach($courses as $course){
-//            $course->setDeviceIds(null);
-//            $cleanCourses[] = $course;
-//        }
-//
-//        $data = array(
-//            "course"=>$cleanCourses,
-//            "meta"=>array(
-//                "timestamp"=> $this->timestamp()
-//            )
-//        );
-//        return $data;
-//    }
 }
-

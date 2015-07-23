@@ -4,23 +4,25 @@ namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Whatsdue\MainBundle\Entity\Courses;
+use Whatsdue\MainBundle\Entity\Course;
 use Whatsdue\MainBundle\Entity\Device;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 
 /**
  * Students
  *
- * @ORM\Table(name="Students"))
+ * @ORM\Table(name="student")
  * @ORM\Entity
+ * @ExclusionPolicy("all")
  */
 class Student
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="StudentAssignment", inversedBy="student")
-     * @ORM\JoinColumn(name="student", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="student")
      **/
     private $studentAssignments;
 
@@ -31,11 +33,12 @@ class Student
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Courses", mappedBy="students")
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="students")
      **/
     private $courses;
 
     public function __construct() {
+        $this->studentAssignments = new ArrayCollection();
         $this->devices = new ArrayCollection();
         $this->courses = new ArrayCollection();
     }
@@ -46,6 +49,7 @@ class Student
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
@@ -53,12 +57,14 @@ class Student
      * @var boolean
      *
      * @ORM\Column(name="notifications", type="boolean")
+     * @Expose
      */
     private $notifications;
     /**
      * @var boolean
      *
      * @ORM\Column(name="notificationUpdates", type="boolean")
+     * @Expose
      */
     private $notificationUpdates;
 
@@ -66,6 +72,7 @@ class Student
      * @var string
      *
      * @ORM\Column(name="notificationTimeLocal", type="string", length=255)
+     * @Expose
      */
     private $notificationTimeLocal;
 
@@ -73,8 +80,58 @@ class Student
      * @var string
      *
      * @ORM\Column(name="notificationTimeUTC", type="string", length=255)
+     * @Expose
      */
     private $notificationTimeUtc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstName", type="string", length=50)
+     * @Expose
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastName", type="string", length=50)
+     * @Expose
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=50)
+     * @Expose
+     */
+    private $role;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="over12", type="boolean")
+     * @Expose
+     */
+    private $over12;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parentEmail", type="string", length=255)
+     * @Expose
+     */
+    private $parentEmail;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="signupDate", type="string")
+     * @Expose
+     */
+    private $signupDate;
 
 
 
@@ -191,11 +248,11 @@ class Student
     /**
      * Add course
      *
-     * @param \Whatsdue\MainBundle\Entity\Courses $course
+     * @param \Whatsdue\MainBundle\Entity\Course $course
      *
      * @return Student
      */
-    public function addCourse(Courses $course)
+    public function addCourse(Course $course)
     {
         $this->courses[] = $course;
 
@@ -205,9 +262,9 @@ class Student
     /**
      * Remove course
      *
-     * @param \Whatsdue\MainBundle\Entity\Courses $course
+     * @param \Whatsdue\MainBundle\Entity\Course $course
      */
-    public function removeCourse(Courses $course)
+    public function removeCourse(Course $course)
     {
         $this->courses->removeElement($course);
     }
@@ -256,24 +313,36 @@ class Student
         return $this->devices;
     }
 
+
+
     /**
-     * Set studentAssignments
+     * Add studentAssignment
      *
-     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignments
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
      *
      * @return Student
      */
-    public function setStudentAssignments(\Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignments = null)
+    public function addStudentAssignment(StudentAssignment $studentAssignment)
     {
-        $this->studentAssignments = $studentAssignments;
+        $this->studentAssignments[] = $studentAssignment;
 
         return $this;
     }
 
     /**
+     * Remove studentAssignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
+     */
+    public function removeStudentAssignment(StudentAssignment $studentAssignment)
+    {
+        $this->studentAssignments->removeElement($studentAssignment);
+    }
+
+    /**
      * Get studentAssignments
      *
-     * @return \Whatsdue\MainBundle\Entity\StudentAssignment
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getStudentAssignments()
     {

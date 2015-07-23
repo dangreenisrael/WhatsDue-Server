@@ -3,21 +3,21 @@
 namespace Whatsdue\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Whatsdue\MainBundle\Entity\Assignments;
+use Whatsdue\MainBundle\Entity\Assignment;
 use Whatsdue\MainBundle\Entity\Student;
 
 
 /**
- * StudentAssignments
+ * StudentAssignment
  *
- * @ORM\Table(name="StudentAssignments")
+ * @ORM\Table(name="student_assignment")
  * @ORM\Entity
  */
 class StudentAssignment
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="Assignments", inversedBy="studentAssignments")
+     * @ORM\ManyToOne(targetEntity="Assignment", inversedBy="studentAssignments")
      * @ORM\JoinColumn(name="assignment", referencedColumnName="id")
      **/
     private $assignment;
@@ -27,7 +27,6 @@ class StudentAssignment
      * @ORM\JoinColumn(name="student", referencedColumnName="id")
      **/
     private $student;
-
 
     /**
      * @var integer
@@ -41,14 +40,14 @@ class StudentAssignment
     /**
      * @var boolean
      *
-     * @ORM\Column(name="completed", type="boolean")
+     * @ORM\Column(name="completed", type="boolean", nullable=true)
      */
     private $completed;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="dateCompleted", type="string", length=50)
+     * @ORM\Column(name="dateCompleted", type="string", length=50,  nullable=true)
      */
     private $dateCompleted;
 
@@ -68,7 +67,7 @@ class StudentAssignment
      *
      * @param boolean $completed
      *
-     * @return StudentAssignments
+     * @return StudentAssignment
      */
     public function setCompleted($completed)
     {
@@ -128,11 +127,11 @@ class StudentAssignment
     /**
      * Set assignment
      *
-     * @param \Whatsdue\MainBundle\Entity\Assignments $assignment
+     * @param \Whatsdue\MainBundle\Entity\Assignment $assignment
      *
      * @return StudentAssignment
      */
-    public function setAssignment(\Whatsdue\MainBundle\Entity\Assignments $assignment = null)
+    public function setAssignment(Assignment $assignment = null)
     {
         $this->assignment = $assignment;
 
@@ -142,7 +141,7 @@ class StudentAssignment
     /**
      * Get assignment
      *
-     * @return \Whatsdue\MainBundle\Entity\Assignments
+     * @return \Whatsdue\MainBundle\Entity\Assignment
      */
     public function getAssignment()
     {
@@ -156,7 +155,7 @@ class StudentAssignment
      *
      * @return StudentAssignment
      */
-    public function setStudent(\Whatsdue\MainBundle\Entity\Student $student = null)
+    public function setStudent(Student $student = null)
     {
         $this->student = $student;
 

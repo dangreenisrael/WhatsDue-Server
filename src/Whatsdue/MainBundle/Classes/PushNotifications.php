@@ -63,31 +63,33 @@ class PushNotifications {
 
     }
 
-    public function sendChangeNotifications($title, $message, $consumerIds){
-        $consumers = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Consumer')->findById($consumerIds);
-        $consumersToNotify = [];
-        if ($consumers){
-            foreach($consumers as $consumer){
-                $timePreference = $consumer->getNotificationTimeUTC();
+    public function sendChangeNotifications($title, $message, $students){
+        $studentsToNotify = [];
+        if ($students){
+            foreach($students as $student){
+                $timePreference = $student->getNotificationTimeUTC();
                 $timeCurrent    = date('Hi'); // 'Hi' is a date format
                 if ($timeCurrent > $timePreference){
-                    $consumersToNotify[] = $consumer;
+                    $studentsToNotify[] = $student;
                 }
             }
         }
-        $this->sendNotifications($title, $message, $consumersToNotify);
+        $this->sendNotifications($title, $message, $studentsToNotify);
     }
 
-    public function sendNotifications($title, $message, $consumers){
+    public function sendNotifications($title, $message, $students){
         $androidUsers = [];
         $iosUsers = [];
-        $deviceIds = [];
-        if ($consumers){
-            foreach($consumers as $consumer){
-                $deviceIds = array_merge($deviceIds, json_decode($consumer->getDevices(), true));
+        $devices = [];
+        if ($students){
+            foreach($students as $student){
+                $studentDevices = $student->getDevices();
+                foreach($studentDevices as $studentDevice){
+                    $devices[] = $studentDevice;
+                }
             }
         }
-        $devices = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Device')->findById($deviceIds);
+
         foreach($devices as $device){
             if ($device->getPlatform() == "Android"){
                 $androidUsers[] = $device->getPushId();

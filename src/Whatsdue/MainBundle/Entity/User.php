@@ -32,7 +32,7 @@ class User extends BaseUser
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="user", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="user", fetch="EXTRA_LAZY", cascade={"all"})
      **/
     private $courses;
 

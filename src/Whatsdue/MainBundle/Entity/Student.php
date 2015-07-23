@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Whatsdue\MainBundle\Entity\Course;
 use Whatsdue\MainBundle\Entity\Device;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 
 /**
@@ -14,13 +16,13 @@ use Whatsdue\MainBundle\Entity\StudentAssignment;
  *
  * @ORM\Table(name="student")
  * @ORM\Entity
+ * @ExclusionPolicy("all")
  */
 class Student
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="StudentAssignment", inversedBy="student")
-     * @ORM\JoinColumn(name="student", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="student")
      **/
     private $studentAssignments;
 
@@ -36,6 +38,7 @@ class Student
     private $courses;
 
     public function __construct() {
+        $this->studentAssignments = new ArrayCollection();
         $this->devices = new ArrayCollection();
         $this->courses = new ArrayCollection();
     }
@@ -46,6 +49,7 @@ class Student
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
@@ -53,12 +57,14 @@ class Student
      * @var boolean
      *
      * @ORM\Column(name="notifications", type="boolean")
+     * @Expose
      */
     private $notifications;
     /**
      * @var boolean
      *
      * @ORM\Column(name="notificationUpdates", type="boolean")
+     * @Expose
      */
     private $notificationUpdates;
 
@@ -66,6 +72,7 @@ class Student
      * @var string
      *
      * @ORM\Column(name="notificationTimeLocal", type="string", length=255)
+     * @Expose
      */
     private $notificationTimeLocal;
 
@@ -73,8 +80,58 @@ class Student
      * @var string
      *
      * @ORM\Column(name="notificationTimeUTC", type="string", length=255)
+     * @Expose
      */
     private $notificationTimeUtc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstName", type="string", length=50)
+     * @Expose
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastName", type="string", length=50)
+     * @Expose
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=50)
+     * @Expose
+     */
+    private $role;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="over12", type="boolean")
+     * @Expose
+     */
+    private $over12;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parentEmail", type="string", length=255)
+     * @Expose
+     */
+    private $parentEmail;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="signupDate", type="string")
+     * @Expose
+     */
+    private $signupDate;
 
 
 
@@ -256,27 +313,183 @@ class Student
         return $this->devices;
     }
 
+
+
     /**
-     * Set studentAssignments
+     * Add studentAssignment
      *
-     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignments
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
      *
      * @return Student
      */
-    public function setStudentAssignments(StudentAssignment $studentAssignments = null)
+    public function addStudentAssignment(StudentAssignment $studentAssignment)
     {
-        $this->studentAssignments = $studentAssignments;
+        $this->studentAssignments[] = $studentAssignment;
 
         return $this;
     }
 
     /**
+     * Remove studentAssignment
+     *
+     * @param \Whatsdue\MainBundle\Entity\StudentAssignment $studentAssignment
+     */
+    public function removeStudentAssignment(StudentAssignment $studentAssignment)
+    {
+        $this->studentAssignments->removeElement($studentAssignment);
+    }
+
+    /**
      * Get studentAssignments
      *
-     * @return \Whatsdue\MainBundle\Entity\StudentAssignment
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getStudentAssignments()
     {
         return $this->studentAssignments;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return Student
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return Student
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return Student
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set over12
+     *
+     * @param boolean $over12
+     *
+     * @return Student
+     */
+    public function setOver12($over12)
+    {
+        $this->over12 = $over12;
+
+        return $this;
+    }
+
+    /**
+     * Get over12
+     *
+     * @return boolean
+     */
+    public function getOver12()
+    {
+        return $this->over12;
+    }
+
+    /**
+     * Set parentEmail
+     *
+     * @param string $parentEmail
+     *
+     * @return Student
+     */
+    public function setParentEmail($parentEmail)
+    {
+        $this->parentEmail = $parentEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get parentEmail
+     *
+     * @return string
+     */
+    public function getParentEmail()
+    {
+        return $this->parentEmail;
+    }
+
+    /**
+     * Set signupDate
+     *
+     * @param string $signupDate
+     *
+     * @return Student
+     */
+    public function setSignupDate($signupDate)
+    {
+        $this->signupDate = $signupDate;
+
+        return $this;
+    }
+
+    /**
+     * Get signupDate
+     *
+     * @return string
+     */
+    public function getSignupDate()
+    {
+        return $this->signupDate;
     }
 }

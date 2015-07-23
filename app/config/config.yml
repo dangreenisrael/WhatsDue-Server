@@ -51,7 +51,6 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
@@ -96,8 +95,6 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
 
 
-
-
 # RESTful API
 
 sensio_framework_extra:
@@ -111,7 +108,13 @@ fos_rest:
     routing_loader:
         default_format: json
 
-
+nelmio_cors:
+    paths:
+        '^/student/':
+            allow_origin:  ['*']
+            allow_headers: ['*']
+            allow_methods: ['OPTIONS','POST', 'PUT', 'GET', 'DELETE']
+            max_age: 3600
 
 jms_serializer:
     metadata:

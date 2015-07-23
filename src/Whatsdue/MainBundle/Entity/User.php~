@@ -11,11 +11,15 @@ namespace Whatsdue\MainBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Whatsdue\MainBundle\Entity\Course;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @ExclusionPolicy("all")
  */
 
 /*
@@ -28,7 +32,7 @@ class User extends BaseUser
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Courses", mappedBy="user", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="user", fetch="EXTRA_LAZY", cascade={"all"})
      **/
     private $courses;
 
@@ -40,57 +44,96 @@ class User extends BaseUser
     }
 
 
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Expose
      */
     protected $id;
 
 
-    /** @ORM\Column(name="signup_date", type="string", nullable=true) */
+    /**
+     * @ORM\Column(name="signup_date", type="string", nullable=true)
+     * @Expose
+     */
     protected $signupDate;
 
-    /** @ORM\Column(name="settings", type="string", nullable=true) */
+    /**
+     * @ORM\Column(name="settings", type="string", nullable=true)
+     * @Expose
+     */
     protected $settings;
 
-    /** @ORM\Column(name="salutation", type="string") */
+    /**
+     * @ORM\Column(name="salutation", type="string")
+     * @Expose
+     */
     protected $salutation;
 
-    /** @ORM\Column(name="first_name", type="string") */
+    /**
+     * @ORM\Column(name="first_name", type="string")
+     * @Expose
+     */
     protected $firstName;
 
-    /** @ORM\Column(name="last_name", type="string") */
+    /**
+     * @ORM\Column(name="last_name", type="string")
+     * @Expose
+     */
     protected $lastName;
 
-    /** @ORM\Column(name="institution_name", type="string") */
+    /**
+     * @ORM\Column(name="institution_name", type="string")
+     * @Expose
+     */
     protected $institutionName;
 
-    /** @ORM\Column(name="unique_followers", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="unique_followers", type="integer", nullable=true)
+     * @Expose
+     */
     protected $uniqueFollowers;
 
-    /** @ORM\Column(name="unique_invitations", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="unique_invitations", type="integer", nullable=true)
+     * @Expose
+     */
     protected $uniqueInvitations;
 
-    /** @ORM\Column(name="total_courses", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="total_courses", type="integer", nullable=true)
+     * @Expose
+     */
     protected $totalCourses;
 
-    /** @ORM\Column(name="total_assignments", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="total_assignments", type="integer", nullable=true)
+     * @Expose
+     */
     protected $totalAssignments;
 
-    /** @ORM\Column(name="pipedrive_stage", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="pipedrive_stage", type="integer", nullable=true)
+     */
     protected $pipedriveStage;
 
-    /** @ORM\Column(name="institution_abbreviation", type="string", nullable=true) */
-    protected $institutionAbbreviation;
 
-    /** @ORM\Column(name="pipedrive_deal", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="pipedrive_deal", type="integer", nullable=true)
+     */
     protected $pipedriveDeal;
 
-    /** @ORM\Column(name="pipedrive_person", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="pipedrive_person", type="integer", nullable=true)
+     */
     protected $pipedrivePerson;
 
-    /** @ORM\Column(name="pipedrive_organization", type="integer", nullable=true) */
+    /**
+     * @ORM\Column(name="pipedrive_organization", type="integer", nullable=true)
+     */
     protected $pipedriveOrganization;
 
 
@@ -235,29 +278,6 @@ class User extends BaseUser
     }
 
 
-
-    /**
-     * Set Institution Abbreviation
-     *
-     * @param string $institutionAbbreviation
-     * @return User
-     */
-    public function setInstitutionAbbreviation($institutionAbbreviation)
-    {
-        $this->institutionAbbreviation = $institutionAbbreviation;
-
-        return $this;
-    }
-
-    /**
-     * Get Institution Abbreviation
-     *
-     * @return string
-     */
-    public function getInstitutionAbbreviation()
-    {
-        return $this->institutionAbbreviation;
-    }
 
     /**
      * Set Pipedrive Stage
@@ -461,5 +481,39 @@ class User extends BaseUser
     }
 
     public function cleanObject(){
+    }
+
+    /**
+     * Add course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     *
+     * @return User
+     */
+    public function addCourse(Course $course)
+    {
+        $this->courses[] = $course;
+
+        return $this;
+    }
+
+    /**
+     * Remove course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     */
+    public function removeCourse(Course $course)
+    {
+        $this->courses->removeElement($course);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
 }

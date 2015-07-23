@@ -57,8 +57,7 @@ class LifecycleActions {
             $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Course')->find($entity->getCourseId());
             $title = $course->getCourseName();
             $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
-            $consumerIDs = json_decode($course->getConsumerIds(), true);
-            $this->pushNotifications->sendChangeNotifications($title, $message, $consumerIDs);
+            $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
         }
 
         if ($entity instanceof User) {
@@ -102,8 +101,7 @@ class LifecycleActions {
                 $title = 'Assignment Updated';
                 $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
             }
-            $consumerIDs = json_decode($course->getConsumerIds(), true);
-            $this->pushNotifications->sendChangeNotifications($title, $message, $consumerIDs);
+            $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
         }
     }
 }

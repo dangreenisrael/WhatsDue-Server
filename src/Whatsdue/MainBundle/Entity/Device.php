@@ -17,7 +17,7 @@ class Device
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="Student", inversedBy="devices")
+     * @ORM\ManyToOne(targetEntity="Student", inversedBy="devices", cascade={"all"})
      * @ORM\JoinColumn(name="studentId", referencedColumnName="id")
      **/
     private $student;
@@ -205,7 +205,7 @@ class Device
      *
      * @return Device
      */
-    public function setStudent(\Whatsdue\MainBundle\Entity\Student $student = null)
+    public function setStudent(Student $student = null)
     {
         $this->student = $student;
 
