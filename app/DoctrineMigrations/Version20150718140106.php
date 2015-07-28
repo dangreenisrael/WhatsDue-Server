@@ -37,7 +37,7 @@ class Version20150718140106 extends AbstractMigration implements ContainerAwareI
         /*
          * Set foreign keys and indexes
          */
-        $this->addSql('ALTER TABLE fos_user CHANGE username username VARCHAR(255) NOT NULL, CHANGE email email VARCHAR(255) NOT NULL, CHANGE salt salt VARCHAR(255) NOT NULL, CHANGE password password VARCHAR(255) NOT NULL, CHANGE settings settings VARCHAR(255) DEFAULT NULL, CHANGE username_canonical username_canonical VARCHAR(255) NOT NULL, CHANGE email_canonical email_canonical VARCHAR(255) NOT NULL, CHANGE roles roles LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', CHANGE first_name first_name VARCHAR(255) NOT NULL, CHANGE last_name last_name VARCHAR(255) NOT NULL, CHANGE institution_abbreviation institution_abbreviation VARCHAR(255) DEFAULT NULL, CHANGE institution_name institution_name VARCHAR(255) NOT NULL, CHANGE salutation salutation VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE fos_user CHANGE username username VARCHAR(255) NOT NULL, CHANGE email email VARCHAR(255) NOT NULL, CHANGE salt salt VARCHAR(255) NOT NULL, CHANGE password password VARCHAR(255) NOT NULL, CHANGE settings settings VARCHAR(255) DEFAULT NULL, CHANGE username_canonical username_canonical VARCHAR(255) NOT NULL, CHANGE email_canonical email_canonical VARCHAR(255) NOT NULL, CHANGE roles roles LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', CHANGE first_name first_name VARCHAR(255) NOT NULL, CHANGE last_name last_name VARCHAR(255) NOT NULL, CHANGE institution_name institution_name VARCHAR(255) NOT NULL, CHANGE salutation salutation VARCHAR(255) NOT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_957A647992FC23A8 ON fos_user (username_canonical)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_957A6479A0D96FBF ON fos_user (email_canonical)');
 
@@ -45,15 +45,15 @@ class Version20150718140106 extends AbstractMigration implements ContainerAwareI
         $this->addSql('CREATE INDEX IDX_30C544BAC2B73C54 ON assignment (courseId)');
         $this->addSql('ALTER TABLE assignment ADD CONSTRAINT FK_B616DF0AC2B73C54 FOREIGN KEY (courseId) REFERENCES course (id)');
 
-        $this->addSql('ALTER TABLE course CHANGE schoolName schoolName LONGTEXT NOT NULL, CHANGE courseCode courseCode VARCHAR(10) DEFAULT NULL');
+        $this->addSql('ALTER TABLE course CHANGE courseCode courseCode VARCHAR(10) DEFAULT NULL');
         $this->addSql('ALTER TABLE course ADD CONSTRAINT FK_661863D02D696931 FOREIGN KEY (userId) REFERENCES fos_user (id)');
-        $this->addSql('CREATE INDEX IDX_169E6FB92D696931 ON course (userId)');
+        $this->addSql('CREATE INDEX IDX_169E6FB964B64DCC ON course (userId)');
 
         $this->addSql('ALTER TABLE device ADD CONSTRAINT FK_DEBA770698BF2F98 FOREIGN KEY (studentId) REFERENCES student (id)');
         $this->addSql('CREATE INDEX IDX_92FB68E98BF2F98 ON device (studentId)');
 
-        $this->addSql('ALTER TABLE student ADD CONSTRAINT FK_B723AF33B723AF33 FOREIGN KEY (student) REFERENCES student_assignment (id)');
-        $this->addSql('CREATE INDEX IDX_B723AF33B723AF33 ON student (student)');
+        $this->addSql('ALTER TABLE assignment CHANGE adminID adminId VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE student_assignment CHANGE datecompleted completedDate INT DEFAULT NULL');
 
     }
 

@@ -34,19 +34,16 @@ class StudentController extends FOSRestController{
         return $request->headers->get($header);
     }
 
-    public function getStudent(){
+    public function getStudentId(){
         $studentRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Student');
-        if (@$_SESSION['student']){
-            $student = $_SESSION['student'];
-        } elseif (@$_POST['primaryKey']){
-            $student = $studentRepo->find($_POST['primaryKey']);
+        if (@$_SESSION['studentId']) {
+            $studentId = $_SESSION['studentId'];
         } elseif ( $this->getHeader('X-Student-Id') ){
-            $student = $studentRepo->find($this->getHeader('X-Student-Id'));
+            $studentId = $studentRepo->find($this->getHeader('X-Student-Id'));
         } else{
-            $student = 515;
+            $studentId = 515;
         }
-        $_SESSION['student'] = $student;
-        return $student;
+        return $studentId;
     }
 
     public function timestamp(){
@@ -113,10 +110,24 @@ class StudentController extends FOSRestController{
         return $data;
     }
 
-    public function putAssignmentCompleteAction($assignmentId){
-
+    /**
+     * @return array
+     * @View()
+     */
+    public function putAssignmentAction($assignmentId, Request $request){
+        $data = json_decode($request->getContent())->assignment;
+        $studentId = $this->getStudentId();
+        $em = $this->getDoctrine()->getManager();
+        $studentAssignment = $em->getRepository('WhatsdueMainBundle:StudentAssignment')
+            ->findOneBy(array(
+                "assignment"=>$assignmentId,
+                "student"   =>$studentId
+            ));
+        $studentAssignment->setCompleted($data->completed);
+        $studentAssignment->setCompletedDate($data->completed_date);
+        $em->flush();
+        return $studentAssignment;
     }
-
 
     /******* Get Messages by ID: json array of course IDs ********/
 
@@ -178,9 +189,6 @@ class StudentController extends FOSRestController{
 //    }
 
 
-
-
-
     /**
      * @return array
      * @View()
@@ -203,6 +211,7 @@ class StudentController extends FOSRestController{
             $student->setNotificationUpdates(true);
             $student->setNotificationTimeLocal("0000");
             $student->setNotificationTimeUtc("0000");
+            $student->setOver12(true);
             $em->persist($student);
 
             $device = new Device();
@@ -225,8 +234,7 @@ class StudentController extends FOSRestController{
             $student = $device->getStudent();
             $em->flush();
         }
-        $_SESSION['student'] = $student;
-
+        $_SESSION['studentId'] = $student->getId();
         return array("student"=>$student);
     }
 
@@ -253,11 +261,13 @@ class StudentController extends FOSRestController{
 
     public function putCoursesEnrollAction($courseCode){
         $em = $this->getDoctrine()->getManager();
+        $studentRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Student');
+        $student = $studentRepo->find($this->getStudentId());
         $course = $em
             ->getRepository('WhatsdueMainBundle:Course')
             ->findOneBy(array('courseCode'=> $courseCode));
         if($course){
-            $course->addStudent($this->getStudent());
+            $course->addStudent($student);
             $em->flush();
             return array(
                 "course" => $course,
@@ -293,7 +303,7 @@ class StudentController extends FOSRestController{
 
     public function putCourseUnenrollAction($courseId){
         $em = $this->getDoctrine()->getManager();
-        $student = $this->getStudent();
+        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
         $student->removeCourse($course);
         $course->removeStudent($student);
@@ -306,10 +316,13 @@ class StudentController extends FOSRestController{
     /**
      * @return array
      * @View()
+     *
+     * Ember hack requires this $fillerId variable
      */
 
-    public function putStudentsAction($studentId, Request $request){
-        $student = $this->getStudent();
+    public function putStudentsAction($fillerId, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
         $data = json_decode($request->getContent())->student;
         $em = $this->getDoctrine()->getManager();
         $student->setNotifications($data->notifications);
@@ -317,12 +330,11 @@ class StudentController extends FOSRestController{
         $student->setNotificationTimeLocal($data->notification_time_local);
         $student->setNotificationTimeUtc($data->notification_time_utc);
         $student->setFirstName($data->first_name);
-        $student->setLastName($data->first_name);
+        $student->setLastName($data->last_name);
         $student->setOver12($data->over12);
         $student->setParentEmail($data->parent_email);
         $student->setRole($data->role);
         $student->setSignupDate($data->signup_date);
-
         $em->flush();
         return array("student"=> $student);
     }
@@ -335,7 +347,9 @@ class StudentController extends FOSRestController{
      */
 
     public function getStudentsAction(){
-        return array("student"=> array($this->getStudent()));
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
+        return array("student"=> array($student));
     }
 
 

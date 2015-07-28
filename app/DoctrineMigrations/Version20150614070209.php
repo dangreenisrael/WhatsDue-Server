@@ -55,6 +55,13 @@ class Version20150614070209 extends AbstractMigration implements ContainerAwareI
         $this->addSql('DROP TABLE ForumMessages');
 
         /*
+         * Remove old columns
+         */
+        $this->addSql('ALTER TABLE fos_user DROP institution_abbreviation');
+        $this->addSql('ALTER TABLE course DROP schoolName');
+
+
+        /*
          * Change old students to devices
          */
         $this->addSql('ALTER TABLE student RENAME TO device');
@@ -65,19 +72,20 @@ class Version20150614070209 extends AbstractMigration implements ContainerAwareI
         /*
          * Setup new student table
          */
-        $this->addSql('CREATE TABLE student (id INT AUTO_INCREMENT NOT NULL, student INT DEFAULT NULL, notifications TINYINT(1) NOT NULL, notificationUpdates TINYINT(1) NOT NULL, notificationTimeLocal VARCHAR(255) NOT NULL, notificationTimeUTC VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE student (id INT AUTO_INCREMENT NOT NULL, notifications TINYINT(1) NOT NULL, notificationUpdates TINYINT(1) NOT NULL, notificationTimeLocal VARCHAR(255) NOT NULL, notificationTimeUTC VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('INSERT INTO student (id) SELECT id FROM device');
         $this->addSql('UPDATE student SET notifications=1');
         $this->addSql('UPDATE student SET notificationUpdates=1');
         $this->addSql('UPDATE student SET notificationTimeLocal="0000"');
         $this->addSql('UPDATE student SET notificationTimeUTC="0000"');
+        $this->addSql('ALTER TABLE student ADD firstName VARCHAR(50) NOT NULL, ADD lastName VARCHAR(50) NOT NULL, ADD role VARCHAR(50) NOT NULL, ADD over12 TINYINT(1) NOT NULL, ADD parentEmail VARCHAR(255) NOT NULL, ADD signupDate VARCHAR(255) NOT NULL');
 
         /*
          * minor updates to assignment and message
          */
         $this->addSql('ALTER TABLE assignment CHANGE assignmentName assignmentName VARCHAR(100) NOT NULL');
         $this->addSql('ALTER TABLE assignment CHANGE time_visible time_visible TINYINT(1) DEFAULT NULL');
-
+        $this->addSql('ALTER TABLE assignment CHANGE courseId courseId INT DEFAULT NULL');
         $this->addSql('ALTER TABLE message DROP username, CHANGE createdAt createdAt INT NOT NULL, CHANGE updatedAt updatedAt INT NOT NULL');
 
         /*
@@ -90,7 +98,7 @@ class Version20150614070209 extends AbstractMigration implements ContainerAwareI
         /*
          * Setup table for individual students' assignments
          */
-        $this->addSql('CREATE TABLE student_assignment (id INT AUTO_INCREMENT NOT NULL, assignment INT DEFAULT NULL, student INT DEFAULT NULL, completed TINYINT(1) NULL, dateCompleted VARCHAR(50) NULL, INDEX IDX_DD1AA95B30C544BA (assignment), INDEX IDX_DD1AA95BB723AF33 (student), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE student_assignment (id INT AUTO_INCREMENT NOT NULL, assignment INT DEFAULT NULL, student INT DEFAULT NULL, completed TINYINT(1) NULL, dateCompleted INT NULL, INDEX IDX_DD1AA95B30C544BA (assignment), INDEX IDX_DD1AA95BB723AF33 (student), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE student_assignment ADD CONSTRAINT FK_65C47AA3B723AF33 FOREIGN KEY (student) REFERENCES student (id)');
         $this->addSql('ALTER TABLE student_assignment ADD CONSTRAINT FK_65C47AA330C544BA FOREIGN KEY (assignment) REFERENCES assignment (id)');
 

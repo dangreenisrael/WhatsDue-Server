@@ -47,9 +47,9 @@ class StudentAssignment
     /**
      * @var string
      *
-     * @ORM\Column(name="dateCompleted", type="string", length=50,  nullable=true)
+     * @ORM\Column(name="completedDate", type="integer", length=50,  nullable=true)
      */
-    private $dateCompleted;
+    private $completedDate;
 
 
     /**
@@ -86,40 +86,27 @@ class StudentAssignment
         return $this->completed;
     }
 
-    /**
-     * Set dateCompleted
-     *
-     * @param string $dateCompleted
-     *
-     * @return StudentAssignment
-     */
-    public function setTimeCompleted($dateCompleted)
-    {
-        $this->dateCompleted = $dateCompleted;
-
-        return $this;
-    }
 
     /**
-     * Get dateCompleted
+     * Get completedDate
      *
      * @return string
      */
-    public function getDateCompleted()
+    public function getCompletedDate()
     {
-        return $this->dateCompleted;
+        return $this->completedDate;
     }
 
     /**
-     * Set dateCompleted
+     * Set completedDate
      *
-     * @param string $dateCompleted
+     * @param string $completedDate
      *
      * @return StudentAssignment
      */
-    public function setDateCompleted($dateCompleted)
+    public function setCompletedDate($completedDate)
     {
-        $this->dateCompleted = $dateCompleted;
+        $this->completedDate = $completedDate;
 
         return $this;
     }

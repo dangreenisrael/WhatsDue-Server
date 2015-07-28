@@ -45,9 +45,12 @@ class TestCommand extends ContainerAwareCommand
                 $i=0;
                 $em->flush();
                 $em->clear();
-                echo "Flushed $ii\n";
+                echo "\nFlushed $ii";
             }
         }
-        $output->writeln("Finished");
+        $em->flush();
+        $em->clear();
+        echo "\nFlushed $ii\n";
+        echo "Finished student_assignments";
     }
 }
