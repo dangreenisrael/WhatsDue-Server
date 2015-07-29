@@ -54,7 +54,7 @@ class LifecycleActions {
         $em = $args->getEntityManager();
 
         if ($entity instanceof Assignment) {
-            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Course')->find($entity->getCourseId());
+            $course = $entity->getCourse();
             $title = $course->getCourseName();
             $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
             $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
@@ -85,14 +85,11 @@ class LifecycleActions {
 
     public function preUpdate(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
-        if ($entity instanceof Assignments) {
 
-            $id = $entity->getCourseId();
+        if ($entity instanceof Assignment) {
 
-            $course = $this->container->get('doctrine')->getManager()->getRepository('WhatsdueMainBundle:Course')->find($id);
-
+            $course = $entity->getCourse();
             /* Send Push Notifications */
-            $assignment_id = $entity->getId();
             if ($entity->getArchived() == true){
                 $title = 'Assignment Removed';
                 $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was removed.';

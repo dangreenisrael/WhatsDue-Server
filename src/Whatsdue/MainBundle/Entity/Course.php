@@ -38,7 +38,8 @@ class Course
      * @ORM\ManyToMany(targetEntity="Student", inversedBy="course", cascade={"all"})
      * @ORM\JoinTable(name="course_student",
      *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")})
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
      **/
     private $students;
 
