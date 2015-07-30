@@ -35,13 +35,12 @@ class StudentController extends FOSRestController{
     }
 
     public function getStudentId(){
-        $studentRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Student');
         if (@$_SESSION['studentId']) {
             $studentId = $_SESSION['studentId'];
         } elseif ( $this->getHeader('X-Student-Id') ){
-            $studentId = $studentRepo->find($this->getHeader('X-Student-Id'));
+            $studentId = $this->getHeader('X-Student-Id');
         } else{
-            $studentId = 515;
+            $studentId = 0;
         }
         return $studentId;
     }
