@@ -17,6 +17,7 @@ use Whatsdue\MainBundle\Entity\Student;
 use Doctrine\Common\Util\Debug;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Whatsdue\MainBundle\Entity\StudentAssignment;
 
 
 class StudentController extends FOSRestController{
@@ -267,6 +268,12 @@ class StudentController extends FOSRestController{
             ->findOneBy(array('courseCode'=> $courseCode));
         if($course){
             $course->addStudent($student);
+            foreach($course->getAssignments() as $assignment){
+                $studentAssignment = new StudentAssignment();
+                $studentAssignment->setAssignment($assignment);
+                $studentAssignment->setStudent($student);
+                $em->persist($studentAssignment);
+            }
             $em->flush();
             return array(
                 "course" => $course,
