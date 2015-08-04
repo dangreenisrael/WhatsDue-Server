@@ -87,7 +87,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=50)
+     * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
      * @Expose
      */
     private $firstName;
@@ -95,7 +95,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=50)
+     * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
      * @Expose
      */
     private $lastName;
@@ -103,7 +103,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=50)
+     * @ORM\Column(name="role", type="string", length=50, nullable=true)
      * @Expose
      */
     private $role;
@@ -111,7 +111,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="over12", type="boolean")
+     * @ORM\Column(name="over12", type="boolean", nullable=true)
      * @Expose
      */
     private $over12;
@@ -119,7 +119,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="parentEmail", type="string", length=255)
+     * @ORM\Column(name="parentEmail", type="string", length=255, nullable=true)
      * @Expose
      */
     private $parentEmail;

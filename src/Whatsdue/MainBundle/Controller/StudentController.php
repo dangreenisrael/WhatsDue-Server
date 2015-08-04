@@ -207,11 +207,15 @@ class StudentController extends FOSRestController{
         if (!$deviceByUuid && !$deviceByPushId){
             /* Create new Device and Student Record*/
             $student = new Student();
+            $student->setFirstName("");
+            $student->setLastName("");
+            $student->setNotifications(true);
             $student->setNotifications(true);
             $student->setNotificationUpdates(true);
             $student->setNotificationTimeLocal("0000");
             $student->setNotificationTimeUtc("0000");
             $student->setOver12(true);
+            $student->setSignupDate(date("Y-m-d"));
             $em->persist($student);
 
             $device = new Device();
