@@ -41,7 +41,7 @@ class StudentController extends FOSRestController{
         } elseif ( $this->getHeader('X-Student-Id') ){
             $studentId = $this->getHeader('X-Student-Id');
         } else{
-            $studentId = 58;
+            $studentId = 3713;
         }
         return $studentId;
     }
@@ -214,7 +214,7 @@ class StudentController extends FOSRestController{
             $student->setNotificationUpdates(true);
             $student->setNotificationTimeLocal("0000");
             $student->setNotificationTimeUtc("0000");
-            $student->setOver12(true);
+            $student->setOver12(false);
             $student->setSignupDate(date("Y-m-d"));
             $em->persist($student);
 

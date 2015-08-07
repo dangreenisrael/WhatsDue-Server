@@ -272,10 +272,7 @@ class TeacherController extends FOSRestController {
         $salutation = $user->getSalutation();
         $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
 
-        $message        = $data->email->message;
-        $courseName     = $data->email->course_name;
-        $courseCode     = $data->email->course_code;
-        $subject        = "Please add $courseName on WhatsDue";
+        $message        = "";
 
         // Fix formatting
 
@@ -301,20 +298,27 @@ class TeacherController extends FOSRestController {
         /*
          * Prepare and Send Emails
          */
+        $courses = $this->getDoctrine()
+            ->getRepository('WhatsdueMainBundle:Course')
+            ->findBy(array(
+                "id" => $data->email->courses
+            ));
 
-        $htmlBody = $this->renderView(
-                 //app/Resources/views/email/invite.html.twig
-                    'emails/invite.html.twig',
-                    array(
-                        'message'       => $messageHTML,
-                        'courseName'    => $courseName,
-                        'courseCode'    => $courseCode,
-                        'teacherName'   => $salutation
-                    )
-                );
-        $meta = array("courseName"=>$courseCode);
-        $tag = "Invite Users";
-        $this->get('email')->sendBulk($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
+        foreach ($courses as $course){
+            $subject = "Please add ".$course->getCourseName() ." on WhatsDue";
+            $htmlBody = $this->renderView(
+                'emails/invite.html.twig',
+                array(
+                    'message'       => $messageHTML,
+                    'courseName'    => $course->getCourseName(),
+                    'courseCode'    => $course->getCourseCode(),
+                    'teacherName'   => $salutation
+                )
+            );
+            $meta = array("courseCode"=>$course->getCourseCode());
+            $tag = "Invite Users";
+            $this->get('email')->sendBulk($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
+        }
 
 
         /* If its more than 5, update pipedrive */
