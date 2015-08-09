@@ -201,7 +201,7 @@ class AdminController extends FOSRestController{
      *
      * * Starting from first blog post - user 144
      */
-    public function getStatsAction(){
+    public function getAllStatsAction(){
         define ("firstUser", 0);
         $minUsers = $_GET["minUsers"];
         $loggedInWeeksAgo = $_GET["loggedInWeeksAgo"];

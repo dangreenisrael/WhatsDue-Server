@@ -366,4 +366,38 @@ class TeacherController extends FOSRestController {
         $em->flush();
         return $settings;
     }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getStatsAction(){
+        $user = $this->getUser();
+        $courses = $this->getUser()->getCourses();
+
+        $studentList = [];
+        $studentIds = [];
+
+        /* Make a unique list of courses and students */
+        foreach($courses as $course){
+            if ($course->getArchived()){
+                $courses->removeElement($course);
+                continue;
+            }
+            foreach ($course->getStudents() as $student){
+                $studentId = $student->getId();
+                if (!in_array($studentId, $studentIds)){
+                    $studentIds[] = $studentId;
+                    $studentList[] = $student;
+                }
+            }
+        }
+        $stats = array(
+            "id"            => 1,
+            "course_count"  => count($courses),
+            "student_count" => count($studentIds)
+        );
+        return array('stats'=> $stats);
+    }
 }
