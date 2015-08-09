@@ -56,7 +56,10 @@ class TeacherController extends FOSRestController {
         $data = json_decode($request->getContent());
         $course = new Course();
         $course->setCourseName($data->course->course_name);
-        $course->setInstructorName($data->course->instructor_name);
+        $salutation = $user->getSalutation();
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $course->setInstructorName("$salutation $firstName $lastName");
         $course->setCourseCode($this->createCourseCode());
         $course->setUser($user);
 
@@ -262,7 +265,7 @@ class TeacherController extends FOSRestController {
      */
 
     public function postEmailInviteAction(Request $request){
-        $data       = json_decode($request->getContent());
+        $data       = json_decode($request->getContent())->email;
         $mailer     = $this->get('mailer');
 
         // Setting sender name as username:
@@ -272,7 +275,7 @@ class TeacherController extends FOSRestController {
         $salutation = $user->getSalutation();
         $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
 
-        $message        = "";
+        $message        = $data->message;
 
         // Fix formatting
 
@@ -301,7 +304,7 @@ class TeacherController extends FOSRestController {
         $courses = $this->getDoctrine()
             ->getRepository('WhatsdueMainBundle:Course')
             ->findBy(array(
-                "id" => $data->email->courses
+                "id" => $data->courses
             ));
 
         foreach ($courses as $course){

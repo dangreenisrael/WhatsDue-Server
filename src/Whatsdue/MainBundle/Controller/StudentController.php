@@ -51,7 +51,6 @@ class StudentController extends FOSRestController{
         return $date->format('U')-4;
     }
 
-    /******* Get a list of Courses ********/
 
     /**
      * @return array
@@ -61,6 +60,11 @@ class StudentController extends FOSRestController{
         $course = $this->getDoctrine()
                 ->getRepository('WhatsdueMainBundle:Course')
                 ->findOneBy(array('courseCode'=> $courseCode));
+        $salutation = $course->getUser()->getSalutation();
+        $firstName = $course->getUser()->getFirstName();
+        $lastName = $course->getUser()->getLastName();
+
+        $course->setInstructorName("$salutation $firstName $lastName");
         if($course){
             $course->setDeviceIds(null);
             $data = array(
@@ -270,6 +274,11 @@ class StudentController extends FOSRestController{
         $course = $em
             ->getRepository('WhatsdueMainBundle:Course')
             ->findOneBy(array('courseCode'=> $courseCode));
+        $salutation = $course->getUser()->getSalutation();
+        $firstName = $course->getUser()->getFirstName();
+        $lastName = $course->getUser()->getLastName();
+
+        $course->setInstructorName("$salutation $firstName $lastName");
         if($course){
             $course->addStudent($student);
             foreach($course->getAssignments() as $assignment){
