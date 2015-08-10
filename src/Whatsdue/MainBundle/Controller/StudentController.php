@@ -41,7 +41,7 @@ class StudentController extends FOSRestController{
         } elseif ( $this->getHeader('X-Student-Id') ){
             $studentId = $this->getHeader('X-Student-Id');
         } else{
-            $studentId = 3713;
+            $studentId = 0;
         }
         return $studentId;
     }
