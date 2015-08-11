@@ -68,8 +68,9 @@ class PushNotifications {
         if ($students){
             foreach($students as $student){
                 $timePreference = $student->getNotificationTimeUTC();
+                $allNotifications = $student->getNotificationUpdates();
                 $timeCurrent    = date('Hi'); // 'Hi' is a date format
-                if ($timeCurrent > $timePreference){
+                if (($timeCurrent > $timePreference) || $allNotifications){
                     $studentsToNotify[] = $student;
                 }
             }

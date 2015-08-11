@@ -284,7 +284,7 @@ class TeacherController extends FOSRestController {
         /*
          * Handle Emails
          */
-        $emailsRaw     = preg_split( "/\n|,| /", $data->email->email_list );
+        $emailsRaw     = preg_split( "/\n|,| /", $data->email_list );
         $emailsDirty   = array_values( array_filter($emailsRaw) );
         $emailsValid   = [];
         $emailsInvalid     = [];
@@ -297,6 +297,8 @@ class TeacherController extends FOSRestController {
                 $emailsInvalid[]=$email;
             }
         }
+
+
 
         /*
          * Prepare and Send Emails

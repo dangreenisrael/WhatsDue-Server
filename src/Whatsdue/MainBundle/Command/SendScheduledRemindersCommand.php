@@ -15,6 +15,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Moment\Moment;
+use Doctrine\Common\Util\Debug;
+use Doctrine\Common\Collections\Criteria;
+
 
 
 
@@ -40,47 +43,57 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
              $this->testParameters();
         }
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $consumersRepo = $em->getRepository('WhatsdueMainBundle:Consumer');
-        $assignmentsRepo = $em->getRepository('WhatsdueMainBundle:Assignment');
+        $studentsRepo = $em->getRepository('WhatsdueMainBundle:Student');
         $tomorrow = $moment = new Moment();
-        $tomorrow->addDays(1)->format('Y-m-d');
+        $tomorrow = $tomorrow->addDays(1)->format('Y-m-d');
         $dayAfterTomorrow = $moment = new Moment();
-        $dayAfterTomorrow->addDays(2)->format('Y-m-d');
+        $dayAfterTomorrow = $dayAfterTomorrow->addDays(2)->format('Y-m-d');
 
-        /* Get the time rounded down to the last 15min (sanity check) */
+        /* Get the time rounded down to the last 15min up and down */
         $seconds = time();
         $rounded_seconds = floor($seconds / (15 * 60)) * (15 * 60);
-        $notificationTime = date("Hi", $rounded_seconds);
+        $notificationTimeLower = date("Hi", $rounded_seconds);
+        $notificationTimeUpper = new Moment($notificationTimeLower, 'U');
+        $notificationTimeUpper = $notificationTimeUpper->addMinutes(15)->format('Hi');
 
         /* Get the Consumers to potentially be notified */
-        $consumerQuery = $consumersRepo->createQueryBuilder('c')
-            ->where('c.notificationTimeUtc = :notificationTime')
-            ->setParameter('notificationTime', $notificationTime)
+        $studentQuery = $studentsRepo->createQueryBuilder('q')
+            ->where('q.notificationTimeUtc < :notificationTimeUpper')
+            ->setParameter('notificationTimeUpper', $notificationTimeUpper)
+            ->andWhere('q.notificationTimeUtc >= :notificationTimeLower')
+            ->setParameter('notificationTimeLower', $notificationTimeLower)
             ->getQuery();
-        $consumers = $consumerQuery->getResult();
-        $consumers = $consumersRepo->findById(515);
+        $students = $studentQuery->getResult();
+        //  $students = $studentsRepo->findById(3714);
 
+        //debug::dump($students);
+        //exit;
         /* Make a list of consumers to be reminded */
         $notificationList = [];
-        foreach ($consumers as $consumer){
-            $courses = $consumer->getCourses();
-            $courseIds = json_decode($courses, true);
-            $assignmentsQuery = $assignmentsRepo->createQueryBuilder('c')
-                ->where('c.courseId IN (:courseIds)')
-                ->setParameter('courseIds', $courseIds)
-                ->andWhere('c.dueDate > :tomorrow')
-                ->andWhere('c.dueDate < :dayAfterTomorrow')
-                ->setParameter(':tomorrow', $tomorrow)
-                ->setParameter(':dayAfterTomorrow', $dayAfterTomorrow)
-                ->getQuery();
-            $assignments = $assignmentsQuery->getResult();
-            $notificationList[] = $consumer;
+        foreach ($students as $student){
+            /* Make a list of assignments that have not been completed */
+            $criteria = Criteria::create()
+                ->where(Criteria::expr()->eq("completed", false))
+                ->orWhere(Criteria::expr()->eq("completed", null));
+            $studentAssignments = $student->getStudentAssignments()->matching($criteria);
+
+            /* Make a list of those assignments that are due tomorrow*/
+            foreach ($studentAssignments as $studentAssignment){
+                $dueDate = $studentAssignment->getAssignment()->getDueDate();
+                $somethingTomorrow = ($dueDate > $tomorrow) && ($dueDate < $dayAfterTomorrow);
+                if ($somethingTomorrow){
+                    $notificationList[] = $student;
+                    echo $student->getFirstName(). " ". $student->getLastName()."\n";
+                    break;
+                }
+            }
         }
+        //debug::dump($notificationList);
 
         /* Send the notifications */
         $title = "Don't forget to check WhatsDue";
         $message = "You have things to get done for tomorrow";
-        $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $consumers);
+        $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $students);
     }
 
     protected function testParameters(){
