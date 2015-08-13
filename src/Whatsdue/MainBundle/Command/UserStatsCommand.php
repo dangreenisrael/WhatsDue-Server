@@ -4,7 +4,6 @@
  * User: Dan
  * Date: 4/19/15
  * Time: 12:37
- * Description: This deals with updating users to pipedrive
  */
 
 namespace Whatsdue\MainBundle\Command;
@@ -21,7 +20,7 @@ class UserStatsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('WhatsDue:UserStats')
-            ->setDescription('Move people into has users stage on pipedrive')
+            ->setDescription('Stats')
         ;
     }
 
@@ -77,21 +76,9 @@ class UserStatsCommand extends ContainerAwareCommand
             $user->setTotalAssignments($totalAssignments);
             $user->setUniqueInvitations($uniqueRecipients);
 
-            if ($container->getParameter('environment')=="prod"){
-                $dealId  = $user->getPipedriveDeal();
-                if ($totalUniqueFollowers >= 3){
-                    $container->get('pipedrive')->updateDeal($user, 5);
-                } elseif($uniqueRecipients >= 5){
-                    $container->get('pipedrive')->updateDeal($user, 4);
-                } elseif($totalAssignments > 0){
-                    $container->get('pipedrive')->updateDeal($user, 3);
-                } elseif($totalCourses > 0){
-                    $container->get('pipedrive')->updateDeal($user, 2);
-                }
-                $container->get('pipedrive')->updatePerson($user);
-            }
 
-            echo $user->getId() ." ".$user->getFirstName()." ".$user->getLastName(). " Stage: ".$user->getPipedriveStage()."\n";
+
+            echo $user->getId() ." ".$user->getFirstName()." ".$user->getLastName();
         }
         echo "Processed Stats";
         $em->flush();

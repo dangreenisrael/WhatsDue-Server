@@ -69,8 +69,3 @@ services:
     email:
         class: Whatsdue\MainBundle\Classes\Email
         arguments: ['@service_container']
-
-#Pipedrive Service
-    pipedrive:
-        class: Whatsdue\MainBundle\Classes\Pipedrive
-        arguments: ['@service_container']

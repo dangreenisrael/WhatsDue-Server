@@ -4,7 +4,6 @@
  * User: Dan
  * Date: 4/19/15
  * Time: 12:37
- * Description: This deals with updating users to pipedrive
  */
 
 namespace Whatsdue\MainBundle\Command;

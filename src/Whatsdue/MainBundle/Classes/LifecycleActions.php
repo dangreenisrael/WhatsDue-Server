@@ -77,8 +77,6 @@ class LifecycleActions {
             $em->persist($entity);
             $em->flush();
 
-            /* Create Pipedrive Person/Org/Deal */
-            $this->container->get('pipedrive')->newTeacher($entity);
 
         }
     }

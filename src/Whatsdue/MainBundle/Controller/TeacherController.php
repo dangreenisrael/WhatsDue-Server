@@ -82,7 +82,6 @@ class TeacherController extends FOSRestController {
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
-        $this->container->get('pipedrive')->updateDeal($user, 2);
 
         return array('course'=>$course);
     }
@@ -212,7 +211,6 @@ class TeacherController extends FOSRestController {
         }
         $em->flush();
         $user = $this->getUser();
-        $this->container->get('pipedrive')->updateDeal($user, 3);
         return array('assignment'=>$assignment);
     }
 
@@ -363,10 +361,7 @@ class TeacherController extends FOSRestController {
         }
 
 
-        /* If its more than 5, update pipedrive */
-        if (count($emailsValid) >= 5){
-            $this->container->get('pipedrive')->updateDeal($user, 4);
-        }
+
         return array(
             "emails_valid"      =>$emailsValid,
             "emails_invalid"    => $emailsInvalid

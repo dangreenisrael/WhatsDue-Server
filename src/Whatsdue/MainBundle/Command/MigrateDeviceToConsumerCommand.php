@@ -4,7 +4,6 @@
  * User: Dan
  * Date: 4/19/15
  * Time: 12:37
- * Description: This deals with updating users to pipedrive
  */
 
 namespace Whatsdue\MainBundle\Command;
@@ -46,9 +45,5 @@ class MigrateDeviceToConsumerCommand extends ContainerAwareCommand
         $output->writeln("Finished");
     }
 
-    protected function testParameters(){
-        echo $this->getContainer()->getParameter('pipedrive.apiKey');
-        echo "\n";
-        return null;
-    }
+
 }

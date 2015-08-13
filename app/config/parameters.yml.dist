@@ -15,17 +15,6 @@ parameters:
     secret:                     ThisTokenIsNotSoSecretChangeIt
     time_zone:                  "America/Los_Angeles"
     environment: prod
-    pipedrive.apiToken:             745b6d4c6dcdd6ff030e7ae33ff841001621d8f1
-    pipedrive.salutationKey:        45e811b003c82ef43712dc9745bee4636fa56d43
-    pipedrive.systemIdKey:          a3ac50dd8951e24cf95cba07602a3d5b593f600b
-    pipedrive.PersonInvitesKey:     5d8bb06f12897475b10b313da3cb7aeee1b52975
-    pipedrive.PersonUsersKey:       ccbf85f64a25b845ab2edf687aff09fb606368e2
-    pipedrive.PersonCoursesKey:     869c5955f6ff0db08474ecf3addb1c03a71620d6
-    pipedrive.PersonAssignmentsKey: 0a9b637cc5c8b843eeafeea6e736103457145639
-    pipedrive.DealInvitesKey:      f8b065d932c277a5f3017638de0ed7b456516471
-    pipedrive.DealUsersKey:         a026dc5e533f1b5df3b486cf2a7b008469df3f0f
-    pipedrive.DealCoursesKey:       5d3af02d8b5bd0aac9f0f37a9d81620769e0038b
-    pipedrive.DealAssignmentsKey:   ce443b080b3cfca21d3a9d34a40d70cf7320e2e7
-    pipedrive.DealEmailKey:         ea8c30eca9c4d265b010af81d8522c602440ee24
+
 
 
