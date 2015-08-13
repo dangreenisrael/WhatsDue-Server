@@ -44,19 +44,16 @@ class Course
      **/
     private $students;
 
-    /**
-     * @Expose
-     */
-    public $studentList;
-
 
     /**
      * Constructor
      */
     public function __construct()
     {
+
         $this->students = new ArrayCollection();
         $this->assignments = new ArrayCollection();
+
     }
 
     /**
@@ -147,6 +144,18 @@ class Course
     private $deviceIds;
 
     /**
+     * @Expose
+     */
+    public $studentList;
+
+    /**
+     * @Expose
+     */
+    public $assignmentList;
+
+
+
+    /**
      * Get deviceIds
      *
      * @return string
@@ -186,6 +195,22 @@ class Course
 
     }
 
+    /**
+     * @ORM\postLoad
+     */
+    public function loadEntityList(){
+        $studentIds = [];
+        foreach($this->students as $student){
+            $studentIds[] = $student->getId();
+        }
+        $this->studentList = array_values($studentIds);
+
+        $assignmentIds = [];
+        foreach($this->assignments as $assignment){
+            $assignmentIds[] = $assignment->getId();
+        }
+        $this->assignmentList = array_values($assignmentIds);
+    }
     /**
      * Get lastModified
      *

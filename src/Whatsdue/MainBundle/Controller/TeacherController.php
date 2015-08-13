@@ -110,12 +110,6 @@ class TeacherController extends FOSRestController {
     public function getCourseAction($courseId){
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
-        $students = [];
-        foreach($course->getStudents() as $student){
-            $students[] = $student->getId();
-        }
-        $course->studentList = array_values($students);
-
         return array(
             "course" => $course
         );
