@@ -48,7 +48,7 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
         $seconds = time();
         $rounded_seconds = floor($seconds / (15 * 60)) * (15 * 60);
         $notificationTimeLower = date("Hi", $rounded_seconds);
-        $notificationTimeUpper = new Moment($notificationTimeLower, 'U');
+        $notificationTimeUpper = new Moment($notificationTimeLower, 'UTC');
         $notificationTimeUpper = $notificationTimeUpper->addMinutes(15)->format('Hi');
 
         /* Get the Consumers to potentially be notified */
