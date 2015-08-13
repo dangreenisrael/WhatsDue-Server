@@ -274,20 +274,22 @@ class StudentController extends FOSRestController{
         $course = $em
             ->getRepository('WhatsdueMainBundle:Course')
             ->findOneBy(array('courseCode'=> $courseCode));
-        $salutation = $course->getUser()->getSalutation();
-        $firstName = $course->getUser()->getFirstName();
-        $lastName = $course->getUser()->getLastName();
 
-        $course->setInstructorName("$salutation $firstName $lastName");
         if($course){
-            $course->addStudent($student);
-            foreach($course->getAssignments() as $assignment){
-                $studentAssignment = new StudentAssignment();
-                $studentAssignment->setAssignment($assignment);
-                $studentAssignment->setStudent($student);
-                $em->persist($studentAssignment);
+            $salutation = $course->getUser()->getSalutation();
+            $firstName = $course->getUser()->getFirstName();
+            $lastName = $course->getUser()->getLastName();
+            $course->setInstructorName("$salutation $firstName $lastName");
+            if ($student){
+                $course->addStudent($student);
+                foreach($course->getAssignments() as $assignment){
+                    $studentAssignment = new StudentAssignment();
+                    $studentAssignment->setAssignment($assignment);
+                    $studentAssignment->setStudent($student);
+                    $em->persist($studentAssignment);
+                }
+                $em->flush();
             }
-            $em->flush();
             return array(
                 "course" => $course,
                 "assignments"=> $course->getAssignments()
@@ -324,10 +326,12 @@ class StudentController extends FOSRestController{
         $em = $this->getDoctrine()->getManager();
         $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
-        $student->removeCourse($course);
-        $course->removeStudent($student);
-        $em->flush();
-        return array("student"=> $course);
+        if ($student){
+            $student->removeCourse($course);
+            $course->removeStudent($student);
+            $em->flush();
+        }
+        return array("course"=> $course);
     }
 
 
