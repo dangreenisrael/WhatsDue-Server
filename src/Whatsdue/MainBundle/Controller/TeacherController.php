@@ -30,6 +30,22 @@ class TeacherController extends FOSRestController {
      */
     public function getUserAction(){
         $user = $this->getUser();
+
+        $assignmentCount = 0;
+        $students = [];
+        foreach($user->getCourses() as $course){
+            $assignmentCount += count($course->getAssignments());
+            foreach($course->getStudents() as $student){
+                $students[] = $student->getId();
+            }
+        }
+
+        $students = array_unique($students);
+
+        $user->uniqueStudents = count($students);
+        $user->uniqueInvitations = 10;
+        $user->totalCourses = count($user->getCourses());
+        $user->totalAssignments = $assignmentCount;
         return array("user" => $user);
     }
 
@@ -95,7 +111,15 @@ class TeacherController extends FOSRestController {
     public function getCourseAction($courseId){
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
-        return array("course" => $course);
+        $students = [];
+        foreach($course->getStudents() as $student){
+            $students[] = $student->getId();
+        }
+        $course->studentList = array_values($students);
+
+        return array(
+            "course" => $course
+        );
     }
 
 //    /**
@@ -126,6 +150,19 @@ class TeacherController extends FOSRestController {
 
         $em->flush();
         return $this->view('', 204);
+    }
+
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function getStudentAction($studentId){
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
+        return array(
+            "student" => $student
+        );
     }
 
 

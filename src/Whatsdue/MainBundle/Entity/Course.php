@@ -40,8 +40,14 @@ class Course
      *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
      *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
+     *
      **/
     private $students;
+
+    /**
+     * @Expose
+     */
+    public $studentList;
 
 
     /**

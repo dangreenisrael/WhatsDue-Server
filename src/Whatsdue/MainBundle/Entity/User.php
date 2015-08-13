@@ -92,49 +92,24 @@ class User extends BaseUser
     protected $institutionName;
 
     /**
-     * @ORM\Column(name="unique_followers", type="integer", nullable=true)
      * @Expose
      */
-    protected $uniqueFollowers;
+    public $uniqueStudents;
 
     /**
-     * @ORM\Column(name="unique_invitations", type="integer", nullable=true)
      * @Expose
      */
-    protected $uniqueInvitations;
+    public $uniqueInvitations;
 
     /**
-     * @ORM\Column(name="total_courses", type="integer", nullable=true)
      * @Expose
      */
-    protected $totalCourses;
+    public $totalCourses;
 
     /**
-     * @ORM\Column(name="total_assignments", type="integer", nullable=true)
      * @Expose
      */
-    protected $totalAssignments;
-
-    /**
-     * @ORM\Column(name="pipedrive_stage", type="integer", nullable=true)
-     */
-    protected $pipedriveStage;
-
-
-    /**
-     * @ORM\Column(name="pipedrive_deal", type="integer", nullable=true)
-     */
-    protected $pipedriveDeal;
-
-    /**
-     * @ORM\Column(name="pipedrive_person", type="integer", nullable=true)
-     */
-    protected $pipedrivePerson;
-
-    /**
-     * @ORM\Column(name="pipedrive_organization", type="integer", nullable=true)
-     */
-    protected $pipedriveOrganization;
+    public $totalAssignments;
 
 
 
