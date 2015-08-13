@@ -17,6 +17,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
+
     whatsdue.last_route_event_listener:
         class: Whatsdue\MainBundle\Classes\EventListeners
         tags:

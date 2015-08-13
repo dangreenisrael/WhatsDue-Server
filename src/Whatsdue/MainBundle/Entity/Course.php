@@ -196,7 +196,7 @@ class Course
     }
 
     /**
-     * @ORM\postLoad
+     * @ORM\PostLoad
      */
     public function loadEntityList(){
         $studentIds = [];
