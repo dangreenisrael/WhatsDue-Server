@@ -16,9 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Moment\Moment;
 use Doctrine\Common\Util\Debug;
 use Doctrine\Common\Collections\Criteria;
-
-
-
+use JMS\Serializer\SerializerBuilder;
 
 class SendScheduledRemindersCommand extends ContainerAwareCommand
 {
@@ -38,9 +36,7 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('params')) {
-             $this->testParameters();
-        }
+
         $em = $this->getContainer()->get('doctrine')->getManager();
         $studentsRepo = $em->getRepository('WhatsdueMainBundle:Student');
         $tomorrow = $moment = new Moment();
@@ -61,12 +57,11 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
             ->setParameter('notificationTimeUpper', $notificationTimeUpper)
             ->andWhere('q.notificationTimeUtc >= :notificationTimeLower')
             ->setParameter('notificationTimeLower', $notificationTimeLower)
+            ->andWhere('q.notifications = true')
+            ->andWhere('q.notificationTimeUtc != 0000')
             ->getQuery();
         $students = $studentQuery->getResult();
-        //  $students = $studentsRepo->findById(3714);
 
-        //debug::dump($students);
-        //exit;
         /* Make a list of consumers to be reminded */
         $notificationList = [];
         foreach ($students as $student){
@@ -82,17 +77,29 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
                 $somethingTomorrow = ($dueDate > $tomorrow) && ($dueDate < $dayAfterTomorrow);
                 if ($somethingTomorrow){
                     $notificationList[] = $student;
-                    echo $student->getFirstName(). " ". $student->getLastName()."\n";
                     break;
                 }
             }
         }
-        //debug::dump($notificationList);
-
         /* Send the notifications */
+
+        $serializer = SerializerBuilder::create()->build();
+        $jsonContent = $serializer->serialize($students, 'json');
+
+        if ($notificationList){
+            $mailer = $this->getContainer()->get('mailer');
+            $message = $mailer->createMessage()
+                ->setSubject("Push Notifications")
+                ->setFrom("aaron@whatsdueapp.com")
+                ->setTo("whatsduepush@gmail.com")
+                ->setBody($jsonContent)
+            ;
+            $mailer->send($message);
+        }
+
         $title = "Don't forget to check WhatsDue";
         $message = "You have things to get done for tomorrow";
-        $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $students);
+        //$this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $students);
     }
 
 
