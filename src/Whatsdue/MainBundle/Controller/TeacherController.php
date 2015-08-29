@@ -30,25 +30,29 @@ class TeacherController extends FOSRestController {
      */
     public function getUserAction(){
         $user = $this->getUser();
-
-        $assignmentCount = 0;
-        $students = [];
-        foreach($user->getCourses() as $course){
-            $assignmentCount += count($course->getAssignments());
-            foreach($course->getStudents() as $student){
-                $students[] = $student->getId();
-            }
-        }
-
-        $students = array_unique($students);
-
-        $user->uniqueStudents = count($students);
-        $user->uniqueInvitations = 10;
-        $user->totalCourses = count($user->getCourses());
-        $user->totalAssignments = $assignmentCount;
         return array("user" => $user);
     }
 
+    private function getAssignment($id){
+        $em = $this->getDoctrine()->getManager();
+        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($id);
+        if ($assignment->getCourse()->getUser()->getId() != $this->getUser()->getId()) exit;
+        return $assignment;
+    }
+
+    private function getCourse($id){
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($id);
+        if ($course->getUser()->getId() != $this->getUser()->getId()) exit;
+        return $course;
+    }
+
+    private function getStatus($id){
+        $em = $this->getDoctrine()->getManager();
+        $status = $em->getRepository('WhatsdueMainBundle:StudentAssignment')->find($id);
+        //if ($status->getAssignment()->getUser()->getId() != $this->getUser()->getId()) exit;
+        return $status;
+    }
 
     /*
      * Course Stuff
@@ -90,11 +94,10 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
-    public function putCourseAction($Id, Request $request){
+    public function putCourseAction($id, Request $request){
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
-
-        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($Id);
+        $course = $this->getCourse($id);
         $course->setCourseName($data->course->course_name);
         $course->setInstructorName($data->course->instructor_name);
         $course->setArchived($data->course->archived);
@@ -107,38 +110,23 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
-    public function getCourseAction($courseId){
+    public function getCourseAction($id){
         $em = $this->getDoctrine()->getManager();
-        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
+        $course = $this->getCourse($id);
         return array(
             "course" => $course
         );
     }
-
-//    /**
-//     * @return array
-//     * @View()
-//     */
-//    public function getCourseAssignmentsAction($courseId){
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $assignments = $em->getRepository('WhatsdueMainBundle:Assignment')
-//            ->findBy(
-//                array('courseId' => $courseId)
-//            );
-//        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
-//        return array("assignment" => $assignments);
-//    }
 
 
     /**
      * @return array
      * @View()
      */
-    public function deleteCourseAction($Id){
+    public function deleteCourseAction($id){
         $em = $this->getDoctrine()->getManager();
 
-        $course = $em->getRepository('WhatsdueMainBundle:Course')->find($Id);
+        $course = $this->getCourse($id);
         $course->setArchived(true);
 
         $em->flush();
@@ -178,6 +166,7 @@ class TeacherController extends FOSRestController {
         $assignments = $em->getRepository('WhatsdueMainBundle:Assignment')->findBy(array(
             'courseId' => $courseIds
         ));
+
         return array("assignment" => $assignments);
     }
 
@@ -212,11 +201,11 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
-    public function putAssignmentsAction($Id, Request $request){
+    public function putAssignmentsAction($id, Request $request){
 
         $data = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
-        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($Id);
+        $assignment = $this->getAssignment($id);
         $assignment->setDueDate($data->assignment->due_date);
         $assignment->setDescription($data->assignment->description);
         $assignment->setAssignmentName($data->assignment->assignment_name);
@@ -231,9 +220,9 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
-    public function deleteAssignmentsAction($Id){
+    public function deleteAssignmentsAction($id){
         $em = $this->getDoctrine()->getManager();
-        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($Id);
+        $assignment = $this->getAssignment($id);
         $assignment->setArchived(true);
         $em->flush();
         return $this->view('', 204);
@@ -244,17 +233,23 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
-    public function getAssignmentAction($Id){
+    public function getAssignmentAction($id){
         $em = $this->getDoctrine()->getManager();
-        $assignment = $em->getRepository('WhatsdueMainBundle:Assignment')->find($Id);
+        $assignment = $this->getAssignment($id);
         return array('assignment' => $assignment);
     }
 
+    /**
+     * @return array
+     * @View()
+     */
 
-
-
-
-
+    public function getStatusAction($id){
+        $status = $this->getStatus($id);
+        //debug::dump($this->getAssignment($id)->getStudentAssignments());
+        //exit;
+        return array('status' => $status);
+    }
 
 
     /*
@@ -303,11 +298,9 @@ class TeacherController extends FOSRestController {
         $lastName   = $user->getLastName();
         $salutation = $user->getSalutation();
         $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
-
         $message        = $data->message;
 
         // Fix formatting
-
         $messageHTML = str_replace("\n", "</p><p>", $message);
 
         /*
@@ -326,8 +319,6 @@ class TeacherController extends FOSRestController {
                 $emailsInvalid[]=$email;
             }
         }
-
-
 
         /*
          * Prepare and Send Emails
@@ -354,81 +345,10 @@ class TeacherController extends FOSRestController {
             $this->get('email')->sendBulk($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
         }
 
-
-
         return array(
             "emails_valid"      =>$emailsValid,
             "emails_invalid"    => $emailsInvalid
             );
     }
 
-    /*
-     * Settings
-     */
-
-    /**
-     * @return array
-     * @View()
-     */
-    public function getSettingsAction($settingName){
-        $settingsSerialized = $this->getUser()->getSettings();
-        $settings = json_decode(stripslashes($settingsSerialized),true);
-        if (@$setting = $settings[$settingName]){
-            return $setting;
-        }else{
-            return "";
-        }
-    }
-
-    /**
-     * @return array
-     * @View()
-     */
-
-    public function putSettingsAction($settingName, Request $request){
-        $em = $this->getDoctrine()->getManager();
-        $settingValue = $request->getContent();
-        $user = $em->getRepository('WhatsdueMainBundle:User')->find($this->getUser()->getId());
-        $settingsSerialized = $user->getSettings();
-        $settings = json_decode(stripslashes($settingsSerialized),true);
-        $settings[$settingName] = $settingValue;
-        $settingsSerialized = json_encode($settings);
-        $user->setSettings($settingsSerialized);
-        $em->flush();
-        return $settings;
-    }
-
-    /**
-     * @return array
-     * @View()
-     */
-
-    public function getStatsAction(){
-        $user = $this->getUser();
-        $courses = $this->getUser()->getCourses();
-
-        $studentList = [];
-        $studentIds = [];
-
-        /* Make a unique list of courses and students */
-        foreach($courses as $course){
-            if ($course->getArchived()){
-                $courses->removeElement($course);
-                continue;
-            }
-            foreach ($course->getStudents() as $student){
-                $studentId = $student->getId();
-                if (!in_array($studentId, $studentIds)){
-                    $studentIds[] = $studentId;
-                    $studentList[] = $student;
-                }
-            }
-        }
-        $stats = array(
-            "id"            => 1,
-            "course_count"  => count($courses),
-            "student_count" => count($studentIds)
-        );
-        return array('stats'=> $stats);
-    }
 }

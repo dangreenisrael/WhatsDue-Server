@@ -20,6 +20,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  * @ExclusionPolicy("all")
+ * @ORM\HasLifecycleCallbacks()
  */
 
 /*
@@ -36,10 +37,16 @@ class User extends BaseUser
      **/
     private $courses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EmailLog", mappedBy="user", fetch="EXTRA_LAZY", cascade={"all"})
+     **/
+    private $emailLog;
+
     public function __construct()
     {
         parent::__construct();
         $this->courses = new ArrayCollection();
+        $this->emailLog = new ArrayCollection();
 
     }
 
@@ -61,11 +68,6 @@ class User extends BaseUser
      */
     protected $signupDate;
 
-    /**
-     * @ORM\Column(name="settings", type="string", nullable=true)
-     * @Expose
-     */
-    protected $settings;
 
     /**
      * @ORM\Column(name="salutation", type="string")
@@ -112,6 +114,27 @@ class User extends BaseUser
     public $totalAssignments;
 
 
+    /**
+     * @ORM\PostLoad
+     */
+
+    public function onLoad(){
+        $assignmentCount = 0;
+        $students = [];
+        foreach($this->getCourses() as $course){
+            $assignmentCount += count($course->getAssignments());
+            foreach($course->getStudents() as $student){
+                $students[] = $student->getId();
+            }
+        }
+
+        $students = array_unique($students);
+
+        $this->uniqueStudents       = count($students);
+        $this->uniqueInvitations    = count($this->getEmailLog());
+        $this->totalCourses         = count($this->getCourses());
+        $this->totalAssignments     = $assignmentCount;
+    }
 
     /**
      * Set Signup Date
@@ -136,28 +159,7 @@ class User extends BaseUser
         return $this->signupDate;
     }
 
-    /**
-     * Set settings
-     *
-     * @param string $settings
-     * @return User
-     */
-    public function setSettings($settings)
-    {
-        $this->settings = $settings;
 
-        return $this;
-    }
-
-    /**
-     * Get settings
-     *
-     * @return string
-     */
-    public function getSettings()
-    {
-        return $this->settings;
-    }
 
     /**
      * Set salutation
@@ -400,5 +402,39 @@ class User extends BaseUser
     public function getCourses()
     {
         return $this->courses;
+    }
+
+    /**
+     * Add Email Log
+     *
+     * @param \Whatsdue\MainBundle\Entity\EmailLog $emailLog
+     *
+     * @return User
+     */
+    public function addEmailLog(Course $emailLog)
+    {
+        $this->emailLog[] = $emailLog;
+
+        return $this;
+    }
+
+    /**
+     * Remove Email Log
+     *
+     * @param \Whatsdue\MainBundle\Entity\EmailLog $emailLog
+     */
+    public function removeEmailLog(Course $emailLog)
+    {
+        $this->emailLog->removeElement($emailLog);
+    }
+
+    /**
+     * Get Email Log
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmailLog()
+    {
+        return $this->emailLog;
     }
 }

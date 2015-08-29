@@ -31,6 +31,10 @@ class Assignment
      **/
     private $studentAssignments;
 
+    /**
+     * @Expose
+     **/
+    private $statuses;
 
     /**
      * Constructor
@@ -157,6 +161,17 @@ class Assignment
         $this->lastUpdated = $this->timestamp();
         $this->lastModified = $this->timestamp();
 
+    }
+
+    /**
+     * @ORM\PostLoad
+     */
+    public function loadEntityList(){
+        $statusIds = [];
+        foreach($this->studentAssignments as $studentAssignment){
+            $statusIds[] = $studentAssignment->getId();
+        }
+        $this->statuses = array_values($statusIds);
     }
 
 

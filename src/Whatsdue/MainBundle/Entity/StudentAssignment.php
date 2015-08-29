@@ -5,13 +5,16 @@ namespace Whatsdue\MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Whatsdue\MainBundle\Entity\Assignment;
 use Whatsdue\MainBundle\Entity\Student;
-
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * StudentAssignment
  *
  * @ORM\Table(name="student_assignment")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
+ * @ExclusionPolicy("all")
  */
 class StudentAssignment
 {
@@ -29,28 +32,41 @@ class StudentAssignment
     private $student;
 
     /**
+     * @Expose
+     */
+    private $studentId;
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
     /**
      * @var boolean
-     *
      * @ORM\Column(name="completed", type="boolean", nullable=true)
+     * @Expose
      */
     private $completed;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="completedDate", type="integer", length=50,  nullable=true)
+     * @Expose
      */
     private $completedDate;
 
+
+    /**
+     * @ORM\PostLoad
+     */
+    public function loadEntityList(){
+
+        $this->studentId = $this->getStudent()->getId();
+    }
 
     /**
      * Get id
