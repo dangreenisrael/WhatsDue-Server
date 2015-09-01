@@ -86,20 +86,21 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
         $serializer = SerializerBuilder::create()->build();
         $jsonContent = $serializer->serialize($students, 'json');
 
-        if ($notificationList){
-            $mailer = $this->getContainer()->get('mailer');
-            $message = $mailer->createMessage()
-                ->setSubject("Push Notifications")
-                ->setFrom("aaron@whatsdueapp.com")
-                ->setTo("whatsduepush@gmail.com")
-                ->setBody($jsonContent)
-            ;
-            $mailer->send($message);
-        }
+//        if ($notificationList){
+//            $mailer = $this->getContainer()->get('mailer');
+//            $message = $mailer->createMessage()
+//                ->setSubject("Push Notifications")
+//                ->setFrom("aaron@whatsdueapp.com")
+//                ->setTo("whatsduepush@gmail.com")
+//                ->setBody($jsonContent)
+//            ;
+//            $mailer->send($message);
+//
+//        }
 
         $title = "Don't forget to check WhatsDue";
         $message = "You have things to get done for tomorrow";
-        //$this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $students);
+        $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $students);
     }
 
 

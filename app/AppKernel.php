@@ -28,12 +28,10 @@ class AppKernel extends Kernel
             new Whatsdue\UserBundle\WhatsdueUserBundle(),
 
             new FOS\RestBundle\FOSRestBundle(),
-
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 
-            new RMS\PushNotificationsBundle\RMSPushNotificationsBundle()
-
+            new RMS\PushNotificationsBundle\RMSPushNotificationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

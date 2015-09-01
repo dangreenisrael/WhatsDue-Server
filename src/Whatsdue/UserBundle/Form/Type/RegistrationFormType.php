@@ -43,10 +43,8 @@ class RegistrationFormType extends AbstractType
 
         $randomCode = $this->container->get('helper')->createCourseCode();
         $builder->add('username', 'text', array(
-            'data' => $randomCode
+            'data'  => $randomCode
         ));
-
-
     }
 
     public function getName()

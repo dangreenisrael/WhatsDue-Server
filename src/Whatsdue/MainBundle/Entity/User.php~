@@ -20,6 +20,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  * @ExclusionPolicy("all")
+ * @ORM\HasLifecycleCallbacks()
  */
 
 /*
@@ -29,18 +30,35 @@ use JMS\Serializer\Annotation\Expose;
 class User extends BaseUser
 {
 
-
-
     /**
      * @ORM\OneToMany(targetEntity="Course", mappedBy="user", fetch="EXTRA_LAZY", cascade={"all"})
      **/
     private $courses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EmailLog", mappedBy="user", fetch="EXTRA_LAZY", cascade={"all"})
+     **/
+    private $emailLog;
+
+    /**
+     * @Expose
+     * @ORM\OneToMany(targetEntity="User", mappedBy="referrer")
+     **/
+    private $referrals;
+
+    /**
+     * @Expose
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="referrals")
+     * @ORM\JoinColumn(name="referrer", referencedColumnName="id")
+     **/
+    private $referrer;
+
     public function __construct()
     {
         parent::__construct();
-        $this->courses = new ArrayCollection();
-
+        $this->courses  = new ArrayCollection();
+        $this->emailLog = new ArrayCollection();
+        $this->referrals = new ArrayCollection();
     }
 
 
@@ -61,11 +79,6 @@ class User extends BaseUser
      */
     protected $signupDate;
 
-    /**
-     * @ORM\Column(name="settings", type="string", nullable=true)
-     * @Expose
-     */
-    protected $settings;
 
     /**
      * @ORM\Column(name="salutation", type="string")
@@ -92,51 +105,47 @@ class User extends BaseUser
     protected $institutionName;
 
     /**
-     * @ORM\Column(name="unique_followers", type="integer", nullable=true)
      * @Expose
      */
-    protected $uniqueFollowers;
+    public $uniqueStudents;
 
     /**
-     * @ORM\Column(name="unique_invitations", type="integer", nullable=true)
      * @Expose
      */
-    protected $uniqueInvitations;
+    public $uniqueInvitations;
 
     /**
-     * @ORM\Column(name="total_courses", type="integer", nullable=true)
      * @Expose
      */
-    protected $totalCourses;
+    public $totalCourses;
 
     /**
-     * @ORM\Column(name="total_assignments", type="integer", nullable=true)
      * @Expose
      */
-    protected $totalAssignments;
-
-    /**
-     * @ORM\Column(name="pipedrive_stage", type="integer", nullable=true)
-     */
-    protected $pipedriveStage;
+    public $totalAssignments;
 
 
     /**
-     * @ORM\Column(name="pipedrive_deal", type="integer", nullable=true)
+     * @ORM\PostLoad
      */
-    protected $pipedriveDeal;
 
-    /**
-     * @ORM\Column(name="pipedrive_person", type="integer", nullable=true)
-     */
-    protected $pipedrivePerson;
+    public function onLoad(){
+        $assignmentCount = 0;
+        $students = [];
+        foreach($this->getCourses() as $course){
+            $assignmentCount += count($course->getAssignments());
+            foreach($course->getStudents() as $student){
+                $students[] = $student->getId();
+            }
+        }
 
-    /**
-     * @ORM\Column(name="pipedrive_organization", type="integer", nullable=true)
-     */
-    protected $pipedriveOrganization;
+        $students = array_unique($students);
 
-
+        $this->uniqueStudents       = count($students);
+        $this->uniqueInvitations    = count($this->getEmailLog());
+        $this->totalCourses         = count($this->getCourses());
+        $this->totalAssignments     = $assignmentCount;
+    }
 
     /**
      * Set Signup Date
@@ -161,28 +170,7 @@ class User extends BaseUser
         return $this->signupDate;
     }
 
-    /**
-     * Set settings
-     *
-     * @param string $settings
-     * @return User
-     */
-    public function setSettings($settings)
-    {
-        $this->settings = $settings;
 
-        return $this;
-    }
-
-    /**
-     * Get settings
-     *
-     * @return string
-     */
-    public function getSettings()
-    {
-        return $this->settings;
-    }
 
     /**
      * Set salutation
@@ -279,97 +267,7 @@ class User extends BaseUser
 
 
 
-    /**
-     * Set Pipedrive Stage
-     *
-     * @param integer $pipedriveStage
-     * @return User
-     */
-    public function setPipedriveStage($pipedriveStage)
-    {
-        $this->pipedriveStage = $pipedriveStage;
 
-        return $this;
-    }
-
-    /**
-     * Get Pipedrive Stage
-     *
-     * @return integer
-     */
-    public function getPipedriveStage()
-    {
-        return $this->pipedriveStage;
-    }
-
-    /**
-     * Set Pipedrive Deal ID
-     *
-     * @param string $pipedriveDeal
-     * @return User
-     */
-    public function setPipedriveDeal($pipedriveDeal)
-    {
-        $this->pipedriveDeal = $pipedriveDeal;
-
-        return $this;
-    }
-
-    /**
-     * Get Pipedrive Deal ID
-     *
-     * @return integer
-     */
-    public function getPipedriveDeal()
-    {
-        return $this->pipedriveDeal;
-    }
-
-    /**
-     * Set Pipedrive Person ID
-     *
-     * @param string $pipedrivePerson
-     * @return User
-     */
-    public function setPipedrivePerson($pipedrivePerson)
-    {
-        $this->pipedrivePerson = $pipedrivePerson;
-
-        return $this;
-    }
-
-    /**
-     * Get Pipedrive Person ID
-     *
-     * @return integer
-     */
-    public function getPipedrivePerson()
-    {
-        return $this->pipedrivePerson;
-    }
-
-    /**
-     * Set Pipedrive Organization ID
-     *
-     * @param string $pipedriveOrganization
-     * @return User
-     */
-    public function setPipedriveOrganization($pipedriveOrganization)
-    {
-        $this->pipedriveOrganization = $pipedriveOrganization;
-
-        return $this;
-    }
-
-    /**
-     * Get Pipedrive Person ID
-     *
-     * @return integer
-     */
-    public function getPipedriveOrganization()
-    {
-        return $this->pipedriveOrganization;
-    }
 
 
 
@@ -515,5 +413,97 @@ class User extends BaseUser
     public function getCourses()
     {
         return $this->courses;
+    }
+
+    /**
+     * Add Email Log
+     *
+     * @param \Whatsdue\MainBundle\Entity\EmailLog $emailLog
+     *
+     * @return User
+     */
+    public function addEmailLog(Course $emailLog)
+    {
+        $this->emailLog[] = $emailLog;
+
+        return $this;
+    }
+
+    /**
+     * Remove Email Log
+     *
+     * @param \Whatsdue\MainBundle\Entity\EmailLog $emailLog
+     */
+    public function removeEmailLog(Course $emailLog)
+    {
+        $this->emailLog->removeElement($emailLog);
+    }
+
+    /**
+     * Get Email Log
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmailLog()
+    {
+        return $this->emailLog;
+    }
+
+    /**
+     * Add referral
+     *
+     * @param \Whatsdue\MainBundle\Entity\User $referral
+     *
+     * @return User
+     */
+    public function addReferral(User $referral)
+    {
+        $this->referrals[] = $referral;
+
+        return $this;
+    }
+
+    /**
+     * Remove referral
+     *
+     * @param \Whatsdue\MainBundle\Entity\User $referral
+     */
+    public function removeReferral(User $referral)
+    {
+        $this->referrals->removeElement($referral);
+    }
+
+    /**
+     * Get referrals
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReferrals()
+    {
+        return $this->referrals;
+    }
+
+    /**
+     * Set referrer
+     *
+     * @param \Whatsdue\MainBundle\Entity\User $referrer
+     *
+     * @return User
+     */
+    public function setReferrer(User $referrer = null)
+    {
+        $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    /**
+     * Get referrer
+     *
+     * @return \Whatsdue\MainBundle\Entity\User
+     */
+    public function getReferrer()
+    {
+        return $this->referrer;
     }
 }

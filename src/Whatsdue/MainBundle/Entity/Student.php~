@@ -87,7 +87,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=50)
+     * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
      * @Expose
      */
     private $firstName;
@@ -95,7 +95,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=50)
+     * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
      * @Expose
      */
     private $lastName;
@@ -103,7 +103,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=50)
+     * @ORM\Column(name="role", type="string", length=50, nullable=true)
      * @Expose
      */
     private $role;
@@ -111,7 +111,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="over12", type="boolean")
+     * @ORM\Column(name="over12", type="boolean", nullable=true)
      * @Expose
      */
     private $over12;
@@ -119,7 +119,7 @@ class Student
     /**
      * @var string
      *
-     * @ORM\Column(name="parentEmail", type="string", length=255)
+     * @ORM\Column(name="parentEmail", type="string", length=255, nullable=true)
      * @Expose
      */
     private $parentEmail;
@@ -347,5 +347,149 @@ class Student
     public function getStudentAssignments()
     {
         return $this->studentAssignments;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return Student
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return Student
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return Student
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set over12
+     *
+     * @param boolean $over12
+     *
+     * @return Student
+     */
+    public function setOver12($over12)
+    {
+        $this->over12 = $over12;
+
+        return $this;
+    }
+
+    /**
+     * Get over12
+     *
+     * @return boolean
+     */
+    public function getOver12()
+    {
+        return $this->over12;
+    }
+
+    /**
+     * Set parentEmail
+     *
+     * @param string $parentEmail
+     *
+     * @return Student
+     */
+    public function setParentEmail($parentEmail)
+    {
+        $this->parentEmail = $parentEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get parentEmail
+     *
+     * @return string
+     */
+    public function getParentEmail()
+    {
+        return $this->parentEmail;
+    }
+
+    /**
+     * Set signupDate
+     *
+     * @param string $signupDate
+     *
+     * @return Student
+     */
+    public function setSignupDate($signupDate)
+    {
+        $this->signupDate = $signupDate;
+
+        return $this;
+    }
+
+    /**
+     * Get signupDate
+     *
+     * @return string
+     */
+    public function getSignupDate()
+    {
+        return $this->signupDate;
     }
 }

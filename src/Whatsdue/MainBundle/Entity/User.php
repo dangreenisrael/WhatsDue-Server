@@ -30,8 +30,6 @@ use JMS\Serializer\Annotation\Expose;
 class User extends BaseUser
 {
 
-
-
     /**
      * @ORM\OneToMany(targetEntity="Course", mappedBy="user", fetch="EXTRA_LAZY", cascade={"all"})
      **/
@@ -42,12 +40,25 @@ class User extends BaseUser
      **/
     private $emailLog;
 
+    /**
+     * @Expose
+     * @ORM\OneToMany(targetEntity="User", mappedBy="referrer")
+     **/
+    private $referrals;
+
+    /**
+     * @Expose
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="referrals")
+     * @ORM\JoinColumn(name="referrer", referencedColumnName="id")
+     **/
+    private $referrer;
+
     public function __construct()
     {
         parent::__construct();
-        $this->courses = new ArrayCollection();
+        $this->courses  = new ArrayCollection();
         $this->emailLog = new ArrayCollection();
-
+        $this->referrals = new ArrayCollection();
     }
 
 
@@ -436,5 +447,63 @@ class User extends BaseUser
     public function getEmailLog()
     {
         return $this->emailLog;
+    }
+
+    /**
+     * Add referral
+     *
+     * @param \Whatsdue\MainBundle\Entity\User $referral
+     *
+     * @return User
+     */
+    public function addReferral(User $referral)
+    {
+        $this->referrals[] = $referral;
+
+        return $this;
+    }
+
+    /**
+     * Remove referral
+     *
+     * @param \Whatsdue\MainBundle\Entity\User $referral
+     */
+    public function removeReferral(User $referral)
+    {
+        $this->referrals->removeElement($referral);
+    }
+
+    /**
+     * Get referrals
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReferrals()
+    {
+        return $this->referrals;
+    }
+
+    /**
+     * Set referrer
+     *
+     * @param \Whatsdue\MainBundle\Entity\User $referrer
+     *
+     * @return User
+     */
+    public function setReferrer(User $referrer = null)
+    {
+        $this->referrer = $referrer;
+
+        return $this;
+    }
+
+    /**
+     * Get referrer
+     *
+     * @return \Whatsdue\MainBundle\Entity\User
+     */
+    public function getReferrer()
+    {
+        return $this->referrer;
     }
 }

@@ -22,11 +22,11 @@ class EmailLog
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="user", type="string", length=255)
-     */
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="course", cascade={"all"})
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", nullable=true)
+     **/
     private $user;
+
 
     /**
      * @var string

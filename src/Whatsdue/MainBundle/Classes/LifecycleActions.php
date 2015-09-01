@@ -65,38 +65,45 @@ class LifecycleActions {
                 $entity -> getFirstName() . " " . $entity -> getLastName();
             $this->container->get('plivo')->sendSMS('+972507275599', $message);
 
-            /*
-             * Make set username as Id
-             */
-
-
+            /* Set username as ID */
             $userId = $entity->getId();
             $entity->setUsername($userId);
             $entity->setUsernameCanonical($userId);
+
+            /* Set signup date */
             $entity->setSignupDate($this->getDatetime());
+
+            /* Deal with referrer */
+            $referrer = $_SESSION['referrer'];
+            if ($referrer){
+                $referrer = $this->container->get('doctrine')->getRepository('WhatsdueMainBundle:User')->find($referrer);
+                $entity->setReferrer($referrer);
+                unset($_SESSION['referrer']);
+            }
+
             $em->persist($entity);
             $em->flush();
-
-
         }
     }
 
-    public function preUpdate(LifeCycleEventArgs $args){
+    public function postUpdate(LifeCycleEventArgs $args){
         $entity = $args->getEntity();
 
         if ($entity instanceof Assignment) {
 
-            $course = $entity->getCourse();
+            $courses = $entity->getCourses();
             /* Send Push Notifications */
-            if ($entity->getArchived() == true){
-                $title = 'Assignment Removed';
-                $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was removed.';
-
-            }else {
-                $title = 'Assignment Updated';
-                $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
+            foreach ($courses as $course){
+//                if ($entity->getArchived() == true){
+//                    $title = 'Assignment Removed';
+//                    $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was removed.';
+//
+//                }else {
+//                    $title = 'Assignment Updated';
+//                    $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
+//                }
+//                $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
             }
-            $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
         }
     }
 }

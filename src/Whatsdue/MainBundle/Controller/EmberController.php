@@ -4,6 +4,7 @@ namespace Whatsdue\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 
 class EmberController extends Controller
@@ -22,9 +23,10 @@ class EmberController extends Controller
         return $this->render('WhatsdueMainBundle:Ember:admin.html.twig');
     }
 
-    public function testAction(){
-        echo "Test Passed";
-        exit;
+    public function referralAction($id){
+        $_SESSION['referrer'] = $id;
+        header("Location: http://whatsdueapp.com");
+        exit();
     }
 
 }

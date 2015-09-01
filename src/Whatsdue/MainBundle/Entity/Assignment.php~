@@ -21,16 +21,19 @@ class Assignment
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="assignments")
-     * @ORM\JoinColumn(name="courseId", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="assignments")
      **/
-    private $course;
+    private $courses;
 
     /**
      * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="assignment", fetch="EXTRA_LAZY")
      **/
     private $studentAssignments;
 
+    /**
+     * @Expose
+     **/
+    private $statuses;
 
     /**
      * Constructor
@@ -75,6 +78,14 @@ class Assignment
      * @Expose
      */
     private $assignmentName;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="customType", type="boolean", nullable=true)
+     * @Expose
+     */
+    private $customType;
 
     /**
      * @var string
@@ -157,6 +168,17 @@ class Assignment
         $this->lastUpdated = $this->timestamp();
         $this->lastModified = $this->timestamp();
 
+    }
+
+    /**
+     * @ORM\PostLoad
+     */
+    public function loadEntityList(){
+        $statusIds = [];
+        foreach($this->studentAssignments as $studentAssignment){
+            $statusIds[] = $studentAssignment->getId();
+        }
+        $this->statuses = array_values($statusIds);
     }
 
 
@@ -412,29 +434,7 @@ class Assignment
         $this->archived = 0;
     }
 
-    /**
-     * Set course
-     *
-     * @param \Whatsdue\MainBundle\Entity\Course $course
-     *
-     * @return Assignment
-     */
-    public function setCourse(Course $course = null)
-    {
-        $this->course = $course;
-
-        return $this;
-    }
-
-    /**
-     * Get course
-     *
-     * @return \Whatsdue\MainBundle\Entity\Course
-     */
-    public function getCourse()
-    {
-        return $this->course;
-    }
+    
 
 
     /**
@@ -469,5 +469,63 @@ class Assignment
     public function getStudentAssignments()
     {
         return $this->studentAssignments;
+    }
+
+    /**
+     * Set customType
+     *
+     * @param boolean $customType
+     *
+     * @return Assignment
+     */
+    public function setCustomType($customType)
+    {
+        $this->customType = $customType;
+
+        return $this;
+    }
+
+    /**
+     * Get customType
+     *
+     * @return boolean
+     */
+    public function getCustomType()
+    {
+        return $this->customType;
+    }
+
+    /**
+     * Add course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     *
+     * @return Assignment
+     */
+    public function addCourse(Course $course)
+    {
+        $this->courses[] = $course;
+
+        return $this;
+    }
+
+    /**
+     * Remove course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     */
+    public function removeCourse(Course $course)
+    {
+        $this->courses->removeElement($course);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
 }

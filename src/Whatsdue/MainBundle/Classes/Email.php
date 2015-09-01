@@ -41,7 +41,7 @@ class Email {
         $emailLog->setRecipients(json_encode($recipients));
         $emailLog->setRecipientCount(count($recipients));
         $emailLog->setTag($tag);
-        $emailLog->setUser($user->getId());
+        $emailLog->setUser($user);
         $emailLog->setMeta(json_encode($meta));
 
         $emailLog->setDate($this->container->get('helper')->getUserDateTime());

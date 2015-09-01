@@ -30,7 +30,12 @@ class Course
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="Assignment", mappedBy="course", fetch="EXTRA_LAZY", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Assignment", inversedBy="courses", cascade={"all"})
+     * @ORM\JoinTable(name="course_assignment",
+     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     *
      **/
     private $assignments;
 
@@ -38,7 +43,9 @@ class Course
      * @ORM\ManyToMany(targetEntity="Student", inversedBy="course", cascade={"all"})
      * @ORM\JoinTable(name="course_student",
      *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")})
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     *
      **/
     private $students;
 
@@ -48,8 +55,10 @@ class Course
      */
     public function __construct()
     {
+
         $this->students = new ArrayCollection();
         $this->assignments = new ArrayCollection();
+
     }
 
     /**
@@ -140,6 +149,18 @@ class Course
     private $deviceIds;
 
     /**
+     * @Expose
+     */
+    public $studentList;
+
+    /**
+     * @Expose
+     */
+    public $assignmentList;
+
+
+
+    /**
      * Get deviceIds
      *
      * @return string
@@ -179,6 +200,22 @@ class Course
 
     }
 
+    /**
+     * @ORM\PostLoad
+     */
+    public function loadEntityList(){
+        $studentIds = [];
+        foreach($this->students as $student){
+            $studentIds[] = $student->getId();
+        }
+        $this->studentList = array_values($studentIds);
+
+        $assignmentIds = [];
+        foreach($this->assignments as $assignment){
+            $assignmentIds[] = $assignment->getId();
+        }
+        $this->assignmentList = array_values($assignmentIds);
+    }
     /**
      * Get lastModified
      *

@@ -5,11 +5,11 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: doctrine.event_listener, event: prePersist }
-    whatsdue.courses.update_course:
+    whatsdue.courses.post_update:
         class: Whatsdue\MainBundle\Classes\LifecycleActions
         arguments: ['@service_container']
         tags:
-            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
 
     whatsdue.courses.post_persist:
         class: Whatsdue\MainBundle\Classes\LifecycleActions
