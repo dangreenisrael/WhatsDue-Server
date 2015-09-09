@@ -113,6 +113,22 @@ class Assignment
     private $timeVisible;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_bulk", type="boolean", nullable=true)
+     * @Expose
+     */
+    private $isBulk;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="bulk_id", type="integer", length=255, nullable=true)
+     * @Expose
+     */
+    private $bulkId;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="createdAt", type="integer", length=255)
@@ -484,5 +500,53 @@ class Assignment
     public function getStudentAssignments()
     {
         return $this->studentAssignments;
+    }
+
+    /**
+     * Set isBulk
+     *
+     * @param boolean $isBulk
+     *
+     * @return Assignment
+     */
+    public function setIsBulk($isBulk)
+    {
+        $this->isBulk = $isBulk;
+
+        return $this;
+    }
+
+    /**
+     * Get isBulk
+     *
+     * @return boolean
+     */
+    public function getIsBulk()
+    {
+        return $this->isBulk;
+    }
+
+    /**
+     * Set bulkId
+     *
+     * @param integer $bulkId
+     *
+     * @return Assignment
+     */
+    public function setBulkId($bulkId)
+    {
+        $this->bulkId = $bulkId;
+
+        return $this;
+    }
+
+    /**
+     * Get bulkId
+     *
+     * @return integer
+     */
+    public function getBulkId()
+    {
+        return $this->bulkId;
     }
 }

@@ -21,9 +21,10 @@ class Assignment
 {
 
     /**
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="assignments")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="assignments")
+     * @ORM\JoinColumn(name="courseId", referencedColumnName="id")
      **/
-    private $courses;
+    private $course;
 
     /**
      * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="assignment", fetch="EXTRA_LAZY")
@@ -80,14 +81,6 @@ class Assignment
     private $assignmentName;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="customType", type="boolean", nullable=true)
-     * @Expose
-     */
-    private $customType;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
@@ -118,6 +111,22 @@ class Assignment
      * @Expose
      */
     private $timeVisible;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_bulk", type="boolean", nullable=true)
+     * @Expose
+     */
+    private $isBulk;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="bulk_id", type="integer", length=255)
+     * @Expose
+     */
+    private $bulkId;
 
     /**
      * @var integer
@@ -434,7 +443,29 @@ class Assignment
         $this->archived = 0;
     }
 
-    
+    /**
+     * Set course
+     *
+     * @param \Whatsdue\MainBundle\Entity\Course $course
+     *
+     * @return Assignment
+     */
+    public function setCourse(Course $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \Whatsdue\MainBundle\Entity\Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
 
 
     /**
@@ -472,60 +503,50 @@ class Assignment
     }
 
     /**
-     * Set customType
+     * Set isBulk
      *
-     * @param boolean $customType
+     * @param boolean $isBulk
      *
      * @return Assignment
      */
-    public function setCustomType($customType)
+    public function setIsBulk($isBulk)
     {
-        $this->customType = $customType;
+        $this->isBulk = $isBulk;
 
         return $this;
     }
 
     /**
-     * Get customType
+     * Get isBulk
      *
      * @return boolean
      */
-    public function getCustomType()
+    public function getIsBulk()
     {
-        return $this->customType;
+        return $this->isBulk;
     }
 
     /**
-     * Add course
+     * Set bulkId
      *
-     * @param \Whatsdue\MainBundle\Entity\Course $course
+     * @param integer $bulkId
      *
      * @return Assignment
      */
-    public function addCourse(Course $course)
+    public function setBulkId($bulkId)
     {
-        $this->courses[] = $course;
+        $this->bulkId = $bulkId;
 
         return $this;
     }
 
     /**
-     * Remove course
+     * Get bulkId
      *
-     * @param \Whatsdue\MainBundle\Entity\Course $course
+     * @return integer
      */
-    public function removeCourse(Course $course)
+    public function getBulkId()
     {
-        $this->courses->removeElement($course);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCourses()
-    {
-        return $this->courses;
+        return $this->bulkId;
     }
 }

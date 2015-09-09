@@ -30,12 +30,7 @@ class Course
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Assignment", inversedBy="courses", cascade={"all"})
-     * @ORM\JoinTable(name="course_assignment",
-     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
-     * )
-     *
+     * @ORM\OneToMany(targetEntity="Assignment", mappedBy="course", fetch="EXTRA_LAZY", cascade={"all"})
      **/
     private $assignments;
 

@@ -201,6 +201,39 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
+    public function postAssignmentsBulkAction( Request $request ){
+        $em = $this->getDoctrine()->getManager();
+        $courses = json_decode($request->getContent());
+        $bulkId = rand(0,999999999999999);
+        foreach ($courses as $course){
+            $currentCourse = $em->getRepository("WhatsdueMainBundle:Course")->find($course->id);
+            foreach($course->assignment as $assignment){
+                $newAssignment = new Assignment();
+                $newAssignment->setAssignmentName($assignment->assignment_name);
+                $newAssignment->setDescription($assignment->description);
+                $newAssignment->setDueDate($assignment->due_date);
+                $newAssignment->setTimeVisible($assignment->time_visible);
+                $newAssignment->setCourseId($course->id);
+                $newAssignment->setCourse($currentCourse);
+                $newAssignment->setBulkId($bulkId);
+                $newAssignment->setIsBulk(true);
+                $em->persist($newAssignment);
+                foreach($currentCourse->getStudents() as $student){
+                    $studentAssignment = new StudentAssignment();
+                    $studentAssignment->setStudent($student);
+                    $studentAssignment->setAssignment($newAssignment);
+                    $em->persist($studentAssignment);
+                }
+            }
+        }
+        $em->flush();
+        return array('Multiple Assignments Added');
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
     public function putAssignmentsAction($id, Request $request){
 
         $data = json_decode($request->getContent());
