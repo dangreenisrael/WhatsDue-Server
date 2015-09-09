@@ -91,19 +91,17 @@ class LifecycleActions {
 
         if ($entity instanceof Assignment) {
 
-            $courses = $entity->getCourses();
+            $course = $entity->getCourse();
             /* Send Push Notifications */
-            foreach ($courses as $course){
-//                if ($entity->getArchived() == true){
-//                    $title = 'Assignment Removed';
-//                    $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was removed.';
-//
-//                }else {
-//                    $title = 'Assignment Updated';
-//                    $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
-//                }
-//                $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
+            if ($entity->getArchived() == true){
+                $title = 'Assignment Removed';
+                $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was removed.';
+
+            }else {
+                $title = 'Assignment Updated';
+                $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
             }
+            $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
         }
     }
 }
