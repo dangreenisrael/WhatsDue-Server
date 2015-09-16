@@ -253,14 +253,13 @@ class TeacherController extends FOSRestController {
      * @return array
      * @View()
      */
-    public function deleteAssignmentsAction($id){
+    public function deleteAssignmentAction($id){
         $em = $this->getDoctrine()->getManager();
         $assignment = $this->getAssignment($id);
         $assignment->setArchived(true);
         $em->flush();
         return $this->view('', 204);
     }
-
 
     /**
      * @return array
