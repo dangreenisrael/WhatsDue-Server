@@ -54,10 +54,12 @@ class LifecycleActions {
         $em = $args->getEntityManager();
 
         if ($entity instanceof Assignment) {
-            $course = $entity->getCourse();
-            $title = $course->getCourseName();
-            $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
-            $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
+            if (!$entity->getIsBulk()){
+                $course = $entity->getCourse();
+                $title = $course->getCourseName();
+                $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
+                $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
+            }
         }
 
         if ($entity instanceof User) {
