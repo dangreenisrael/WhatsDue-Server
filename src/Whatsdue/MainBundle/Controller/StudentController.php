@@ -386,11 +386,19 @@ class StudentController extends FOSRestController{
      * Depreciated August 2015
      */
     public function getAllCoursesAction(){
+
+        $data = array(
+            "course"=>array(),
+            "meta"=>array(
+                "timestamp"=> 0
+            )
+        );
+        return $data;
         $courses = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Course');
         $sendAll = $this->getHeader('sendAll');
         $timestamp = json_decode($this->getHeader('timestamp'));
         if ($sendAll == true){
-            $courses = $courses->findAll();
+            //$courses = $courses->findAll();
         } else{
             $query = $courses->createQueryBuilder('p')
                 ->where('p.lastModified >= :timestamp')
@@ -399,6 +407,7 @@ class StudentController extends FOSRestController{
             $courses = $query->getResult();
         }
 
+        return null;
         $cleanCourses = [];
         foreach($courses as $course){
             $course->setDeviceIds(null);
