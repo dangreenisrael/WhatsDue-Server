@@ -102,6 +102,4 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
         $message = "You have things to get done for tomorrow";
         $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $notificationList);
     }
-
-
 }

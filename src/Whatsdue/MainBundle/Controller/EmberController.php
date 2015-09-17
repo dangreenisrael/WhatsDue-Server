@@ -26,7 +26,7 @@ class EmberController extends Controller
     public function referralAction($id){
         $_SESSION['referrer'] = $id;
         header("Location: http://whatsdueapp.com");
-        exit();
+        return $this->render('WhatsdueMainBundle:Misc:referral.html.twig');
     }
 
 }
