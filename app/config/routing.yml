@@ -23,10 +23,15 @@ fos_user_change_password:
 
 # REST
 
+old_student:
+    type:     rest
+    resource: "@WhatsdueMainBundle/Resources/config/old_student_routes.yml"
+    prefix: /student
+
 student:
     type:     rest
     resource: "@WhatsdueMainBundle/Resources/config/student_routes.yml"
-    prefix: /student
+    prefix: /api/v1/student
 
 teacher:
     resource: Whatsdue\MainBundle\Controller\TeacherController

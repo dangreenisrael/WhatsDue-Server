@@ -31,7 +31,8 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 
-            new RMS\PushNotificationsBundle\RMSPushNotificationsBundle(),
+            new RMS\PushNotificationsBundle\RMSPushNotificationsBundle()
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -35,7 +35,8 @@
         "plivo/plivo-php": "dev-master",
         "mashape/unirest-php": "~2.6",
 
-        "fightbulc/moment": "*"
+        "fightbulc/moment": "*",
+        "knplabs/knp-paginator-bundle": "~2.5"
     },
     "scripts": {
         "post-install-cmd": [

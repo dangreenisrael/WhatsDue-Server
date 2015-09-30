@@ -32,7 +32,7 @@ class Assignment
     private $studentAssignments;
 
     /**
-     * @Expose
+     * Expose
      **/
     private $statuses;
 
@@ -156,6 +156,12 @@ class Assignment
         $date = new \DateTime();
         return $date->format('U');
     }
+
+    /* Virtual Variables (non permanent) */
+    /**
+     * @Expose
+     */
+    public $completed;
 
 
     /**

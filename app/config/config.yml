@@ -115,6 +115,11 @@ nelmio_cors:
             allow_headers: ['*']
             allow_methods: ['OPTIONS','POST', 'PUT', 'GET', 'DELETE']
             max_age: 3600
+        '^/api/v1/student/':
+            allow_origin:  ['*']
+            allow_headers: ['*']
+            allow_methods: ['OPTIONS','POST', 'PUT', 'GET', 'DELETE']
+            max_age: 3600
 
 jms_serializer:
     metadata:
@@ -131,3 +136,4 @@ rms_push_notifications:
         sandbox: false
         pem: certificates/ck.pem # can be absolute or relative path (from app directory)
         passphrase: Ezonics3228
+

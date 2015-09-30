@@ -15,6 +15,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
+ * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\StudentAssignmentRepository")
  */
 class StudentAssignment
 {
@@ -22,6 +23,7 @@ class StudentAssignment
     /**
      * @ORM\ManyToOne(targetEntity="Assignment", inversedBy="studentAssignments")
      * @ORM\JoinColumn(name="assignment", referencedColumnName="id")
+     * @Expose
      **/
     private $assignment;
 
@@ -30,6 +32,7 @@ class StudentAssignment
      * @ORM\JoinColumn(name="student", referencedColumnName="id")
      **/
     private $student;
+
 
     /**
      * @Expose
