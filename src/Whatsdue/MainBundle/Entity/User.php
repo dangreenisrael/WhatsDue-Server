@@ -138,9 +138,7 @@ class User extends BaseUser
                 $students[] = $student->getId();
             }
         }
-
         $students = array_unique($students);
-
         $this->uniqueStudents       = count($students);
         $this->uniqueInvitations    = count($this->getEmailLog());
         $this->totalCourses         = count($this->getCourses());

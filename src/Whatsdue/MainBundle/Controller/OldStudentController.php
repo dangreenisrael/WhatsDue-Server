@@ -28,14 +28,14 @@ class OldStudentController extends FOSRestController{
     }
 
     public function getStudentId(){
-//        if (@$_SESSION['studentId']) {
-//            $studentId = $_SESSION['studentId'];
-//        } elseif ( $this->getHeader('X-Student-Id') ){
-//            $studentId = $this->getHeader('X-Student-Id');
-//        } else{
-//            $studentId = 0;
-//        }
-        $studentId = 1;
+        if (@$_SESSION['studentId']) {
+            $studentId = $_SESSION['studentId'];
+        } elseif ( $this->getHeader('X-Student-Id') ){
+            $studentId = $this->getHeader('X-Student-Id');
+        } else{
+            $studentId = 0;
+        }
+
         return $studentId;
     }
 
@@ -104,30 +104,8 @@ class OldStudentController extends FOSRestController{
      * @return array
      * @View()
      */
-    public function getStudentAssignmentsAction(){
-        $studentId = $this->getStudentId();
-        $studentsAssignmentRepo = $this->getDoctrine()
-            ->getRepository('WhatsdueMainBundle:StudentAssignment');
-        $request = $this->get('request');
-        $page = $request->query->get('page');
-        $perPage = $request->query->get('per_page');
-        if (!$page) $page = 1;
-        if (!$perPage) $perPage = 21;
-        return $studentsAssignmentRepo->findDuePaginated(
-            $studentId,
-            $page,
-            $perPage
-        );
-    }
-
-    /**
-     * @return array
-     * @View()
-     */
     public function putStudentAssignmentsAction($assignmentId, Request $request){
         $data = json_decode($request->getContent())->assignment;
-        var_dump($data);
-        exit;
         $studentId = $this->getStudentId();
         $em = $this->getDoctrine()->getManager();
         $studentAssignment = $em->getRepository('WhatsdueMainBundle:StudentAssignment')
@@ -348,14 +326,19 @@ class OldStudentController extends FOSRestController{
 
     public function putCourseUnenrollAction($courseId){
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
+        $studentId = $this->getStudentId();
+        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
+        $studentAssignments = $em->getRepository('WhatsdueMainBundle:StudentAssignment')->findStudentCourse($studentId, $courseId);
         if ($student){
             $student->removeCourse($course);
             $course->removeStudent($student);
+            foreach($studentAssignments as $studentAssignment){
+                $em->remove($studentAssignment);
+            }
             $em->flush();
         }
-        return array("course"=> $course);
+        return null;
     }
 
 

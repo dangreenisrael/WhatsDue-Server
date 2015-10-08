@@ -43,10 +43,10 @@ security:
 
 
     access_control:
-        - { path: ^/secure, role: [ROLE_USER], requires_channel: https  }
-        - { path: ^/api/teacher, role: [ROLE_USER] , requires_channel: https}
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https  }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: https  }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: https  }
-        - { path: ^/aaron, role: [ROLE_SUPER_ADMIN],requires_channel: https  }
-        - { path: ^/api/admin, role: [ROLE_SUPER_ADMIN], requires_channel: https  }
+        - { path: ^/secure, role: [ROLE_USER], requires_channel: "%ssl%"  }
+        - { path: ^/api/teacher, role: [ROLE_USER] , requires_channel: "%ssl%"}
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }
+        - { path: ^/aaron, role: [ROLE_SUPER_ADMIN],requires_channel: "%ssl%"  }
+        - { path: ^/api/admin, role: [ROLE_SUPER_ADMIN], requires_channel: "%ssl%"  }

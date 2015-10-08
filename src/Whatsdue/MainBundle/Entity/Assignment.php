@@ -189,11 +189,11 @@ class Assignment
      * @ORM\PostLoad
      */
     public function loadEntityList(){
-        $statusIds = [];
-        foreach($this->studentAssignments as $studentAssignment){
-            $statusIds[] = $studentAssignment->getId();
-        }
-        $this->statuses = array_values($statusIds);
+//        $statusIds = [];
+//        foreach($this->studentAssignments as $studentAssignment){
+//            $statusIds[] = $studentAssignment->getId();
+//        }
+//        $this->statuses = array_values($statusIds);
     }
 
 

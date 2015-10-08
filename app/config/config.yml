@@ -23,7 +23,7 @@ framework:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
     fragments:       ~
-    http_method_override: true
+    http_method_override: false
 
 # Twig Configuration
 twig:
@@ -133,7 +133,7 @@ rms_push_notifications:
         gcm:
           api_key: AIzaSyDbUaBlRrYZpg2GPLqZTls-SAGIX1cBDek
     ios:
-        sandbox: false
-        pem: certificates/ck.pem # can be absolute or relative path (from app directory)
-        passphrase: Ezonics3228
+        sandbox: "%push_ios_sandbox%"
+        pem: "%push_ios_path%" # can be absolute or relative path (from app directory)
+        passphrase: "%push_ios_passphrase%"
 

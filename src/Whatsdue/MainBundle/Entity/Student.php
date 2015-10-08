@@ -9,6 +9,7 @@ use Whatsdue\MainBundle\Entity\Device;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use Doctrine\Common\Util\Debug;
 
 
 /**
@@ -16,6 +17,7 @@ use JMS\Serializer\Annotation\Expose;
  *
  * @ORM\Table(name="student")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
  */
 class Student
@@ -133,7 +135,19 @@ class Student
      */
     private $signupDate;
 
+    private $courseList;
 
+
+    /**
+     * @ORM\PostLoad
+     */
+    public function loadEntityList(){
+//        $courseIds = [];
+//        foreach($this->courses as $course){
+//            //$courseIds[] = $course->getId();
+//        }
+//        $this->courseList = array_values($courseIds);
+    }
 
 
     /**
@@ -491,5 +505,15 @@ class Student
     public function getSignupDate()
     {
         return $this->signupDate;
+    }
+
+    /**
+     * Get courseIds
+     *
+     * @return array
+     */
+    public function getCourseList()
+    {
+        return $this->courseList;
     }
 }

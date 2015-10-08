@@ -18,6 +18,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Table(name="course")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\CourseRepository")
  * @ExclusionPolicy("all")
  */
 class Course
@@ -199,17 +200,17 @@ class Course
      * @ORM\PostLoad
      */
     public function loadEntityList(){
-        $studentIds = [];
-        foreach($this->students as $student){
-            $studentIds[] = $student->getId();
-        }
-        $this->studentList = array_values($studentIds);
-
-        $assignmentIds = [];
-        foreach($this->assignments as $assignment){
-            $assignmentIds[] = $assignment->getId();
-        }
-        $this->assignmentList = array_values($assignmentIds);
+//        $studentIds = [];
+//        foreach($this->students as $student){
+//            $studentIds[] = $student->getId();
+//        }
+//        $this->studentList = array_values($studentIds);
+//
+//        $assignmentIds = [];
+//        foreach($this->assignments as $assignment){
+//            $assignmentIds[] = $assignment->getId();
+//        }
+//        $this->assignmentList = array_values($assignmentIds);
     }
     /**
      * Get lastModified

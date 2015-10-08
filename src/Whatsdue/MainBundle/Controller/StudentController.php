@@ -36,14 +36,13 @@ class StudentController extends FOSRestController{
     /**** Student Stuff ****/
 
     public function getStudentId(){
-//        if (@$_SESSION['studentId']) {
-//            $studentId = $_SESSION['studentId'];
-//        } elseif ( $this->getHeader('X-Student-Id') ){
-//            $studentId = $this->getHeader('X-Student-Id');
-//        } else{
-//            $studentId = 0;
-//        }
-        $studentId = 1;
+        if (@$_SESSION['studentId']) {
+            $studentId = $_SESSION['studentId'];
+        } elseif ( $this->getHeader('X-Student-Id') ){
+            $studentId = $this->getHeader('X-Student-Id');
+        } else{
+            $studentId = 0;
+        }
         return $studentId;
     }
 
@@ -139,9 +138,6 @@ class StudentController extends FOSRestController{
         return array("student"=> $student);
     }
 
-
-
-
     /**** COURSES ****/
 
     /**
@@ -169,23 +165,30 @@ class StudentController extends FOSRestController{
      * @View()
      *
      */
-
-    public function putCoursesEnrollAction($courseCode){
-
+    public function postCoursesAction(Request $request){
+        $courseCode = json_decode($request->getContent())->course->course_code;
         $em = $this->getDoctrine()->getManager();
         $studentRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Student');
         $student = $studentRepo->find($this->getStudentId());
-        $course = $em
-            ->getRepository('WhatsdueMainBundle:Course')
-            ->findOneBy(array('courseCode'=> $courseCode));
+        $courseRepo = $em
+            ->getRepository('WhatsdueMainBundle:Course');
+        $course = $courseRepo->findOneBy(array('courseCode'=> $courseCode));
         if($course){
+
+            if ($courseRepo->hasStudent($course, $student)){
+                return array("course"=>
+                    array("error"=>"You are already enrolled in this class")
+                );
+            }
             $salutation = $course->getUser()->getSalutation();
             $firstName = $course->getUser()->getFirstName();
             $lastName = $course->getUser()->getLastName();
             $course->setInstructorName("$salutation $firstName $lastName");
             if ($student){
                 $course->addStudent($student);
+                $i=0;
                 foreach($course->getAssignments() as $assignment){
+                    $i++;
                     $studentAssignment = new StudentAssignment();
                     $studentAssignment->setAssignment($assignment);
                     $studentAssignment->setStudent($student);
@@ -196,28 +199,32 @@ class StudentController extends FOSRestController{
             return array("course"=> $course);
         }
         else{
-            header("HTTP/1.1 404 Course Not Found");
-            echo "Course not found";
-            exit;
+            return array("course"=>
+                array("error"=>"Invalid Course Code")
+            );
         }
     }
-
 
     /**
      * @return array
      * @View()
      */
 
-    public function putCourseUnenrollAction($courseId){
+    public function deleteCourseAction($courseId){
         $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
+        $studentId = $this->getStudentId();
+        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
+        $studentAssignments = $em->getRepository('WhatsdueMainBundle:StudentAssignment')->findStudentCourse($studentId, $courseId);
         if ($student){
             $student->removeCourse($course);
             $course->removeStudent($student);
+            foreach($studentAssignments as $studentAssignment){
+                $em->remove($studentAssignment);
+            }
             $em->flush();
         }
-        return array("course"=> $course);
+        return null;
     }
 
 
@@ -227,11 +234,10 @@ class StudentController extends FOSRestController{
      * @return array
      * @View()
      */
-    public function getAssignmentsAction(){
+    public function getAssignmentsAction(Request $request){
         $studentId = $this->getStudentId();
         $studentsAssignmentRepo = $this->getDoctrine()
             ->getRepository('WhatsdueMainBundle:StudentAssignment');
-        $request = $this->get('request');
         $page = $request->query->get('page');
         $perPage = $request->query->get('per_page');
         $completed = $request->query->get('completed');
@@ -246,6 +252,16 @@ class StudentController extends FOSRestController{
                 $perPage
             );
         }
+    }
+
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getUpdatesAssignmentsAction($timestamp){
+        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:StudentAssignment');
+        return $repo->findAssignmentTimestamp($this->getStudentId(), $timestamp);
     }
 
     /**
