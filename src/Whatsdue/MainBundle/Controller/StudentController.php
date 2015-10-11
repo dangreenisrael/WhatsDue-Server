@@ -35,15 +35,22 @@ class StudentController extends FOSRestController{
 
     /**** Student Stuff ****/
 
-    public function getStudentId(){
-        if (@$_SESSION['studentId']) {
-            $studentId = $_SESSION['studentId'];
-        } elseif ( $this->getHeader('X-Student-Id') ){
-            $studentId = $this->getHeader('X-Student-Id');
+    public function getStudent(){
+        $em = $this->getDoctrine()->getManager();
+        $studentRepo = $em->getRepository('WhatsdueMainBundle:Student');
+        $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
+        if ( $this->getHeader('X-Student-Id') ){
+            $student = $studentRepo->find($this->getHeader('X-Student-Id'));
+        } elseif ( $this->getHeader('X-UUID') ){
+            $student = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')))->getStudent();
         } else{
-            $studentId = 0;
+            $student = $studentRepo->find(0);
         }
-        return $studentId;
+        return $student;
+    }
+
+    public function getStudentId(){
+        return $this->getStudent()->getId();
     }
 
     /**
@@ -54,8 +61,7 @@ class StudentController extends FOSRestController{
      */
 
     public function getStudentsAction(){
-        $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
+        $student = $this->getStudent();
         return array("student"=> array($student));
     }
 
@@ -108,7 +114,6 @@ class StudentController extends FOSRestController{
             $student = $device->getStudent();
             $em->flush();
         }
-        $_SESSION['studentId'] = $student->getId();
         return array("student"=>$student);
     }
 
@@ -154,8 +159,7 @@ class StudentController extends FOSRestController{
      * @View()
      */
     public function getCoursesAction(){
-        $student = $this->getDoctrine()
-            ->getRepository('WhatsdueMainBundle:Student')->find($this->getStudentId());
+        $student = $this->getStudent();
         return array('course'=>$student->getCourses());
 
     }
@@ -282,5 +286,4 @@ class StudentController extends FOSRestController{
         $em->flush();
         return array("assignment" => $studentAssignment->getAssignment());
     }
-
 }
