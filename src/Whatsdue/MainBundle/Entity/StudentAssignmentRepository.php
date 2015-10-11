@@ -87,9 +87,6 @@ class StudentAssignmentRepository extends EntityRepository
             ->setParameter(2, $timestamp);
         try {
             $results =  new Paginator($query, $fetchJoin = true);
-            foreach ($results as $result){
-                $result->completed = true;
-            }
             return array(
                 'records'=>array(
                     'assignment'=>$results->getIterator()->getArrayCopy()
@@ -123,4 +120,5 @@ class StudentAssignmentRepository extends EntityRepository
             return null;
         }
     }
+
 }

@@ -284,6 +284,9 @@ class StudentController extends FOSRestController{
         $studentAssignment->setCompleted($data->completed);
         $studentAssignment->setCompletedDate($data->completed_date);
         $em->flush();
-        return array("assignment" => $studentAssignment->getAssignment());
+        $assignment = $studentAssignment->getAssignment();
+        $assignment->setCompleted($data->completed);
+        $assignment->setCompletedDate($data->completed_date);
+        return array("assignment" => $assignment);
     }
 }

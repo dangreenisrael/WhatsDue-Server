@@ -157,11 +157,6 @@ class Assignment
         return $date->format('U');
     }
 
-    /* Virtual Variables (non permanent) */
-    /**
-     * @Expose
-     */
-    public $completed;
 
 
     /**
@@ -555,4 +550,24 @@ class Assignment
     {
         return $this->bulkId;
     }
+
+
+    /******** Virtual Variables (no persistance) ************/
+    /**
+     * @Expose
+     */
+    public $completed;
+
+    /**
+     * @Expose
+     */
+    public $completedDate;
+
+    public function setCompleted($completed){
+        $this->completed = $completed;
+    }
+    public function setCompletedDate($completedDate){
+        $this->completedDate = $completedDate;
+    }
+
 }

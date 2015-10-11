@@ -23,7 +23,7 @@ class StudentAssignment
     /**
      * @ORM\ManyToOne(targetEntity="Assignment", inversedBy="studentAssignments")
      * @ORM\JoinColumn(name="assignment", referencedColumnName="id")
-     * @Expose
+     *
      **/
     private $assignment;
 
