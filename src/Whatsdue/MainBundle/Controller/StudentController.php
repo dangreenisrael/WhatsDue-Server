@@ -289,4 +289,12 @@ class StudentController extends FOSRestController{
         $assignment->setCompletedDate($data->completed_date);
         return array("assignment" => $assignment);
     }
+
+    /**
+     * @return array
+     * @View()
+     */
+    public function getTestConnectionAction(){
+        return true;
+    }
 }
