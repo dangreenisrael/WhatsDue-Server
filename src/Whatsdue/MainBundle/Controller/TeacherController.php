@@ -17,6 +17,7 @@ use Whatsdue\MainBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\FOSRestController;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
+use Unirest;
 
 class TeacherController extends FOSRestController {
 
@@ -321,66 +322,10 @@ class TeacherController extends FOSRestController {
      */
 
     public function postEmailInviteAction(Request $request){
-        $data       = json_decode($request->getContent())->email;
-        $mailer     = $this->get('mailer');
-
-        // Setting sender name as username:
-        $user= $this->getUser();
-        $firstName  = $user->getFirstName();
-        $lastName   = $user->getLastName();
-        $salutation = $user->getSalutation();
-        $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
-        $message        = $data->message;
-
-        // Fix formatting
-        $messageHTML = str_replace("\n", "</p><p>", $message);
-
-        /*
-         * Handle Emails
-         */
-        $emailsRaw     = preg_split( "/\n|,| /", $data->email_list );
-        $emailsDirty   = array_values( array_filter($emailsRaw) );
-        $emailsValid   = [];
-        $emailsInvalid     = [];
-        foreach ($emailsDirty as $email){
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-                // Email is valid
-                $emailsValid[]=$email;
-            } else{
-                // Email is invalid
-                $emailsInvalid[]=$email;
-            }
-        }
-
-        /*
-         * Prepare and Send Emails
-         */
-        $courses = $this->getDoctrine()
-            ->getRepository('WhatsdueMainBundle:Course')
-            ->findBy(array(
-                "id" => $data->courses
-            ));
-
-        foreach ($courses as $course){
-            $subject = "Please add ".$course->getCourseName() ." on WhatsDue";
-            $htmlBody = $this->renderView(
-                'emails/invite.html.twig',
-                array(
-                    'message'       => $messageHTML,
-                    'courseName'    => $course->getCourseName(),
-                    'courseCode'    => $course->getCourseCode(),
-                    'teacherName'   => $salutation
-                )
-            );
-            $meta = array("courseCode"=>$course->getCourseCode());
-            $tag = "Invite Users";
-            $this->get('email')->sendBulk($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
-        }
-
-        return array(
-            "emails_valid"      =>$emailsValid,
-            "emails_invalid"    => $emailsInvalid
-            );
+        return $this->get('email')->sendInvites(
+            $request,
+            $this->getUser()
+        );
     }
 
 }

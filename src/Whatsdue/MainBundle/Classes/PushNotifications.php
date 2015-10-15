@@ -104,5 +104,6 @@ class PushNotifications {
          */
         $this->androidNotifications($title, $message, $androidUsers);
         $this->iosNotifications($message, $iosUsers);
+        var_dump($iosUsers);
     }
 } 

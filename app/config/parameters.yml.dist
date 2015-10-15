@@ -18,3 +18,4 @@ parameters:
     push_ios_sandbox: false
     push_ios_path: certificates/APNS/production_com.whatsdue.app.pem
     push_ios_passphrase: null
+    branch_url: http://api.branch.io/v1/url?branch_key=key_test_pnpGrYydWQUPl7fgotkbxojgrBkdnpe4
