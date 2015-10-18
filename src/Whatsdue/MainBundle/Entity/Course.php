@@ -144,6 +144,7 @@ class Course
      */
     private $deviceIds;
 
+    /* Virtual Properties */
     /**
      * @Expose
      */

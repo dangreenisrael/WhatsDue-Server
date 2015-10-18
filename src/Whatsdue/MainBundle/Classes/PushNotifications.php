@@ -26,7 +26,8 @@ class PushNotifications {
             'title'			=> $title,
             'message' 		=> $message,
             'vibrate'	    => 1,
-            'sound'		    => 1
+            'sound'		    => 1,
+            'style'         => "inbox",
         );
 
         $fields = array
@@ -50,6 +51,7 @@ class PushNotifications {
         curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
         $result = curl_exec($ch );
         curl_close( $ch );
+        return $result;
     }
 
     private function iosNotifications($text, $pushIds){
@@ -104,6 +106,6 @@ class PushNotifications {
          */
         $this->androidNotifications($title, $message, $androidUsers);
         $this->iosNotifications($message, $iosUsers);
-        var_dump($iosUsers);
+
     }
 } 

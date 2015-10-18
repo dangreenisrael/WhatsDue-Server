@@ -57,7 +57,7 @@ class StudentController extends FOSRestController{
      * @return array
      * @View()
      *
-     * Note: As an ember hack we need to make student in an array
+     * Note: As an ember hack we need to put student in an array
      */
 
     public function getStudentsAction(){

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\FOSRestController;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
 use Unirest;
+use Doctrine\Common\Collections\Criteria;
 
 class TeacherController extends FOSRestController {
 
@@ -44,6 +45,11 @@ class TeacherController extends FOSRestController {
     private function getCourse($id){
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($id);
+        $studentIds = [];
+        foreach($course->getStudents() as $student){
+            $studentIds[] = $student->getId();
+        }
+        $course->studentList = array_values($studentIds);
         if ($course->getUser()->getId() != $this->getUser()->getId()) exit;
         return $course;
     }
@@ -64,8 +70,10 @@ class TeacherController extends FOSRestController {
      * @View()
      */
     public function getCoursesAction(){
-        $courses = $this->getUser()->getCourses();
-        return array("courses"=>$courses);
+        $criteria = Criteria::create()->where(Criteria::expr()->neq("archived", true));
+        $courses = $this->getUser()->getCourses()->matching($criteria);
+        $courses = call_user_func_array('array_merge', (array)$courses);
+        return array("courses"=> $courses);
     }
 
     /**
@@ -157,15 +165,16 @@ class TeacherController extends FOSRestController {
      * @View()
      */
     public function getAssignmentsAction(){
-
-        $courses = $this->getUser()->getCourses();
+        $criteria = Criteria::create()->where(Criteria::expr()->neq("archived", true));
+        $courses = $this->getUser()->getCourses()->matching($criteria);
         $courseIds = [];
         foreach ($courses as $course){
             $courseIds[] = $course->getId();
         }
         $em = $this->getDoctrine()->getManager();
         $assignments = $em->getRepository('WhatsdueMainBundle:Assignment')->findBy(array(
-            'courseId' => $courseIds
+            'courseId' => $courseIds,
+            'archived' => false
         ));
 
         return array("assignment" => $assignments);
