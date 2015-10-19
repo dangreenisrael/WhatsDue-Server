@@ -331,9 +331,12 @@ class TeacherController extends FOSRestController {
      */
 
     public function postEmailInviteAction(Request $request){
+        $data       = json_decode($request->getContent())->email;
         return $this->get('email')->sendInvites(
-            $request,
-            $this->getUser()
+            $this->getUser(),
+            $data->message,
+            $data->courses,
+            $data->email_list
         );
     }
 

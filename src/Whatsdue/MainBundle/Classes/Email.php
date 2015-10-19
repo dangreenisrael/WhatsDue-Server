@@ -50,22 +50,17 @@ class Email {
         $em->flush();
     }
 
-    public function sendInvites($request, $user){
-        $data       = json_decode($request->getContent())->email;
+    public function sendInvites($user, $messageTxt, $courseIds, $emailList){
+        $messageHTML = str_replace("\n", "</p><p>", $messageTxt);
+        $emailsRaw     = preg_split( "/\n|,| /", $emailList );
         // Setting sender name as username:
         $firstName  = $user->getFirstName();
         $lastName   = $user->getLastName();
         $salutation = $user->getSalutation();
         $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
-        $message        = $data->message;
-
-        // Fix formatting
-        $messageHTML = str_replace("\n", "</p><p>", $message);
-
         /*
          * Handle Emails
          */
-        $emailsRaw     = preg_split( "/\n|,| /", $data->email_list );
         $emailsDirty   = array_values( array_filter($emailsRaw) );
         $emailsValid   = [];
         $emailsInvalid     = [];
@@ -78,16 +73,14 @@ class Email {
                 $emailsInvalid[]=$email;
             }
         }
-
         /*
          * Prepare and Send Emails
          */
         $courses = $this->container->get('doctrine')
             ->getRepository('WhatsdueMainBundle:Course')
             ->findBy(array(
-                "id" => $data->courses
+                "id" => $courseIds
             ));
-
         foreach ($courses as $course){
             $branchLink = Unirest\Request::post(
                 $this->container->getParameter('branch_url'),
@@ -96,9 +89,7 @@ class Email {
                         'course_code'=>$course->getCourseCode()
                     )
                 ))
-
             )->body->url;
-
             $subject = "Please add ".$course->getCourseName() ." on WhatsDue";
             $htmlBody = $this->container->get('templating')->render(
                 'emails/invite.html.twig',
@@ -112,9 +103,8 @@ class Email {
             );
             $meta = array("courseCode"=>$course->getCourseCode());
             $tag = "Invite Users";
-            $this->sendBulk($from, $user, $htmlBody, $message, $subject, $emailsValid, $tag, $meta);
+            $this->sendBulk($from, $user, $htmlBody, $messageTxt, $subject, $emailsValid, $tag, $meta);
         }
-
         return array(
             "emails_valid"      =>$emailsValid,
             "emails_invalid"    => $emailsInvalid
