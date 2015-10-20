@@ -173,8 +173,7 @@ class TeacherController extends FOSRestController {
         }
         $em = $this->getDoctrine()->getManager();
         $assignments = $em->getRepository('WhatsdueMainBundle:Assignment')->findBy(array(
-            'courseId' => $courseIds,
-            'archived' => false
+            'courseId' => $courseIds
         ));
 
         return array("assignment" => $assignments);
