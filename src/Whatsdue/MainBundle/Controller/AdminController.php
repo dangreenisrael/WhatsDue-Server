@@ -171,8 +171,7 @@ class AdminController extends FOSRestController{
         }
 
         $pushNotifications = $mailer = $this->get('push_notifications');
-        $pushNotifications->sendNotifications($title, $body, $allUuids);
-        //$pushNotifications->sendNotifications($title, $body, array('39cd2c28c433efca'));
+        $pushNotifications->sendNotifications($body, $allUuids);
 
         return array('message'=>$message);
     }

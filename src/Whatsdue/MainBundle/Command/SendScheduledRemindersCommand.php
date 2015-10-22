@@ -25,11 +25,10 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
         $this
             ->setName('sendReminders')
             ->setDescription('Send Scheduled Reminders')
-            ->addOption(
-                'params',
-                null,
-                InputOption::VALUE_NONE,
-                'If set, we will test parameters'
+            ->addArgument(
+                'user',
+                InputArgument::OPTIONAL,
+                'Who to send to?'
             )
         ;
     }
@@ -62,8 +61,11 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
             ->getQuery();
         $students = $studentQuery->getResult();
 
-        /* Make a list of consumers to be reminded */
-        $notificationList = [];
+        if ($id = $input->getArgument('user')){
+            $students = array($studentsRepo->find($id));
+        }
+
+        /* Process each student */
         foreach ($students as $student){
             /* Make a list of assignments that have not been completed */
             $criteria = Criteria::create()
@@ -71,35 +73,32 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
                 ->orWhere(Criteria::expr()->eq("completed", null));
             $studentAssignments = $student->getStudentAssignments()->matching($criteria);
 
-            /* Make a list of those assignments that are due tomorrow*/
+            $tomorrowCount = 0;
+            $afterTomorrowCount = 0;
             foreach ($studentAssignments as $studentAssignment){
                 $dueDate = $studentAssignment->getAssignment()->getDueDate();
-                $somethingTomorrow = ($dueDate > $tomorrow) && ($dueDate < $dayAfterTomorrow);
-                if ($somethingTomorrow){
-                    $notificationList[] = $student;
-                    break;
-                }
+                $dueTomorrow = ($dueDate > $tomorrow) && ($dueDate < $dayAfterTomorrow);
+                $dueAfterTomorrow = ($dueDate >= $dayAfterTomorrow);
+                if ($dueTomorrow) $tomorrowCount++;
+                if ($dueAfterTomorrow) $afterTomorrowCount++;
             }
+            echo "tomorrow: $tomorrowCount, future: $afterTomorrowCount";
+            /* Send the notifications */
+            if ($afterTomorrowCount == 1){
+                $message[0] = "You have 1 item due after tomorrow";
+            } elseif ($afterTomorrowCount){
+                $message[0] = "You have $afterTomorrowCount items due after tomorrow";
+            } else{
+                $message[0] = "You have nothing due after tomorrow";
+            }
+            if ($tomorrowCount == 1){
+                $message[1] = "You have 1 item due tomorrow";
+            } elseif ($tomorrowCount){
+                $message[1] = "You have $tomorrowCount item due tomorrow";
+            } else{
+                $message[1] = "You have nothing due tomorrow";
+            }
+            $this->getContainer()->get('push_notifications')->sendNotifications($message, array($student));
         }
-        /* Send the notifications */
-
-        $serializer = SerializerBuilder::create()->build();
-        $jsonContent = $serializer->serialize($students, 'json');
-
-//        if ($notificationList){
-//            $mailer = $this->getContainer()->get('mailer');
-//            $message = $mailer->createMessage()
-//                ->setSubject("Push Notifications")
-//                ->setFrom("aaron@whatsdueapp.com")
-//                ->setTo("whatsduepush@gmail.com")
-//                ->setBody($jsonContent)
-//            ;
-//            $mailer->send($message);
-//
-//        }
-
-        $title = "Don't forget to check WhatsDue";
-        $message = "You have things to get done for tomorrow";
-        $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, $notificationList);
     }
 }

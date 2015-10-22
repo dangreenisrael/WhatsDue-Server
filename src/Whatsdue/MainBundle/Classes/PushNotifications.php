@@ -19,15 +19,24 @@ class PushNotifications {
             $this->container = $container;
         }
 
-    private function androidNotifications($title, $message, $pushIds){
+    private function androidNotifications( $message, $pushIds, $vibrationPattern, $actions, $sound){
         /* prep the bundle */
+
+        if ($vibrationPattern){
+            $vibrate = true;
+        } else{
+            $vibrate = null;
+        }
         $msg = array
         (
-            'title'			=> $title,
-            'message' 		=> $message,
-            'vibrate'	    => 1,
-            'sound'		    => 1,
-            'style'         => "inbox",
+            'title'			    => "WhatsDue",
+            'message' 		    => $message,
+            'style'             => 'inbox',
+            'sound'             => $sound,
+            'vibrate'           => $vibrate,
+            'vibrationPattern'  => $vibrationPattern,
+            'actions'           => $actions,
+
         );
 
         $fields = array
@@ -65,7 +74,7 @@ class PushNotifications {
 
     }
 
-    public function sendChangeNotifications($title, $message, $students){
+    public function sendChangeNotifications($message, $students){
         $studentsToNotify = [];
         if ($students){
             foreach($students as $student){
@@ -77,10 +86,10 @@ class PushNotifications {
                 }
             }
         }
-        $this->sendNotifications($title, $message, $studentsToNotify);
+        $this->sendNotifications( $message, $studentsToNotify);
     }
 
-    public function sendNotifications($title, $message, $students){
+    public function sendNotifications($messages, $students){
         $androidUsers = [];
         $iosUsers = [];
         $devices = [];
@@ -104,8 +113,43 @@ class PushNotifications {
         /*
          * Send the Notifications
          */
-        $this->androidNotifications($title, $message, $androidUsers);
-        $this->iosNotifications($message, $iosUsers);
 
+        /* Android */
+        $vibrationPattern  =  array(
+            0,100,200,100,100,100,100,100,200,100,500,100,225,100
+        );
+        $noVibration = array(0);
+        $singleVibrate = array(
+            0,100,100,200
+        );
+        $actions = array(
+            array(
+                "icon" => "icon",
+                "title" => "See More",
+                "callback" => null
+            )
+        );
+
+
+        if (!is_array($messages)){
+            $this->androidNotifications($messages, $androidUsers, $singleVibrate, $actions, null);
+            $this->iosNotifications($messages, $iosUsers);
+        } else{
+            /* iOS */
+            $multilineMessage = "";
+            foreach ($messages as $message){
+                 $multilineMessage .= "$message\n";
+            }
+            $this->iosNotifications($multilineMessage, $iosUsers);
+
+            /* Android */
+            foreach ($messages as $index => $message){
+                if ($index == 0){
+                    $this->androidNotifications($message, $androidUsers, $vibrationPattern, $actions , null);
+                } else{
+                    $this->androidNotifications($message, $androidUsers, $noVibration, $actions, false);
+                }
+            }
+        }
     }
 } 

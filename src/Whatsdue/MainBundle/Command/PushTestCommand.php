@@ -37,8 +37,9 @@ class PushTestCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $studentRepo = $em->getRepository('WhatsdueMainBundle:Student');
         $student = $studentRepo->find($studentId);
-        $title = "Test";
-        $message = "Test# ".rand();
-        $this->getContainer()->get('push_notifications')->sendNotifications($title, $message, array($student));
+//        $message[0] = "2 Things for tomorrow";
+//        $message[1] = "8 Things due later";
+        $message = "single";
+        $this->getContainer()->get('push_notifications')->sendNotifications($message, array($student));
     }
 }

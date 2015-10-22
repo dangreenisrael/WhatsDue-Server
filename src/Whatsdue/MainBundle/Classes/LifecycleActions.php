@@ -58,7 +58,7 @@ class LifecycleActions {
                 $course = $entity->getCourse();
                 $title = $course->getCourseName();
                 $message = "New assignment: ".$entity->getAssignmentName(). ', from '.$title;
-                $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
+                $this->pushNotifications->sendChangeNotifications( $message, $course->getStudents());
             }
         }
 
@@ -103,7 +103,7 @@ class LifecycleActions {
                 $title = 'Assignment Updated';
                 $message = $entity->getAssignmentName() . ' from ' . $course->getCourseName() . ' was updated.';
             }
-            $this->pushNotifications->sendChangeNotifications($title, $message, $course->getStudents());
+            $this->pushNotifications->sendChangeNotifications($message, $course->getStudents());
         }
     }
 }
