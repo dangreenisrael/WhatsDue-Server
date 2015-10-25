@@ -91,6 +91,7 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
             } else{
                 $message[0] = "You have nothing due after tomorrow";
             }
+
             if ($tomorrowCount == 1){
                 $message[1] = "You have 1 item due tomorrow";
             } elseif ($tomorrowCount){
@@ -98,7 +99,10 @@ class SendScheduledRemindersCommand extends ContainerAwareCommand
             } else{
                 $message[1] = "You have nothing due tomorrow";
             }
-            $this->getContainer()->get('push_notifications')->sendNotifications($message, array($student));
+            
+            if ($tomorrowCount > 0 || $afterTomorrowCount > 0){
+                $this->getContainer()->get('push_notifications')->sendNotifications($message, array($student));
+            }
         }
     }
 }
