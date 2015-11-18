@@ -107,6 +107,8 @@ fos_rest:
         view_response_listener: true
     routing_loader:
         default_format: json
+    serializer:
+        serialize_null: true
 
 nelmio_cors:
     paths:
@@ -128,6 +130,8 @@ jms_serializer:
                 path: "%kernel.root_dir%/Resources/FOSUserBundle/serializer"
                 namespace_prefix: "FOS\\UserBundle"
 
+
+
 rms_push_notifications:
     android:
         gcm:
@@ -135,5 +139,4 @@ rms_push_notifications:
     ios:
         sandbox: "%push_ios_sandbox%"
         pem: "%push_ios_path%" # can be absolute or relative path (from app directory)
-        passphrase: "%push_ios_passphrase%"
 

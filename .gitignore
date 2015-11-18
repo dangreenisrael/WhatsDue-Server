@@ -16,3 +16,5 @@
 /web/ember/js/ember/teachers/*
 /web/ember/js/ember/teachers/node_modules/*
 /web/ember/js/ember/admin/node_modules/*
+/web/assets
+/web/fonts

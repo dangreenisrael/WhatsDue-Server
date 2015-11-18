@@ -23,7 +23,6 @@ class StudentAssignment
     /**
      * @ORM\ManyToOne(targetEntity="Assignment", inversedBy="studentAssignments")
      * @ORM\JoinColumn(name="assignment", referencedColumnName="id")
-     *
      **/
     private $assignment;
 
@@ -38,6 +37,13 @@ class StudentAssignment
      * @Expose
      */
     private $studentId;
+
+    /**
+     * @Expose
+     */
+    private $assignmentId;
+
+
     /**
      * @var integer
      *
@@ -67,7 +73,7 @@ class StudentAssignment
      * @ORM\PostLoad
      */
     public function loadEntityList(){
-
+        $this->assignmentId = $this->getAssignment()->getId();
         $this->studentId = $this->getStudent()->getId();
     }
 

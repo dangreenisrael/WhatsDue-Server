@@ -181,7 +181,9 @@ class StudentController extends FOSRestController{
 
             if ($courseRepo->hasStudent($course, $student)){
                 return array("course"=>
-                    array("error"=>"You are already enrolled in this class")
+                    array("error"=>"You just tried joining "
+                        .$course->getCourseName().
+                        " but you are already in that class")
                 );
             }
             $salutation = $course->getUser()->getSalutation();

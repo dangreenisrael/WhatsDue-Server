@@ -292,6 +292,31 @@ class TeacherController extends FOSRestController {
         return array('status' => $status);
     }
 
+    /**
+     * @return array
+     * @View()
+     */
+
+    public function getStatusesAction(Request $request){
+        $assignmentId = $request->query->get('assignment', null);
+        $studentId    = $request->query->get('student', null);
+        $courseId     = $request->query->get('course', null);
+        $em = $this->getDoctrine()->getManager();
+        $studentAssignmentRepo = $em->getRepository('WhatsdueMainBundle:StudentAssignment');
+        if (!$courseId){
+            $findParams = array();
+            if ($assignmentId)    $findParams['assignment'] = $assignmentId;
+            if ($studentId)       $findParams['student']    = $studentId;
+            $statuses = $studentAssignmentRepo->findBy($findParams);
+        } else{
+            $courseRepo = $em->getRepository('WhatsdueMainBundle:Course');
+            $statuses = $courseRepo->studentAssignments($courseId);
+        }
+
+
+        return array("status" => $statuses);
+    }
+
 
     /*
      * Messages Stuff
@@ -331,9 +356,14 @@ class TeacherController extends FOSRestController {
 
     public function postEmailInviteAction(Request $request){
         $data       = json_decode($request->getContent())->email;
+        if (@$data->message){
+            $message = $data->message;
+        } else{
+            $message = "";
+        }
         return $this->get('email')->sendInvites(
             $this->getUser(),
-            $data->message,
+            $message,
             $data->courses,
             $data->email_list
         );
