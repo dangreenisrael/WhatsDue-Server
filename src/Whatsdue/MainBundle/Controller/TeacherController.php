@@ -155,6 +155,19 @@ class TeacherController extends FOSRestController {
         );
     }
 
+    /**
+     * @return array
+     * @View()
+     */
+    public function getStudentsAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $students = $em->getRepository('WhatsdueMainBundle:Student')->findTeacherStudents($user->getId());
+        return array(
+            "student" => $students
+        );
+    }
+
 
     /*
      * Assignments Stuff
@@ -213,7 +226,7 @@ class TeacherController extends FOSRestController {
     public function postAssignmentsBulkAction( Request $request ){
         $em = $this->getDoctrine()->getManager();
         $courses = json_decode($request->getContent());
-        $bulkId = rand(0,999999999999999);
+        $bulkId = rand(0,2147483647);
         foreach ($courses as $course){
             $currentCourse = $em->getRepository("WhatsdueMainBundle:Course")->find($course->id);
             foreach($course->assignment as $assignment){

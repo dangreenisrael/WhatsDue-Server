@@ -201,11 +201,11 @@ class Course
      * @ORM\PostLoad
      */
     public function loadEntityList(){
-//        $studentIds = [];
-//        foreach($this->students as $student){
-//            $studentIds[] = $student->getId();
-//        }
-//        $this->studentList = array_values($studentIds);
+        $studentIds = [];
+        foreach($this->students as $student){
+            $studentIds[] = $student->getId();
+        }
+        $this->studentList = array_values($studentIds);
 //
 //        $assignmentIds = [];
 //        foreach($this->assignments as $assignment){

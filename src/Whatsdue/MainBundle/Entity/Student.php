@@ -19,6 +19,7 @@ use Doctrine\Common\Util\Debug;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
+ * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\StudentRepository")
  */
 class Student
 {

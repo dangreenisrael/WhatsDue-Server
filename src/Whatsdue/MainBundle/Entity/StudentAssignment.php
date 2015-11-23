@@ -115,7 +115,7 @@ class StudentAssignment
     /**
      * Get completedDate
      *
-     * @return string
+     * @return integer
      */
     public function getCompletedDate()
     {
@@ -125,7 +125,7 @@ class StudentAssignment
     /**
      * Set completedDate
      *
-     * @param string $completedDate
+     * @param integer $completedDate
      *
      * @return StudentAssignment
      */

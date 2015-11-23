@@ -42,6 +42,7 @@ class StudentController extends FOSRestController{
         if ( $this->getHeader('X-Student-Id') ){
             $student = $studentRepo->find($this->getHeader('X-Student-Id'));
         } elseif ( $this->getHeader('X-UUID') ){
+
             $student = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')))->getStudent();
         } else{
             $student = $studentRepo->find(0);
@@ -276,6 +277,8 @@ class StudentController extends FOSRestController{
      */
     public function putAssignmentsAction($assignmentId, Request $request){
         $data = json_decode($request->getContent())->assignment;
+        /* For HHVM compatibility we need to make the millisecond timestamp to seconds */
+        $timeCompleted = $data->completed_date*0.001;
         $studentId = $this->getStudentId();
         $em = $this->getDoctrine()->getManager();
         $studentAssignment = $em->getRepository('WhatsdueMainBundle:StudentAssignment')
@@ -284,11 +287,11 @@ class StudentController extends FOSRestController{
                 "student"   =>$studentId
             ));
         $studentAssignment->setCompleted($data->completed);
-        $studentAssignment->setCompletedDate($data->completed_date);
+        $studentAssignment->setCompletedDate($timeCompleted);
         $em->flush();
         $assignment = $studentAssignment->getAssignment();
         $assignment->setCompleted($data->completed);
-        $assignment->setCompletedDate($data->completed_date);
+        $assignment->setCompletedDate($timeCompleted);
         return array("assignment" => $assignment);
     }
 
