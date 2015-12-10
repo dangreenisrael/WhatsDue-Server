@@ -1,3 +1,8 @@
+{% if app.user %}
+    <script type="text/javascript">
+        window.location.href = "{{ base }}/";
+    </script>
+{% endif %}
 
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST">
     <div class="login-wrap">

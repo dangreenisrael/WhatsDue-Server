@@ -76,7 +76,7 @@ class LifecycleActions {
             $entity->setSignupDate($this->getDatetime());
 
             /* Deal with referrer */
-            $referrer = $_SESSION['referrer'];
+            $referrer = &$_SESSION['referrer'];
             if ($referrer){
                 $referrer = $this->container->get('doctrine')->getRepository('WhatsdueMainBundle:User')->find($referrer);
                 $entity->setReferrer($referrer);

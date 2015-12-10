@@ -2,6 +2,12 @@
 
 {% block fos_user_content %}
 
+    {% if app.user %}
+        <script type="text/javascript">
+            window.location.href = "{{ base }}/";
+        </script>
+    {% endif %}
+
         <form action="{{ path("fos_user_security_check") }}" method="post">
 
             {% if error %}
