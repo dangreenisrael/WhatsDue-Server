@@ -12,7 +12,7 @@ class StudentAssignmentRepository extends EntityRepository
 {
 
 
-    public function findPaginated($userId, $page, $perPage)
+    public function findPaginated($studentId, $page, $perPage)
     {
         $twoDaysAgo = new Moment();
         $twoDaysAgo->subtractDays(2)->format('Y-m-d');
@@ -26,14 +26,33 @@ class StudentAssignmentRepository extends EntityRepository
                 AND (s.completed = FALSE or s.completed IS NULL)
                 ORDER BY a.dueDate
                 ")
-            ->setParameter(1, $userId)
+            ->setParameter(1, $studentId)
             ->setParameter(2, $twoDaysAgo)
             ->setMaxResults($perPage)
             ->setFirstResult( $perPage*($page-1) );
         try {
             $results =  new Paginator($query, $fetchJoin = true);
+            $assignments = $results->getIterator()->getArrayCopy();
+            /** @var Assignment $assignment */
+            foreach($assignments as $assignment){
+                /** @var StudentAssignment $studentAssignment */
+                $studentAssignment = $this->getEntityManager()
+                    ->createQuery(
+                        "SELECT s
+                         FROM WhatsdueMainBundle:StudentAssignment s
+                         WHERE s.student = ?1
+                         AND s.assignment = ?2"
+                    )
+                    ->setParameter(1, $studentId)
+                    ->setParameter(2, $assignment->getId())
+                    ->getSingleResult();
+                $assignment->setCompleted($studentAssignment->getCompleted());
+                $assignment->setCompletedDate($studentAssignment->getCompletedDate());
+                $assignment->setSeen($studentAssignment->getSeen());
+                $assignment->setSeenDate($studentAssignment->getSeenDate());
+            }
             return array(
-                'assignment'=>$results->getIterator()->getArrayCopy(),
+                'assignment'=>$assignments,
                 'meta'  => array(
                     "total_pages" => ceil(count($results)/$perPage),
                     "timestamp" => time()
@@ -46,6 +65,9 @@ class StudentAssignmentRepository extends EntityRepository
 
     public function findCompleted($userId)
     {
+
+        $twoDaysAgo = new Moment();
+        $twoDaysAgo->subtractDays(2)->format('Y-m-d');
         $query = $this->getEntityManager()
             ->createQuery("
                 SELECT a, s
@@ -54,8 +76,10 @@ class StudentAssignmentRepository extends EntityRepository
                 WHERE s.student = ?1
                 AND a.archived = FALSE
                 AND s.completed = TRUE
+                AND a.dueDate > ?2
                 ")
             ->setParameter(1, $userId)
+            ->setParameter(2, $twoDaysAgo)
             ->setMaxResults(20);
         try {
             $results =  new Paginator($query, $fetchJoin = true);
@@ -102,8 +126,8 @@ class StudentAssignmentRepository extends EntityRepository
 
     public function findStudentCourse($studentId, $courseId)
     {
-        $twoDaysAgo = new Moment();
-        $twoDaysAgo->subtractDays(2)->format('Y-m-d');
+//        $twoDaysAgo = new Moment();
+//        $twoDaysAgo->subtractDays(2)->format('Y-m-d');
         $query = $this->getEntityManager()
             ->createQuery("SELECT s, a, c
                 FROM WhatsdueMainBundle:StudentAssignment s

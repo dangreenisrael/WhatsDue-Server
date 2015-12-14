@@ -18,7 +18,10 @@ use Doctrine\Common\Util\Debug;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
-
+use Whatsdue\MainBundle\Entity\Assignment;
+use Whatsdue\MainBundle\Entity\Course;
+use Whatsdue\MainBundle\Entity\CourseRepository;
+use Whatsdue\MainBundle\Entity\StudentAssignmentRepository;
 
 class StudentController extends FOSRestController{
 
@@ -42,7 +45,6 @@ class StudentController extends FOSRestController{
         if ( $this->getHeader('X-Student-Id') ){
             $student = $studentRepo->find($this->getHeader('X-Student-Id'));
         } elseif ( $this->getHeader('X-UUID') ){
-
             $student = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')))->getStudent();
         } else{
             $student = $studentRepo->find(0);
@@ -101,8 +103,6 @@ class StudentController extends FOSRestController{
             $device->setPushId($pushId);
             $device->setStudent($student);
             $em->persist($device);
-
-            $em->flush();
         } else{
             /* Return existing Student record */
             if ($deviceByPushId){
@@ -113,8 +113,9 @@ class StudentController extends FOSRestController{
                 $device->setPushId($pushId);
             }
             $student = $device->getStudent();
-            $em->flush();
         }
+        $student->setLastIp($_SERVER['REMOTE_ADDR']);
+        $em->flush();
         return array("student"=>$student);
     }
 
@@ -174,9 +175,12 @@ class StudentController extends FOSRestController{
         $courseCode = json_decode($request->getContent())->course->course_code;
         $em = $this->getDoctrine()->getManager();
         $studentRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:Student');
+        /**@var Student $student */
         $student = $studentRepo->find($this->getStudentId());
+        /**@var CourseRepository $courseRepo */
         $courseRepo = $em
             ->getRepository('WhatsdueMainBundle:Course');
+        /**@var Course $course **/
         $course = $courseRepo->findOneBy(array('courseCode'=> $courseCode));
         if($course){
 
@@ -222,7 +226,9 @@ class StudentController extends FOSRestController{
         $studentId = $this->getStudentId();
         $student = $em->getRepository('WhatsdueMainBundle:Student')->find($studentId);
         $course = $em->getRepository('WhatsdueMainBundle:Course')->find($courseId);
-        $studentAssignments = $em->getRepository('WhatsdueMainBundle:StudentAssignment')->findStudentCourse($studentId, $courseId);
+        /**@var StudentAssignmentRepository $studentAssignmentsRepo */
+        $studentAssignmentsRepo = $em->getRepository('WhatsdueMainBundle:StudentAssignment');
+        $studentAssignments = $studentAssignmentsRepo->findStudentCourse($studentId, $courseId);
         if ($student){
             $student->removeCourse($course);
             $course->removeStudent($student);
@@ -243,7 +249,8 @@ class StudentController extends FOSRestController{
      */
     public function getAssignmentsAction(Request $request){
         $studentId = $this->getStudentId();
-        $studentsAssignmentRepo = $this->getDoctrine()
+        /**@var StudentAssignmentRepository $studentAssignmentRepo */
+        $studentAssignmentRepo = $this->getDoctrine()
             ->getRepository('WhatsdueMainBundle:StudentAssignment');
         $page = $request->query->get('page');
         $perPage = $request->query->get('per_page');
@@ -251,9 +258,9 @@ class StudentController extends FOSRestController{
         if (!$page) $page = 1;
         if (!$perPage) $perPage = 21;
         if ($completed){
-            return $studentsAssignmentRepo->findCompleted($studentId);
+            return $studentAssignmentRepo->findCompleted($studentId);
         } else{
-            return $studentsAssignmentRepo->findPaginated(
+            return $studentAssignmentRepo->findPaginated(
                 $studentId,
                 $page,
                 $perPage
@@ -267,8 +274,9 @@ class StudentController extends FOSRestController{
      */
 
     public function getUpdatesAssignmentsAction($timestamp){
-        $repo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:StudentAssignment');
-        return $repo->findAssignmentTimestamp($this->getStudentId(), $timestamp);
+        /**@var StudentAssignmentRepository $studentAssignmentsRepo */
+        $studentAssignmentsRepo = $this->getDoctrine()->getRepository('WhatsdueMainBundle:StudentAssignment');
+        return $studentAssignmentsRepo->findAssignmentTimestamp($this->getStudentId(), $timestamp);
     }
 
     /**
@@ -277,8 +285,12 @@ class StudentController extends FOSRestController{
      */
     public function putAssignmentsAction($assignmentId, Request $request){
         $data = json_decode($request->getContent())->assignment;
+        $timeCompleted = $data->completed_date;
         /* For HHVM compatibility we need to make the millisecond timestamp to seconds */
-        $timeCompleted = $data->completed_date*0.001;
+        /* This 'if' can be removed in March 2016 */
+        if (!preg_match('/^\d{10}$/', $timeCompleted)) {
+            $timeCompleted = round($timeCompleted*0.001);
+        }
         $studentId = $this->getStudentId();
         $em = $this->getDoctrine()->getManager();
         $studentAssignment = $em->getRepository('WhatsdueMainBundle:StudentAssignment')
@@ -288,10 +300,18 @@ class StudentController extends FOSRestController{
             ));
         $studentAssignment->setCompleted($data->completed);
         $studentAssignment->setCompletedDate($timeCompleted);
-        $em->flush();
+        /** @var Assignment $assignment **/
         $assignment = $studentAssignment->getAssignment();
         $assignment->setCompleted($data->completed);
         $assignment->setCompletedDate($timeCompleted);
+        if (!empty($data->seen)){
+            $timeSeen = $data->seen_date;
+            $studentAssignment->setSeen($timeSeen);
+            $studentAssignment->setSeenDate($timeSeen);
+            $assignment->setSeenDate($timeSeen);
+            $assignment->setSeen($data->seen);
+        }
+        $em->flush();
         return array("assignment" => $assignment);
     }
 

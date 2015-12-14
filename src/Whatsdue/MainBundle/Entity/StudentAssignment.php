@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\StudentAssignmentRepository")
+ * @ORM\Entity(repositoryClass="StudentAssignmentRepository")
  */
 class StudentAssignment
 {
@@ -62,11 +62,25 @@ class StudentAssignment
     private $completed;
 
     /**
-     * @var string
+     * @var integer
      * @ORM\Column(name="completedDate", type="integer", length=50,  nullable=true)
      * @Expose
      */
     private $completedDate;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="seen", type="boolean", nullable=true)
+     * @Expose
+     */
+    private $seen;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="seenDate", type="integer", length=50,  nullable=true)
+     * @Expose
+     */
+    private $seenDate;
 
 
     /**
@@ -132,9 +146,59 @@ class StudentAssignment
     public function setCompletedDate($completedDate)
     {
         $this->completedDate = $completedDate;
-
         return $this;
     }
+
+    /**
+     * Get seen
+     *
+     * @return boolean
+     */
+    public function getSeen()
+    {
+        return $this->seen;
+    }
+
+    /**
+     * Set seen
+     *
+     * @param boolean $seen
+     *
+     * @return StudentAssignment
+     */
+    public function setSeen($seen)
+    {
+        $this->seen = $seen;
+        return $this;
+    }
+
+
+    /**
+     * Get seenDate
+     *
+     * @return integer
+     */
+    public function getSeenDate()
+    {
+        return $this->seenDate;
+    }
+
+    /**
+     * Set seenDate
+     *
+     * @param integer $seenDate
+     *
+     * @return StudentAssignment
+     */
+    public function setSeenDate($seenDate)
+    {
+        $this->seenDate = $seenDate;
+        return $this;
+    }
+
+
+
+
 
     /**
      * Set assignment
