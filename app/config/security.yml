@@ -43,7 +43,7 @@ security:
 
 
     access_control:
-        - { path: ^/secure, role: [ROLE_USER], requires_channel: "%ssl%"  }
+        - { path: ^/secure, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
         - { path: ^/api/teacher, role: [ROLE_USER] , requires_channel: "%ssl%"}
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }

@@ -32,17 +32,16 @@ class Helpers {
         /* Validate the User */
         $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
         $factory = $this->container->get('security.encoder_factory');
-        if (!$user){
-            http_response_code(400);
-            echo "Validation Failed";
-            exit;
-        }
+//        if (!$user){
+//            echo "Validation Failed";
+//            exit;
+//        }
 
         $encoder = $factory->getEncoder($user);
         $validated = $encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt());
 
         if (!$validated) {
-            http_response_code(400);
+            http_response_code(401);
             echo "Validation Failed";
             exit;
         } else {

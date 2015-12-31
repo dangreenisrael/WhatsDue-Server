@@ -106,4 +106,6 @@ class LifecycleActions {
             $this->pushNotifications->sendChangeNotifications($message, $course->getStudents());
         }
     }
+
+
 }

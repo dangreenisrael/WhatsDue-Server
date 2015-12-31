@@ -19,6 +19,9 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Whatsdue\MainBundle\Entity\StudentAssignment;
 use Unirest;
 use Doctrine\Common\Collections\Criteria;
+use Whatsdue\MainBundle\Entity\User;
+
+
 
 class TeacherController extends FOSRestController {
 
@@ -374,6 +377,7 @@ class TeacherController extends FOSRestController {
         } else{
             $message = "";
         }
+
         return $this->get('email')->sendInvites(
             $this->getUser(),
             $message,
@@ -381,5 +385,6 @@ class TeacherController extends FOSRestController {
             $data->email_list
         );
     }
+
 
 }

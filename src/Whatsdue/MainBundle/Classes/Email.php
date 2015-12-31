@@ -10,13 +10,30 @@ namespace Whatsdue\MainBundle\Classes;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Whatsdue\MainBundle\Entity\EmailLog;
-use Unirest;
+use Unirest\Request;
 
 class Email {
     protected $container;
 
     public function __construct(ContainerInterface $container){
         $this->container = $container;
+    }
+
+    public function validate($emailAddress){
+        $url = "http://api.verify-email.org/api.php";
+        $parameters = array(
+            "check"=>$emailAddress,
+            "pwd"=>"VWVcHejWCjE9YBA6",
+            "usr"=>"whatsdue"
+
+        );
+        $headers = array('Content-type: application/json');
+        $request = Request::get($url,$headers,$parameters)->body;
+        $status = $request->verify_status;
+
+        return array(
+            "valid" => ($status == true)
+        );
     }
 
     public function sendBulk($from, $user, $htmlBody, $txtBody, $subject, $recipients, $tag, $meta){
@@ -82,7 +99,7 @@ class Email {
                 "id" => $courseIds
             ));
         foreach ($courses as $course){
-            $branchLink = Unirest\Request::post(
+            $branchLink = Request::post(
                 $this->container->getParameter('branch_url'),
                 array(), json_encode(array("data"=>
                     array(
