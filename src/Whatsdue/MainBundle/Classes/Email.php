@@ -10,7 +10,10 @@ namespace Whatsdue\MainBundle\Classes;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Whatsdue\MainBundle\Entity\EmailLog;
-use Unirest;
+use Unirest\Request;
+use Kickbox;
+use Mailgun\Mailgun;
+
 
 class Email {
     protected $container;
@@ -19,19 +22,48 @@ class Email {
         $this->container = $container;
     }
 
+    public function validate($emailAddress){
+        $client   = new Kickbox\Client('4ef4e6beed7b8dd0e53084610169d7e626ca4bd0e5237bb561676b7cb8351a7d');
+        $kickbox  = $client->kickbox();
+
+        try {
+            $response = $kickbox->verify($emailAddress);
+            $response = $response->body;
+            if ($response['result'] == "valid"
+                || $response['result'] == "deliverable"
+                || $response['accept_all'] == true){
+                return array(
+                    "valid" => true
+                );
+            } else{
+                return array(
+                    "valid" => false
+                );
+            }
+        }
+        catch (Exception $e) {
+            return array(
+                "valid" => true
+            );
+        }
+    }
+
     public function sendBulk($from, $user, $htmlBody, $txtBody, $subject, $recipients, $tag, $meta){
         $mailer = $this->container->get('mailer');
-        $to = array("aaron@whatsdueapp.com" => "Undisclosed Recipients");
+        $mg = new Mailgun("key-3997afe1674cb12b3bcecb21c993147a");
+        $domain = "whatsdueapp.com";
 
         /* Send Email */
-        $message = $mailer->createMessage()
-            ->setSubject($subject)
-            ->setFrom($from)
-            ->setTo($to)
-            ->setBCC($recipients)
-            ->setBody($htmlBody, 'text/html')
-        ;
-        $mailer->send($message);
+        foreach($recipients as $recipient){
+            $mg->sendMessage($domain, array(
+                    'from'    => $from,
+                    'to'      => $recipient,
+                    'subject' => $subject,
+                    'html'    => $htmlBody
+                )
+            );
+        }
+
 
         /* Log Email */
 
@@ -52,27 +84,12 @@ class Email {
 
     public function sendInvites($user, $messageTxt, $courseIds, $emailList){
         $messageHTML = str_replace("\n", "</p><p>", $messageTxt);
-        $emailsRaw     = preg_split( "/\n|,| /", $emailList );
         // Setting sender name as username:
         $firstName  = $user->getFirstName();
         $lastName   = $user->getLastName();
         $salutation = $user->getSalutation();
-        $from = array("aaron@whatsdueapp.com" => $firstName." ".$lastName);
-        /*
-         * Handle Emails
-         */
-        $emailsDirty   = array_values( array_filter($emailsRaw) );
-        $emailsValid   = [];
-        $emailsInvalid     = [];
-        foreach ($emailsDirty as $email){
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-                // Email is valid
-                $emailsValid[]=$email;
-            } else{
-                // Email is invalid
-                $emailsInvalid[]=$email;
-            }
-        }
+        $from = array($firstName." ".$lastName . "<aaron@whatsdueapp.com>");
+
         /*
          * Prepare and Send Emails
          */
@@ -82,7 +99,7 @@ class Email {
                 "id" => $courseIds
             ));
         foreach ($courses as $course){
-            $branchLink = Unirest\Request::post(
+            $branchLink = Request::post(
                 $this->container->getParameter('branch_url'),
                 array(), json_encode(array("data"=>
                     array(
@@ -103,11 +120,11 @@ class Email {
             );
             $meta = array("courseCode"=>$course->getCourseCode());
             $tag = "Invite Users";
-            $this->sendBulk($from, $user, $htmlBody, $messageTxt, $subject, $emailsValid, $tag, $meta);
+            $this->sendBulk($from, $user, $htmlBody, $messageTxt, $subject, $emailList, $tag, $meta);
+
         }
         return array(
-            "emails_valid"      =>$emailsValid,
-            "emails_invalid"    => $emailsInvalid
+            "success" => true
         );
     }
 }

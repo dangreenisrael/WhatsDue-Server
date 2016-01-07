@@ -18,7 +18,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Table(name="course")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\CourseRepository")
+ * @ORM\Entity(repositoryClass="CourseRepository")
  * @ExclusionPolicy("all")
  */
 class Course

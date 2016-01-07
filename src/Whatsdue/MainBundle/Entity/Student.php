@@ -19,7 +19,7 @@ use Doctrine\Common\Util\Debug;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
- * @ORM\Entity(repositoryClass="Whatsdue\MainBundle\Entity\StudentRepository")
+ * @ORM\Entity(repositoryClass="StudentRepository")
  */
 class Student
 {
@@ -136,6 +136,15 @@ class Student
      */
     private $signupDate;
 
+    /**
+     * @var string
+     * @ORM\Column(name="lastIp", type="string", length=50,  nullable=true)
+     * @Expose
+     */
+    private $lastIp;
+
+
+    /* Virtual Variable */
     private $courseList;
 
 
@@ -516,5 +525,28 @@ class Student
     public function getCourseList()
     {
         return $this->courseList;
+    }
+
+    /**
+     * Get Last IP
+     *
+     * @return string
+     */
+    public function getLastIp()
+    {
+        return $this->lastIp;
+    }
+
+    /**
+     * Set Last IP
+     *
+     * @param integer $lastIp
+     *
+     * @return StudentAssignment
+     */
+    public function setLastIp($lastIp)
+    {
+        $this->lastIp = $lastIp;
+        return $this;
     }
 }

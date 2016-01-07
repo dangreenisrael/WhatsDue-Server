@@ -27,7 +27,7 @@ class Assignment
     private $course;
 
     /**
-     * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="assignment", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="StudentAssignment", mappedBy="assignment")
      **/
     private $studentAssignments;
 
@@ -563,11 +563,28 @@ class Assignment
      */
     public $completedDate;
 
+    /**
+     * @Expose
+     */
+    public $seen;
+
+    /**
+     * @Expose
+     */
+    public $seenDate;
+
+
     public function setCompleted($completed){
         $this->completed = $completed;
     }
     public function setCompletedDate($completedDate){
         $this->completedDate = $completedDate;
+    }
+    public function setSeen($seen){
+        $this->seen = $seen;
+    }
+    public function setSeenDate($seenDate){
+        $this->seenDate = $seenDate;
     }
 
 }
