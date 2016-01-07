@@ -81,7 +81,7 @@ class RestAccessController extends FOSRestController
     public function getLogoutAction()
     {
         // Logging user out.
-        $this->get('security.token_storage')->setToken(null);
+        $this->get('security.context')->setToken(null);
 
         // Invalidating the session.
         $this->get('request')->getSession()->invalidate();
