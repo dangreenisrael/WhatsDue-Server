@@ -36,7 +36,8 @@
         "kickbox/kickbox": "*",
         "mashape/unirest-php": "~2.6",
 
-        "fightbulc/moment": "*"
+        "fightbulc/moment": "*",
+        "mailgun/mailgun-php": "~1.7.2"
     },
     "scripts": {
         "post-install-cmd": [
