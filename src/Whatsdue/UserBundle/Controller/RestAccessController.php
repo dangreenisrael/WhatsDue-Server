@@ -74,20 +74,6 @@ class RestAccessController extends FOSRestController
         return $this->get('helper')->loginUser($request->username, $request->password);
     }
 
-    /**
-     * @return array
-     * @View()
-     */
-    public function getLogoutAction()
-    {
-        // Logging user out.
-        $this->get('security.context')->setToken(null);
-
-        // Invalidating the session.
-        $this->get('request')->getSession()->invalidate();
-
-        return array("logged out"=>true);
-    }
 
     /**
      * @return array

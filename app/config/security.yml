@@ -27,8 +27,8 @@ security:
                 always_use_default_target_path: true
 
             logout:
-                path:   /logout
-                target: /login
+                path:   /api/access/logout
+                target: /api/access/users
             anonymous:    true
             remember_me:
                 key: "%secret%"
