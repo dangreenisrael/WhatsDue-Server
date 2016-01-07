@@ -11,6 +11,7 @@ namespace Whatsdue\MainBundle\Classes;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Whatsdue\MainBundle\Entity\EmailLog;
 use Unirest\Request;
+use Kickbox;
 
 class Email {
     protected $container;
@@ -20,20 +21,50 @@ class Email {
     }
 
     public function validate($emailAddress){
-        $url = "http://api.verify-email.org/api.php";
-        $parameters = array(
-            "check"=>$emailAddress,
-            "pwd"=>"VWVcHejWCjE9YBA6",
-            "usr"=>"whatsdue"
+//        $url = "http://api.verify-email.org/api.php";
+//        $parameters = array(
+//            "check"=>$emailAddress,
+//            "pwd"=>"VWVcHejWCjE9YBA6",
+//            "usr"=>"whatsdue"
+//
+//        );
+//        $headers = array('Content-type: application/json');
+//        $request = Request::get($url,$headers,$parameters)->body;
+//        $valid = $request->verify_status;
+//        $probablyStillValid = strpos($request->verify_status_desc,'4.2.1');
+//        if ($valid!==0 || $probablyStillValid ){
+//            return array(
+//                "valid" => true
+//            );
+//        } else{
+//            return array(
+//                "valid" => false
+//            );
+//        }
 
-        );
-        $headers = array('Content-type: application/json');
-        $request = Request::get($url,$headers,$parameters)->body;
-        $status = $request->verify_status;
+        $client   = new Kickbox\Client('4ef4e6beed7b8dd0e53084610169d7e626ca4bd0e5237bb561676b7cb8351a7d');
+        $kickbox  = $client->kickbox();
 
-        return array(
-            "valid" => ($status == true)
-        );
+        try {
+            $response = $kickbox->verify($emailAddress);
+            $response = $response->body;
+            if ($response['result'] == "valid"
+                || $response['result'] == "deliverable"
+                || $response['accept_all'] == true){
+                return array(
+                    "valid" => true
+                );
+            } else{
+                return array(
+                    "valid" => false
+                );
+            }
+        }
+        catch (Exception $e) {
+            return array(
+                "valid" => true
+            );
+        }
     }
 
     public function sendBulk($from, $user, $htmlBody, $txtBody, $subject, $recipients, $tag, $meta){
