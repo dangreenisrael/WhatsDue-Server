@@ -183,7 +183,6 @@ class StudentController extends FOSRestController{
         /**@var Course $course **/
         $course = $courseRepo->findOneBy(array('courseCode'=> $courseCode));
         if($course){
-
             if ($courseRepo->hasStudent($course, $student)){
                 return array("course"=>
                     array("error"=>"You just tried joining "

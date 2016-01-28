@@ -88,7 +88,8 @@ class Email {
         $firstName  = $user->getFirstName();
         $lastName   = $user->getLastName();
         $salutation = $user->getSalutation();
-        $from = array($firstName." ".$lastName . "<aaron@whatsdueapp.com>");
+        $teacherName = $salutation ." ".$lastName;
+        $from = array($teacherName . "<aaron@whatsdueapp.com>");
 
         /*
          * Prepare and Send Emails
@@ -107,14 +108,14 @@ class Email {
                     )
                 ))
             )->body->url;
-            $subject = "Please add ".$course->getCourseName() ." on WhatsDue";
+            $subject = "$teacherName has invited you to join ".$course->getCourseName()." on WhatsDue";
             $htmlBody = $this->container->get('templating')->render(
                 'emails/invite.html.twig',
                 array(
                     'message'       => $messageHTML,
                     'courseName'    => $course->getCourseName(),
                     'courseCode'    => $course->getCourseCode(),
-                    'teacherName'   => $salutation,
+                    'teacherName'   => $teacherName,
                     'link'          => $branchLink
                 )
             );

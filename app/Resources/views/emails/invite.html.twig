@@ -17,19 +17,18 @@
 		</span>
 
         <h3 style="font-weight: 400;">
-            Please add {{ courseName }} on WhatsDue
+            {{ teacherName }} has invited you to join <b>{{ courseName }}</b> on WhatsDue
         </h3>
         <div style="font-weight: 100;">
             <p>
-                {{ message | raw}}
+                <i><b>{{ message | raw}}</b></i>
             </p>
             <p style="padding-top: 10px">
-                <i>
-                    Add {{ courseName }} on our mobile app using the course code <strong>{{ courseCode }}</strong>
-                </i>
+                WhatsDue is an easy to use, automatic to-do list app for iOS and Android. All of your assignments are already there, all you need to do is install the app by clicking the button below.
             </p>
-            <a href="{{ link }}">
-                <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#teacherModal" style="
+            <p>
+                <a href="{{ link }}">
+                    <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#teacherModal" style="
                   padding: 10px 20px;
                   font-size: 25px;
                   font-weight: 300;
@@ -49,21 +48,20 @@
                   border-radius: 4px;
                   text-transform: none;
                 ">
-                    Get The App Here<br>
-                </button>
-            </a>
-            <p>
-                FYI, WhatsDue is an easy to use to-do list app for
-                <strong>{{ courseName }} </strong> and many of your other classes.
+                        Join {{ courseName }}
+                    </button>
+                </a>
             </p>
             <p>
-                All of your assignments are already here, all you need to do is install the app.
+                You can also add <b>{{ courseName }}</b> in the app yourself by using the code {{ courseCode }}
             </p>
-
+            <p>
+                Have some questions? Just reply to this email!
+            </p>
         </div>
         <div style="width: 50px; border-bottom: 3px solid #333; padding: 10px 0;"></div>
         <h2 style="color: #666666; margin-bottom: 0; font-weight: 100;">
-            Aaron &amp; The WhatsDue Team
+            The WhatsDue Team
         </h2>
         <p style="margin-top: 5px; margin-bottom: 0;">
             <a href="mailto:aaron@whatsdueapp.com" style="color: #3399cc; text-decoration: none; font-weight: 100;">aaron@whatsdueapp.com </a>
@@ -78,7 +76,7 @@
     <!-- Start Footer -->
     <div style="border-top: 1px solid #333; height: 10px; padding: 30px; padding-bottom: 0;">
 		<span style="font-size: 10px; font-weight: 100; font-style: italic; color: #999999;">
-			&copy;2014 WhatsDue, All Rights Reserved
+			&copy;2016 WhatsDue, All Rights Reserved
 		</span>
     </div>
     <!-- End Footer -->
