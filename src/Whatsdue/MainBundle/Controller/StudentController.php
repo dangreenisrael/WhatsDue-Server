@@ -82,6 +82,7 @@ class StudentController extends FOSRestController{
      */
 
     public function postStudentAction(){
+        echo "Post student";
         $uuid = $_POST['uuid'];
         $platform = $_POST['platform'];
         $pushId = $_POST['pushId'];
