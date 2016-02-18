@@ -43,8 +43,10 @@ class StudentController extends FOSRestController{
         $studentRepo = $em->getRepository('WhatsdueMainBundle:Student');
         $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
         if ( $this->getHeader('X-Student-Id') ){
+            echo $this->getHeader('X-Student-Id');
             $student = $studentRepo->find($this->getHeader('X-Student-Id'));
         } elseif ( $this->getHeader('X-UUID') ){
+            echo $this->getHeader('X-UUID');
             $userById = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')));
             if ($userById){
                 $student = $userById->getStudent();
@@ -79,15 +81,12 @@ class StudentController extends FOSRestController{
      */
 
     public function postStudentAction(){
-        echo "Posted\n";
         $uuid = $_POST['uuid'];
         $platform = $_POST['platform'];
         $pushId = $_POST['pushId'];
         $em = $this->getDoctrine()->getManager();
         $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
 
-//        var_dump($_POST);
-//        var_dump($uuid);
         /* Check if device exists in records*/
         $deviceByPushId = $deviceRepo->findOneBy(array('pushId'=> $pushId));
         $deviceByUuid = $deviceRepo->findOneBy(array('uuid'=> $uuid));
