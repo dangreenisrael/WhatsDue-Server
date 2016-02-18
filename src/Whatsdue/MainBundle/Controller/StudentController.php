@@ -54,6 +54,7 @@ class StudentController extends FOSRestController{
                 $student = $studentRepo->find(0);
             }
         } else{
+            echo "no student";
             $student = $studentRepo->find(0);
         }
         return $student;
