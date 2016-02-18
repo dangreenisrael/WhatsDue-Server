@@ -46,7 +46,7 @@ security:
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
         - { path: ^/secure, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
         - { path: ^/api/teacher, role: [ROLE_USER] , requires_channel: "%ssl%"}
-        - { path: ^/api/v1/student, role: IS_AUTHENTICATED_ANONYMOUSLY , requires_channel: http}
+        - { path: ^/api/v1/student, role: IS_AUTHENTICATED_ANONYMOUSLY , requires_channel: http|https}
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }

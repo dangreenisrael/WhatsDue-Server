@@ -117,6 +117,7 @@ class StudentController extends FOSRestController{
                 $device = $deviceByUuid;
                 $device->setPushId($pushId);
             }
+
             $student = $device->getStudent();
         }
         $student->setLastIp($_SERVER['REMOTE_ADDR']);
