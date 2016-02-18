@@ -43,18 +43,10 @@ class StudentController extends FOSRestController{
         $studentRepo = $em->getRepository('WhatsdueMainBundle:Student');
         $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
         if ( $this->getHeader('X-Student-Id') ){
-            echo $this->getHeader('X-Student-Id');
             $student = $studentRepo->find($this->getHeader('X-Student-Id'));
         } elseif ( $this->getHeader('X-UUID') ){
-            echo $this->getHeader('X-UUID');
-            $userById = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')));
-            if ($userById){
-                $student = $userById->getStudent();
-            } else{
-                $student = $studentRepo->find(0);
-            }
+            $student = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')))->getStudent();
         } else{
-            echo "no student";
             $student = $studentRepo->find(0);
         }
         return $student;
