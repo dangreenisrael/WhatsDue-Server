@@ -84,7 +84,6 @@ class StudentController extends FOSRestController{
         $pushId = $_POST['pushId'];
         $em = $this->getDoctrine()->getManager();
         $deviceRepo = $em->getRepository('WhatsdueMainBundle:Device');
-        var_dump($_POST);
         /* Check if device exists in records*/
         $deviceByPushId = $deviceRepo->findOneBy(array('pushId'=> $pushId));
         $deviceByUuid = $deviceRepo->findOneBy(array('uuid'=> $uuid));
