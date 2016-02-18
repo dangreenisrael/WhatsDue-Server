@@ -50,5 +50,5 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "%ssl%"  }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY,requires_channel: "%ssl%"  }
-        - { path: ^/aaron, role: [ROLE_SUPER_ADMIN],requires_channel: http  }
+        - { path: ^/aaron, role: [ROLE_SUPER_ADMIN],requires_channel: "%ssl%"  }
         - { path: ^/api/admin, role: [ROLE_SUPER_ADMIN], requires_channel: "%ssl%"  }
