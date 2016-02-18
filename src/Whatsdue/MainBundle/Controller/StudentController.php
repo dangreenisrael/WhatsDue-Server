@@ -45,7 +45,12 @@ class StudentController extends FOSRestController{
         if ( $this->getHeader('X-Student-Id') ){
             $student = $studentRepo->find($this->getHeader('X-Student-Id'));
         } elseif ( $this->getHeader('X-UUID') ){
-            $student = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')))->getStudent();
+            $userById = $deviceRepo->findOneBy(array('uuid'=> $this->getHeader('X-UUID')));
+            if ($userById){
+                $student = $userById->getStudent();
+            } else{
+                $student = $studentRepo->find(0);
+            }
         } else{
             $student = $studentRepo->find(0);
         }
